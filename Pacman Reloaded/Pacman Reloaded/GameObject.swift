@@ -13,5 +13,6 @@ class GameObject: SKSpriteNode {
     convenience init(position: CGPoint) {
         self.init()
         self.position = position
+        self.physicsBody = SKPhysicsBody(rectangleOfSize: self.size)
     }
 }
