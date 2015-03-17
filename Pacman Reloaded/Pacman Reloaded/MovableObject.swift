@@ -9,12 +9,5 @@
 import Foundation
 
 class MovableObject: GameObject {
-    var currentDir: Direction
-
-    override init() {
-        // TODO
-        currentDir = .Up
-        super.init()
-    }
-
+    var currentDir = Direction.Up // TODO
 }

@@ -12,7 +12,7 @@ class GameScene: SKScene {
     
     // Assume there is only one pacman for now.
     // TODO
-    let pacman = SKSpriteNode(imageNamed: "pacman")
+    let pacman = PacMan()
     
     override func didMoveToView(view: SKView) {
         

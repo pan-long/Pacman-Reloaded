@@ -7,7 +7,10 @@
 //
 
 import Foundation
+import SpriteKit
 
 class PacMan: MovableObject {
-
+    override convenience init() {
+        self.init(imageNamed: "pacman")
+    }
 }

@@ -7,12 +7,11 @@
 //
 
 import Foundation
+import SpriteKit
 
-class GameObject {
-    var position: Position
-
-    init() {
-        // TODO
-        position = Position(x: 0, y: 0)
+class GameObject: SKSpriteNode {
+    convenience init(position: CGPoint) {
+        self.init()
+        self.position = position
     }
 }
