@@ -28,6 +28,15 @@ class GameScene: SKScene {
         /* Called when a touch begins */
         
     }
+    
+    override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
+        let touch = touches.anyObject() as UITouch
+        let touchLocation = touch.locationInNode(self)
+        
+        // TODO Refactor into constants.
+        let movePacman = SKAction.moveTo(touchLocation, duration: 0.5)
+        pacman.runAction(SKAction.sequence([movePacman]))
+    }
    
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
