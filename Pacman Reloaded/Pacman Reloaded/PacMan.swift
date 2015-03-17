@@ -10,8 +10,8 @@ import Foundation
 import SpriteKit
 
 class PacMan: MovableObject {
-    override convenience init() {
-        self.init(imageNamed: "pacman")
+    convenience override init() {
+        self.init(image: "pacman")
         self.physicsBody?.categoryBitMask = GameObjectType.PacMan
         self.physicsBody?.contactTestBitMask = GameObjectType.Ghost
     }

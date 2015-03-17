@@ -10,9 +10,8 @@ import Foundation
 import SpriteKit
 
 class GameObject: SKSpriteNode {
-    convenience init(position: CGPoint) {
-        self.init()
-        self.position = position
+    convenience init(image: String) {
+        self.init(imageNamed: image)
         self.physicsBody = SKPhysicsBody(rectangleOfSize: self.size)
     }
 }

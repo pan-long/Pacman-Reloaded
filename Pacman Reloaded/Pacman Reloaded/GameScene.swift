@@ -15,7 +15,7 @@ class GameScene: SKScene {
     let pacman = PacMan()
     
     override func didMoveToView(view: SKView) {
-        
+        physicsWorld.gravity = CGVectorMake(0, 0)
         backgroundColor = SKColor.whiteColor()
         
         pacman.position = CGPoint(x: size.width/2 - pacman.size.width/2,
