@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6F6D62F21ABC500400AF2E2A /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F6D62F11ABC500400AF2E2A /* Utilities.swift */; };
+		6F6D62F61ABC602C00AF2E2A /* pacman.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 6F6D62F51ABC602C00AF2E2A /* pacman.atlas */; };
 		6FD827BC1AB84B390079147F /* GameObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FD827BB1AB84B390079147F /* GameObject.swift */; };
 		6FD827BE1AB84B4D0079147F /* MovableObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FD827BD1AB84B4D0079147F /* MovableObject.swift */; };
 		6FD827C21AB84BAD0079147F /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FD827C11AB84BAD0079147F /* Item.swift */; };
@@ -36,6 +38,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6F6D62F11ABC500400AF2E2A /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
+		6F6D62F51ABC602C00AF2E2A /* pacman.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = pacman.atlas; sourceTree = "<group>"; };
 		6FD827BB1AB84B390079147F /* GameObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameObject.swift; sourceTree = "<group>"; };
 		6FD827BD1AB84B4D0079147F /* MovableObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovableObject.swift; sourceTree = "<group>"; };
 		6FD827C11AB84BAD0079147F /* Item.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
@@ -79,7 +83,7 @@
 		6FD827BA1AB84B200079147F /* GameObjects */ = {
 			isa = PBXGroup;
 			children = (
-				6FD827C71AB851410079147F /* Logic */,
+				6FD827C71AB851410079147F /* Support */,
 				6FD827BB1AB84B390079147F /* GameObject.swift */,
 				6FD827BD1AB84B4D0079147F /* MovableObject.swift */,
 				6FD827C11AB84BAD0079147F /* Item.swift */,
@@ -91,12 +95,13 @@
 			name = GameObjects;
 			sourceTree = "<group>";
 		};
-		6FD827C71AB851410079147F /* Logic */ = {
+		6FD827C71AB851410079147F /* Support */ = {
 			isa = PBXGroup;
 			children = (
 				6FD827C51AB8511B0079147F /* Direction.swift */,
+				6F6D62F11ABC500400AF2E2A /* Utilities.swift */,
 			);
-			name = Logic;
+			name = Support;
 			sourceTree = "<group>";
 		};
 		C5C8D70F1AB847E5005ACB47 = {
@@ -125,6 +130,7 @@
 				C5C8D71F1AB847E5005ACB47 /* GameScene.sks */,
 				C5C8D7211AB847E5005ACB47 /* GameScene.swift */,
 				C5C8D7231AB847E5005ACB47 /* GameViewController.swift */,
+				6F6D62F51ABC602C00AF2E2A /* pacman.atlas */,
 				C5C8D7251AB847E5005ACB47 /* Main.storyboard */,
 				C5C8D7281AB847E5005ACB47 /* Images.xcassets */,
 				C5C8D72A1AB847E5005ACB47 /* LaunchScreen.xib */,
@@ -239,6 +245,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6F6D62F61ABC602C00AF2E2A /* pacman.atlas in Resources */,
 				C5C8D72C1AB847E5005ACB47 /* LaunchScreen.xib in Resources */,
 				C5C8D7291AB847E5005ACB47 /* Images.xcassets in Resources */,
 				C5C8D7201AB847E5005ACB47 /* GameScene.sks in Resources */,
@@ -266,6 +273,7 @@
 				6FD827C61AB8511B0079147F /* Direction.swift in Sources */,
 				6FD827CF1AB854EA0079147F /* Ghost.swift in Sources */,
 				C5C8D7221AB847E5005ACB47 /* GameScene.swift in Sources */,
+				6F6D62F21ABC500400AF2E2A /* Utilities.swift in Sources */,
 				C5C8D7241AB847E5005ACB47 /* GameViewController.swift in Sources */,
 				6FD827CD1AB854800079147F /* PacDot.swift in Sources */,
 				6FD827C21AB84BAD0079147F /* Item.swift in Sources */,

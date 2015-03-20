@@ -9,9 +9,17 @@
 import Foundation
 import SpriteKit
 
-class GameObject: SKSpriteNode {
-    convenience init(image: String) {
-        self.init(imageNamed: image)
-        self.physicsBody = SKPhysicsBody(rectangleOfSize: self.size)
+class GameObject: SKNode {
+    var sprite: SKSpriteNode
+
+    init(image: String) {
+        self.sprite = SKSpriteNode(imageNamed: image)
+        super.init()
+        sprite.physicsBody = SKPhysicsBody(rectangleOfSize: sprite.size)
+        addChild(sprite)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
