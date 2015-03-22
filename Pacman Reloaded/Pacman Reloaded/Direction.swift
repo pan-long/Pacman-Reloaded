@@ -25,6 +25,21 @@ enum Direction {
             return DegreesToRadians(0)
         }
     }
+
+    var str: String {
+        switch self {
+        case .Right:
+            return "Right"
+        case .Left:
+            return "Left"
+        case .Down:
+            return "Down"
+        case .Up:
+            return "Up"
+        case .None:
+            return "None"
+        }
+    }
 }
 
 

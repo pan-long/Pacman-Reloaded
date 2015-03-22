@@ -13,7 +13,7 @@ class GameScene: SKScene {
     // Assume there is only one pacman for now.
     // TODO
     let pacman = PacMan()
-    
+    var label: SKLabelNode!
     override func didMoveToView(view: SKView) {
         physicsWorld.gravity = CGVectorMake(0, 0)
         physicsWorld.contactDelegate = self
@@ -27,6 +27,13 @@ class GameScene: SKScene {
         setupBoundary()
         setupPacDot()
 
+        self.enumerateChildNodesWithName("text") {
+            node, stop in
+
+            if let node = node as? SKLabelNode {
+                self.label = node
+            }
+        }
         var swipeLeft: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: "swipeLeft:")
         swipeLeft.direction = .Left
         view.addGestureRecognizer(swipeLeft)
@@ -97,6 +104,7 @@ class GameScene: SKScene {
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
         pacman.update()
+        self.label.text = pacman.currentDir.str + " " + pacman.requestedDir.str
     }
 }
 
@@ -118,11 +126,36 @@ extension GameScene: SKPhysicsContactDelegate {
             }
             pacman.score++
             println(pacman.score)
+        case GameObjectType.Boundary | GameObjectType.SensorUp:
+            handleSensorEvent(contact.bodyA.node, bodyB: contact.bodyB.node, direction: .Up, start: true)
+        case GameObjectType.Boundary | GameObjectType.SensorDown:
+            handleSensorEvent(contact.bodyA.node, bodyB: contact.bodyB.node, direction: .Down, start: true)
+        case GameObjectType.Boundary | GameObjectType.SensorLeft:
+            handleSensorEvent(contact.bodyA.node, bodyB: contact.bodyB.node, direction: .Left, start: true)
+        case GameObjectType.Boundary | GameObjectType.SensorRight:
+            handleSensorEvent(contact.bodyA.node, bodyB: contact.bodyB.node, direction: .Right, start: true)
         default:
             return
-
         }
 
+    }
+
+    func handleSensorEvent(bodyA: SKNode?, bodyB: SKNode?, direction: Direction, start: Bool) {
+        var sensor = SKNode()
+        if let boundary = bodyA? as? Boundary {
+            sensor = bodyB!
+        } else if let boundary = bodyB? as? Boundary {
+            sensor = bodyA!
+        } else {
+            println("???")
+        }
+        if let pacman = sensor.parent as? PacMan {
+            if start {
+                pacman.sensorContactStart(direction)
+            } else {
+                pacman.sensorContactEnd(direction)
+            }
+        }
     }
 
 
@@ -133,10 +166,14 @@ extension GameScene: SKPhysicsContactDelegate {
 
         switch contactMask {
 
-        case GameObjectType.PacMan | GameObjectType.Boundary:
-
-            println( "is not touching wall")
-
+        case GameObjectType.Boundary | GameObjectType.SensorUp:
+            handleSensorEvent(contact.bodyA.node, bodyB: contact.bodyB.node, direction: .Up, start: false)
+        case GameObjectType.Boundary | GameObjectType.SensorDown:
+            handleSensorEvent(contact.bodyA.node, bodyB: contact.bodyB.node, direction: .Down, start: false)
+        case GameObjectType.Boundary | GameObjectType.SensorLeft:
+            handleSensorEvent(contact.bodyA.node, bodyB: contact.bodyB.node, direction: .Left, start: false)
+        case GameObjectType.Boundary | GameObjectType.SensorRight:
+            handleSensorEvent(contact.bodyA.node, bodyB: contact.bodyB.node, direction: .Right, start: false)
         default:
             return
 
