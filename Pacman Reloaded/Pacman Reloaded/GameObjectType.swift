@@ -12,4 +12,5 @@ struct GameObjectType {
     static let PacMan: UInt32 = 0b10
     static let Ghost: UInt32 = 0b100
     static let PacDot: UInt32 = 0b1000
+    static let Boundary: UInt32 = 0b10000
 }

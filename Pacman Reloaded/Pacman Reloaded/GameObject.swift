@@ -15,7 +15,7 @@ class GameObject: SKNode {
     init(image: String) {
         self.sprite = SKSpriteNode(imageNamed: image)
         super.init()
-        sprite.physicsBody = SKPhysicsBody(rectangleOfSize: sprite.size)
+        self.physicsBody = SKPhysicsBody(rectangleOfSize: sprite.size)
         addChild(sprite)
     }
 
