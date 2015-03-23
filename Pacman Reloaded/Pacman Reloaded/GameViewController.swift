@@ -29,7 +29,14 @@ class GameViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let backgroundImage = UIImage(named: "landing-page")
+        let background = UIImageView(image: backgroundImage)
+        view.addSubview(background)
+        view.sendSubviewToBack(background)
 
+        // TODO Game scene to be added in another view
+        return
         if let scene = GameScene.unarchiveFromFile("GameScene") as? GameScene {
             // Configure the view.
             let skView = self.view as SKView
