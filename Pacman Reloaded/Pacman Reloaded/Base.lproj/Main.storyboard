@@ -21,6 +21,9 @@
                                 <state key="normal" image="button-single-player">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <segue destination="Fih-gA-Lz0" kind="presentation" id="kR0-By-ffj"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wwr-4d-wmz">
                                 <rect key="frame" x="220" y="541" width="452" height="57"/>
@@ -37,9 +40,45 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
             </objects>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="44i-M3-4GH">
+            <objects>
+                <viewController id="Fih-gA-Lz0" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="zum-hQ-Aow"/>
+                        <viewControllerLayoutGuide type="bottom" id="Dhw-ZV-k7X"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="mFs-rv-qK8">
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="single-player-game" translatesAutoresizingMaskIntoConstraints="NO" id="MIv-bP-5UD">
+                                <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SC8-Ae-jP8">
+                                <rect key="frame" x="761" y="707" width="247" height="41"/>
+                                <state key="normal" image="pacman-logo">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="BV1-FR-VrT" kind="presentation" id="U0N-Y3-YYy"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="iPad"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Gus-Ff-hWi" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="378" y="1249"/>
+        </scene>
     </scenes>
     <resources>
         <image name="button-multiplayer" width="397" height="57"/>
         <image name="button-single-player" width="426" height="42"/>
+        <image name="pacman-logo" width="684" height="125"/>
+        <image name="single-player-game" width="1024" height="768"/>
     </resources>
 </document>
