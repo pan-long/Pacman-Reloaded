@@ -11,7 +11,6 @@ import SpriteKit
 
 class MovableObject: GameObject {
     var currentDir = Direction.Right
-    var blockedDir = Direction.None
     var requestedDir = Direction.None
 
     var blocked = (up: false, down: false, left: false, right: false)
