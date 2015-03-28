@@ -26,7 +26,6 @@ class GameScene: SKScene {
             
             self.enumerateChildNodesWithName("*") {
                 node, stop in
-                
                 node.removeFromParent()
             }
             

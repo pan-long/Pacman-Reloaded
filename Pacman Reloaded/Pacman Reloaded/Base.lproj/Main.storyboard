@@ -17,17 +17,24 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hQe-oa-x6U">
-                                <rect key="frame" x="206" y="464" width="481" height="42"/>
-                                <state key="normal" image="button-single-player">
+                                <rect key="frame" x="887" y="412" width="114" height="42"/>
+                                <state key="normal" title="Stub Button 1">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <segue destination="Fih-gA-Lz0" kind="presentation" id="kR0-By-ffj"/>
                                 </connections>
                             </button>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wBb-BW-aMq" customClass="SKView">
+                                <rect key="frame" x="16" y="20" width="728" height="728"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="pacman-female" translatesAutoresizingMaskIntoConstraints="NO" id="vsC-tT-pMT">
+                                <rect key="frame" x="812" y="20" width="150" height="150"/>
+                            </imageView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wwr-4d-wmz">
-                                <rect key="frame" x="220" y="541" width="452" height="57"/>
-                                <state key="normal" image="button-multiplayer">
+                                <rect key="frame" x="887" y="451" width="114" height="42"/>
+                                <state key="normal" title="Stub Button 2">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -39,6 +46,9 @@
                     </view>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="iPad"/>
+                    <connections>
+                        <outlet property="gameSceneView" destination="wBb-BW-aMq" id="FRk-Vx-RSD"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
             </objects>
@@ -130,14 +140,13 @@
     </scenes>
     <resources>
         <image name="button-create-new-room" width="267" height="250"/>
-        <image name="button-multiplayer" width="397" height="57"/>
         <image name="button-select-existing-rooms" width="912" height="42"/>
-        <image name="button-single-player" width="426" height="42"/>
+        <image name="pacman-female" width="33" height="33"/>
         <image name="pacman-logo" width="684" height="125"/>
         <image name="single-player-game" width="1024" height="768"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="YEh-f1-I43"/>
-        <segue reference="OkE-ug-QI2"/>
+        <segue reference="kR0-By-ffj"/>
     </inferredMetricsTieBreakers>
 </document>
