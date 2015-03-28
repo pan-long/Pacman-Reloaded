@@ -12,8 +12,7 @@ class GameScene: SKScene {
     
     // Assume there is only one pacman for now.
     let pacman = PacMan()
-    var label: SKLabelNode!
-    
+
     // TODO Pass in the file name from map selection interface
     var TMXFileName: String? = "PacmanMapOne"
     
@@ -28,11 +27,7 @@ class GameScene: SKScene {
             self.enumerateChildNodesWithName("*") {
                 node, stop in
                 
-                if let node = node as? SKLabelNode {
-                    self.label = node
-                } else {
-                    node.removeFromParent()
-                }
+                node.removeFromParent()
             }
             
             parseTMXFileWithName(fileName)
@@ -74,9 +69,6 @@ class GameScene: SKScene {
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
         pacman.update()
-        if self.label != nil {
-            self.label.text = pacman.currentDir.str + " " + pacman.requestedDir.str
-        }
     }
 }
 

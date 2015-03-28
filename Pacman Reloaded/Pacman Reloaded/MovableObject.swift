@@ -13,7 +13,7 @@ class MovableObject: GameObject {
     var currentDir = Direction.Right
     var requestedDir = Direction.None
 
-    var blocked = (up: false, down: false, left: false, right: false)
+    var blocked = (up: 0, down: 0, left: 0, right: 0)
     var sensors: (up: SKNode?, down: SKNode?, left: SKNode?, right: SKNode?)
 
     var currentSpeed: CGFloat = 5.0
@@ -55,28 +55,28 @@ class MovableObject: GameObject {
         var upDown = (newDirection == .Up || newDirection == .Down)
         switch newDirection {
         case .Up:
-            if blocked.up {
+            if blocked.up > 0 {
                 success = false
             } else {
-                blocked.down = false
+//                blocked.down = 0
             }
         case .Down:
-            if blocked.down {
+            if blocked.down > 0 {
                 success = false
             } else {
-                blocked.up = false
+//                blocked.up = 0
             }
         case .Left:
-            if blocked.left {
+            if blocked.left > 0 {
                 success = false
             } else {
-                blocked.right = false
+//                blocked.right = 0
             }
         case .Right:
-            if blocked.right {
+            if blocked.right > 0 {
                 success = false
             } else {
-                blocked.left = false
+//                blocked.left = 0
             }
         default:
             break
@@ -202,13 +202,13 @@ class MovableObject: GameObject {
     func sensorContactStart(direction: Direction) {
         switch direction {
         case .Up:
-            blocked.up = true
+            blocked.up += 1
         case .Down:
-            blocked.down = true
+            blocked.down += 1
         case .Left:
-            blocked.left = true
+            blocked.left += 1
         case .Right:
-            blocked.right = true
+            blocked.right += 1
         default:
             break
         }
@@ -223,13 +223,13 @@ class MovableObject: GameObject {
     func sensorContactEnd(direction: Direction) {
         switch direction {
         case .Up:
-            blocked.up = false
+            blocked.up -= 1
         case .Down:
-            blocked.down = false
+            blocked.down -= 1
         case .Left:
-            blocked.left = false
+            blocked.left -= 1
         case .Right:
-            blocked.right = false
+            blocked.right -= 1
         default:
             break
         }
