@@ -33,6 +33,9 @@ class GameScene: SKScene {
             parseTMXFileWithName(fileName)
         }
         
+        self.anchorPoint = CGPoint(x: 0.5 - pacman.position.x / Constants.IPadWidth,
+            y: 0.5 - pacman.position.y / Constants.IPadHeight)
+        
         var swipeLeft: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: "swipeLeft:")
         swipeLeft.direction = .Left
         view.addGestureRecognizer(swipeLeft)
@@ -69,6 +72,9 @@ class GameScene: SKScene {
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
         pacman.update()
+        // Put the pacman in the center of the screen
+        self.anchorPoint = CGPoint(x: 0.5 - pacman.position.x / Constants.IPadWidth,
+            y: 0.5 - pacman.position.y / Constants.IPadHeight)
     }
 }
 
