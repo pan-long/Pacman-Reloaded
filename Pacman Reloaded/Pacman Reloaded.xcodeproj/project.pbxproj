@@ -26,6 +26,7 @@
 		C5C8D72C1AB847E5005ACB47 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C5C8D72A1AB847E5005ACB47 /* LaunchScreen.xib */; };
 		C5C8D7381AB847E5005ACB47 /* Pacman_ReloadedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5C8D7371AB847E5005ACB47 /* Pacman_ReloadedTests.swift */; };
 		DC45121E1AB863DA00FF37BA /* GameObjectType.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC45121D1AB863DA00FF37BA /* GameObjectType.swift */; };
+		DC766FA01AC5D24500FB18F9 /* PacmanMapOne.tmx in Resources */ = {isa = PBXBuildFile; fileRef = DC766F9F1AC5D24500FB18F9 /* PacmanMapOne.tmx */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +63,7 @@
 		C5C8D7361AB847E5005ACB47 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C5C8D7371AB847E5005ACB47 /* Pacman_ReloadedTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pacman_ReloadedTests.swift; sourceTree = "<group>"; };
 		DC45121D1AB863DA00FF37BA /* GameObjectType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameObjectType.swift; sourceTree = "<group>"; };
+		DC766F9F1AC5D24500FB18F9 /* PacmanMapOne.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = PacmanMapOne.tmx; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,6 +135,7 @@
 				C5C8D71F1AB847E5005ACB47 /* GameScene.sks */,
 				C5C8D7211AB847E5005ACB47 /* GameScene.swift */,
 				C5C8D7231AB847E5005ACB47 /* GameViewController.swift */,
+				DC766F9F1AC5D24500FB18F9 /* PacmanMapOne.tmx */,
 				6F6D62F51ABC602C00AF2E2A /* pacman.atlas */,
 				C5C8D7251AB847E5005ACB47 /* Main.storyboard */,
 				C5C8D7281AB847E5005ACB47 /* Images.xcassets */,
@@ -253,6 +256,7 @@
 				C5C8D7291AB847E5005ACB47 /* Images.xcassets in Resources */,
 				C5C8D7201AB847E5005ACB47 /* GameScene.sks in Resources */,
 				C5C8D7271AB847E5005ACB47 /* Main.storyboard in Resources */,
+				DC766FA01AC5D24500FB18F9 /* PacmanMapOne.tmx in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

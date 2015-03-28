@@ -10,12 +10,12 @@ import Foundation
 import SpriteKit
 
 class Boundary: SKNode {
-    init(SKS rect: CGRect) {
+    init(size: CGSize) {
         super.init()
-
-        let location = CGPoint(x: -1 * rect.size.width / 2, y: -1 * rect.size.height / 2 )
-        let newRect = CGRect(origin: location, size: rect.size)
-
+        
+        let location = CGPoint(x: -1 * size.width / 2, y: -1 * size.height / 2 )
+        let newRect = CGRect(origin: location, size: size)
+        
         setup(newRect)
     }
 

@@ -11,100 +11,72 @@ import SpriteKit
 class GameScene: SKScene {
     
     // Assume there is only one pacman for now.
-    // TODO
     let pacman = PacMan()
     var label: SKLabelNode!
+    
+    // TODO Pass in the file name from map selection interface
+    var TMXFileName: String? = "PacmanMapOne"
+    
     override func didMoveToView(view: SKView) {
         physicsWorld.gravity = CGVectorMake(0, 0)
         physicsWorld.contactDelegate = self
         backgroundColor = SKColor.blackColor()
-        
-        pacman.position = CGPoint(x: size.width/2 - pacman.sprite.size.width/2,
-            y: size.height/2 - pacman.sprite.size.height/2)
-        
-        addChild(pacman)
 
-        setupBoundary()
-        setupPacDot()
-
-        self.enumerateChildNodesWithName("text") {
-            node, stop in
-
-            if let node = node as? SKLabelNode {
-                self.label = node
+        if let fileName = TMXFileName {
+            println("Loading game map from TMX file...")
+            
+            self.enumerateChildNodesWithName("*") {
+                node, stop in
+                
+                if let node = node as? SKLabelNode {
+                    self.label = node
+                } else {
+                    node.removeFromParent()
+                }
             }
+            
+            parseTMXFileWithName(fileName)
         }
+        
         var swipeLeft: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: "swipeLeft:")
         swipeLeft.direction = .Left
         view.addGestureRecognizer(swipeLeft)
+        
         var swipeRight: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: "swipeRight:")
         swipeRight.direction = .Right
         view.addGestureRecognizer(swipeRight)
+        
         var swipeUp: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: "swipeUp:")
         swipeUp.direction = .Up
         view.addGestureRecognizer(swipeUp)
+        
         var swipeDown: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: "swipeDown:")
         swipeDown.direction = .Down
         view.addGestureRecognizer(swipeDown)
     }
-
-    func setupBoundary() {
-        self.enumerateChildNodesWithName("boundary") {
-            node, stop in
-            if let sksBoundary = node as? SKSpriteNode {
-
-                let rect:CGRect = CGRect(origin: sksBoundary.position, size: sksBoundary.size)
-                let boundary = Boundary(SKS: rect)
-                self.addChild(boundary)
-                boundary.position = sksBoundary.position
-
-                sksBoundary.removeFromParent()
-
-            }
-        }
-    }
-
-    func setupPacDot() {
-        self.enumerateChildNodesWithName("pacdot") {
-            node, stop in
-            if let sks = node as? SKSpriteNode {
-
-                let rect:CGRect = CGRect(origin: sks.position, size: sks.size)
-                let pacdot = PacDot(SKS: rect)
-                self.addChild(pacdot)
-                pacdot.position = sks.position
-
-                sks.removeFromParent()
-                
-            }
-        }
-    }
+    
     func swipeLeft(sender: UISwipeGestureRecognizer) {
         pacman.changeDirection(.Left)
     }
-
 
     func swipeRight(sender: UISwipeGestureRecognizer) {
         pacman.changeDirection(.Right)
     }
 
-
     func swipeUp(sender: UISwipeGestureRecognizer) {
         pacman.changeDirection(.Up)
     }
-
-
+    
     func swipeDown(sender: UISwipeGestureRecognizer) {
         pacman.changeDirection(.Down)
     }
-
-
-
-   
+    
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
         pacman.update()
-        self.label.text = pacman.currentDir.str + " " + pacman.requestedDir.str
+        if self.label != nil {
+            self.label.text = pacman.currentDir.str + " " + pacman.requestedDir.str
+        }
     }
 }
 
@@ -179,5 +151,56 @@ extension GameScene: SKPhysicsContactDelegate {
 
         }
 
+    }
+}
+
+extension GameScene: NSXMLParserDelegate {
+    func parseTMXFileWithName(name: String) {
+        let path: String = NSBundle.mainBundle().pathForResource(name, ofType: "tmx")!
+        let data: NSData = NSData(contentsOfFile: path)!
+        let parser: NSXMLParser = NSXMLParser(data: data)
+        
+        parser.delegate = self
+        parser.parse()
+    }
+    
+    func parser(parser: NSXMLParser!, didStartElement elementName: String!, namespaceURI: String!, qualifiedName qName: String!, attributes attributeDict: [NSObject : AnyObject]!) {
+        
+        if elementName == "object" {
+            let type: AnyObject? = attributeDict["type"]
+            let typeStr = type as String
+            
+            let width = CGFloat((attributeDict["width"] as String).toInt()!)
+            let height = CGFloat((attributeDict["height"] as String).toInt()!)
+            let size = CGSize(width: width, height: height)
+            
+            let xPos = CGFloat((attributeDict["x"] as String).toInt()!) + width/2
+            let yPos = CGFloat(768-(attributeDict["y"] as String).toInt()!) - height/2
+            let origin = CGPoint(x: xPos, y: yPos)
+            
+            switch typeStr {
+            case "boundary":
+                let boundary = Boundary(size: size)
+                addChild(boundary)
+                boundary.position = origin
+                
+                break
+            case "pacdot":
+                let rect: CGRect = CGRect(origin: origin, size: size)
+                let pacdot = PacDot(SKS: rect)
+                addChild(pacdot)
+                pacdot.position = origin
+                
+                break
+            case "pacman":
+                // TODO Support multiplayer mode
+                pacman.position = origin
+                addChild(pacman)
+                
+                break
+            default:
+                break
+            }
+        }
     }
 }
