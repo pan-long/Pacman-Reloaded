@@ -13,14 +13,14 @@ class PacMan: MovableObject {
     var score = 0
 
     convenience init() {
-        self.init(image: "pacman-female")
+        self.init(image: "ghost-red-special")
         self.physicsBody?.categoryBitMask = GameObjectType.PacMan
         self.physicsBody?.contactTestBitMask = GameObjectType.Ghost | GameObjectType.Boundary | GameObjectType.PacDot
         self.physicsBody!.dynamic = true
         self.physicsBody!.friction = 0
         self.physicsBody!.restitution = 0 //bouncy
         self.physicsBody!.allowsRotation = false
-        setupAnimationSequence()
+        // setupAnimationSequence()
     }
 
     func setupAnimationSequence() {
