@@ -58,25 +58,25 @@ class MovableObject: GameObject {
             if blocked.up > 0 {
                 success = false
             } else {
-//                blocked.down = 0
+                blocked.down = 0
             }
         case .Down:
             if blocked.down > 0 {
                 success = false
             } else {
-//                blocked.up = 0
+                blocked.up = 0
             }
         case .Left:
             if blocked.left > 0 {
                 success = false
             } else {
-//                blocked.right = 0
+                blocked.right = 0
             }
         case .Right:
             if blocked.right > 0 {
                 success = false
             } else {
-//                blocked.left = 0
+                blocked.left = 0
             }
         default:
             break
@@ -87,11 +87,18 @@ class MovableObject: GameObject {
             currentDir = newDirection
             requestedDir = .None
             self.sprite.zRotation = CGFloat(currentDir.getRotation())
+
+            blocked.up = 0
+            blocked.down = 0
+            blocked.left = 0
+            blocked.right = 0
+
             createUpSensorPhysicsBody(whileTravellingUpOrDown: upDown)
 
             createDownSensorPhysicsBody(whileTravellingUpOrDown: upDown )
             createLeftSensorPhysicsBody(whileTravellingLeftOrRight: !upDown )
             createRightSensorPhysicsBody(whileTravellingLeftOrRight: !upDown )
+
         } else {
             requestedDir = newDirection
         }
@@ -212,6 +219,7 @@ class MovableObject: GameObject {
         default:
             break
         }
+        println("left: \(blocked.left), right: \(blocked.right), up: \(blocked.up), down: \(blocked.down)")
 
         if currentDir == direction {
             println("blocking")
@@ -233,6 +241,7 @@ class MovableObject: GameObject {
         default:
             break
         }
+        println("left: \(blocked.left), right: \(blocked.right), up: \(blocked.up), down: \(blocked.down)")
 
         if requestedDir == direction {
             println("unblocking")
