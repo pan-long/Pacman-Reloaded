@@ -172,11 +172,15 @@ extension GameScene: NSXMLParserDelegate {
             
             switch typeStr {
             case "boundary":
-                let boundary = Boundary(size: size)
+                let boundary = Boundary(size: size, isExterior: false)
                 addChild(boundary)
                 boundary.position = origin
                 
                 break
+            case "Edge":
+                let boundary = Boundary(size: size, isExterior: true)
+                addChild(boundary)
+                boundary.position = origin
             case "pacdot":
                 let rect: CGRect = CGRect(origin: origin, size: size)
                 let pacdot = PacDot(SKS: rect)

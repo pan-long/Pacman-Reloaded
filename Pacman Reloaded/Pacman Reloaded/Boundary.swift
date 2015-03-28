@@ -10,13 +10,13 @@ import Foundation
 import SpriteKit
 
 class Boundary: SKNode {
-    init(size: CGSize) {
+    init(size: CGSize, isExterior: Bool) {
         super.init()
         
         let location = CGPoint(x: -1 * size.width / 2, y: -1 * size.height / 2 )
         let newRect = CGRect(origin: location, size: size)
         
-        setup(newRect)
+        setup(newRect, isExterior: isExterior)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -24,7 +24,7 @@ class Boundary: SKNode {
     }
 
 
-    func setup(rect:CGRect) {
+    func setup(rect:CGRect, isExterior: Bool) {
 
         let shape = SKShapeNode(rect: rect, cornerRadius: 19)
         shape.fillColor = SKColor.clearColor()
@@ -33,7 +33,11 @@ class Boundary: SKNode {
 
         addChild(shape)
 
-        self.physicsBody = SKPhysicsBody(rectangleOfSize: rect.size)
+        if isExterior {
+            self.physicsBody = SKPhysicsBody(edgeLoopFromRect: rect)
+        } else {
+            self.physicsBody = SKPhysicsBody(rectangleOfSize: rect.size)
+        }
         self.physicsBody!.dynamic = false
         self.physicsBody!.categoryBitMask = GameObjectType.Boundary
         self.physicsBody!.friction = 0
