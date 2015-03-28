@@ -87,6 +87,11 @@ class MovableObject: GameObject {
             currentDir = newDirection
             requestedDir = .None
             self.sprite.zRotation = CGFloat(currentDir.getRotation())
+            if currentDir == .Left {
+                self.sprite.yScale = -1
+            } else {
+                self.sprite.yScale = 1
+            }
 
             blocked.up = 0
             blocked.down = 0

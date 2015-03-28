@@ -160,42 +160,45 @@ extension GameScene: NSXMLParserDelegate {
         
         if elementName == "object" {
             let type: AnyObject? = attributeDict["type"]
-            let typeStr = type as String
             
-            let width = CGFloat((attributeDict["width"] as String).toInt()!)
-            let height = CGFloat((attributeDict["height"] as String).toInt()!)
-            let size = CGSize(width: width, height: height)
-            
-            let xPos = CGFloat((attributeDict["x"] as String).toInt()!) + width/2
-            let yPos = CGFloat(768-(attributeDict["y"] as String).toInt()!) - height/2
-            let origin = CGPoint(x: xPos, y: yPos)
-            
-            switch typeStr {
-            case "boundary":
-                let boundary = Boundary(size: size, isExterior: false)
-                addChild(boundary)
-                boundary.position = origin
+            if let typeStr = type as? String {
+                let width = CGFloat((attributeDict["width"] as String).toInt()!)
+                let height = CGFloat((attributeDict["height"] as String).toInt()!)
+                let size = CGSize(width: width, height: height)
                 
-                break
-            case "Edge":
-                let boundary = Boundary(size: size, isExterior: true)
-                addChild(boundary)
-                boundary.position = origin
-            case "pacdot":
-                let rect: CGRect = CGRect(origin: origin, size: size)
-                let pacdot = PacDot(SKS: rect)
-                addChild(pacdot)
-                pacdot.position = origin
+                let xPos = CGFloat((attributeDict["x"] as String).toInt()!) + width/2
+                let yPos = Constants.IPadHeight - CGFloat((attributeDict["y"] as String).toInt()!)
+                    - height/2
+                let origin = CGPoint(x: xPos, y: yPos)
                 
-                break
-            case "pacman":
-                // TODO Support multiplayer mode
-                pacman.position = origin
-                addChild(pacman)
-                
-                break
-            default:
-                break
+                switch typeStr {
+                case "boundary":
+                    let boundary = Boundary(size: size, isExterior: false)
+                    addChild(boundary)
+                    boundary.position = origin
+                    
+                    break
+                case "edge":
+                    let boundary = Boundary(size: size, isExterior: true)
+                    addChild(boundary)
+                    boundary.position = origin
+                    
+                    break
+                case "pacdot":
+                    let pacdot = PacDot(size: size)
+                    addChild(pacdot)
+                    pacdot.position = origin
+                    
+                    break
+                case "pacman":
+                    // TODO Support multiplayer mode
+                    pacman.position = origin
+                    addChild(pacman)
+                    
+                    break
+                default:
+                    break
+                }
             }
         }
     }

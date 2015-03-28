@@ -13,7 +13,7 @@ class PacMan: MovableObject {
     var score = 0
 
     convenience init() {
-        self.init(image: "pacman")
+        self.init(image: "pacman-female")
         self.physicsBody?.categoryBitMask = GameObjectType.PacMan
         self.physicsBody?.contactTestBitMask = GameObjectType.Ghost | GameObjectType.Boundary | GameObjectType.PacDot
         self.physicsBody!.dynamic = true
@@ -24,14 +24,14 @@ class PacMan: MovableObject {
     }
 
     func setupAnimationSequence() {
-        var atlas = SKTextureAtlas(named: "pacman")
+        var atlas = SKTextureAtlas(named: "pacman-female")
         var textures: [SKTexture] = []
-        var filenames = ["pacman01", "pacman00"]
+        var filenames = ["pacman-female00", "pacman-female01"]
         for name in filenames {
             textures.append(atlas.textureNamed(name))
         }
 
-        var animation = SKAction.animateWithTextures(textures, timePerFrame: 1/8, resize: false, restore: true)
+        var animation = SKAction.animateWithTextures(textures, timePerFrame: 1/5, resize: false, restore: true)
 
         self.sprite.runAction(SKAction.repeatActionForever(animation))
 

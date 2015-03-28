@@ -14,11 +14,11 @@ class PacDot: Item {
 //        fatalError("init(coder:) has not been implemented")
 //    }
 
-    init(SKS rect: CGRect) {
-        let location = CGPoint(x: -1 * rect.size.width / 2, y: -1 * rect.size.height / 2 )
-        let newRect = CGRect(origin: location, size: rect.size)
+    init(size: CGSize) {
+        let location = CGPoint(x: -1 * size.width / 2, y: -1 * size.height / 2 )
+        let newRect = CGRect(origin: location, size: size)
         super.init(image: "pacdot")
-        self.sprite.size = rect.size
+        self.sprite.size = size
         setup(newRect)
     }
 
