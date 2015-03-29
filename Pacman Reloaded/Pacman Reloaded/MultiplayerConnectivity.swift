@@ -51,7 +51,9 @@ class MultiplayerConnectivity: NSObject, MCNearbyServiceAdvertiserDelegate, MCNe
         session.sendData(data, toPeers: players, withMode: MCSessionSendDataMode.Reliable, error: error)
     }
     
+    // the serviceType should be in the same format as a Bonjour service type
     func startServiceAdvertising(serviceType: String, discoveryInfo: [NSObject: AnyObject]) {
+        // if the advertiser is not properly set, reinitialize the advertiser
         if serviceAdvertiser == nil || serviceAdvertiser!.serviceType != serviceType {
             serviceAdvertiser = MCNearbyServiceAdvertiser(peer: peerID, discoveryInfo: discoveryInfo, serviceType: serviceType)
             serviceAdvertiser!.delegate = self
@@ -60,7 +62,9 @@ class MultiplayerConnectivity: NSObject, MCNearbyServiceAdvertiserDelegate, MCNe
         serviceAdvertiser!.startAdvertisingPeer()
     }
     
+    // the serviceType should be in the same format as a Bonjour service type
     func startServiceBrowsing(serviceType: String) {
+        // if the browser is not properly set, reset the advertiser
         if serviceBrowser == nil || serviceBrowser!.serviceType != serviceType {
             serviceBrowser = MCNearbyServiceBrowser(peer: peerID, serviceType: serviceType)
             serviceBrowser!.delegate = self
