@@ -9,5 +9,41 @@
 import Foundation
 
 enum Direction {
-    case Up, Down, Left, Right
+    case Up, Down, Left, Right, None
+
+    func getRotation() -> Double {
+        switch self {
+        case .Right:
+            return DegreesToRadians(0)
+        case .Left:
+            return DegreesToRadians(180)
+        case .Up:
+            return DegreesToRadians(90)
+        case .Down:
+            return DegreesToRadians(-90)
+        case .None:
+            return DegreesToRadians(0)
+        }
+    }
+
+    var str: String {
+        switch self {
+        case .Right:
+            return "Right"
+        case .Left:
+            return "Left"
+        case .Down:
+            return "Down"
+        case .Up:
+            return "Up"
+        case .None:
+            return "None"
+        }
+    }
 }
+
+
+func DegreesToRadians (value:Double) -> Double {
+    return value * M_PI / 180.0
+}
+
