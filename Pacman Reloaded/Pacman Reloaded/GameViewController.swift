@@ -83,7 +83,8 @@ class GameViewController: UIViewController {
     }
     
     // pause button action
-    @IBAction private func pauseBtnClicked(sender: AnyObject) {
+    @IBAction private func pauseBtnClicked(button: UIButton) {
+        button.enabled = false
         gameSceneView.scene?.view?.paused = true
         
         // present an popup view for user to change some settings
