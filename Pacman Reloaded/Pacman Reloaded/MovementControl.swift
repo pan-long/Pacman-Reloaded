@@ -25,7 +25,10 @@ class AIMovementControl: MovementControl {
     }
     
     func update() {
-        movableObject.changeDirection(Direction.getRandomDirection())
+        let availableDirections = movableObject.getAvailableDirections()
+        let superDice = random() % availableDirections.count
+        
+        movableObject.changeDirection(availableDirections[superDice])
     }
 }
 

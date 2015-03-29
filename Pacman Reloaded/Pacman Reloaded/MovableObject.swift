@@ -50,6 +50,57 @@ class MovableObject: GameObject {
         fatalError("init(coder:) has not been implemented")
     }
     
+    
+    
+    func getAvailableDirections() -> [Direction] {
+        var availableDirections = [Direction]()
+        switch currentDir {
+        case .Up:
+            if blocked.up == 0 {
+                availableDirections.append(.Up)
+            }
+            if blocked.left == 0 {
+                availableDirections.append(.Left)
+            }
+            if blocked.right == 0 {
+                availableDirections.append(.Right)
+            }
+        case .Down:
+            if blocked.down == 0 {
+                availableDirections.append(.Up)
+            }
+            if blocked.left == 0 {
+                availableDirections.append(.Left)
+            }
+            if blocked.right == 0 {
+                availableDirections.append(.Right)
+            }
+        case .Left:
+            if blocked.up == 0 {
+                availableDirections.append(.Up)
+            }
+            if blocked.down == 0 {
+                availableDirections.append(.Left)
+            }
+            if blocked.right == 0 {
+                availableDirections.append(.Right)
+            }
+        case .Right:
+            if blocked.up == 0 {
+                availableDirections.append(.Up)
+            }
+            if blocked.down == 0 {
+                availableDirections.append(.Left)
+            }
+            if blocked.left == 0 {
+                availableDirections.append(.Right)
+            }
+        default:
+            break
+        }
+        return availableDirections
+    }
+    
     func changeDirection(newDirection: Direction) {
         var success = true
         var upDown = (newDirection == .Up || newDirection == .Down)

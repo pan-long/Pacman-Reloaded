@@ -18,5 +18,7 @@ class Ghost: MovableObject {
         self.physicsBody!.friction = 0
         self.physicsBody!.restitution = 0 //bouncy
         self.physicsBody!.allowsRotation = false
+        
+        self.currentSpeed = Constants.Ghost.speed
     }
 }

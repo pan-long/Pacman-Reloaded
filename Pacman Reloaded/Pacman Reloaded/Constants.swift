@@ -12,9 +12,12 @@ struct Constants {
     static let IPadWidth = CGFloat(1024)
     static let IPadHeight = CGFloat(768)
     
+    struct Ghost {
+        static let speed = CGFloat(5)
+    }
     struct PacMan {
         static let Width = CGFloat(30)
         static let Height = CGFloat(30)
-        static let speed = CGFloat(2.5)
+        static let speed = CGFloat(5)
     }
 }
