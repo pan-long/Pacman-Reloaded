@@ -9,7 +9,8 @@
 import SpriteKit
 
 class GameScene: SKScene {
-    
+    var sceneDelegate: GameSceneDelegate!
+
     // Assume there is only one pacman for now.
     let pacman = PacMan()
     let blinky = Ghost()
@@ -95,7 +96,7 @@ extension GameScene: SKPhysicsContactDelegate {
                 println("???")
             }
             pacman.score++
-            println(pacman.score)
+            sceneDelegate.updateScore(pacman.score)
         case GameObjectType.Boundary | GameObjectType.SensorUp:
             handleSensorEvent(contact.bodyA.node, bodyB: contact.bodyB.node, direction: .Up, start: true)
         case GameObjectType.Boundary | GameObjectType.SensorDown:
@@ -115,7 +116,11 @@ extension GameScene: SKPhysicsContactDelegate {
         if let boundary = bodyA? as? Boundary {
             sensor = bodyB!
         } else if let boundary = bodyB? as? Boundary {
-            sensor = bodyA!
+            if let bodyA = bodyA {
+                sensor = bodyA
+            } else {
+                return // early termination, sensor is aready destroyed
+            }
         } else {
             println("???")
         }
