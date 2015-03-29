@@ -87,7 +87,7 @@ extension GameScene: SKPhysicsContactDelegate {
 
         switch contactMask {
 
-        case GameObjectType.PacMan | GameObjectType.PacDot :
+        case GameObjectType.PacMan | GameObjectType.PacDot:
             if let pacdot = contact.bodyA.node as? PacDot {
                 pacdot.removeFromParent()
             } else if let pacdot = contact.bodyB.node as? PacDot {
@@ -97,6 +97,8 @@ extension GameScene: SKPhysicsContactDelegate {
             }
             pacman.score++
             sceneDelegate.updateScore(pacman.score)
+        case GameObjectType.PacMan | GameObjectType.Ghost:
+            println("Game end")
         case GameObjectType.Boundary | GameObjectType.SensorUp:
             handleSensorEvent(contact.bodyA.node, bodyB: contact.bodyB.node, direction: .Up, start: true)
         case GameObjectType.Boundary | GameObjectType.SensorDown:
