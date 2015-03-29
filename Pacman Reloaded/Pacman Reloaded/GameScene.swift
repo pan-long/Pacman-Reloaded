@@ -12,6 +12,7 @@ class GameScene: SKScene {
     
     // Assume there is only one pacman for now.
     let pacman = PacMan()
+    let blinky = Ghost()
 
     // TODO Pass in the file name from map selection interface
     var TMXFileName: String? = "PacmanMapOne"
@@ -24,8 +25,7 @@ class GameScene: SKScene {
         if let fileName = TMXFileName {
             println("Loading game map from TMX file...")
             
-            self.enumerateChildNodesWithName("*") {
-                node, stop in
+            self.enumerateChildNodesWithName("*") {                node, stop in
                 node.removeFromParent()
             }
             
@@ -71,6 +71,7 @@ class GameScene: SKScene {
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
         pacman.update()
+        blinky.update()
         // Put the pacman in the center of the screen
         self.anchorPoint = CGPoint(x: 0.5 - pacman.position.x / Constants.IPadWidth,
             y: 0.5 - pacman.position.y / Constants.IPadHeight)
@@ -199,6 +200,12 @@ extension GameScene: NSXMLParserDelegate {
                     // TODO Support multiplayer mode
                     pacman.position = origin
                     addChild(pacman)
+                    
+                    break
+                case "blinky":
+                    blinky.position = origin
+                    addChild(blinky)
+                    println("set up blinky")
                     
                     break
                 default:
