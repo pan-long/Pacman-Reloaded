@@ -30,6 +30,7 @@ class GameViewController: UIViewController {
     @IBOutlet var gameSceneView: SKView!
     
     @IBOutlet weak var score: UILabel!
+    @IBOutlet weak var pauseBtn: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -79,6 +80,36 @@ class GameViewController: UIViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         let skView = gameSceneView as SKView
         skView.presentScene(nil)
+    }
+    
+    // pause button action
+    @IBAction private func pauseBtnClicked(sender: AnyObject) {
+        gameSceneView.scene?.view?.paused = true
+        
+        // present an popup view for user to change some settings
+        let alertVC = UIAlertController(title: "Game Paused", message: nil, preferredStyle: UIAlertControllerStyle.Alert)
+        alertVC.addAction(UIAlertAction(title: "Continue", style: UIAlertActionStyle.Default, handler: {action in
+            let timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "countDown:", userInfo: nil, repeats: true)
+            ()
+        }))
+
+        self.presentViewController(alertVC, animated: true, completion: nil)
+    }
+    
+    func countDown(timer: NSTimer) {
+        if let number = pauseBtn.titleLabel?.text?.toInt() {
+            if number > 0 {
+                pauseBtn.setTitle(String(number - 1), forState: UIControlState.Normal)
+            } else {
+                pauseBtn.setTitle("Pause", forState: UIControlState.Normal)
+                timer.invalidate()
+                gameSceneView.scene?.view?.paused = false
+                pauseBtn.enabled = true
+            }
+        } else {
+            pauseBtn.setTitle(String(Constants.gameResumeCountDownNumber), forState: UIControlState.Normal)
+            pauseBtn.enabled = false
+        }
     }
 }
 
