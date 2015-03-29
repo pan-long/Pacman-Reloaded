@@ -80,6 +80,20 @@ class GameViewController: UIViewController {
         let skView = gameSceneView as SKView
         skView.presentScene(nil)
     }
+    
+    // pause button action
+    @IBAction private func pauseBtnClicked(sender: AnyObject) {
+        gameSceneView.scene?.view?.paused = true
+        
+        // present an popup view for user to change some settings
+        let alertVC = UIAlertController(title: "Game Paused", message: nil, preferredStyle: UIAlertControllerStyle.Alert)
+        alertVC.addAction(UIAlertAction(title: "Continue", style: UIAlertActionStyle.Default, handler: {action in
+            self.gameSceneView.scene?.view?.paused = false
+            ()
+        }))
+
+        self.presentViewController(alertVC, animated: true, completion: nil)
+    }
 }
 
 extension GameViewController: GameSceneDelegate {
