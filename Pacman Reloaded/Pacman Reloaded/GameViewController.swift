@@ -29,6 +29,8 @@ class GameViewController: UIViewController {
 
     @IBOutlet var gameSceneView: SKView!
     
+    @IBOutlet weak var score: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -48,6 +50,7 @@ class GameViewController: UIViewController {
             
             /* Set the scale mode to scale to fit the window */
             scene.scaleMode = .AspectFill
+            scene.sceneDelegate = self
             skView.presentScene(scene)
         }
     }
@@ -71,5 +74,16 @@ class GameViewController: UIViewController {
 
     override func prefersStatusBarHidden() -> Bool {
         return true
+    }
+
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        let skView = gameSceneView as SKView
+        skView.presentScene(nil)
+    }
+}
+
+extension GameViewController: GameSceneDelegate {
+    func updateScore(score: Int) {
+        self.score.text = "Score: \(score)"
     }
 }
