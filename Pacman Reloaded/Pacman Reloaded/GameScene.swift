@@ -8,13 +8,22 @@
 
 import SpriteKit
 
-class GameScene: SKScene {
-    var sceneDelegate: GameSceneDelegate!
+protocol MovementDataSource {
+    func getVisibleObjects() -> [MovableObject]
+}
 
+
+class GameScene: SKScene {
+
+    var sceneDelegate: GameSceneDelegate!
+    
     // Assume there is only one pacman for now.
     let pacman = PacMan()
     let blinky = Ghost()
-
+    
+    var blinkyMovement: MovementControl!
+    
+    
     // TODO Pass in the file name from map selection interface
     var TMXFileName: String? = "PacmanMapOne"
     
@@ -22,16 +31,21 @@ class GameScene: SKScene {
         physicsWorld.gravity = CGVectorMake(0, 0)
         physicsWorld.contactDelegate = self
         backgroundColor = SKColor.blackColor()
-
+        
         if let fileName = TMXFileName {
             println("Loading game map from TMX file...")
             
-            self.enumerateChildNodesWithName("*") {                node, stop in
+            self.enumerateChildNodesWithName("*") {
+                node, stop in
                 node.removeFromParent()
             }
             
             parseTMXFileWithName(fileName)
         }
+        
+        // Set up movemnt control
+        blinkyMovement = AIMovementControl(movableObject: blinky)
+        blinkyMovement.dataSource = self
         
         self.anchorPoint = CGPoint(x: 0.5 - pacman.position.x / Constants.IPadWidth,
             y: 0.5 - pacman.position.y / Constants.IPadHeight)
@@ -56,11 +70,11 @@ class GameScene: SKScene {
     func swipeLeft(sender: UISwipeGestureRecognizer) {
         pacman.changeDirection(.Left)
     }
-
+    
     func swipeRight(sender: UISwipeGestureRecognizer) {
         pacman.changeDirection(.Right)
     }
-
+    
     func swipeUp(sender: UISwipeGestureRecognizer) {
         pacman.changeDirection(.Up)
     }
@@ -71,6 +85,10 @@ class GameScene: SKScene {
     
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
+        // Update directions of sprite nodes
+        blinkyMovement.update()
+        
+        // Update positions of sprite nodes
         pacman.update()
         blinky.update()
         // Put the pacman in the center of the screen
@@ -79,14 +97,23 @@ class GameScene: SKScene {
     }
 }
 
+extension GameScene: MovementDataSource {
+    func getVisibleObjects() -> [MovableObject] {
+        var visibleObjects = [MovableObject]()
+        visibleObjects.append(pacman)
+        visibleObjects.append(blinky)
+        return visibleObjects
+    }
+}
+
 extension GameScene: SKPhysicsContactDelegate {
-
+    
     func didBeginContact(contact: SKPhysicsContact) {
-
+        
         let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
-
+        
         switch contactMask {
-
+            
         case GameObjectType.PacMan | GameObjectType.PacDot:
             if let pacdot = contact.bodyA.node as? PacDot {
                 pacdot.removeFromParent()
@@ -110,9 +137,9 @@ extension GameScene: SKPhysicsContactDelegate {
         default:
             return
         }
-
+        
     }
-
+    
     func handleSensorEvent(bodyA: SKNode?, bodyB: SKNode?, direction: Direction, start: Bool) {
         var sensor = SKNode()
         if let boundary = bodyA? as? Boundary {
@@ -134,15 +161,15 @@ extension GameScene: SKPhysicsContactDelegate {
             }
         }
     }
-
-
-
+    
+    
+    
     func didEndContact(contact: SKPhysicsContact) {
-
+        
         let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
-
+        
         switch contactMask {
-
+            
         case GameObjectType.Boundary | GameObjectType.SensorUp:
             handleSensorEvent(contact.bodyA.node, bodyB: contact.bodyB.node, direction: .Up, start: false)
         case GameObjectType.Boundary | GameObjectType.SensorDown:
@@ -153,9 +180,9 @@ extension GameScene: SKPhysicsContactDelegate {
             handleSensorEvent(contact.bodyA.node, bodyB: contact.bodyB.node, direction: .Right, start: false)
         default:
             return
-
+            
         }
-
+        
     }
 }
 

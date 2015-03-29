@@ -40,6 +40,15 @@ enum Direction {
             return "None"
         }
     }
+    
+    static var directionArray: [Direction] {
+        return [Direction.Up, Direction.Down, Direction.Left, Direction.Right]
+    }
+    
+    static func getRandomDirection() -> Direction {
+        var direction = directionArray[random() % 4]
+        return direction
+    }
 }
 
 
