@@ -7,13 +7,14 @@
 //
 
 import SpriteKit
+import AVFoundation
 
 class GameScene: SKScene {
     var sceneDelegate: GameSceneDelegate!
 
     // Assume there is only one pacman for now.
     let pacman = PacMan()
-
+    
     // TODO Pass in the file name from map selection interface
     var TMXFileName: String? = "PacmanMapOne"
     
@@ -96,6 +97,7 @@ extension GameScene: SKPhysicsContactDelegate {
             }
             pacman.score++
             sceneDelegate.updateScore(pacman.score)
+            //self.runAction(AudioManager.pacdotSoundEffectAction())
         case GameObjectType.Boundary | GameObjectType.SensorUp:
             handleSensorEvent(contact.bodyA.node, bodyB: contact.bodyB.node, direction: .Up, start: true)
         case GameObjectType.Boundary | GameObjectType.SensorDown:

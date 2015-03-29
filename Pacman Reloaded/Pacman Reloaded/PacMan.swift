@@ -21,6 +21,8 @@ class PacMan: MovableObject {
         self.physicsBody!.restitution = 0 //bouncy
         self.physicsBody!.allowsRotation = false
         // setupAnimationSequence()
+
+        self.currentSpeed = Constants.PacMan.speed
     }
 
     func setupAnimationSequence() {
