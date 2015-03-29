@@ -15,5 +15,6 @@ struct Constants {
     struct PacMan {
         static let Width = CGFloat(30)
         static let Height = CGFloat(30)
+        static let speed = CGFloat(2.5)
     }
 }
