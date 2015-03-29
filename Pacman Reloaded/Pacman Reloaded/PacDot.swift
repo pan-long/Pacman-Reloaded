@@ -14,12 +14,23 @@ class PacDot: Item {
 //        fatalError("init(coder:) has not been implemented")
 //    }
 
+    var isSuper = false
+
     init(size: CGSize) {
         let location = CGPoint(x: -1 * size.width / 2, y: -1 * size.height / 2 )
         let newRect = CGRect(origin: location, size: size)
-        super.init(image: "pacdot")
+        super.init(image: Constants.PacDot.normalPacDotImage)
         self.sprite.size = size
         setup(newRect)
+    }
+
+    init(superSize size: CGSize) {
+        let location = CGPoint(x: -1 * size.width / 2, y: -1 * size.height / 2 )
+        let newRect = CGRect(origin: location, size: size)
+        super.init(image: Constants.PacDot.superPacDotImage)
+        self.sprite.size = size
+        setup(newRect)
+        isSuper = true
     }
 
     func setup(newRect: CGRect) {

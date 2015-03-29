@@ -89,15 +89,10 @@ extension GameScene: SKPhysicsContactDelegate {
 
         case GameObjectType.PacMan | GameObjectType.PacDot :
             if let pacdot = contact.bodyA.node as? PacDot {
-                pacdot.removeFromParent()
+                handlePacDotEvent(pacdot, pacman: contact.bodyB.node as PacMan)
             } else if let pacdot = contact.bodyB.node as? PacDot {
-                pacdot.removeFromParent()
-            } else {
-                println("???")
+                handlePacDotEvent(pacdot, pacman: contact.bodyA.node as PacMan)
             }
-            pacman.score++
-            sceneDelegate.updateScore(pacman.score)
-            //self.runAction(AudioManager.pacdotSoundEffectAction())
         case GameObjectType.Boundary | GameObjectType.SensorUp:
             handleSensorEvent(contact.bodyA.node, bodyB: contact.bodyB.node, direction: .Up, start: true)
         case GameObjectType.Boundary | GameObjectType.SensorDown:
@@ -109,7 +104,16 @@ extension GameScene: SKPhysicsContactDelegate {
         default:
             return
         }
+    }
 
+    func handlePacDotEvent(pacdot: PacDot, pacman: PacMan) {
+        pacdot.removeFromParent()
+        pacman.score++
+        if pacdot.isSuper {
+            println("super")
+        }
+        sceneDelegate.updateScore(pacman.score)
+        //self.runAction(AudioManager.pacdotSoundEffectAction())
     }
 
     func handleSensorEvent(bodyA: SKNode?, bodyB: SKNode?, direction: Direction, start: Bool) {
@@ -200,7 +204,13 @@ extension GameScene: NSXMLParserDelegate {
                     let pacdot = PacDot(size: size)
                     addChild(pacdot)
                     pacdot.position = origin
-                    
+
+                    break
+                case "super-pacdot":
+                    let pacdot = PacDot(superSize: size)
+                    addChild(pacdot)
+                    pacdot.position = origin
+
                     break
                 case "pacman":
                     // TODO Support multiplayer mode

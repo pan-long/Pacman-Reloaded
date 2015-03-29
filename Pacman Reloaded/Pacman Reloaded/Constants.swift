@@ -17,4 +17,9 @@ struct Constants {
         static let Height = CGFloat(30)
         static let speed = CGFloat(2.5)
     }
+
+    struct PacDot {
+        static let normalPacDotImage = "pacdot"
+        static let superPacDotImage = "super-pacdot"
+    }
 }
