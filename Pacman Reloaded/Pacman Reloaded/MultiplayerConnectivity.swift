@@ -9,24 +9,103 @@
 import Foundation
 import MultipeerConnectivity
 
+protocol MultiplayerConnectivityDelegate {
+    // Call the invitaionHandler block with true to connect the inviting player
+    func didReceiveInvitationFromPlayer(playerName: String, invitationHandler: ((Bool) -> Void))
+    
+    // Found a nearby advertising player
+    func browser(foundPlayer playerName: String)
+    
+    // A nearby player has stopped advertising
+    func browser(lostPlayer playerName: String)
+    
+    // Received data from remote player
+    func session(didReceiveData data: NSData, fromPlayer playerName: String)
+}
+
 // This is the main class in Network component, it handles network traffic and is also responsible for communication with local game engine
 class MultiplayerConnectivity: NSObject, MCNearbyServiceAdvertiserDelegate, MCNearbyServiceBrowserDelegate, MCSessionDelegate {
+    var delegate: MultiplayerConnectivityDelegate?
+    
+    private let playerName: String
+    private let peerID: MCPeerID
+
+    private let session: MCSession
+    
+    private var serviceAdvertiser: MCNearbyServiceAdvertiser?
+    private var serviceBrowser: MCNearbyServiceBrowser?
+    
+    init(name: String) {
+        playerName = name
+        peerID = MCPeerID(displayName: playerName)
+
+        session = MCSession(peer: peerID)
+        
+        // finish properties initialization and now call super.init()
+        super.init()
+        
+        session.delegate = self
+    }
+    
+    func sendData(toPlayer players: [String], data: NSData, error: NSErrorPointer) {
+        session.sendData(data, toPeers: players, withMode: MCSessionSendDataMode.Reliable, error: error)
+    }
+    
+    func startServiceAdvertising(serviceType: String, discoveryInfo: [NSObject: AnyObject]) {
+        if serviceAdvertiser == nil || serviceAdvertiser!.serviceType != serviceType {
+            serviceAdvertiser = MCNearbyServiceAdvertiser(peer: peerID, discoveryInfo: discoveryInfo, serviceType: serviceType)
+            serviceAdvertiser!.delegate = self
+        }
+        
+        serviceAdvertiser!.startAdvertisingPeer()
+    }
+    
+    func startServiceBrowsing(serviceType: String) {
+        if serviceBrowser == nil || serviceBrowser!.serviceType != serviceType {
+            serviceBrowser = MCNearbyServiceBrowser(peer: peerID, serviceType: serviceType)
+            serviceBrowser!.delegate = self
+        }
+        
+        serviceBrowser!.startBrowsingForPeers()
+    }
+    
+    func stopServiceAdvertising() {
+        if let validAdvertiser = serviceAdvertiser {
+            validAdvertiser.stopAdvertisingPeer()
+        }
+    }
+    
+    func stopServiceBrowsing() {
+        if let validServiceBrowser = serviceBrowser {
+            validServiceBrowser.stopBrowsingForPeers()
+        }
+    }
     
     // MARK: methods required in MCNearbyServiceAdvertiserDelegate
     // Incoming invitation request.  Call the invitationHandler block with YES and a valid session to connect the inviting peer to the session.
     func advertiser(advertiser: MCNearbyServiceAdvertiser!, didReceiveInvitationFromPeer peerID: MCPeerID!, withContext context: NSData!, invitationHandler: ((Bool, MCSession!) -> Void)!) {
+        let handler: ((Bool) -> Void) = {shouldConnect in
+            invitationHandler(shouldConnect, self.session)
+        }
         
+        if let validDelegate = delegate {
+            validDelegate.didReceiveInvitationFromPlayer(peerID.displayName, invitationHandler: handler)
+        }
     }
     
     // MARK: methods required in MCNearbyServiceBrowserDelegate
     // Found a nearby advertising peer
     func browser(browser: MCNearbyServiceBrowser!, foundPeer peerID: MCPeerID!, withDiscoveryInfo info: [NSObject : AnyObject]!) {
-        
+        if let validDelegate = delegate {
+            validDelegate.browser(foundPlayer: peerID.displayName)
+        }
     }
     
     // A nearby peer has stopped advertising
     func browser(browser: MCNearbyServiceBrowser!, lostPeer peerID: MCPeerID!) {
-        
+        if let validDelegate = delegate {
+            validDelegate.browser(lostPlayer: peerID.displayName)
+        }
     }
     
     // MARK: methods required in MCSessionDelegate
@@ -37,7 +116,9 @@ class MultiplayerConnectivity: NSObject, MCNearbyServiceAdvertiserDelegate, MCNe
     
     // Received data from remote peer
     func session(session: MCSession!, didReceiveData data: NSData!, fromPeer peerID: MCPeerID!) {
-        
+        if let validDelegate = delegate {
+            validDelegate.session(didReceiveData: data, fromPlayer: peerID.displayName)
+        }
     }
     
     // Received a byte stream from remote peer
