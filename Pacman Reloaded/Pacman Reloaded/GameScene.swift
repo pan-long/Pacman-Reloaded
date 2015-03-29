@@ -21,6 +21,7 @@ class GameScene: SKScene {
     let pacman = PacMan()
     let blinky = Ghost()
     
+    var pacmanMovement: GestureMovementControl!
     var blinkyMovement: MovementControl!
     
     
@@ -44,43 +45,29 @@ class GameScene: SKScene {
         }
         
         // Set up movemnt control
+        pacmanMovement = GestureMovementControl(movableObject: pacman)
+        pacmanMovement.dataSource = self
         blinkyMovement = AIMovementControl(movableObject: blinky)
         blinkyMovement.dataSource = self
         
         self.anchorPoint = CGPoint(x: 0.5 - pacman.position.x / Constants.IPadWidth,
             y: 0.5 - pacman.position.y / Constants.IPadHeight)
         
-        var swipeLeft: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: "swipeLeft:")
+        var swipeLeft: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: pacmanMovement, action: "swipeLeft:")
         swipeLeft.direction = .Left
         view.addGestureRecognizer(swipeLeft)
         
-        var swipeRight: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: "swipeRight:")
+        var swipeRight: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: pacmanMovement, action: "swipeRight:")
         swipeRight.direction = .Right
         view.addGestureRecognizer(swipeRight)
         
-        var swipeUp: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: "swipeUp:")
+        var swipeUp: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: pacmanMovement, action: "swipeUp:")
         swipeUp.direction = .Up
         view.addGestureRecognizer(swipeUp)
         
-        var swipeDown: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: "swipeDown:")
+        var swipeDown: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: pacmanMovement, action: "swipeDown:")
         swipeDown.direction = .Down
         view.addGestureRecognizer(swipeDown)
-    }
-    
-    func swipeLeft(sender: UISwipeGestureRecognizer) {
-        pacman.changeDirection(.Left)
-    }
-    
-    func swipeRight(sender: UISwipeGestureRecognizer) {
-        pacman.changeDirection(.Right)
-    }
-    
-    func swipeUp(sender: UISwipeGestureRecognizer) {
-        pacman.changeDirection(.Up)
-    }
-    
-    func swipeDown(sender: UISwipeGestureRecognizer) {
-        pacman.changeDirection(.Down)
     }
     
     override func update(currentTime: CFTimeInterval) {
