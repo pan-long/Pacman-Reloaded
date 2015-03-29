@@ -114,7 +114,11 @@ extension GameScene: SKPhysicsContactDelegate {
         if let boundary = bodyA? as? Boundary {
             sensor = bodyB!
         } else if let boundary = bodyB? as? Boundary {
-            sensor = bodyA!
+            if let bodyA = bodyA {
+                sensor = bodyA
+            } else {
+                return // early termination, sensor is aready destroyed
+            }
         } else {
             println("???")
         }
