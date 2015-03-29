@@ -9,6 +9,8 @@
 import SpriteKit
 
 struct Constants {
+    static let gameResumeCountDownNumber = 3
+    
     static let IPadWidth = CGFloat(1024)
     static let IPadHeight = CGFloat(768)
     

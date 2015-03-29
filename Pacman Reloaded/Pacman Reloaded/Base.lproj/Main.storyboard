@@ -72,6 +72,7 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="iPad"/>
                     <connections>
                         <outlet property="gameSceneView" destination="wBb-BW-aMq" id="FRk-Vx-RSD"/>
+                        <outlet property="pauseBtn" destination="hWH-3Q-obk" id="IK9-H4-YG2"/>
                         <outlet property="score" destination="UXo-LU-VLV" id="Rmn-Tc-Mr7"/>
                     </connections>
                 </viewController>
@@ -172,7 +173,7 @@
         <image name="single-player-game" width="1024" height="768"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="OkE-ug-QI2"/>
+        <segue reference="kR0-By-ffj"/>
         <segue reference="YEh-f1-I43"/>
     </inferredMetricsTieBreakers>
 </document>
