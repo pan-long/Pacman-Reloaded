@@ -50,7 +50,15 @@ class MovableObject: GameObject {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
+    override func reset() {
+        blocked = (up: 0, down: 0, left: 0, right: 0)
+        currentSpeed = 5.0
+        currentDir = .Right
+        requestedDir = .None
+        self.changeDirection(.Right) // reset sprite
+        super.reset()
+    }
     
     
     func getAvailableDirections() -> [Direction] {
@@ -297,7 +305,7 @@ class MovableObject: GameObject {
         default:
             break
         }
-        println("left: \(blocked.left), right: \(blocked.right), up: \(blocked.up), down: \(blocked.down)")
+        //println("left: \(blocked.left), right: \(blocked.right), up: \(blocked.up), down: \(blocked.down)")
 
         if currentDir == direction {
             println("blocking")

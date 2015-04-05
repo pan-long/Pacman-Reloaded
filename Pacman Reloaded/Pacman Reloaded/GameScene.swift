@@ -19,9 +19,10 @@ class GameScene: SKScene {
     var sceneDelegate: GameSceneDelegate!
     
     // Assume there is only one pacman for now.
-    let pacman = PacMan()
-    let blinky = Ghost()
-    
+    var pacman = PacMan()
+    var blinky = Ghost()
+    var totalPacDots:Int = 0
+
     var pacmanMovement: GestureMovementControl!
     var blinkyMovement: MovementControl!
     
@@ -33,18 +34,9 @@ class GameScene: SKScene {
         physicsWorld.gravity = CGVectorMake(0, 0)
         physicsWorld.contactDelegate = self
         backgroundColor = SKColor.blackColor()
-        
-        if let fileName = TMXFileName {
-            println("Loading game map from TMX file...")
-            
-            self.enumerateChildNodesWithName("*") {
-                node, stop in
-                node.removeFromParent()
-            }
-            
-            parseTMXFileWithName(fileName)
-        }
-        
+
+        setupGameObjects()
+
         // Set up movemnt control
         pacmanMovement = GestureMovementControl(movableObject: pacman)
         pacmanMovement.dataSource = self
@@ -70,7 +62,20 @@ class GameScene: SKScene {
         swipeDown.direction = .Down
         view.addGestureRecognizer(swipeDown)
     }
-    
+
+    func setupGameObjects() {
+        if let fileName = TMXFileName {
+            println("Loading game map from TMX file...")
+
+            self.enumerateChildNodesWithName("*") {
+                node, stop in
+                node.removeFromParent()
+            }
+
+            parseTMXFileWithName(fileName)
+        }
+    }
+
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
         // Update directions of sprite nodes
@@ -107,10 +112,8 @@ extension GameScene: SKPhysicsContactDelegate {
             } else if let pacdot = contact.bodyB.node as? PacDot {
                 handlePacDotEvent(pacdot, pacman: contact.bodyA.node as PacMan)
             }
-            pacman.score++
-            sceneDelegate.updateScore(pacman.score)
         case GameObjectType.PacMan | GameObjectType.Ghost:
-            println("Game end")
+            gameOver(false)
         case GameObjectType.Boundary | GameObjectType.SensorUp:
             handleSensorEvent(contact.bodyA.node, bodyB: contact.bodyB.node, direction: .Up, start: true)
         case GameObjectType.Boundary | GameObjectType.SensorDown:
@@ -124,13 +127,31 @@ extension GameScene: SKPhysicsContactDelegate {
         }
     }
 
+    func gameOver(didWin: Bool) {
+        self.sceneDelegate.gameDidEnd(self, didWin: didWin, score: pacman.score)
+    }
+
+    func restart() {
+        pacman.reset()
+        blinky.reset()
+
+        setupGameObjects()
+        sceneDelegate.updateScore(pacman.score, dotsLeft: totalPacDots)
+
+        println("START")
+    }
+
     func handlePacDotEvent(pacdot: PacDot, pacman: PacMan) {
         pacdot.removeFromParent()
         pacman.score++
+        totalPacDots--
         if pacdot.isSuper {
             println("super")
         }
-        sceneDelegate.updateScore(pacman.score)
+        sceneDelegate.updateScore(pacman.score, dotsLeft: totalPacDots)
+        if totalPacDots == 0 {
+            self.sceneDelegate.gameDidEnd(self, didWin: true, score: pacman.score)
+        }
         //self.runAction(AudioManager.pacdotSoundEffectAction())
     }
     
@@ -191,11 +212,12 @@ extension GameScene: NSXMLParserDelegate {
         let parser: NSXMLParser = NSXMLParser(data: data)
         
         parser.delegate = self
+        self.totalPacDots = 0
         parser.parse()
     }
     
     func parser(parser: NSXMLParser!, didStartElement elementName: String!, namespaceURI: String!, qualifiedName qName: String!, attributes attributeDict: [NSObject : AnyObject]!) {
-        
+
         if elementName == "object" {
             let type: AnyObject? = attributeDict["type"]
             
@@ -226,7 +248,7 @@ extension GameScene: NSXMLParserDelegate {
                     let pacdot = PacDot(size: size)
                     addChild(pacdot)
                     pacdot.position = origin
-
+                    self.totalPacDots++
                     break
                 case "super-pacdot":
                     let pacdot = PacDot(superSize: size)

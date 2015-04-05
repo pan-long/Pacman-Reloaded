@@ -16,13 +16,19 @@ class PacMan: MovableObject {
         self.init(image: "pacman-female")
         self.physicsBody?.categoryBitMask = GameObjectType.PacMan
         self.physicsBody?.contactTestBitMask = GameObjectType.Ghost | GameObjectType.Boundary | GameObjectType.PacDot
+        self.physicsBody!.collisionBitMask = 0
         self.physicsBody!.dynamic = true
         self.physicsBody!.friction = 0
         self.physicsBody!.restitution = 0 //bouncy
         self.physicsBody!.allowsRotation = false
-        // setupAnimationSequence()
+        setupAnimationSequence()
 
         self.currentSpeed = Constants.PacMan.speed
+    }
+
+    override func reset() {
+        score = 0
+        super.reset()
     }
 
     func setupAnimationSequence() {
