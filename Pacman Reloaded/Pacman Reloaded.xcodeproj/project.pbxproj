@@ -12,6 +12,8 @@
 		6F8AEFB21AC7DB2F00C8BEA8 /* GameSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8AEFB11AC7DB2F00C8BEA8 /* GameSceneDelegate.swift */; };
 		6F8AEFB51AC7E19700C8BEA8 /* pacman_chomp.wav in Resources */ = {isa = PBXBuildFile; fileRef = 6F8AEFB41AC7E19700C8BEA8 /* pacman_chomp.wav */; };
 		6F8AEFB71AC7E24900C8BEA8 /* AudioManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8AEFB61AC7E24900C8BEA8 /* AudioManager.swift */; };
+		6FD17C4A1AD14334001891F6 /* crackman.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6FD17C471AD14334001891F6 /* crackman.ttf */; };
+		6FD17C4C1AD14334001891F6 /* crackman back.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6FD17C491AD14334001891F6 /* crackman back.ttf */; };
 		6FD827BC1AB84B390079147F /* GameObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FD827BB1AB84B390079147F /* GameObject.swift */; };
 		6FD827BE1AB84B4D0079147F /* MovableObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FD827BD1AB84B4D0079147F /* MovableObject.swift */; };
 		6FD827C21AB84BAD0079147F /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FD827C11AB84BAD0079147F /* Item.swift */; };
@@ -54,6 +56,8 @@
 		6F8AEFB11AC7DB2F00C8BEA8 /* GameSceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameSceneDelegate.swift; sourceTree = "<group>"; };
 		6F8AEFB41AC7E19700C8BEA8 /* pacman_chomp.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = pacman_chomp.wav; sourceTree = "<group>"; };
 		6F8AEFB61AC7E24900C8BEA8 /* AudioManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioManager.swift; sourceTree = "<group>"; };
+		6FD17C471AD14334001891F6 /* crackman.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = crackman.ttf; sourceTree = "<group>"; };
+		6FD17C491AD14334001891F6 /* crackman back.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "crackman back.ttf"; sourceTree = "<group>"; };
 		6FD827BB1AB84B390079147F /* GameObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameObject.swift; sourceTree = "<group>"; };
 		6FD827BD1AB84B4D0079147F /* MovableObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovableObject.swift; sourceTree = "<group>"; };
 		6FD827C11AB84BAD0079147F /* Item.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
@@ -103,15 +107,40 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		6F8AEFB31AC7E16B00C8BEA8 /* Media */ = {
+		6F8AEFB31AC7E16B00C8BEA8 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				6FD17C4D1AD1434B001891F6 /* Font */,
+				6FD17C4F1AD1436D001891F6 /* Audio */,
+				6FD17C4E1AD1435C001891F6 /* Image */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		6FD17C4D1AD1434B001891F6 /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				6FD17C471AD14334001891F6 /* crackman.ttf */,
+				6FD17C491AD14334001891F6 /* crackman back.ttf */,
+			);
+			name = Font;
+			sourceTree = "<group>";
+		};
+		6FD17C4E1AD1435C001891F6 /* Image */ = {
+			isa = PBXGroup;
+			children = (
+				DC7B1D3B1AC6B65F008DEA0F /* pacman-male.atlas */,
+				DC7B1D391AC6B334008DEA0F /* pacman-female.atlas */,
+			);
+			name = Image;
+			sourceTree = "<group>";
+		};
+		6FD17C4F1AD1436D001891F6 /* Audio */ = {
 			isa = PBXGroup;
 			children = (
 				6F8AEFB41AC7E19700C8BEA8 /* pacman_chomp.wav */,
-				DC7B1D3B1AC6B65F008DEA0F /* pacman-male.atlas */,
-				DC7B1D391AC6B334008DEA0F /* pacman-female.atlas */,
-				6F8AEFB61AC7E24900C8BEA8 /* AudioManager.swift */,
 			);
-			name = Media;
+			name = Audio;
 			sourceTree = "<group>";
 		};
 		6FD827BA1AB84B200079147F /* GameObjects */ = {
@@ -169,20 +198,21 @@
 			isa = PBXGroup;
 			children = (
 				C5A3422A1ABC4C6600009971 /* Network */,
-				6F8AEFB31AC7E16B00C8BEA8 /* Media */,
+				6F8AEFB31AC7E16B00C8BEA8 /* Resources */,
 				DC3C36E61AC69E0100298612 /* Config */,
 				6FD827BA1AB84B200079147F /* GameObjects */,
+				6F8AEFB61AC7E24900C8BEA8 /* AudioManager.swift */,
 				C5C8D71D1AB847E5005ACB47 /* AppDelegate.swift */,
 				DC86076C1AC714F700472BCD /* GameScene.sks */,
 				C5C8D7211AB847E5005ACB47 /* GameScene.swift */,
 				6F8AEFB11AC7DB2F00C8BEA8 /* GameSceneDelegate.swift */,
 				C5C8D7231AB847E5005ACB47 /* GameViewController.swift */,
 				DC3E42B81AD119E90083609C /* MultiplayerViewController.swift */,
+				FF7F83841AC7E32400018CD2 /* MovementControl.swift */,
 				C5C8D7251AB847E5005ACB47 /* Main.storyboard */,
 				C5C8D7281AB847E5005ACB47 /* Images.xcassets */,
 				C5C8D72A1AB847E5005ACB47 /* LaunchScreen.xib */,
 				C5C8D71B1AB847E5005ACB47 /* Supporting Files */,
-				FF7F83841AC7E32400018CD2 /* MovementControl.swift */,
 			);
 			path = "Pacman Reloaded";
 			sourceTree = "<group>";
@@ -304,8 +334,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				DC7B1D3C1AC6B65F008DEA0F /* pacman-male.atlas in Resources */,
+				6FD17C4A1AD14334001891F6 /* crackman.ttf in Resources */,
 				DC7B1D3A1AC6B334008DEA0F /* pacman-female.atlas in Resources */,
 				6F8AEFB51AC7E19700C8BEA8 /* pacman_chomp.wav in Resources */,
+				6FD17C4C1AD14334001891F6 /* crackman back.ttf in Resources */,
 				C5C8D72C1AB847E5005ACB47 /* LaunchScreen.xib in Resources */,
 				C5C8D7291AB847E5005ACB47 /* Images.xcassets in Resources */,
 				DC86076D1AC714F700472BCD /* GameScene.sks in Resources */,
