@@ -91,6 +91,13 @@ class MultiplayerConnectivity: NSObject, MCNearbyServiceAdvertiserDelegate, MCNe
         }
     }
     
+    func sendInvitation(toPlayer playerName: String) {
+        let peerID = MCPeerID(displayName: playerName)
+        if let browser = serviceBrowser {
+            browser.invitePeer(peerID, toSession: session, withContext: nil, timeout: Constants.invitePlayerTimeout)
+        }
+    }
+    
     // MARK: methods required in MCNearbyServiceAdvertiserDelegate
     // Incoming invitation request.  Call the invitationHandler block with YES and a valid session to connect the inviting peer to the session.
     func advertiser(advertiser: MCNearbyServiceAdvertiser!, didReceiveInvitationFromPeer peerID: MCPeerID!, withContext context: NSData!, invitationHandler: ((Bool, MCSession!) -> Void)!) {

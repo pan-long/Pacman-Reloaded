@@ -17,4 +17,6 @@ struct Constants {
         static let Height = CGFloat(30)
         static let speed = CGFloat(2.5)
     }
+    
+    static let invitePlayerTimeout: NSTimeInterval = 2000
 }
