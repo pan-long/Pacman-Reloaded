@@ -9,11 +9,22 @@
 import SpriteKit
 import AVFoundation
 
-class GameScene: SKScene {
-    var sceneDelegate: GameSceneDelegate!
+protocol MovementDataSource {
+    func getVisibleObjects() -> [MovableObject]
+}
 
+
+class GameScene: SKScene {
+
+    var sceneDelegate: GameSceneDelegate!
+    
     // Assume there is only one pacman for now.
     let pacman = PacMan()
+    let blinky = Ghost()
+    
+    var pacmanMovement: GestureMovementControl!
+    var blinkyMovement: MovementControl!
+    
     
     // TODO Pass in the file name from map selection interface
     var TMXFileName: String? = "PacmanMapOne"
@@ -22,7 +33,7 @@ class GameScene: SKScene {
         physicsWorld.gravity = CGVectorMake(0, 0)
         physicsWorld.contactDelegate = self
         backgroundColor = SKColor.blackColor()
-
+        
         if let fileName = TMXFileName {
             println("Loading game map from TMX file...")
             
@@ -34,65 +45,73 @@ class GameScene: SKScene {
             parseTMXFileWithName(fileName)
         }
         
+        // Set up movemnt control
+        pacmanMovement = GestureMovementControl(movableObject: pacman)
+        pacmanMovement.dataSource = self
+        blinkyMovement = BlinkyAIMovememntControl(movableObject: blinky)
+        blinkyMovement.dataSource = self
+        
         self.anchorPoint = CGPoint(x: 0.5 - pacman.position.x / Constants.IPadWidth,
             y: 0.5 - pacman.position.y / Constants.IPadHeight)
         
-        var swipeLeft: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: "swipeLeft:")
+        var swipeLeft: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: pacmanMovement, action: "swipeLeft:")
         swipeLeft.direction = .Left
         view.addGestureRecognizer(swipeLeft)
         
-        var swipeRight: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: "swipeRight:")
+        var swipeRight: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: pacmanMovement, action: "swipeRight:")
         swipeRight.direction = .Right
         view.addGestureRecognizer(swipeRight)
         
-        var swipeUp: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: "swipeUp:")
+        var swipeUp: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: pacmanMovement, action: "swipeUp:")
         swipeUp.direction = .Up
         view.addGestureRecognizer(swipeUp)
         
-        var swipeDown: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: "swipeDown:")
+        var swipeDown: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: pacmanMovement, action: "swipeDown:")
         swipeDown.direction = .Down
         view.addGestureRecognizer(swipeDown)
     }
     
-    func swipeLeft(sender: UISwipeGestureRecognizer) {
-        pacman.changeDirection(.Left)
-    }
-
-    func swipeRight(sender: UISwipeGestureRecognizer) {
-        pacman.changeDirection(.Right)
-    }
-
-    func swipeUp(sender: UISwipeGestureRecognizer) {
-        pacman.changeDirection(.Up)
-    }
-    
-    func swipeDown(sender: UISwipeGestureRecognizer) {
-        pacman.changeDirection(.Down)
-    }
-    
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
+        // Update directions of sprite nodes
+        blinkyMovement.update()
+        
+        // Update positions of sprite nodes
         pacman.update()
+        blinky.update()
         // Put the pacman in the center of the screen
         self.anchorPoint = CGPoint(x: 0.5 - pacman.position.x / Constants.IPadWidth,
             y: 0.5 - pacman.position.y / Constants.IPadHeight)
     }
 }
 
+extension GameScene: MovementDataSource {
+    func getVisibleObjects() -> [MovableObject] {
+        var visibleObjects = [MovableObject]()
+        visibleObjects.append(pacman)
+        visibleObjects.append(blinky)
+        return visibleObjects
+    }
+}
+
 extension GameScene: SKPhysicsContactDelegate {
-
+    
     func didBeginContact(contact: SKPhysicsContact) {
-
+        
         let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
-
+        
         switch contactMask {
-
-        case GameObjectType.PacMan | GameObjectType.PacDot :
+            
+        case GameObjectType.PacMan | GameObjectType.PacDot:
             if let pacdot = contact.bodyA.node as? PacDot {
                 handlePacDotEvent(pacdot, pacman: contact.bodyB.node as PacMan)
             } else if let pacdot = contact.bodyB.node as? PacDot {
                 handlePacDotEvent(pacdot, pacman: contact.bodyA.node as PacMan)
             }
+            pacman.score++
+            sceneDelegate.updateScore(pacman.score)
+        case GameObjectType.PacMan | GameObjectType.Ghost:
+            println("Game end")
         case GameObjectType.Boundary | GameObjectType.SensorUp:
             handleSensorEvent(contact.bodyA.node, bodyB: contact.bodyB.node, direction: .Up, start: true)
         case GameObjectType.Boundary | GameObjectType.SensorDown:
@@ -115,7 +134,7 @@ extension GameScene: SKPhysicsContactDelegate {
         sceneDelegate.updateScore(pacman.score)
         //self.runAction(AudioManager.pacdotSoundEffectAction())
     }
-
+    
     func handleSensorEvent(bodyA: SKNode?, bodyB: SKNode?, direction: Direction, start: Bool) {
         var sensor = SKNode()
         if let boundary = bodyA? as? Boundary {
@@ -129,23 +148,23 @@ extension GameScene: SKPhysicsContactDelegate {
         } else {
             println("???")
         }
-        if let pacman = sensor.parent as? PacMan {
+        if let owner = sensor.parent as? MovableObject {
             if start {
-                pacman.sensorContactStart(direction)
+                owner.sensorContactStart(direction)
             } else {
-                pacman.sensorContactEnd(direction)
+                owner.sensorContactEnd(direction)
             }
         }
     }
-
-
-
+    
+    
+    
     func didEndContact(contact: SKPhysicsContact) {
-
+        
         let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
-
+        
         switch contactMask {
-
+            
         case GameObjectType.Boundary | GameObjectType.SensorUp:
             handleSensorEvent(contact.bodyA.node, bodyB: contact.bodyB.node, direction: .Up, start: false)
         case GameObjectType.Boundary | GameObjectType.SensorDown:
@@ -156,9 +175,9 @@ extension GameScene: SKPhysicsContactDelegate {
             handleSensorEvent(contact.bodyA.node, bodyB: contact.bodyB.node, direction: .Right, start: false)
         default:
             return
-
+            
         }
-
+        
     }
 }
 
@@ -216,6 +235,12 @@ extension GameScene: NSXMLParserDelegate {
                     // TODO Support multiplayer mode
                     pacman.position = origin
                     addChild(pacman)
+                    
+                    break
+                case "blinky":
+                    blinky.position = origin
+                    addChild(blinky)
+                    println("set up blinky")
                     
                     break
                 default:

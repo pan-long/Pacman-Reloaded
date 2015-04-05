@@ -22,7 +22,7 @@ class MovableObject: GameObject {
     override init(image: String) {
         super.init(image: image)
 
-        sensorBuffer = self.sprite.size.width * 0.55
+        sensorBuffer = self.sprite.size.width * 0.5
 
         sensors.up = SKNode()
         addChild(sensors.up!)
@@ -48,6 +48,68 @@ class MovableObject: GameObject {
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    
+    func getAvailableDirections() -> [Direction] {
+        var availableDirections = [Direction]()
+        switch currentDir {
+        case .Up:
+            if blocked.up == 0 {
+                availableDirections.append(.Up)
+            }
+            if blocked.left == 0 {
+                availableDirections.append(.Left)
+            }
+            if blocked.right == 0 {
+                availableDirections.append(.Right)
+            }
+        case .Down:
+            if blocked.down == 0 {
+                availableDirections.append(.Down)
+            }
+            if blocked.left == 0 {
+                availableDirections.append(.Left)
+            }
+            if blocked.right == 0 {
+                availableDirections.append(.Right)
+            }
+        case .Left:
+            if blocked.up == 0 {
+                availableDirections.append(.Up)
+            }
+            if blocked.down == 0 {
+                availableDirections.append(.Down)
+            }
+            if blocked.left == 0 {
+                availableDirections.append(.Left)
+            }
+        case .Right:
+            if blocked.up == 0 {
+                availableDirections.append(.Up)
+            }
+            if blocked.down == 0 {
+                availableDirections.append(.Down)
+            }
+            if blocked.right == 0 {
+                availableDirections.append(.Right)
+            }
+        default:
+            if blocked.up == 0 {
+                availableDirections.append(.Up)
+            }
+            if blocked.left == 0 {
+                availableDirections.append(.Left)
+            }
+            if blocked.right == 0 {
+                availableDirections.append(.Right)
+            }
+            if blocked.down == 0 {
+                availableDirections.append(.Down)
+            }
+        }
+        return availableDirections
     }
     
     func changeDirection(newDirection: Direction) {
@@ -142,9 +204,9 @@ class MovableObject: GameObject {
 
         var size:CGSize
         if (whileTravellingUpOrDown == true) {
-            size = CGSize(width: self.sprite.size.width * 0.9, height: self.sprite.size.height / 4)
+            size = CGSize(width: self.sprite.size.width * 0.8, height: 16.6) // tunnel 50 - size 33.3
         } else {
-            size = CGSize(width: self.sprite.size.width * 0.9, height: self.sprite.size.height * 0.9)
+            size = CGSize(width: (self.sprite.size.width + 16.6) * 0.85, height: self.sprite.size.height * 0.8)
         }
 
         sensors.up!.physicsBody = nil // get rid of any existing physics body
@@ -160,9 +222,9 @@ class MovableObject: GameObject {
     func createDownSensorPhysicsBody(#whileTravellingUpOrDown:Bool){
         var size:CGSize
         if (whileTravellingUpOrDown == true) {
-            size = CGSize(width: self.sprite.size.width * 0.9, height: self.sprite.size.height / 4)
+            size = CGSize(width: self.sprite.size.width * 0.8, height: 16.6)
         } else {
-            size = CGSize(width: self.sprite.size.width * 0.9, height: self.sprite.size.height * 0.9 )
+            size = CGSize(width: (self.sprite.size.width + 16.6) * 0.85, height: self.sprite.size.height * 0.8)
         }
         sensors.down?.physicsBody = nil
         let bodyDown:SKPhysicsBody = SKPhysicsBody(rectangleOfSize: size )
@@ -180,9 +242,9 @@ class MovableObject: GameObject {
 
         var size:CGSize
         if (whileTravellingLeftOrRight == true) {
-            size = CGSize(width: self.sprite.size.height / 4, height: self.sprite.size.width * 0.9)
+            size = CGSize(width: 16.6, height: self.sprite.size.width * 0.8)
         } else {
-            size = CGSize(width: self.sprite.size.width * 0.9, height: self.sprite.size.height * 0.9)
+            size = CGSize(width: self.sprite.size.width * 0.8, height: (self.sprite.size.width + 16.6) * 0.85)
         }
         sensors.left?.physicsBody = nil
         let bodyLeft:SKPhysicsBody = SKPhysicsBody(rectangleOfSize: size )
@@ -197,9 +259,9 @@ class MovableObject: GameObject {
     func createRightSensorPhysicsBody( #whileTravellingLeftOrRight:Bool){
         var size:CGSize
         if (whileTravellingLeftOrRight == true) {
-            size = CGSize(width: self.sprite.size.height / 4, height: self.sprite.size.width * 0.9)
+            size = CGSize(width: 16.6, height: self.sprite.size.width * 0.8)
         } else {
-            size = CGSize(width: self.sprite.size.width * 0.9, height: self.sprite.size.height * 0.9)
+            size = CGSize(width: self.sprite.size.width * 0.8, height: (self.sprite.size.width + 16.6) * 0.85)
         }
         sensors.right?.physicsBody = nil
         let bodyRight:SKPhysicsBody = SKPhysicsBody(rectangleOfSize: size )

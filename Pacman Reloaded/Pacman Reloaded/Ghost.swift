@@ -9,5 +9,17 @@
 import Foundation
 
 class Ghost: MovableObject {
-
+    
+    convenience init() {
+        self.init(image: "ghost-red-special")
+        self.physicsBody?.categoryBitMask = GameObjectType.Ghost
+        self.physicsBody?.contactTestBitMask = GameObjectType.PacMan | GameObjectType.Boundary
+        self.physicsBody?.collisionBitMask = 0
+        self.physicsBody!.dynamic = true
+        self.physicsBody!.friction = 0
+        self.physicsBody!.restitution = 0 //bouncy
+        self.physicsBody!.allowsRotation = false
+        
+        self.currentSpeed = Constants.Ghost.speed
+    }
 }
