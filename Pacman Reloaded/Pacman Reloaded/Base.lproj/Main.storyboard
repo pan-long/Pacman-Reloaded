@@ -141,6 +141,7 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="iPad"/>
                     <connections>
                         <outlet property="gameSceneView" destination="wBb-BW-aMq" id="FRk-Vx-RSD"/>
+                        <outlet property="remainingDots" destination="ZR0-J9-uuM" id="AkQ-sC-1Bd"/>
                         <outlet property="score" destination="UXo-LU-VLV" id="Rmn-Tc-Mr7"/>
                     </connections>
                 </viewController>

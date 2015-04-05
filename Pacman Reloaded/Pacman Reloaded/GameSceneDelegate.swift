@@ -11,5 +11,7 @@ import SpriteKit
 
 protocol GameSceneDelegate {
     // Update the player's score
-    func updateScore(score: Int)
+    func updateScore(score: Int, dotsLeft: Int)
+
+    func gameDidEnd(scene: GameScene, didWin: Bool, score: Int) 
 }

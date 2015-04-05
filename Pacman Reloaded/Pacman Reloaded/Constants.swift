@@ -27,4 +27,9 @@ struct Constants {
         static let normalPacDotImage = "pacdot"
         static let superPacDotImage = "super-pacdot"
     }
+
+    struct Locale {
+        static let gameOver = "Game Over"
+        static let gameWin = "You win!"
+    }
 }
