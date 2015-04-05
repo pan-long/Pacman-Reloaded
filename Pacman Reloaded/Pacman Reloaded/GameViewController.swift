@@ -27,7 +27,7 @@ extension SKNode {
 
 class GameViewController: UIViewController {
 
-    @IBOutlet var gameSceneView: SKView!
+    @IBOutlet weak var gameSceneView: SKView!
     
     @IBOutlet weak var score: UILabel!
     @IBOutlet weak var pauseBtn: UIButton!
