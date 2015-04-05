@@ -81,10 +81,21 @@ class GameViewController: UIViewController {
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        let skView = gameSceneView as SKView
-        skView.presentScene(nil)
+        gameSceneView.scene?.view?.paused = true
+
     }
-    
+
+    func unpause() {
+        self.dismissViewControllerAnimated(true, completion: {
+            self.gameSceneView.scene?.view?.paused = false
+            return
+        })
+    }
+
+    func quit() {
+        self.presentingViewController?.dismissViewControllerAnimated(true, completion: nil)
+    }
+
     // pause button action
     @IBAction private func pauseBtnClicked(button: UIButton) {
         button.enabled = false
@@ -114,6 +125,10 @@ class GameViewController: UIViewController {
             pauseBtn.setTitle(String(Constants.gameResumeCountDownNumber), forState: UIControlState.Normal)
             pauseBtn.enabled = false
         }
+    }
+
+    deinit {
+        println("deinit Game")
     }
 }
 

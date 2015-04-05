@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="CsF-LZ-baB">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="CsF-LZ-baB">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Main Menu View Controller-->
         <scene sceneID="OhW-be-jla">
             <objects>
-                <viewController id="CsF-LZ-baB" sceneMemberID="viewController">
+                <viewController id="CsF-LZ-baB" customClass="MainMenuViewController" customModule="Pacman_Reloaded" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="EWU-gp-meu"/>
                         <viewControllerLayoutGuide type="bottom" id="9kU-dY-RTk"/>
@@ -26,7 +26,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="BV1-FR-VrT" kind="presentation" id="rCU-rN-mAP"/>
+                                    <segue destination="BV1-FR-VrT" kind="show" id="rCU-rN-mAP"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l1E-lm-h3j">
@@ -45,6 +45,7 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="iPad"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="l99-ve-j4h" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="7jJ-nl-2nd" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="99" y="-528"/>
         </scene>
@@ -131,6 +132,53 @@
             </objects>
             <point key="canvasLocation" x="1246" y="320"/>
         </scene>
+        <!--Game Menu-->
+        <scene sceneID="fUA-3N-3ij">
+            <objects>
+                <viewController modalPresentationStyle="formSheet" id="vz7-Ml-Qja" userLabel="Game Menu" customClass="GameMenuViewController" customModule="Pacman_Reloaded" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="uyq-Ju-DKo"/>
+                        <viewControllerLayoutGuide type="bottom" id="57m-ro-m7c"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="2ll-Hq-cNM">
+                        <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GIg-RD-r2O">
+                                <rect key="frame" x="122" y="135" width="56" height="30"/>
+                                <state key="normal" title="Resume">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="cancelButtonPressed:" destination="vz7-Ml-Qja" eventType="touchUpInside" id="fad-aw-eWR"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YyG-2f-KHb">
+                                <rect key="frame" x="135" y="190" width="30" height="30"/>
+                                <state key="normal" title="Exit">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="7jJ-nl-2nd" kind="unwind" unwindAction="unwindToThisViewController:" id="SWI-jD-h78"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="centerX" secondItem="GIg-RD-r2O" secondAttribute="centerX" id="43l-zG-4Cd"/>
+                            <constraint firstAttribute="centerY" secondItem="GIg-RD-r2O" secondAttribute="centerY" id="GtN-lr-AMc"/>
+                            <constraint firstAttribute="centerX" secondItem="YyG-2f-KHb" secondAttribute="centerX" id="Koh-x5-F8z"/>
+                            <constraint firstItem="YyG-2f-KHb" firstAttribute="top" secondItem="GIg-RD-r2O" secondAttribute="bottom" constant="25" id="QFI-xU-6uo"/>
+                        </constraints>
+                    </view>
+                    <value key="contentSizeForViewInPopover" type="size" width="300" height="300"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="300" height="300"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gNM-6K-HWd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="99" y="1056"/>
+        </scene>
         <!--Game View Controller-->
         <scene sceneID="tXr-a1-R10">
             <objects>
@@ -165,6 +213,9 @@
                                 <state key="normal" image="pacman-logo">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <segue destination="vz7-Ml-Qja" kind="presentation" modalPresentationStyle="formSheet" id="gNT-LV-Lu6"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Score: 0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UXo-LU-VLV" userLabel="Score">
                                 <rect key="frame" x="803" y="607" width="150" height="21"/>

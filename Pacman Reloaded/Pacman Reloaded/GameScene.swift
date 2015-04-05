@@ -16,7 +16,7 @@ protocol MovementDataSource {
 
 class GameScene: SKScene {
 
-    var sceneDelegate: GameSceneDelegate!
+    weak var sceneDelegate: GameSceneDelegate!
     
     // Assume there is only one pacman for now.
     var pacman = PacMan()
@@ -87,6 +87,10 @@ class GameScene: SKScene {
         // Put the pacman in the center of the screen
         self.anchorPoint = CGPoint(x: 0.5 - pacman.position.x / Constants.IPadWidth,
             y: 0.5 - pacman.position.y / Constants.IPadHeight)
+    }
+
+    deinit {
+        println("deinit Scene")
     }
 }
 
