@@ -12,22 +12,11 @@ import SpriteKit
 class AIMovementControl: MovementControl {
     private let movableObject: MovableObject!
     var dataSource: MovementDataSource!
+    var counter = 0
     
     required init(movableObject: MovableObject) {
         self.movableObject = movableObject
     }
-    
-    func update() {
-        let availableDirections = movableObject.getAvailableDirections()
-        let superDice = random() % availableDirections.count
-        println("ghost: \(availableDirections.count)")
-        
-        movableObject.changeDirection(availableDirections[superDice])
-    }
-}
-
-class BlinkyAIMovememntControl: AIMovementControl {
-    var counter = 0
     
     private func calculateDistance(firstPostion: CGPoint, secondPostion: CGPoint) -> Double  {
         let distanceX = Double(firstPostion.x) - Double(secondPostion.x)
@@ -37,39 +26,37 @@ class BlinkyAIMovememntControl: AIMovementControl {
     
     func scatterUpdate() {
         let availableDirections = movableObject.getAvailableDirections()
-        let superDice = random() % availableDirections.count
-        println("ghost: \(availableDirections.count)")
+        let superDice = Int(arc4random_uniform(UInt32(availableDirections.count)))
         
         movableObject.changeDirection(availableDirections[superDice])
+    }
+    
+    func getChaseTarget(visibleObject: MovableObject) -> CGPoint {
+        return CGPoint(x: 0, y: 0)
     }
     
     func chaseUpdate() {
         let availableDirections = movableObject.getAvailableDirections()
         var nextDirection = availableDirections[0]
+        var minDistanceToPacman: Double = 100000
         
-        if availableDirections.count > 1 {
-            var minDistanceToPacman: Double = 100000
-            
-            for direction in availableDirections {
-                for visibleObject in dataSource.getVisibleObjects() {
-                    let distance = calculateDistance(
-                        movableObject.getNextPosition(direction),
-                        secondPostion: visibleObject.position)
-                    
-                    if distance < minDistanceToPacman {
-                        minDistanceToPacman = distance
-                        nextDirection = direction
-                    }
+        for direction in availableDirections {
+            for visibleObject in dataSource.getVisibleObjects() {
+                let distance = calculateDistance(
+                    movableObject.getNextPosition(direction),
+                    secondPostion: getChaseTarget(visibleObject))
+                
+                if distance < minDistanceToPacman {
+                    minDistanceToPacman = distance
+                    nextDirection = direction
                 }
             }
-            
-            movableObject.changeDirection(nextDirection)
-        } else {
-            movableObject.changeDirection(nextDirection)
         }
+        
+        movableObject.changeDirection(nextDirection)
     }
     
-    override func update() {
+    func update() {
         counter += 1
         println("\(counter)")
         
@@ -92,5 +79,10 @@ class BlinkyAIMovememntControl: AIMovementControl {
             chaseUpdate()
         }
     }
-    
+}
+
+class BlinkyAIMovememntControl: AIMovementControl {
+    override func getChaseTarget(visibleObject: MovableObject) -> CGPoint {
+        return visibleObject.position
+    }
 }
