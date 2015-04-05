@@ -12,18 +12,30 @@ import MultipeerConnectivity
 class MultiplayerGameViewController: UIViewController {
     
     @IBOutlet var gameSceneView: SKView!
+    private var numberOfPlayers = 1
+    
     private let newGameIdentifier = Constants.Identifiers.NewGame
     private var connectivity = MultiplayerConnectivity(name: UIDevice.currentDevice().name)
     
     override func viewDidLoad() {
         view.backgroundColor = UIColor.blackColor()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        // Present game settings
+        let gameSetting = self.storyboard!.instantiateViewControllerWithIdentifier("gameSetting") as UIViewController
+        self.presentViewController(gameSetting, animated: true, completion: nil)
+    }
+    
+    func setNumberOfPlayers(numberOfPlayers: Int) {
+        self.numberOfPlayers = numberOfPlayers
         
-        // TODO Game setting first
-        connectivity.matchDelegate = self
-        connectivity.startServiceAdvertising(newGameIdentifier, discoveryInfo: Dictionary<String, String>())
-        connectivity.stopServiceBrowsing()
-        
-        
+        self.dismissViewControllerAnimated(true, completion: {() -> Void in
+            self.connectivity.matchDelegate = self
+            self.connectivity.startServiceAdvertising(self.newGameIdentifier,
+                discoveryInfo: Dictionary<String, String>())
+            self.connectivity.stopServiceBrowsing()
+        })
     }
 }
 
@@ -61,6 +73,7 @@ extension MultiplayerGameViewController: MatchPeersDelegate {
             println("connecting")
             break
         case .NotConnected:
+            // Player disconnected from game
             println("not connected")
             break
         default:
