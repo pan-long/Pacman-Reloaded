@@ -7,6 +7,7 @@
 //
 
 import SpriteKit
+import MultipeerConnectivity
 
 class MultiplayerManagementViewController: UIViewController {
     
@@ -66,9 +67,7 @@ extension MultiplayerManagementViewController: UITableViewDataSource {
 }
 
 extension MultiplayerManagementViewController: MatchPeersDelegate {
-    func didReceiveInvitationFromPlayer(playerName: String, invitationHandler: ((Bool) -> Void)) {
-        println("received")
-    }
+    func didReceiveInvitationFromPlayer(playerName: String, invitationHandler: ((Bool) -> Void)) {}
     
     func browser(foundPlayer playerName: String, withDiscoveryInfo info: [NSObject : AnyObject]?) {
         newGames.append(playerName)
@@ -82,5 +81,9 @@ extension MultiplayerManagementViewController: MatchPeersDelegate {
             gameIndices.removeValueForKey(playerName)
             newGameTable.reloadData()
         }
+    }
+    
+    func session(player playername: String, didChangeState state: MCSessionState) {
+        println(state)
     }
 }
