@@ -172,32 +172,41 @@ class MovableObject: GameObject {
             requestedDir = newDirection
         }
     }
-
-    func update() {
-        switch currentDir {
+    
+    func getNextPosition(direction: Direction) -> CGPoint {
+        var nextPosition : CGPoint
+        
+        switch direction {
         case .Right:
-            self.position = CGPoint(
+            nextPosition = CGPoint(
                 x: self.position.x + currentSpeed,
                 y: self.position.y
             )
         case .Left:
-            self.position = CGPoint(
+            nextPosition = CGPoint(
                 x: self.position.x - currentSpeed,
                 y: self.position.y
             )
         case .Down:
-            self.position = CGPoint(
+            nextPosition = CGPoint(
                 x: self.position.x,
                 y: self.position.y - currentSpeed
             )
         case .Up:
-            self.position = CGPoint(
+            nextPosition = CGPoint(
                 x: self.position.x,
                 y: self.position.y + currentSpeed
             )
         case .None:
-            return
+            nextPosition = self.position
         }
+        
+        return nextPosition
+        
+    }
+
+    func update() {
+        self.position = getNextPosition(currentDir)
     }
 
     // MARK: - SENSORS

@@ -27,12 +27,53 @@ class AIMovementControl: MovementControl {
     func update() {
         let availableDirections = movableObject.getAvailableDirections()
         let superDice = random() % availableDirections.count
+        println("ghost: \(availableDirections.count)")
             
         movableObject.changeDirection(availableDirections[superDice])
     }
 }
 
 class BlinkyAIMovememntControl: AIMovementControl {
+    var counter = 0
+    
+    private func calculateDistance(firstPostion: CGPoint, secondPostion: CGPoint) -> Double  {
+        let distanceX = Double(firstPostion.x) - Double(secondPostion.x)
+        let distanceY = Double(firstPostion.y) - Double(secondPostion.y)
+        return sqrt(distanceX * distanceX + distanceY * distanceY)
+    }
+    
+    override func update() {
+        counter = counter + 1
+        if counter > 5 {
+            
+            let availableDirections = movableObject.getAvailableDirections()
+            var nextDirection = availableDirections[0]
+            
+            if availableDirections.count > 1 {
+                var minDistanceToPacman: Double = 100000
+                
+                for direction in availableDirections {
+                    for visibleObject in dataSource.getVisibleObjects() {
+                        let distance = calculateDistance(
+                            movableObject.getNextPosition(direction),
+                            secondPostion: visibleObject.position)
+                        
+                        println("\(direction.str) \(distance)")
+                        if distance < minDistanceToPacman {
+                            minDistanceToPacman = distance
+                            nextDirection = direction
+                        }
+                    }
+                }
+                
+                println("\(nextDirection.str)")
+                
+                movableObject.changeDirection(nextDirection)
+            } else {
+                movableObject.changeDirection(nextDirection)
+            }
+        }
+    }
     
 }
 
