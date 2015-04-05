@@ -31,21 +31,24 @@ class GameViewController: UIViewController {
     
     @IBOutlet weak var score: UILabel!
     @IBOutlet weak var pauseBtn: UIButton!
-    
+    @IBOutlet weak var remainingDots: UILabel!
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-//        let backgroundImage = UIImage(named: "landing-page")
-//        let background = UIImageView(image: backgroundImage)
-//        view.addSubview(background)
-//        view.sendSubviewToBack(background)
-        
+
+        let background = UIView()
+        background.frame = self.view.frame
+        background.backgroundColor = UIColor.darkGrayColor()
+        view.addSubview(background)
+        view.sendSubviewToBack(background)
+
+
         if let scene = GameScene.unarchiveFromFile("GameScene") as? GameScene {
             // Configure the view.
             let skView = gameSceneView as SKView
             skView.showsFPS = true
 //            skView.showsNodeCount = true
-            skView.showsPhysics = true
+//            skView.showsPhysics = true
             /* Sprite Kit applies additional optimizations to improve rendering performance */
             skView.ignoresSiblingOrder = true
             
@@ -115,7 +118,27 @@ class GameViewController: UIViewController {
 }
 
 extension GameViewController: GameSceneDelegate {
-    func updateScore(score: Int) {
+    func updateScore(score: Int, dotsLeft: Int) {
         self.score.text = "Score: \(score)"
+        self.remainingDots.text = "Remaining: \(dotsLeft)"
+    }
+
+    func gameDidEnd(scene: GameScene, didWin: Bool, score: Int) {
+        var title: String
+        if didWin {
+            title = Constants.Locale.gameWin
+        } else {
+            title = Constants.Locale.gameOver
+        }
+        let alertVC = UIAlertController(title: title, message: nil, preferredStyle: UIAlertControllerStyle.Alert)
+        alertVC.addAction(UIAlertAction(title: "Restart", style: UIAlertActionStyle.Default, handler: {action in
+            scene.restart()
+            self.gameSceneView.scene?.view?.paused = false
+
+        }))
+        gameSceneView.scene?.view?.paused = true
+
+        self.presentViewController(alertVC, animated: true, completion: nil)
+
     }
 }

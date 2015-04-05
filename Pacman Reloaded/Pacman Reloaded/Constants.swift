@@ -27,7 +27,12 @@ struct Constants {
         static let normalPacDotImage = "pacdot"
         static let superPacDotImage = "super-pacdot"
     }
-    
+
+    struct Locale {
+        static let gameOver = "Game Over"
+        static let gameWin = "You win!"
+    }
+
     static let invitePlayerTimeout: NSTimeInterval = 2000
     struct Identifiers {
         static let NewGameTableCell = "newGame"
