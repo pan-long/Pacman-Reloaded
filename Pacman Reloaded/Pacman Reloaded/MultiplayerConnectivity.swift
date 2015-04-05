@@ -15,7 +15,7 @@ protocol MatchPeersDelegate {
     func didReceiveInvitationFromPlayer(playerName: String, invitationHandler: ((Bool) -> Void))
     
     // Found a nearby advertising player
-    func browser(foundPlayer playerName: String)
+    func browser(foundPlayer playerName: String, withDiscoveryInfo info: [NSObject : AnyObject])
     
     // A nearby player has stopped advertising
     func browser(lostPlayer playerName: String)
@@ -107,7 +107,7 @@ class MultiplayerConnectivity: NSObject, MCNearbyServiceAdvertiserDelegate, MCNe
     // Found a nearby advertising peer
     func browser(browser: MCNearbyServiceBrowser!, foundPeer peerID: MCPeerID!, withDiscoveryInfo info: [NSObject : AnyObject]!) {
         if let validDelegate = matchDelegate {
-            validDelegate.browser(foundPlayer: peerID.displayName)
+            validDelegate.browser(foundPlayer: peerID.displayName, withDiscoveryInfo: info)
         }
     }
     

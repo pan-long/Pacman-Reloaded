@@ -138,7 +138,11 @@ extension GameScene: SKPhysicsContactDelegate {
     func handleSensorEvent(bodyA: SKNode?, bodyB: SKNode?, direction: Direction, start: Bool) {
         var sensor = SKNode()
         if let boundary = bodyA? as? Boundary {
-            sensor = bodyB!
+            if let bodyB = bodyB {
+                sensor = bodyB
+            } else {
+                return // early termination, sensor is aready destroyed
+            }
         } else if let boundary = bodyB? as? Boundary {
             if let bodyA = bodyA {
                 sensor = bodyA
