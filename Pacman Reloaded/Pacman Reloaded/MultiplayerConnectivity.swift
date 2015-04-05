@@ -20,12 +20,17 @@ protocol MatchPeersDelegate {
     // A nearby player has stopped advertising
     func browser(lostPlayer playerName: String)
 
+    // The connection status has been changed on the other end
+    func session(player playername: String, didChangeState state: MCSessionState)
 }
 
 // This delegate handles the data receive events
 protocol SessionDataDelegate {
     // Received data from remote player
     func session(didReceiveData data: NSData, fromPlayer playerName: String)
+    
+    // The connection status has been changed on the other end
+    func session(player playername: String, didChangeState state: MCSessionState)
 }
 
 // This is the main class in Network component, it handles network traffic and is also responsible for communication with local game engine
@@ -149,7 +154,13 @@ extension MultiplayerConnectivity: MCSessionDelegate {
     // MARK: methods required in MCSessionDelegate
     // Remote peer changed state
     func session(session: MCSession!, peer peerID: MCPeerID!, didChangeState state: MCSessionState) {
+        if let validDelegate = matchDelegate {
+            validDelegate.session(player: peerID.displayName, didChangeState: state)
+        }
         
+        if let validDelegate = sessionDelegate {
+            validDelegate.session(player: peerID.displayName, didChangeState: state)
+        }
     }
     
     // Received data from remote peer
