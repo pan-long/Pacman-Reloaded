@@ -29,7 +29,7 @@ protocol SessionDataDelegate {
 }
 
 // This is the main class in Network component, it handles network traffic and is also responsible for communication with local game engine
-class MultiplayerConnectivity: NSObject, MCNearbyServiceAdvertiserDelegate, MCNearbyServiceBrowserDelegate, MCSessionDelegate {
+class MultiplayerConnectivity: NSObject {
     var matchDelegate: MatchPeersDelegate?
     var sessionDelegate: SessionDataDelegate?
     
@@ -97,7 +97,9 @@ class MultiplayerConnectivity: NSObject, MCNearbyServiceAdvertiserDelegate, MCNe
             browser.invitePeer(peerID, toSession: session, withContext: nil, timeout: Constants.invitePlayerTimeout)
         }
     }
-    
+}
+
+extension MultiplayerConnectivity: MCNearbyServiceAdvertiserDelegate {
     // MARK: methods required in MCNearbyServiceAdvertiserDelegate
     // Incoming invitation request.  Call the invitationHandler block with YES and a valid session to connect the inviting peer to the session.
     func advertiser(advertiser: MCNearbyServiceAdvertiser!, didReceiveInvitationFromPeer peerID: MCPeerID!, withContext context: NSData!, invitationHandler: ((Bool, MCSession!) -> Void)!) {
@@ -109,7 +111,9 @@ class MultiplayerConnectivity: NSObject, MCNearbyServiceAdvertiserDelegate, MCNe
             validDelegate.didReceiveInvitationFromPlayer(peerID.displayName, invitationHandler: handler)
         }
     }
-    
+}
+
+extension MultiplayerConnectivity: MCNearbyServiceBrowserDelegate {
     // MARK: methods required in MCNearbyServiceBrowserDelegate
     // Found a nearby advertising peer
     func browser(browser: MCNearbyServiceBrowser!, foundPeer peerID: MCPeerID!, withDiscoveryInfo info: [NSObject : AnyObject]!) {
@@ -124,7 +128,9 @@ class MultiplayerConnectivity: NSObject, MCNearbyServiceAdvertiserDelegate, MCNe
             validDelegate.browser(lostPlayer: peerID.displayName)
         }
     }
-    
+}
+
+extension MultiplayerConnectivity: MCSessionDelegate {
     // MARK: methods required in MCSessionDelegate
     // Remote peer changed state
     func session(session: MCSession!, peer peerID: MCPeerID!, didChangeState state: MCSessionState) {
