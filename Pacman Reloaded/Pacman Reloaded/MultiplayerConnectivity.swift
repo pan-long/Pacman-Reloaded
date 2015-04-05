@@ -9,7 +9,8 @@
 import Foundation
 import MultipeerConnectivity
 
-protocol MultiplayerConnectivityDelegate {
+// This delegate handles advertising and browsing peers events
+protocol MatchPeersDelegate {
     // Call the invitaionHandler block with true to connect the inviting player
     func didReceiveInvitationFromPlayer(playerName: String, invitationHandler: ((Bool) -> Void))
     
@@ -18,14 +19,19 @@ protocol MultiplayerConnectivityDelegate {
     
     // A nearby player has stopped advertising
     func browser(lostPlayer playerName: String)
-    
+
+}
+
+// This delegate handles the data receive events
+protocol SessionDataDelegate {
     // Received data from remote player
     func session(didReceiveData data: NSData, fromPlayer playerName: String)
 }
 
 // This is the main class in Network component, it handles network traffic and is also responsible for communication with local game engine
 class MultiplayerConnectivity: NSObject, MCNearbyServiceAdvertiserDelegate, MCNearbyServiceBrowserDelegate, MCSessionDelegate {
-    var delegate: MultiplayerConnectivityDelegate?
+    var matchDelegate: MatchPeersDelegate?
+    var sessionDelegate: SessionDataDelegate?
     
     private let playerName: String
     private let peerID: MCPeerID
@@ -92,7 +98,7 @@ class MultiplayerConnectivity: NSObject, MCNearbyServiceAdvertiserDelegate, MCNe
             invitationHandler(shouldConnect, self.session)
         }
         
-        if let validDelegate = delegate {
+        if let validDelegate = matchDelegate {
             validDelegate.didReceiveInvitationFromPlayer(peerID.displayName, invitationHandler: handler)
         }
     }
@@ -100,14 +106,14 @@ class MultiplayerConnectivity: NSObject, MCNearbyServiceAdvertiserDelegate, MCNe
     // MARK: methods required in MCNearbyServiceBrowserDelegate
     // Found a nearby advertising peer
     func browser(browser: MCNearbyServiceBrowser!, foundPeer peerID: MCPeerID!, withDiscoveryInfo info: [NSObject : AnyObject]!) {
-        if let validDelegate = delegate {
+        if let validDelegate = matchDelegate {
             validDelegate.browser(foundPlayer: peerID.displayName)
         }
     }
     
     // A nearby peer has stopped advertising
     func browser(browser: MCNearbyServiceBrowser!, lostPeer peerID: MCPeerID!) {
-        if let validDelegate = delegate {
+        if let validDelegate = matchDelegate {
             validDelegate.browser(lostPlayer: peerID.displayName)
         }
     }
@@ -120,7 +126,7 @@ class MultiplayerConnectivity: NSObject, MCNearbyServiceAdvertiserDelegate, MCNe
     
     // Received data from remote peer
     func session(session: MCSession!, didReceiveData data: NSData!, fromPeer peerID: MCPeerID!) {
-        if let validDelegate = delegate {
+        if let validDelegate = sessionDelegate {
             validDelegate.session(didReceiveData: data, fromPlayer: peerID.displayName)
         }
     }
