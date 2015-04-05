@@ -29,4 +29,8 @@ struct Constants {
     }
     
     static let invitePlayerTimeout: NSTimeInterval = 2000
+    struct Identifiers {
+        static let NewGameTableCell = "newGame"
+        static let NewGame = "newGame2"
+    }
 }

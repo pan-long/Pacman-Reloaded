@@ -47,10 +47,10 @@
             </objects>
             <point key="canvasLocation" x="99" y="-528"/>
         </scene>
-        <!--Multiplayer View Controller-->
+        <!--Multiplayer Management View Controller-->
         <scene sceneID="CVu-Ev-ZR5">
             <objects>
-                <viewController id="dky-fn-pWs" customClass="MultiplayerViewController" customModule="Pacman_Reloaded" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="dky-fn-pWs" customClass="MultiplayerManagementViewController" customModule="Pacman_Reloaded" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="k0V-hD-hq5"/>
                         <viewControllerLayoutGuide type="bottom" id="2vN-Ww-Jyf"/>
@@ -65,7 +65,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="createNewRoomClicked:" destination="dky-fn-pWs" eventType="touchUpInside" id="uqA-uz-MI7"/>
+                                    <segue destination="4q5-uR-GFR" kind="presentation" id="Bbb-VC-qx2"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Nx-QG-u4x">
@@ -74,18 +74,61 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="RJc-ZM-ZFI">
+                                <rect key="frame" x="484" y="53" width="510" height="621"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="newGame" id="nc4-op-Kzv">
+                                        <rect key="frame" x="0.0" y="0.0" width="510" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nc4-op-Kzv" id="hfo-qh-XcT">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="iPad"/>
                     <connections>
-                        <outlet property="createNewRoom" destination="pyo-kd-IU5" id="TJa-GU-PI9"/>
+                        <outlet property="createNewRoom" destination="pyo-kd-IU5" id="05A-Ub-Ern"/>
+                        <outlet property="newGameTable" destination="RJc-ZM-ZFI" id="yG7-bq-Nd3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Eee-yc-RMq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1246" y="-528"/>
+        </scene>
+        <!--Multiplayer Game View Controller-->
+        <scene sceneID="Apg-3f-WlB">
+            <objects>
+                <viewController id="4q5-uR-GFR" customClass="MultiplayerGameViewController" customModule="Pacman_Reloaded" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="o6c-Oh-Rfu"/>
+                        <viewControllerLayoutGuide type="bottom" id="fuC-aA-wjr"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="bRm-6h-ySo">
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6eI-55-zax" customClass="SKView">
+                                <rect key="frame" x="16" y="20" width="728" height="728"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="iPad"/>
+                    <connections>
+                        <outlet property="gameSceneView" destination="6eI-55-zax" id="jjp-4k-vmJ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wyG-SG-aAV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1246" y="320"/>
         </scene>
         <!--Game View Controller-->
         <scene sceneID="tXr-a1-R10">
@@ -105,10 +148,6 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wBb-BW-aMq" customClass="SKView">
-                                <rect key="frame" x="16" y="20" width="728" height="728"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="pacman-female" translatesAutoresizingMaskIntoConstraints="NO" id="vsC-tT-pMT">
                                 <rect key="frame" x="812" y="20" width="150" height="150"/>
                             </imageView>
@@ -138,6 +177,10 @@
                                     <action selector="pauseBtnClicked:" destination="BV1-FR-VrT" eventType="touchUpInside" id="zgu-Ux-XCW"/>
                                 </connections>
                             </button>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wBb-BW-aMq" customClass="SKView">
+                                <rect key="frame" x="16" y="20" width="728" height="728"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>

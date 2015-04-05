@@ -29,7 +29,8 @@
 		C5C8D72C1AB847E5005ACB47 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C5C8D72A1AB847E5005ACB47 /* LaunchScreen.xib */; };
 		C5C8D7381AB847E5005ACB47 /* Pacman_ReloadedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5C8D7371AB847E5005ACB47 /* Pacman_ReloadedTests.swift */; };
 		DC3C36E51AC69DFC00298612 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3C36E41AC69DFC00298612 /* Constants.swift */; };
-		DC3E42B91AD119E90083609C /* MultiplayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3E42B81AD119E90083609C /* MultiplayerViewController.swift */; };
+		DC3E42BB1AD12B7C0083609C /* MultiplayerManagementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3E42BA1AD12B7C0083609C /* MultiplayerManagementViewController.swift */; };
+		DC3F277C1AD13823000DE7B7 /* MultiplayerGameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3F277B1AD13823000DE7B7 /* MultiplayerGameViewController.swift */; };
 		DC45121E1AB863DA00FF37BA /* GameObjectType.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC45121D1AB863DA00FF37BA /* GameObjectType.swift */; };
 		DC766FA01AC5D24500FB18F9 /* PacmanMapOne.tmx in Resources */ = {isa = PBXBuildFile; fileRef = DC766F9F1AC5D24500FB18F9 /* PacmanMapOne.tmx */; };
 		DC7B1D3A1AC6B334008DEA0F /* pacman-female.atlas in Resources */ = {isa = PBXBuildFile; fileRef = DC7B1D391AC6B334008DEA0F /* pacman-female.atlas */; };
@@ -75,7 +76,8 @@
 		C5C8D7361AB847E5005ACB47 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C5C8D7371AB847E5005ACB47 /* Pacman_ReloadedTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pacman_ReloadedTests.swift; sourceTree = "<group>"; };
 		DC3C36E41AC69DFC00298612 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		DC3E42B81AD119E90083609C /* MultiplayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiplayerViewController.swift; sourceTree = "<group>"; };
+		DC3E42BA1AD12B7C0083609C /* MultiplayerManagementViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiplayerManagementViewController.swift; sourceTree = "<group>"; };
+		DC3F277B1AD13823000DE7B7 /* MultiplayerGameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiplayerGameViewController.swift; sourceTree = "<group>"; };
 		DC45121D1AB863DA00FF37BA /* GameObjectType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameObjectType.swift; sourceTree = "<group>"; };
 		DC766F9F1AC5D24500FB18F9 /* PacmanMapOne.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = PacmanMapOne.tmx; sourceTree = "<group>"; };
 		DC7B1D391AC6B334008DEA0F /* pacman-female.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = "pacman-female.atlas"; sourceTree = "<group>"; };
@@ -177,7 +179,8 @@
 				C5C8D7211AB847E5005ACB47 /* GameScene.swift */,
 				6F8AEFB11AC7DB2F00C8BEA8 /* GameSceneDelegate.swift */,
 				C5C8D7231AB847E5005ACB47 /* GameViewController.swift */,
-				DC3E42B81AD119E90083609C /* MultiplayerViewController.swift */,
+				DC3E42BA1AD12B7C0083609C /* MultiplayerManagementViewController.swift */,
+				DC3F277B1AD13823000DE7B7 /* MultiplayerGameViewController.swift */,
 				C5C8D7251AB847E5005ACB47 /* Main.storyboard */,
 				C5C8D7281AB847E5005ACB47 /* Images.xcassets */,
 				C5C8D72A1AB847E5005ACB47 /* LaunchScreen.xib */,
@@ -331,11 +334,11 @@
 				6FD827BE1AB84B4D0079147F /* MovableObject.swift in Sources */,
 				6FD827BC1AB84B390079147F /* GameObject.swift in Sources */,
 				DC45121E1AB863DA00FF37BA /* GameObjectType.swift in Sources */,
+				DC3F277C1AD13823000DE7B7 /* MultiplayerGameViewController.swift in Sources */,
 				6FD827C61AB8511B0079147F /* Direction.swift in Sources */,
 				6FD827CF1AB854EA0079147F /* Ghost.swift in Sources */,
 				C5C8D7221AB847E5005ACB47 /* GameScene.swift in Sources */,
 				6F6D62F21ABC500400AF2E2A /* Utilities.swift in Sources */,
-				DC3E42B91AD119E90083609C /* MultiplayerViewController.swift in Sources */,
 				C5C8D7241AB847E5005ACB47 /* GameViewController.swift in Sources */,
 				6FD827CD1AB854800079147F /* PacDot.swift in Sources */,
 				6F2F0AD11ABEA53A00B9DB78 /* Boundary.swift in Sources */,
@@ -347,6 +350,7 @@
 				C5C8D71E1AB847E5005ACB47 /* AppDelegate.swift in Sources */,
 				C5A3422E1ABC538100009971 /* MultiplayerConnectivity.swift in Sources */,
 				6FD827CB1AB854530079147F /* PacMan.swift in Sources */,
+				DC3E42BB1AD12B7C0083609C /* MultiplayerManagementViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
