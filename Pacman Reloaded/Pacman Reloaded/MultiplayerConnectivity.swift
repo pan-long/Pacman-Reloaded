@@ -15,7 +15,7 @@ protocol MatchPeersDelegate {
     func didReceiveInvitationFromPlayer(playerName: String, invitationHandler: ((Bool) -> Void))
     
     // Found a nearby advertising player
-    func browser(foundPlayer playerName: String, withDiscoveryInfo info: [NSObject : AnyObject])
+    func browser(foundPlayer playerName: String, withDiscoveryInfo info: [NSObject : AnyObject]?)
     
     // A nearby player has stopped advertising
     func browser(lostPlayer playerName: String)
