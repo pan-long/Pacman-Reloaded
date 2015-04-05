@@ -48,7 +48,7 @@ class GameScene: SKScene {
         // Set up movemnt control
         pacmanMovement = GestureMovementControl(movableObject: pacman)
         pacmanMovement.dataSource = self
-        blinkyMovement = AIMovementControl(movableObject: blinky)
+        blinkyMovement = BlinkyAIMovememntControl(movableObject: blinky)
         blinkyMovement.dataSource = self
         
         self.anchorPoint = CGPoint(x: 0.5 - pacman.position.x / Constants.IPadWidth,
@@ -141,11 +141,11 @@ extension GameScene: SKPhysicsContactDelegate {
         } else {
             println("???")
         }
-        if let pacman = sensor.parent as? PacMan {
+        if let owner = sensor.parent as? MovableObject {
             if start {
-                pacman.sensorContactStart(direction)
+                owner.sensorContactStart(direction)
             } else {
-                pacman.sensorContactEnd(direction)
+                owner.sensorContactEnd(direction)
             }
         }
     }

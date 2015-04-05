@@ -19,6 +19,7 @@ protocol MovementControl {
 class AIMovementControl: MovementControl {
     private let movableObject: MovableObject!
     var dataSource: MovementDataSource!
+    var counter = 0
     
     required init(movableObject: MovableObject) {
         self.movableObject = movableObject
@@ -26,10 +27,30 @@ class AIMovementControl: MovementControl {
     
     func update() {
         let availableDirections = movableObject.getAvailableDirections()
-        let superDice = random() % availableDirections.count
-        
-        movableObject.changeDirection(availableDirections[superDice])
+        if availableDirections.count > 0 {
+            let superDice = random() % availableDirections.count
+            
+            movableObject.changeDirection(availableDirections[superDice])
+        } else {
+            //println("WTF")
+        }
     }
+}
+
+class BlinkyAIMovememntControl: AIMovementControl {
+    
+//    required init(movableObject: MovableObject) {
+//        super.init(movableObject: movableObject)
+//    }
+    
+//    override func update() {
+//        let availableDirections = movableObject.getAvailableDirections()
+//        let superDice = random() % availableDirections.count
+//        
+//        movableObject.changeDirection(availableDirections[superDice])
+//    }
+    
+    
 }
 
 class GestureMovementControl: NSObject, MovementControl{
