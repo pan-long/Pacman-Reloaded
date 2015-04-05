@@ -98,7 +98,6 @@ extension GameScene: MovementDataSource {
     func getVisibleObjects() -> [MovableObject] {
         var visibleObjects = [MovableObject]()
         visibleObjects.append(pacman)
-        visibleObjects.append(blinky)
         return visibleObjects
     }
 }
