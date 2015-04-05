@@ -36,6 +36,8 @@ class MultiplayerConnectivity: NSObject {
     private let playerName: String
     private let peerID: MCPeerID
 
+    private var nameToPeerIDDict = [String: MCPeerID]()
+    
     private let session: MCSession
     
     private var serviceAdvertiser: MCNearbyServiceAdvertiser?
@@ -54,7 +56,14 @@ class MultiplayerConnectivity: NSObject {
     }
     
     func sendData(toPlayer players: [String], data: NSData, error: NSErrorPointer) {
-        session.sendData(data, toPeers: players, withMode: MCSessionSendDataMode.Reliable, error: error)
+        var peerIDs = [MCPeerID]()
+        for name in players {
+            if let id = nameToPeerIDDict[name] {
+                peerIDs.append(id)
+            }
+        }
+        
+        session.sendData(data, toPeers: peerIDs, withMode: MCSessionSendDataMode.Reliable, error: error)
     }
     
     // the serviceType should be in the same format as a Bonjour service type
@@ -74,6 +83,9 @@ class MultiplayerConnectivity: NSObject {
         if serviceBrowser == nil || serviceBrowser!.serviceType != serviceType {
             serviceBrowser = MCNearbyServiceBrowser(peer: peerID, serviceType: serviceType)
             serviceBrowser!.delegate = self
+            
+            // reset mapping from name to peerID
+            nameToPeerIDDict.removeAll(keepCapacity: false)
         }
         
         serviceBrowser!.startBrowsingForPeers()
@@ -92,9 +104,10 @@ class MultiplayerConnectivity: NSObject {
     }
     
     func sendInvitation(toPlayer playerName: String) {
-        let peerID = MCPeerID(displayName: playerName)
-        if let browser = serviceBrowser {
-            browser.invitePeer(peerID, toSession: session, withContext: nil, timeout: Constants.invitePlayerTimeout)
+        if let peerID = nameToPeerIDDict[playerName] {
+            if let browser = serviceBrowser {
+                browser.invitePeer(peerID, toSession: session, withContext: nil, timeout: Constants.invitePlayerTimeout)
+            }
         }
     }
 }
@@ -118,6 +131,7 @@ extension MultiplayerConnectivity: MCNearbyServiceBrowserDelegate {
     // Found a nearby advertising peer
     func browser(browser: MCNearbyServiceBrowser!, foundPeer peerID: MCPeerID!, withDiscoveryInfo info: [NSObject : AnyObject]!) {
         if let validDelegate = matchDelegate {
+            nameToPeerIDDict[peerID.displayName] = peerID
             validDelegate.browser(foundPlayer: peerID.displayName, withDiscoveryInfo: info)
         }
     }
@@ -125,6 +139,7 @@ extension MultiplayerConnectivity: MCNearbyServiceBrowserDelegate {
     // A nearby peer has stopped advertising
     func browser(browser: MCNearbyServiceBrowser!, lostPeer peerID: MCPeerID!) {
         if let validDelegate = matchDelegate {
+            nameToPeerIDDict[peerID.displayName] = nil
             validDelegate.browser(lostPlayer: peerID.displayName)
         }
     }
