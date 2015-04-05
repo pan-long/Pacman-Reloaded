@@ -33,6 +33,7 @@
 		C5C8D72C1AB847E5005ACB47 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C5C8D72A1AB847E5005ACB47 /* LaunchScreen.xib */; };
 		C5C8D7381AB847E5005ACB47 /* Pacman_ReloadedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5C8D7371AB847E5005ACB47 /* Pacman_ReloadedTests.swift */; };
 		DC076DA91AD178D8004268B5 /* MultiplayerGameSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC076DA81AD178D8004268B5 /* MultiplayerGameSettingViewController.swift */; };
+		DC076DAB1AD18058004268B5 /* GamePopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC076DAA1AD18058004268B5 /* GamePopoverViewController.swift */; };
 		DC3C36E51AC69DFC00298612 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3C36E41AC69DFC00298612 /* Constants.swift */; };
 		DC3E42BB1AD12B7C0083609C /* MultiplayerManagementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3E42BA1AD12B7C0083609C /* MultiplayerManagementViewController.swift */; };
 		DC3F277C1AD13823000DE7B7 /* MultiplayerGameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3F277B1AD13823000DE7B7 /* MultiplayerGameViewController.swift */; };
@@ -87,6 +88,7 @@
 		C5C8D7361AB847E5005ACB47 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C5C8D7371AB847E5005ACB47 /* Pacman_ReloadedTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pacman_ReloadedTests.swift; sourceTree = "<group>"; };
 		DC076DA81AD178D8004268B5 /* MultiplayerGameSettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiplayerGameSettingViewController.swift; sourceTree = "<group>"; };
+		DC076DAA1AD18058004268B5 /* GamePopoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GamePopoverViewController.swift; sourceTree = "<group>"; };
 		DC3C36E41AC69DFC00298612 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		DC3E42BA1AD12B7C0083609C /* MultiplayerManagementViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiplayerManagementViewController.swift; sourceTree = "<group>"; };
 		DC3F277B1AD13823000DE7B7 /* MultiplayerGameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiplayerGameViewController.swift; sourceTree = "<group>"; };
@@ -222,6 +224,7 @@
 				6FD17C541AD17B89001891F6 /* MainMenuViewController.swift */,
 				6FD17C521AD16D8C001891F6 /* GameMenuViewController.swift */,
 				C5C8D7231AB847E5005ACB47 /* GameViewController.swift */,
+				DC076DAA1AD18058004268B5 /* GamePopoverViewController.swift */,
 				DC3E42BA1AD12B7C0083609C /* MultiplayerManagementViewController.swift */,
 				DC076DA81AD178D8004268B5 /* MultiplayerGameSettingViewController.swift */,
 				DC3F277B1AD13823000DE7B7 /* MultiplayerGameViewController.swift */,
@@ -272,7 +275,6 @@
 		FFD7AD451AD166AD00EAB0FA /* MovementControl */ = {
 			isa = PBXGroup;
 			children = (
-				FF7F83841AC7E32400018CD2 /* MovementControl.swift */,
 				FFD7AD461AD166E500EAB0FA /* GestureMovementControl.swift */,
 				FFD7AD481AD1671F00EAB0FA /* AIMovementControl.swift */,
 			);
@@ -399,11 +401,11 @@
 				DC076DA91AD178D8004268B5 /* MultiplayerGameSettingViewController.swift in Sources */,
 				6F6D62F21ABC500400AF2E2A /* Utilities.swift in Sources */,
 				FFD7AD491AD1671F00EAB0FA /* AIMovementControl.swift in Sources */,
-				DC3E42B91AD119E90083609C /* MultiplayerViewController.swift in Sources */,
 				C5C8D7241AB847E5005ACB47 /* GameViewController.swift in Sources */,
 				6FD827CD1AB854800079147F /* PacDot.swift in Sources */,
 				6F2F0AD11ABEA53A00B9DB78 /* Boundary.swift in Sources */,
 				6F8AEFB71AC7E24900C8BEA8 /* AudioManager.swift in Sources */,
+				DC076DAB1AD18058004268B5 /* GamePopoverViewController.swift in Sources */,
 				6F8AEFB21AC7DB2F00C8BEA8 /* GameSceneDelegate.swift in Sources */,
 				6FD827C21AB84BAD0079147F /* Item.swift in Sources */,
 				FFD7AD471AD166E500EAB0FA /* GestureMovementControl.swift in Sources */,

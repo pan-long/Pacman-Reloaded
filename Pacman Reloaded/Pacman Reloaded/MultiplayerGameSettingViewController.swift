@@ -9,10 +9,10 @@
 
 import SpriteKit
 
-class MultiplayerGameSettingViewController: UIViewController {
+class MultiplayerGameSettingViewController: GamePopoverViewController {
     
     @IBOutlet var numberOfPlayersStepper: UIStepper!
-    @IBOutlet var numberOfPlayersLabel: UITextView!
+    @IBOutlet var numberOfPlayersLabel: UILabel!
     @IBOutlet var confirmButton: UIButton!
     
     override func viewDidLoad() {

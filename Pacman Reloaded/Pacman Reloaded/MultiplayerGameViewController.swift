@@ -23,7 +23,7 @@ class MultiplayerGameViewController: UIViewController {
     
     override func viewDidAppear(animated: Bool) {
         // Present game settings
-        let gameSetting = self.storyboard!.instantiateViewControllerWithIdentifier("gameSetting") as UIViewController
+        let gameSetting = self.storyboard!.instantiateViewControllerWithIdentifier("gameSetting") as GamePopoverViewController
         self.presentViewController(gameSetting, animated: true, completion: nil)
     }
     

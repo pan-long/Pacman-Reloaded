@@ -197,12 +197,6 @@
                                     <action selector="numberOfPlayersChanged:" destination="Ezp-Oy-OqY" eventType="valueChanged" id="pfY-23-oQ5"/>
                                 </connections>
                             </stepper>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Number of Players:     1" translatesAutoresizingMaskIntoConstraints="NO" id="Tjd-kM-fsC">
-                                <rect key="frame" x="16" y="28" width="166" height="33"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Iut-oh-q6P">
                                 <rect key="frame" x="238" y="262" width="46" height="30"/>
                                 <state key="normal" title="OK">
@@ -212,6 +206,12 @@
                                     <action selector="confirmButtonClicked:" destination="Ezp-Oy-OqY" eventType="touchUpInside" id="4Op-Qq-cyc"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Number of Players:     2" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PKP-HK-Cll">
+                                <rect key="frame" x="16" y="32" width="181" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -220,7 +220,7 @@
                     <size key="freeformSize" width="300" height="300"/>
                     <connections>
                         <outlet property="confirmButton" destination="Iut-oh-q6P" id="K1o-yQ-KCt"/>
-                        <outlet property="numberOfPlayersLabel" destination="Tjd-kM-fsC" id="Ces-Bn-lJo"/>
+                        <outlet property="numberOfPlayersLabel" destination="PKP-HK-Cll" id="QNZ-Iu-9et"/>
                         <outlet property="numberOfPlayersStepper" destination="H9W-Nx-n9i" id="eXo-aP-P6y"/>
                     </connections>
                 </viewController>
