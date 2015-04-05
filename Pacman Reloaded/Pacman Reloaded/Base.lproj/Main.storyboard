@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="CsF-LZ-baB">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="CsF-LZ-baB">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -99,12 +100,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hQe-oa-x6U">
-                                <rect key="frame" x="887" y="412" width="114" height="42"/>
-                                <state key="normal" title="Stub Button 1">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wBb-BW-aMq" customClass="SKView">
                                 <rect key="frame" x="16" y="20" width="728" height="728"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -112,44 +107,34 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="pacman-female" translatesAutoresizingMaskIntoConstraints="NO" id="vsC-tT-pMT">
                                 <rect key="frame" x="812" y="20" width="150" height="150"/>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wwr-4d-wmz">
-                                <rect key="frame" x="887" y="451" width="114" height="42"/>
-                                <state key="normal" title="Stub Button 2">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Score: 0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UXo-LU-VLV" userLabel="Score">
                                 <rect key="frame" x="803" y="607" width="150" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hWH-3Q-obk">
-                                <rect key="frame" x="844" y="697" width="87" height="51"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hyO-mk-qA4">
+                                <rect key="frame" x="813" y="707" width="195" height="36"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="51" id="Hfc-HU-tZh"/>
-                                    <constraint firstAttribute="width" constant="87" id="l3y-79-gg3"/>
+                                    <constraint firstAttribute="width" constant="195" id="S9Q-3s-wca"/>
+                                    <constraint firstAttribute="height" constant="36" id="Uyt-Uu-PEg"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="27"/>
-                                <state key="normal" title="Pause">
+                                <state key="normal" image="pacman-logo">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <connections>
-                                    <action selector="pauseBtnClicked:" destination="BV1-FR-VrT" eventType="touchUpInside" id="zgu-Ux-XCW"/>
-                                </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="khH-OB-KpY" firstAttribute="top" secondItem="hWH-3Q-obk" secondAttribute="bottom" constant="20" id="OAM-d5-D14"/>
-                            <constraint firstAttribute="centerX" secondItem="hWH-3Q-obk" secondAttribute="centerX" constant="-375.5" id="T0y-Ag-Mal"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="hyO-mk-qA4" secondAttribute="trailing" id="NFZ-sJ-03p"/>
+                            <constraint firstItem="khH-OB-KpY" firstAttribute="top" secondItem="hyO-mk-qA4" secondAttribute="bottom" constant="25" id="zoG-E7-VB1"/>
                         </constraints>
                     </view>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="iPad"/>
                     <connections>
                         <outlet property="gameSceneView" destination="wBb-BW-aMq" id="FRk-Vx-RSD"/>
-                        <outlet property="pauseBtn" destination="hWH-3Q-obk" id="IK9-H4-YG2"/>
                         <outlet property="score" destination="UXo-LU-VLV" id="Rmn-Tc-Mr7"/>
                     </connections>
                 </viewController>

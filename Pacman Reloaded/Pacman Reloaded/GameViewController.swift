@@ -34,18 +34,20 @@ class GameViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-//        let backgroundImage = UIImage(named: "landing-page")
-//        let background = UIImageView(image: backgroundImage)
-//        view.addSubview(background)
-//        view.sendSubviewToBack(background)
-        
+
+        let background = UIView()
+        background.frame = self.view.frame
+        background.backgroundColor = UIColor.darkGrayColor()
+        view.addSubview(background)
+        view.sendSubviewToBack(background)
+
+
         if let scene = GameScene.unarchiveFromFile("GameScene") as? GameScene {
             // Configure the view.
             let skView = gameSceneView as SKView
             skView.showsFPS = true
 //            skView.showsNodeCount = true
-            skView.showsPhysics = true
+//            skView.showsPhysics = true
             /* Sprite Kit applies additional optimizations to improve rendering performance */
             skView.ignoresSiblingOrder = true
             
