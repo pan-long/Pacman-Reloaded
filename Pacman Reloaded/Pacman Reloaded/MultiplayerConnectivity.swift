@@ -124,7 +124,7 @@ extension MultiplayerConnectivity: MCNearbyServiceAdvertiserDelegate {
         let handler: ((Bool) -> Void) = {shouldConnect in
             invitationHandler(shouldConnect, self.session)
         }
-        
+
         if let validDelegate = matchDelegate {
             validDelegate.didReceiveInvitationFromPlayer(peerID.displayName, invitationHandler: handler)
         }
