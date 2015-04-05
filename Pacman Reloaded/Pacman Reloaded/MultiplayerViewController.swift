@@ -33,7 +33,7 @@ extension MultiplayerViewController: MatchPeersDelegate {
         
     }
     
-    func browser(foundPlayer playerName: String) {
+    func browser(foundPlayer playerName: String, withDiscoveryInfo info: [NSObject : AnyObject]) {
         
     }
     
