@@ -9,9 +9,16 @@
 import Foundation
 import SpriteKit
 
+var movableObjectContex = 0
 class MovableObject: GameObject {
     var previousDir = Direction.None
-    var currentDir = Direction.Right
+    var currentDir: Direction = Direction.Right {
+        didSet {
+            currentDirRaw = currentDir.rawValue
+        }
+    }
+    
+    dynamic var currentDirRaw = Direction.Right.rawValue
     var requestedDir = Direction.None
 
     var blocked = (up: 0, down: 0, left: 0, right: 0)

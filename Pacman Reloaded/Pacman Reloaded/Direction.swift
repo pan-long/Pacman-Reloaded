@@ -8,8 +8,8 @@
 
 import Foundation
 
-enum Direction {
-    case Up, Down, Left, Right, None
+enum Direction: String {
+    case Up = "Up", Down = "Down", Left = "Left", Right = "Right", None = "None"
 
     func getRotation() -> Double {
         switch self {
