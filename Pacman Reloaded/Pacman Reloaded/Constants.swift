@@ -32,4 +32,6 @@ struct Constants {
         static let gameOver = "Game Over"
         static let gameWin = "You win!"
     }
+
+    static let invitePlayerTimeout: NSTimeInterval = 2000
 }
