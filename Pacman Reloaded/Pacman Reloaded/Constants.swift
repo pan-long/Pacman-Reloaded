@@ -27,4 +27,6 @@ struct Constants {
         static let normalPacDotImage = "pacdot"
         static let superPacDotImage = "super-pacdot"
     }
+    
+    static let invitePlayerTimeout: NSTimeInterval = 2000
 }
