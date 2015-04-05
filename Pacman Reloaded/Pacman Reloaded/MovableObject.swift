@@ -10,6 +10,7 @@ import Foundation
 import SpriteKit
 
 class MovableObject: GameObject {
+    var previousDir = Direction.None
     var currentDir = Direction.Right
     var requestedDir = Direction.None
 
@@ -96,16 +97,16 @@ class MovableObject: GameObject {
                 availableDirections.append(.Right)
             }
         default:
-            if blocked.up == 0 {
+            if blocked.up == 0 && previousDir != .Down{
                 availableDirections.append(.Up)
             }
-            if blocked.left == 0 {
+            if blocked.left == 0 && previousDir != .Right{
                 availableDirections.append(.Left)
             }
-            if blocked.right == 0 {
+            if blocked.right == 0 && previousDir != .Left {
                 availableDirections.append(.Right)
             }
-            if blocked.down == 0 {
+            if blocked.down == 0 && previousDir != .Up {
                 availableDirections.append(.Down)
             }
         }
@@ -145,7 +146,8 @@ class MovableObject: GameObject {
         }
         if success {
             self.physicsBody?.dynamic = true
-
+            
+            previousDir = currentDir
             currentDir = newDirection
             requestedDir = .None
             self.sprite.zRotation = CGFloat(currentDir.getRotation())
@@ -290,6 +292,7 @@ class MovableObject: GameObject {
 
         if currentDir == direction {
             println("blocking")
+            previousDir = currentDir
             currentDir = .None
             self.physicsBody?.dynamic = false
         }
