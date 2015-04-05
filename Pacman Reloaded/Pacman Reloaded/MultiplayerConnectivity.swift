@@ -21,7 +21,7 @@ protocol MatchPeersDelegate {
     func browser(lostPlayer playerName: String)
 
     // The connection status has been changed on the other end
-    func session(player playername: String, didChangeState state: MCSessionState)
+    func session(player playerName: String, didChangeState state: MCSessionState)
 }
 
 // This delegate handles the data receive events
@@ -30,7 +30,7 @@ protocol SessionDataDelegate {
     func session(didReceiveData data: NSData, fromPlayer playerName: String)
     
     // The connection status has been changed on the other end
-    func session(player playername: String, didChangeState state: MCSessionState)
+    func session(player playerName: String, didChangeState state: MCSessionState)
 }
 
 // This is the main class in Network component, it handles network traffic and is also responsible for communication with local game engine
