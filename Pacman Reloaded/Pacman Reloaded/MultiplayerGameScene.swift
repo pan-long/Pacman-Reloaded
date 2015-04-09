@@ -20,7 +20,7 @@ class MultiplayerGameScene: GameScene {
     
     override init() {
         super.init()
-        pacman.addObserver(self, forKeyPath: "currentDirRaw", options: .New, context: &movableObjectContex)
+        registerObserverForPacmanDirection()
     }
     
     override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
@@ -33,8 +33,16 @@ class MultiplayerGameScene: GameScene {
         }
     }
     
-    deinit {
+    private func registerObserverForPacmanDirection() {
+        pacman.addObserver(self, forKeyPath: "currentDirRaw", options: .New, context: &movableObjectContex)
+    }
+    
+    private func deregisterObserverForPacmanDirection() {
         pacman.removeObserver(self, forKeyPath: "currentDirRaw", context: &movableObjectContex)
+    }
+    
+    deinit {
+        deregisterObserverForPacmanDirection()
     }
     
     override func update(currentTime: CFTimeInterval) {
@@ -56,5 +64,21 @@ class MultiplayerGameScene: GameScene {
     func addPacman(playerName: String, pacman: PacMan) {
         otherPacmans[playerName] = pacman
         addChild(pacman)
+    }
+    
+    func getLocalPacman() -> PacMan {
+        let localPacman = pacman
+        return localPacman
+    }
+    
+    func updatePacman(forPlayer player: String, newPacman: PacMan) {
+        otherPacmans[player] = newPacman
+    }
+    
+    func updateLocalPacman(newPacman: PacMan) {
+        deregisterObserverForPacmanDirection()
+        pacman.position = newPacman.position
+        pacman.changeDirection(newPacman.currentDir)
+        registerObserverForPacmanDirection()
     }
 }
