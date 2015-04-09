@@ -258,7 +258,7 @@ extension GameScene: NSXMLParserDelegate {
                     let pacdot = PacDot(superSize: size)
                     addChild(pacdot)
                     pacdot.position = origin
-
+                    self.totalPacDots++
                     break
                 case "pacman":
                     // TODO Support multiplayer mode
