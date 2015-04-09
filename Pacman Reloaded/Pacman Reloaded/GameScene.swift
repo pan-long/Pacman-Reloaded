@@ -84,10 +84,12 @@ class GameScene: SKScene {
         /* Called before each frame is rendered */
         // Update directions of sprite nodes
         blinkyMovement.update()
+        pinkyMovement.update()
         
         // Update positions of sprite nodes
         pacman.update()
         blinky.update()
+        pinky.update()
         // Put the pacman in the center of the screen
         self.anchorPoint = CGPoint(x: 0.5 - pacman.position.x / Constants.IPadWidth,
             y: 0.5 - pacman.position.y / Constants.IPadHeight)
