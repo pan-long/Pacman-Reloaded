@@ -39,7 +39,14 @@ class AIMovementControl: MovementControl {
     
     func chaseUpdate() {
         let availableDirections = movableObject.getAvailableDirections()
-        var nextDirection = availableDirections[0]
+        var nextDirection: Direction
+
+        if availableDirections.isEmpty {
+            nextDirection = .None
+        } else {
+             nextDirection = availableDirections[0]
+        }
+
         var minDistanceToPacman: Double = 100000
         
         for direction in availableDirections {
@@ -63,7 +70,7 @@ class AIMovementControl: MovementControl {
         println("\(counter)")
         
         switch counter {
-        case 1...100:
+        case 5...100:
             scatterUpdate()
         case 101...400:
             chaseUpdate()
