@@ -9,7 +9,7 @@
 import Foundation
 import SpriteKit
 
-protocol GameSceneDelegate {
+protocol GameSceneDelegate: class {
     // Update the player's score
     func updateScore(score: Int, dotsLeft: Int)
 
