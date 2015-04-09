@@ -16,6 +16,7 @@ struct Constants {
     
     struct Ghost {
         static let speed = CGFloat(4)
+        static let defaultImageSuffix = "-right"
     }
     struct PacMan {
         static let Width = CGFloat(30)

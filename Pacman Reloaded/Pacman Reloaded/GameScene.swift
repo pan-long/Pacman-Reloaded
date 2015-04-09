@@ -20,7 +20,7 @@ class GameScene: SKScene {
     
     // Assume there is only one pacman for now.
     var pacman = PacMan()
-    var blinky = Ghost()
+    var blinky = Ghost(imageName: "ghost-red")
     var totalPacDots:Int = 0
 
     var pacmanMovement: GestureMovementControl!
