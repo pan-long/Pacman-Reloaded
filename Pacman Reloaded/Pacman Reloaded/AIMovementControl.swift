@@ -26,9 +26,11 @@ class AIMovementControl: MovementControl {
     
     func scatterUpdate() {
         let availableDirections = movableObject.getAvailableDirections()
-        let superDice = Int(arc4random_uniform(UInt32(availableDirections.count)))
-        
-        movableObject.changeDirection(availableDirections[superDice])
+        if availableDirections.count > 0 {
+            let superDice = Int(arc4random_uniform(UInt32(availableDirections.count)))
+
+            movableObject.changeDirection(availableDirections[superDice])
+        }
     }
     
     func getChaseTarget(visibleObject: MovableObject) -> CGPoint {
