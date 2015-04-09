@@ -27,6 +27,7 @@ struct Constants {
     struct PacDot {
         static let normalPacDotImage = "pacdot"
         static let superPacDotImage = "super-pacdot"
+        static let zPosition = CGFloat(-90)
     }
 
     struct Locale {
