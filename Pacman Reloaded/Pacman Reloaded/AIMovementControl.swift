@@ -63,7 +63,7 @@ class AIMovementControl: MovementControl {
         println("\(counter)")
         
         switch counter {
-        case 1...100:
+        case 2...100:
             scatterUpdate()
         case 101...400:
             chaseUpdate()
@@ -85,6 +85,18 @@ class AIMovementControl: MovementControl {
 
 class BlinkyAIMovememntControl: AIMovementControl {
     override func getChaseTarget(visibleObject: MovableObject) -> CGPoint {
+        return visibleObject.position
+    }
+}
+
+class PinkyAIMovementControl: AIMovementControl {
+    override func getChaseTarget(visibleObject: MovableObject) -> CGPoint {
+//        var chaseTarget: CGPoint
+//        switch visibleObject.currentDir {
+//        case .Up:
+//            return CGPoint(visibleObject.position.x + 3 * )
+//        }
+//        return chaseTarget: CGPoint
         return visibleObject.position
     }
 }

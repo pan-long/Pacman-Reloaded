@@ -20,11 +20,13 @@ class GameScene: SKScene {
     
     // Assume there is only one pacman for now.
     var pacman = PacMan()
-    var blinky = Ghost()
+    var blinky = Ghost(image: "ghost-red-special")
+    var pinky = Ghost(image: "ghost-yellow-special")
     var totalPacDots:Int = 0
 
     var pacmanMovement: GestureMovementControl!
     var blinkyMovement: MovementControl!
+    var pinkyMovement: MovementControl!
     
     
     // TODO Pass in the file name from map selection interface
@@ -42,6 +44,8 @@ class GameScene: SKScene {
         pacmanMovement.dataSource = self
         blinkyMovement = BlinkyAIMovememntControl(movableObject: blinky)
         blinkyMovement.dataSource = self
+        pinkyMovement = PinkyAIMovementControl(movableObject: pinky)
+        pinkyMovement.dataSource = self
         
         self.anchorPoint = CGPoint(x: 0.5 - pacman.position.x / Constants.IPadWidth,
             y: 0.5 - pacman.position.y / Constants.IPadHeight)
@@ -272,6 +276,10 @@ extension GameScene: NSXMLParserDelegate {
                     println("set up blinky")
                     
                     break
+                case "pinky":
+                    pinky.position = origin
+                    addChild(pinky)
+                    println("set up pinky")
                 default:
                     break
                 }
