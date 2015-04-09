@@ -41,6 +41,6 @@ class PacDot: Item {
         self.physicsBody?.collisionBitMask = 0
         self.physicsBody?.contactTestBitMask = GameObjectType.PacMan
 
-        self.zPosition = 90
+        self.zPosition = Constants.PacDot.zPosition
     }
 }

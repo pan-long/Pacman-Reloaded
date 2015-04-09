@@ -7,11 +7,14 @@
 //
 
 import Foundation
+import SpriteKit
 
 class Ghost: MovableObject {
-    
-    convenience init() {
-        self.init(image: "ghost-red-special")
+    private var imageName: String = ""
+
+    convenience init(imageName: String) {
+        self.init(image: imageName + Constants.Ghost.defaultImageSuffix)
+        self.imageName = imageName
         self.physicsBody?.categoryBitMask = GameObjectType.Ghost
         self.physicsBody?.contactTestBitMask = GameObjectType.PacMan | GameObjectType.Boundary
         self.physicsBody?.collisionBitMask = 0
@@ -22,4 +25,12 @@ class Ghost: MovableObject {
         
         self.currentSpeed = Constants.Ghost.speed
     }
+
+    override func changeDirection(newDirection: Direction) {
+        super.changeDirection(newDirection)
+        if self.currentDir != .None {
+            self.sprite.texture = SKTexture(imageNamed: self.imageName + "-" + self.currentDir.str.lowercaseString)
+        }
+    }
+
 }

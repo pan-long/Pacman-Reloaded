@@ -39,7 +39,14 @@ class AIMovementControl: MovementControl {
     
     func chaseUpdate() {
         let availableDirections = movableObject.getAvailableDirections()
-        var nextDirection = availableDirections[0]
+        var nextDirection: Direction
+
+        if availableDirections.isEmpty {
+            nextDirection = .None
+        } else {
+             nextDirection = availableDirections[0]
+        }
+
         var minDistanceToPacman: Double = 100000
         
         for direction in availableDirections {

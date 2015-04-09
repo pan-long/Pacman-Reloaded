@@ -20,8 +20,8 @@ class GameScene: SKScene {
     
     // Assume there is only one pacman for now.
     var pacman = PacMan()
-    var blinky = Ghost(image: "ghost-red-special")
-    var pinky = Ghost(image: "ghost-yellow-special")
+    var blinky = Ghost(imageName: "ghost-red")
+    var pinky = Ghost(imageName: "ghost-yellow")
     var totalPacDots:Int = 0
 
     var pacmanMovement: GestureMovementControl!
@@ -262,7 +262,7 @@ extension GameScene: NSXMLParserDelegate {
                     let pacdot = PacDot(superSize: size)
                     addChild(pacdot)
                     pacdot.position = origin
-
+                    self.totalPacDots++
                     break
                 case "pacman":
                     // TODO Support multiplayer mode
