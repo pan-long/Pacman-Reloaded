@@ -20,6 +20,9 @@ class GestureMovementControl: NSObject, MovementControl{
     func update() {
     }
     
+    func reset() {
+    }
+    
     func swipeLeft(sender: UISwipeGestureRecognizer) {
         movableObject.changeDirection(.Left)
     }

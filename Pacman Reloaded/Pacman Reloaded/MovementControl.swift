@@ -14,5 +14,10 @@ protocol MovementControl: class {
     weak var movableObject: MovableObject! { get set }
 
     init(movableObject: MovableObject)
+    
+    // Change the direction of movable object
     func update()
+    
+    // Reset the movement control
+    func reset()
 }
