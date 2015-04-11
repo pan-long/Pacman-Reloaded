@@ -42,4 +42,21 @@ struct Constants {
         static let NewGameTableCell = "newGame"
         static let NewGame = "newGame2"
     }
+    
+    struct GameScene {
+        static let GridWidth = CGFloat(50)
+        static let GridHeight = GridWidth
+        static let NumberOfRows = 20
+        static let NumberOfColumns = 20
+        
+        static let PacmanMaleTag = 10
+        static let PacmanFemaleTag = 20
+        static let InkyTag = 30
+        static let BlinkyTag = 40
+        static let PinkyTag = 50
+        static let ClydeTag = 60
+        
+        static let MaxNumberOfPacman = 8
+        static let MaxNumberOfGhosts = 8
+    }
 }
