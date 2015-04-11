@@ -12,10 +12,6 @@ class GamePopoverViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let navCtrl = UINavigationController(rootViewController: self)
-        navCtrl.pushViewController(self, animated: true)
-        navCtrl.navigationBar.topItem?.title = "Game Settings"
-        self.presentViewController(navCtrl, animated: true, completion: nil)
         
         // Add navigation bar.
 
