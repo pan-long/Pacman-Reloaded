@@ -7,6 +7,7 @@
 //
 
 import SpriteKit
+import Foundation
 
 struct Constants {
     static let gameResumeCountDownNumber = 3
@@ -17,8 +18,9 @@ struct Constants {
     struct Ghost {
         static let speed = CGFloat(4)
         static let defaultImageSuffix = "-right"
-        static let frightenedImageSuffix = "-special"
+        static let frightenedImage = "ghost-frightened"
         static let imageSeparator = "-"
+        static let FrightenModeDuration: NSTimeInterval = 10
     }
     struct PacMan {
         static let Width = CGFloat(30)

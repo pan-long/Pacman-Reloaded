@@ -25,7 +25,8 @@ class GameScene: SKScene {
     var inky = Ghost(imageName: "ghost-blue")
     var clyde = Ghost(imageName: "ghost-orange")
     var totalPacDots:Int = 0
-    
+    var frightenTimer: NSTimer?
+
     var pacmanMovement: GestureMovementControl!
     var blinkyMovement: MovementControl!
     var pinkyMovement: MovementControl!
@@ -186,6 +187,18 @@ extension GameScene: SKPhysicsContactDelegate {
     private func frightenGhost() {
         for ghost in ghosts {
             ghost.frightened = true
+        }
+        if let timer = frightenTimer {
+            timer.invalidate()
+        }
+
+        self.frightenTimer = NSTimer.scheduledTimerWithTimeInterval(Constants.Ghost.FrightenModeDuration,
+            target: self, selector: "endFrightenGhost:", userInfo: nil, repeats: false)
+    }
+
+    func endFrightenGhost(timer: NSTimer) {
+        for ghost in ghosts {
+            ghost.frightened = false
         }
     }
     

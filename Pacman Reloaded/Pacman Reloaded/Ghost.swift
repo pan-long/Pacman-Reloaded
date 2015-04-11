@@ -14,8 +14,11 @@ class Ghost: MovableObject {
 
     var frightened: Bool = false {
         didSet {
-            self.currentDir = self.currentDir.opposite
             updateTexture()
+            if frightened && oldValue == false {
+                // just frightened
+                self.currentDir = self.currentDir.opposite
+            }
         }
     }
 
@@ -41,9 +44,7 @@ class Ghost: MovableObject {
 
     private func updateTexture() {
         if self.frightened {
-            self.sprite.texture = SKTexture(imageNamed: self.imageName
-                + Constants.Ghost.imageSeparator
-                + Constants.Ghost.frightenedImageSuffix)
+            self.sprite.texture = SKTexture(imageNamed: Constants.Ghost.frightenedImage)
         } else if self.currentDir != .None {
             self.sprite.texture = SKTexture(imageNamed: self.imageName +
                 Constants.Ghost.imageSeparator +
