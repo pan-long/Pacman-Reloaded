@@ -25,7 +25,8 @@ class GameScene: SKScene {
     var inky = Ghost(imageName: "ghost-blue")
     var clyde = Ghost(imageName: "ghost-orange")
     var totalPacDots:Int = 0
-    
+    var frightenTimer: NSTimer?
+
     var pacmanMovement: GestureMovementControl!
     var blinkyMovement: MovementControl!
     var pinkyMovement: MovementControl!
@@ -169,12 +170,12 @@ extension GameScene: SKPhysicsContactDelegate {
         println("START")
     }
 
-    func handlePacDotEvent(pacdot: PacDot, pacman: PacMan) {
+    private func handlePacDotEvent(pacdot: PacDot, pacman: PacMan) {
         pacdot.removeFromParent()
         pacman.score++
         totalPacDots--
         if pacdot.isSuper {
-            println("super")
+            frightenGhost()
         }
         sceneDelegate.updateScore(pacman.score, dotsLeft: totalPacDots)
         if totalPacDots == 0 {
@@ -182,8 +183,26 @@ extension GameScene: SKPhysicsContactDelegate {
         }
         //self.runAction(AudioManager.pacdotSoundEffectAction())
     }
+
+    private func frightenGhost() {
+        for ghost in ghosts {
+            ghost.frightened = true
+        }
+        if let timer = frightenTimer {
+            timer.invalidate()
+        }
+
+        self.frightenTimer = NSTimer.scheduledTimerWithTimeInterval(Constants.Ghost.FrightenModeDuration,
+            target: self, selector: "endFrightenGhost:", userInfo: nil, repeats: false)
+    }
+
+    func endFrightenGhost(timer: NSTimer) {
+        for ghost in ghosts {
+            ghost.frightened = false
+        }
+    }
     
-    func handleSensorEvent(bodyA: SKNode?, bodyB: SKNode?, direction: Direction, start: Bool) {
+    private func handleSensorEvent(bodyA: SKNode?, bodyB: SKNode?, direction: Direction, start: Bool) {
         var sensor = SKNode()
         if let boundary = bodyA? as? Boundary {
             if let bodyB = bodyB {

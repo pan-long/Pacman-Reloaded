@@ -12,6 +12,17 @@ import SpriteKit
 class Ghost: MovableObject {
     private var imageName: String = ""
 
+    var frightened: Bool = false {
+        didSet {
+            updateTexture()
+            if frightened && oldValue == false {
+                // just frightened
+                self.currentDir = self.currentDir.opposite
+            }
+        }
+    }
+
+
     convenience init(imageName: String) {
         self.init(image: imageName + Constants.Ghost.defaultImageSuffix)
         self.imageName = imageName
@@ -28,8 +39,21 @@ class Ghost: MovableObject {
 
     override func changeDirection(newDirection: Direction) {
         super.changeDirection(newDirection)
-        if self.currentDir != .None {
-            self.sprite.texture = SKTexture(imageNamed: self.imageName + "-" + self.currentDir.str.lowercaseString)
+        updateTexture()
+    }
+
+    private func updateTexture() {
+        if self.frightened {
+            self.sprite.texture = SKTexture(imageNamed: Constants.Ghost.frightenedImage)
+        } else if self.currentDir != .None {
+            self.sprite.texture = SKTexture(imageNamed: self.imageName +
+                Constants.Ghost.imageSeparator +
+                self.currentDir.str.lowercaseString)
+        } else {
+            self.sprite.texture = SKTexture(imageNamed: self.imageName +
+                Constants.Ghost.imageSeparator +
+                Direction.Default.str.lowercaseString)
+
         }
     }
 
