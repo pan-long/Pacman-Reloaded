@@ -107,3 +107,15 @@ class PinkyAIMovementControl: AIMovementControl {
         return visibleObject.position
     }
 }
+
+class InkyAIMovememntControl: AIMovementControl {
+    override func getChaseTarget(visibleObject: MovableObject) -> CGPoint {
+        return visibleObject.position
+    }
+}
+
+class ClydeAIMovememntControl: AIMovementControl {
+    override func getChaseTarget(visibleObject: MovableObject) -> CGPoint {
+        return visibleObject.position
+    }
+}
