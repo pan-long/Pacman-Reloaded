@@ -93,8 +93,11 @@ class AIMovementControl: MovementControl {
         if isUpdateFrame() {
             let ghost = movableObject as Ghost
             
-            
-            // TODO: check frighten mode
+            // Ghost moves randomly when it's frightened
+            if ghost.frightened {
+                scatterUpdate()
+                return
+            }
             
             // If counter exceed indefinite chase -> chase update
             counter += 1
