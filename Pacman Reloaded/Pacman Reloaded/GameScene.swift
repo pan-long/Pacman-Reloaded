@@ -54,18 +54,14 @@ class GameScene: SKScene {
         pacmanMovement.dataSource = self
         
         blinkyMovement = BlinkyAIMovememntControl(movableObject: blinky)
-        blinkyMovement.dataSource = self
         pinkyMovement = PinkyAIMovementControl(movableObject: pinky)
-        pinkyMovement.dataSource = self
         inkyMovement = InkyAIMovememntControl(movableObject: inky)
-        inkyMovement.dataSource = self
         clydeMovement = ClydeAIMovememntControl(movableObject: clyde)
-        clydeMovement.dataSource = self
         
         ghostMovements = [blinkyMovement, pinkyMovement, inkyMovement, clydeMovement]
-//        for ghostMovement in ghostMovements {
-//            ghostMovement.dataSource = self
-//        }
+        for i in 0..<ghostMovements.count {
+            ghostMovements[i].dataSource = self
+        }
         
         self.anchorPoint = CGPoint(x: 0.5 - pacman.position.x / Constants.IPadWidth,
             y: 0.5 - pacman.position.y / Constants.IPadHeight)
