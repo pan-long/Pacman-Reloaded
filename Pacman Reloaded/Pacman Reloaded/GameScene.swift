@@ -156,13 +156,17 @@ extension GameScene: SKPhysicsContactDelegate {
         pacman.score++
         totalPacDots--
         if pacdot.isSuper {
-            println("super")
+            ghostFleeStart()
         }
         sceneDelegate.updateScore(pacman.score, dotsLeft: totalPacDots)
         if totalPacDots == 0 {
             self.sceneDelegate.gameDidEnd(self, didWin: true, score: pacman.score)
         }
         //self.runAction(AudioManager.pacdotSoundEffectAction())
+    }
+
+    private func ghostFleeStart() {
+
     }
     
     private func handleSensorEvent(bodyA: SKNode?, bodyB: SKNode?, direction: Direction, start: Bool) {
