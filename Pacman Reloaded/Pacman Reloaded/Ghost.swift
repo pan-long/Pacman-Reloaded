@@ -12,7 +12,7 @@ import SpriteKit
 class Ghost: MovableObject {
     private var imageName: String = ""
 
-    var fleeing: Bool = false {
+    var frightened: Bool = false {
         didSet {
             updateTexture()
         }
@@ -39,10 +39,10 @@ class Ghost: MovableObject {
     }
 
     private func updateTexture() {
-        if self.fleeing {
+        if self.frightened {
             self.sprite.texture = SKTexture(imageNamed: self.imageName
                 + Constants.Ghost.imageSeparator
-                + Constants.Ghost.fleeImageSuffix)
+                + Constants.Ghost.frightenedImageSuffix)
         } else if self.currentDir != .None {
             self.sprite.texture = SKTexture(imageNamed: self.imageName +
                 Constants.Ghost.imageSeparator +

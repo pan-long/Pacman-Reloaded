@@ -174,7 +174,7 @@ extension GameScene: SKPhysicsContactDelegate {
         pacman.score++
         totalPacDots--
         if pacdot.isSuper {
-            ghostFleeStart()
+            frightenGhost()
         }
         sceneDelegate.updateScore(pacman.score, dotsLeft: totalPacDots)
         if totalPacDots == 0 {
@@ -183,8 +183,10 @@ extension GameScene: SKPhysicsContactDelegate {
         //self.runAction(AudioManager.pacdotSoundEffectAction())
     }
 
-    private func ghostFleeStart() {
-
+    private func frightenGhost() {
+        for ghost in ghosts {
+            ghost.frightened = true
+        }
     }
     
     private func handleSensorEvent(bodyA: SKNode?, bodyB: SKNode?, direction: Direction, start: Bool) {
