@@ -14,18 +14,22 @@ enum GameNetworkDataType: Int {
     TYPE_PACMAN_SCORE = 2
 }
 
-class GameNetworkData: NSCoding {
+class GameNetworkData: NSData, NSCoding {
     let dataType: GameNetworkDataType
     
     init(type: GameNetworkDataType) {
         dataType = type
+        
+        super.init()
     }
     
     required init(coder aDecoder: NSCoder) {
         dataType = GameNetworkDataType(rawValue: aDecoder.decodeIntegerForKey("dataType"))!
+        
+        super.init(coder: aDecoder)
     }
     
-    func encodeWithCoder(aCoder: NSCoder) {
+    override func encodeWithCoder(aCoder: NSCoder) {
         aCoder.encodeInteger(dataType.rawValue, forKey: "dataType")
     }
 }
