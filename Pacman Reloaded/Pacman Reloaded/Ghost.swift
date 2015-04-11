@@ -14,6 +14,7 @@ class Ghost: MovableObject {
 
     var frightened: Bool = false {
         didSet {
+            self.currentDir = self.currentDir.opposite
             updateTexture()
         }
     }
