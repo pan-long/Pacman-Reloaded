@@ -8,6 +8,13 @@
 
 import Foundation
 
+struct GhostName {
+    let GHOST_NAME_BLINKY = "BLINKY"
+    let GHOST_NAME_CLYDE = "CLYDE"
+    let GHOST_NAME_INKY = "INKY"
+    let GHOST_NAME_PINKY = "PINKY"
+}
+
 class Ghost: MovableObject {
     
     convenience init() {
