@@ -14,7 +14,8 @@ struct Constants {
     
     static let IPadWidth = CGFloat(1024)
     static let IPadHeight = CGFloat(768)
-    
+    static let FrameInterval = 2
+
     struct Ghost {
         static let speed = CGFloat(4)
         static let defaultImageSuffix = "-right"
