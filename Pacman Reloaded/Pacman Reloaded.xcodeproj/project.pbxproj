@@ -23,6 +23,7 @@
 		6FD827CB1AB854530079147F /* PacMan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FD827CA1AB854530079147F /* PacMan.swift */; };
 		6FD827CD1AB854800079147F /* PacDot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FD827CC1AB854800079147F /* PacDot.swift */; };
 		6FD827CF1AB854EA0079147F /* Ghost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FD827CE1AB854EA0079147F /* Ghost.swift */; };
+		C540CFD11AD93306008C3D35 /* NetworkMovementControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = C540CFD01AD93306008C3D35 /* NetworkMovementControl.swift */; };
 		C59CB9521AD16C3B00E41CAE /* MultiplayerGameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C59CB9511AD16C3B00E41CAE /* MultiplayerGameScene.swift */; };
 		C59CB9541AD172C000E41CAE /* GameNetworkData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C59CB9531AD172C000E41CAE /* GameNetworkData.swift */; };
 		C59CB9561AD174A900E41CAE /* GameCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C59CB9551AD174A900E41CAE /* GameCenter.swift */; };
@@ -77,6 +78,7 @@
 		6FD827CA1AB854530079147F /* PacMan.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PacMan.swift; sourceTree = "<group>"; };
 		6FD827CC1AB854800079147F /* PacDot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PacDot.swift; sourceTree = "<group>"; };
 		6FD827CE1AB854EA0079147F /* Ghost.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ghost.swift; sourceTree = "<group>"; };
+		C540CFD01AD93306008C3D35 /* NetworkMovementControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkMovementControl.swift; sourceTree = "<group>"; };
 		C59CB9511AD16C3B00E41CAE /* MultiplayerGameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiplayerGameScene.swift; sourceTree = "<group>"; };
 		C59CB9531AD172C000E41CAE /* GameNetworkData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameNetworkData.swift; sourceTree = "<group>"; };
 		C59CB9551AD174A900E41CAE /* GameCenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameCenter.swift; sourceTree = "<group>"; };
@@ -286,6 +288,7 @@
 			children = (
 				FFD7AD461AD166E500EAB0FA /* GestureMovementControl.swift */,
 				FFD7AD481AD1671F00EAB0FA /* AIMovementControl.swift */,
+				C540CFD01AD93306008C3D35 /* NetworkMovementControl.swift */,
 			);
 			name = MovementControl;
 			sourceTree = "<group>";
@@ -409,6 +412,7 @@
 				C5C8D7221AB847E5005ACB47 /* GameScene.swift in Sources */,
 				6FD17C531AD16D8C001891F6 /* GameMenuViewController.swift in Sources */,
 				DC076DA91AD178D8004268B5 /* MultiplayerGameSettingViewController.swift in Sources */,
+				C540CFD11AD93306008C3D35 /* NetworkMovementControl.swift in Sources */,
 				C59CB9541AD172C000E41CAE /* GameNetworkData.swift in Sources */,
 				6F6D62F21ABC500400AF2E2A /* Utilities.swift in Sources */,
 				FFD7AD491AD1671F00EAB0FA /* AIMovementControl.swift in Sources */,
