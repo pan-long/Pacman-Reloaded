@@ -17,7 +17,8 @@ protocol MovementDataSource: class {
 class GameScene: SKScene {
 
     weak var sceneDelegate: GameSceneDelegate!
-    
+    weak var presentingView: SKView!
+
     // Initiate game objects
     var pacman = PacMan()
     var blinky = Ghost(imageName: "ghost-red")
@@ -32,8 +33,15 @@ class GameScene: SKScene {
     var pinkyMovement: MovementControl!
     var inkyMovement: MovementControl!
     var clydeMovement: MovementControl!
-    
-    
+
+    var swipeLeft: UISwipeGestureRecognizer!
+
+    var swipeRight: UISwipeGestureRecognizer!
+
+    var swipeUp: UISwipeGestureRecognizer!
+
+    var swipeDown: UISwipeGestureRecognizer!
+
     var ghosts: [Ghost]!
     var ghostMovements: [MovementControl]!
     
@@ -45,46 +53,56 @@ class GameScene: SKScene {
         physicsWorld.gravity = CGVectorMake(0, 0)
         physicsWorld.contactDelegate = self
         backgroundColor = SKColor.blackColor()
-
+        self.presentingView = view
+        initGameObjects()
         setupGameObjects()
-        
+
+        self.anchorPoint = CGPoint(x: 0.5 - pacman.position.x / Constants.IPadWidth,
+            y: 0.5 - pacman.position.y / Constants.IPadHeight)
+    }
+
+    private func initGameObjects() {
+        pacman = PacMan()
+        blinky = Ghost(imageName: "ghost-red")
+        pinky = Ghost(imageName: "ghost-yellow")
+        inky = Ghost(imageName: "ghost-blue")
+        clyde = Ghost(imageName: "ghost-orange")
+        totalPacDots = 0
+
         ghosts = [blinky, pinky, inky, clyde]
-        
+
         // Set up movemnt control
         pacmanMovement = GestureMovementControl(movableObject: pacman)
         pacmanMovement.dataSource = self
-        
+
         blinkyMovement = BlinkyAIMovememntControl(movableObject: blinky)
         pinkyMovement = PinkyAIMovementControl(movableObject: pinky)
         inkyMovement = InkyAIMovememntControl(movableObject: inky)
         clydeMovement = ClydeAIMovememntControl(movableObject: clyde)
-        
+
         ghostMovements = [blinkyMovement, pinkyMovement, inkyMovement, clydeMovement]
         for i in 0..<ghostMovements.count {
             ghostMovements[i].dataSource = self
         }
-        
-        self.anchorPoint = CGPoint(x: 0.5 - pacman.position.x / Constants.IPadWidth,
-            y: 0.5 - pacman.position.y / Constants.IPadHeight)
-        
-        var swipeLeft: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: pacmanMovement, action: "swipeLeft:")
+
+        swipeLeft = UISwipeGestureRecognizer(target: pacmanMovement, action: "swipeLeft:")
         swipeLeft.direction = .Left
-        view.addGestureRecognizer(swipeLeft)
-        
-        var swipeRight: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: pacmanMovement, action: "swipeRight:")
+        self.presentingView.addGestureRecognizer(swipeLeft)
+
+        swipeRight = UISwipeGestureRecognizer(target: pacmanMovement, action: "swipeRight:")
         swipeRight.direction = .Right
-        view.addGestureRecognizer(swipeRight)
-        
-        var swipeUp: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: pacmanMovement, action: "swipeUp:")
+        self.presentingView.addGestureRecognizer(swipeRight)
+
+        swipeUp = UISwipeGestureRecognizer(target: pacmanMovement, action: "swipeUp:")
         swipeUp.direction = .Up
-        view.addGestureRecognizer(swipeUp)
-        
-        var swipeDown: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: pacmanMovement, action: "swipeDown:")
+        self.presentingView.addGestureRecognizer(swipeUp)
+
+        swipeDown = UISwipeGestureRecognizer(target: pacmanMovement, action: "swipeDown:")
         swipeDown.direction = .Down
-        view.addGestureRecognizer(swipeDown)
+        self.presentingView.addGestureRecognizer(swipeDown)
     }
 
-    func setupGameObjects() {
+    private func setupGameObjects() {
         if let fileName = TMXFileName {
             println("Loading game map from TMX file...")
 
@@ -95,6 +113,25 @@ class GameScene: SKScene {
 
             parseTMXFileWithName(fileName)
         }
+    }
+
+
+    func gameOver(didWin: Bool) {
+        self.sceneDelegate.gameDidEnd(self, didWin: didWin, score: pacman.score)
+    }
+
+    func restart() {
+        if frightenTimer != nil {
+            self.frightenTimer!.invalidate()
+            self.frightenTimer = nil
+        }
+
+        initGameObjects()
+        setupGameObjects()
+
+        sceneDelegate.updateScore(pacman.score, dotsLeft: totalPacDots)
+
+        println("START")
     }
 
     override func update(currentTime: CFTimeInterval) {
@@ -156,20 +193,6 @@ extension GameScene: SKPhysicsContactDelegate {
         }
     }
 
-    func gameOver(didWin: Bool) {
-        self.sceneDelegate.gameDidEnd(self, didWin: didWin, score: pacman.score)
-    }
-
-    func restart() {
-        pacman.reset()
-        blinky.reset()
-
-        setupGameObjects()
-        sceneDelegate.updateScore(pacman.score, dotsLeft: totalPacDots)
-
-        println("START")
-    }
-
     private func handlePacDotEvent(pacdot: PacDot, pacman: PacMan) {
         pacdot.removeFromParent()
         pacman.score++
@@ -188,8 +211,9 @@ extension GameScene: SKPhysicsContactDelegate {
         for ghost in ghosts {
             ghost.frightened = true
         }
-        if let timer = frightenTimer {
-            timer.invalidate()
+        if frightenTimer != nil {
+            self.frightenTimer!.invalidate()
+            self.frightenTimer = nil
         }
 
         self.frightenTimer = NSTimer.scheduledTimerWithTimeInterval(Constants.Ghost.FrightenModeDuration,
