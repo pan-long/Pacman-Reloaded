@@ -9,7 +9,7 @@
 import SpriteKit
 import AVFoundation
 
-protocol MovementDataSource {
+protocol MovementDataSource: class {
     func getVisibleObjects() -> [MovableObject]
 }
 

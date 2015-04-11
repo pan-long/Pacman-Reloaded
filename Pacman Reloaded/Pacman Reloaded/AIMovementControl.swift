@@ -18,8 +18,8 @@ class AIMovementControl: MovementControl {
     private let CHASE_MODE_DURATION = 400
     private let SCATTER_MODE_DURATION = 200
     
-    private let movableObject: MovableObject!
-    var dataSource: MovementDataSource!
+    weak var movableObject: MovableObject!
+    weak var dataSource: MovementDataSource!
     
     private var counter = 1
     private var currentMode = MovementMode.Scatter
