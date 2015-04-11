@@ -138,13 +138,34 @@ class BlinkyAIMovememntControl: AIMovementControl {
 
 class PinkyAIMovementControl: AIMovementControl {
     override func getChaseTarget(visibleObject: MovableObject) -> CGPoint {
-//        var chaseTarget: CGPoint
-//        switch visibleObject.currentDir {
-//        case .Up:
-//            return CGPoint(visibleObject.position.x + 3 * )
-//        }
-//        return chaseTarget: CGPoint
-        return visibleObject.position
+        var chaseTarget: CGPoint
+        let targetSpeed = visibleObject.currentSpeed
+        let targetDir = visibleObject.currentDir != .None ?
+            visibleObject.currentDir : visibleObject.previousDir
+        
+        switch visibleObject.currentDir {
+        case .Up:
+            chaseTarget = CGPoint(
+                x: visibleObject.position.x - 4 * targetSpeed,
+                y: visibleObject.position.y + 4 * targetSpeed
+            )
+        case .Down:
+            chaseTarget = CGPoint(
+                x: visibleObject.position.x,
+                y: visibleObject.position.y - 4 * targetSpeed
+            )
+        case .Left:
+            chaseTarget = CGPoint(
+                x: visibleObject.position.x - 4 * targetSpeed,
+                y: visibleObject.position.y
+            )
+        default:
+            chaseTarget = CGPoint(
+                x: visibleObject.position.x + 4 * targetSpeed,
+                y: visibleObject.position.y
+            )
+        }
+        return chaseTarget
     }
 }
 
