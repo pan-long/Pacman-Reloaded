@@ -162,7 +162,14 @@ extension GameScene: SKPhysicsContactDelegate {
 
     func restart() {
         pacman.reset()
-        blinky.reset()
+        
+        for ghost in ghosts {
+            ghost.reset()
+        }
+        
+        for i in 0..<ghostMovements.count {
+            ghostMovements[i].reset()
+        }
 
         setupGameObjects()
         sceneDelegate.updateScore(pacman.score, dotsLeft: totalPacDots)

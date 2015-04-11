@@ -13,7 +13,12 @@ protocol MovementControl {
     var dataSource: MovementDataSource! { get set }
     
     init(movableObject: MovableObject)
+    
+    // Change the direction of movable object
     func update()
+    
+    // Reset the movement control
+    func reset()
 }
 
 

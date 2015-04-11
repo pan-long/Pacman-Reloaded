@@ -82,6 +82,13 @@ class AIMovementControl: MovementControl {
         return shouldUpdate
     }
     
+    func reset() {
+        counter = 1
+        currentMode = MovementMode.Scatter
+        currentModeDuration = 0
+        shouldUpdate = true
+    }
+    
     func update() {
         if isUpdateFrame() {
             let ghost = movableObject as Ghost
