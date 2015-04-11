@@ -9,10 +9,22 @@
 import Foundation
 import SpriteKit
 
+enum MovementMode {
+    case Chase, Scatter, Frightened
+}
+
 class AIMovementControl: MovementControl {
+    private let INDEFINITE_CHASE = 2800
+    private let CHASE_MODE_DURATION = 400
+    private let SCATTER_MODE_DURATION = 200
+    
     private let movableObject: MovableObject!
     var dataSource: MovementDataSource!
-    var counter = 0
+    
+    private var counter = 1
+    private var currentMode = MovementMode.Scatter
+    private var currentModeDuration = 0
+    private var shouldUpdate = true
     
     required init(movableObject: MovableObject) {
         self.movableObject = movableObject
@@ -64,28 +76,46 @@ class AIMovementControl: MovementControl {
         
         movableObject.changeDirection(nextDirection)
     }
+
+    private func isUpdateFrame() -> Bool {
+        shouldUpdate = !shouldUpdate
+        return shouldUpdate
+    }
     
     func update() {
-        counter += 1
-        println("\(counter)")
-        
-        switch counter {
-        case 2...100:
-            scatterUpdate()
-        case 101...400:
-            chaseUpdate()
-        case 401...500:
-            scatterUpdate()
-        case 501...800:
-            chaseUpdate()
-        case 801...870:
-            scatterUpdate()
-        case 871...1500:
-            chaseUpdate()
-        case 1501...1570:
-            scatterUpdate()
-        default:
-            chaseUpdate()
+        if isUpdateFrame() {
+            let ghost = movableObject as Ghost
+            
+            
+            // TODO: check frighten mode
+            
+            // If counter exceed indefinite chase -> chase update
+            counter += 1
+            if counter >= INDEFINITE_CHASE {
+                chaseUpdate()
+            }
+            
+            // Update movable object's direction
+            switch currentMode {
+            case .Scatter:
+                scatterUpdate()
+                currentModeDuration += 1
+                if currentModeDuration >= SCATTER_MODE_DURATION {
+                    println("Chase Mode")
+                    currentMode = .Chase
+                    currentModeDuration = 0
+                }
+            case .Chase:
+                chaseUpdate()
+                currentModeDuration += 1
+                if currentModeDuration >= CHASE_MODE_DURATION {
+                    println("Scatter Mode")
+                    currentMode = .Scatter
+                    currentModeDuration = 0
+                }
+            default:
+                break
+            }
         }
     }
 }
