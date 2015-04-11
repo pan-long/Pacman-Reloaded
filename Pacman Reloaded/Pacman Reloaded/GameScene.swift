@@ -18,15 +18,24 @@ class GameScene: SKScene {
 
     weak var sceneDelegate: GameSceneDelegate!
     
-    // Assume there is only one pacman for now.
+    // Initiate game objects
     var pacman = PacMan()
     var blinky = Ghost(imageName: "ghost-red")
     var pinky = Ghost(imageName: "ghost-yellow")
+    var inky = Ghost(imageName: "ghost-blue")
+    var clyde = Ghost(imageName: "ghost-orange")
     var totalPacDots:Int = 0
+    var frightenTimer: NSTimer?
 
     var pacmanMovement: GestureMovementControl!
     var blinkyMovement: MovementControl!
     var pinkyMovement: MovementControl!
+    var inkyMovement: MovementControl!
+    var clydeMovement: MovementControl!
+    
+    
+    var ghosts: [Ghost]!
+    var ghostMovements: [MovementControl]!
     
     
     // TODO Pass in the file name from map selection interface
@@ -38,14 +47,22 @@ class GameScene: SKScene {
         backgroundColor = SKColor.blackColor()
 
         setupGameObjects()
-
+        
+        ghosts = [blinky, pinky, inky, clyde]
+        
         // Set up movemnt control
         pacmanMovement = GestureMovementControl(movableObject: pacman)
         pacmanMovement.dataSource = self
+        
         blinkyMovement = BlinkyAIMovememntControl(movableObject: blinky)
-        blinkyMovement.dataSource = self
         pinkyMovement = PinkyAIMovementControl(movableObject: pinky)
-        pinkyMovement.dataSource = self
+        inkyMovement = InkyAIMovememntControl(movableObject: inky)
+        clydeMovement = ClydeAIMovememntControl(movableObject: clyde)
+        
+        ghostMovements = [blinkyMovement, pinkyMovement, inkyMovement, clydeMovement]
+        for i in 0..<ghostMovements.count {
+            ghostMovements[i].dataSource = self
+        }
         
         self.anchorPoint = CGPoint(x: 0.5 - pacman.position.x / Constants.IPadWidth,
             y: 0.5 - pacman.position.y / Constants.IPadHeight)
@@ -83,13 +100,15 @@ class GameScene: SKScene {
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
         // Update directions of sprite nodes
-        blinkyMovement.update()
-        pinkyMovement.update()
+        for ghostMovement in ghostMovements {
+            ghostMovement.update()
+        }
         
         // Update positions of sprite nodes
         pacman.update()
-        blinky.update()
-        pinky.update()
+        for ghost in ghosts {
+            ghost.update()
+        }
         // Put the pacman in the center of the screen
         self.anchorPoint = CGPoint(x: 0.5 - pacman.position.x / Constants.IPadWidth,
             y: 0.5 - pacman.position.y / Constants.IPadHeight)
@@ -156,7 +175,7 @@ extension GameScene: SKPhysicsContactDelegate {
         pacman.score++
         totalPacDots--
         if pacdot.isSuper {
-            ghostFleeStart()
+            frightenGhost()
         }
         sceneDelegate.updateScore(pacman.score, dotsLeft: totalPacDots)
         if totalPacDots == 0 {
@@ -165,8 +184,22 @@ extension GameScene: SKPhysicsContactDelegate {
         //self.runAction(AudioManager.pacdotSoundEffectAction())
     }
 
-    private func ghostFleeStart() {
+    private func frightenGhost() {
+        for ghost in ghosts {
+            ghost.frightened = true
+        }
+        if let timer = frightenTimer {
+            timer.invalidate()
+        }
 
+        self.frightenTimer = NSTimer.scheduledTimerWithTimeInterval(Constants.Ghost.FrightenModeDuration,
+            target: self, selector: "endFrightenGhost:", userInfo: nil, repeats: false)
+    }
+
+    func endFrightenGhost(timer: NSTimer) {
+        for ghost in ghosts {
+            ghost.frightened = false
+        }
     }
     
     private func handleSensorEvent(bodyA: SKNode?, bodyB: SKNode?, direction: Direction, start: Bool) {
@@ -286,6 +319,20 @@ extension GameScene: NSXMLParserDelegate {
                     pinky.position = origin
                     addChild(pinky)
                     println("set up pinky")
+                    
+                    break
+                case "inky":
+                    inky.position = origin
+                    addChild(inky)
+                    println("set up inky")
+                    
+                    break
+                case "clyde":
+                    clyde.position = origin
+                    addChild(clyde)
+                    println("set up clyde")
+                    
+                    break
                 default:
                     break
                 }
