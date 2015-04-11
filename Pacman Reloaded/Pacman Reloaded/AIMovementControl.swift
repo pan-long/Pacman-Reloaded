@@ -26,9 +26,11 @@ class AIMovementControl: MovementControl {
     
     func scatterUpdate() {
         let availableDirections = movableObject.getAvailableDirections()
-        let superDice = Int(arc4random_uniform(UInt32(availableDirections.count)))
-        
-        movableObject.changeDirection(availableDirections[superDice])
+        if availableDirections.count > 0 {
+            let superDice = Int(arc4random_uniform(UInt32(availableDirections.count)))
+
+            movableObject.changeDirection(availableDirections[superDice])
+        }
     }
     
     func getChaseTarget(visibleObject: MovableObject) -> CGPoint {
@@ -37,7 +39,14 @@ class AIMovementControl: MovementControl {
     
     func chaseUpdate() {
         let availableDirections = movableObject.getAvailableDirections()
-        var nextDirection = availableDirections[0]
+        var nextDirection: Direction
+
+        if availableDirections.isEmpty {
+            nextDirection = .None
+        } else {
+             nextDirection = availableDirections[0]
+        }
+
         var minDistanceToPacman: Double = 100000
         
         for direction in availableDirections {
@@ -61,7 +70,7 @@ class AIMovementControl: MovementControl {
         println("\(counter)")
         
         switch counter {
-        case 1...100:
+        case 2...100:
             scatterUpdate()
         case 101...400:
             chaseUpdate()
@@ -83,6 +92,18 @@ class AIMovementControl: MovementControl {
 
 class BlinkyAIMovememntControl: AIMovementControl {
     override func getChaseTarget(visibleObject: MovableObject) -> CGPoint {
+        return visibleObject.position
+    }
+}
+
+class PinkyAIMovementControl: AIMovementControl {
+    override func getChaseTarget(visibleObject: MovableObject) -> CGPoint {
+//        var chaseTarget: CGPoint
+//        switch visibleObject.currentDir {
+//        case .Up:
+//            return CGPoint(visibleObject.position.x + 3 * )
+//        }
+//        return chaseTarget: CGPoint
         return visibleObject.position
     }
 }

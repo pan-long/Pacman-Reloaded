@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SpriteKit
 
 struct GhostName {
     let GHOST_NAME_BLINKY = "BLINKY"
@@ -16,9 +17,18 @@ struct GhostName {
 }
 
 class Ghost: MovableObject {
-    
-    convenience init() {
-        self.init(image: "ghost-red-special")
+    private var imageName: String = ""
+
+    var fleeing: Bool = false {
+        didSet {
+            updateTexture()
+        }
+    }
+
+
+    convenience init(imageName: String) {
+        self.init(image: imageName + Constants.Ghost.defaultImageSuffix)
+        self.imageName = imageName
         self.physicsBody?.categoryBitMask = GameObjectType.Ghost
         self.physicsBody?.contactTestBitMask = GameObjectType.PacMan | GameObjectType.Boundary
         self.physicsBody?.collisionBitMask = 0
@@ -29,4 +39,27 @@ class Ghost: MovableObject {
         
         self.currentSpeed = Constants.Ghost.speed
     }
+
+    override func changeDirection(newDirection: Direction) {
+        super.changeDirection(newDirection)
+        updateTexture()
+    }
+
+    private func updateTexture() {
+        if self.fleeing {
+            self.sprite.texture = SKTexture(imageNamed: self.imageName
+                + Constants.Ghost.imageSeparator
+                + Constants.Ghost.fleeImageSuffix)
+        } else if self.currentDir != .None {
+            self.sprite.texture = SKTexture(imageNamed: self.imageName +
+                Constants.Ghost.imageSeparator +
+                self.currentDir.str.lowercaseString)
+        } else {
+            self.sprite.texture = SKTexture(imageNamed: self.imageName +
+                Constants.Ghost.imageSeparator +
+                Direction.Default.str.lowercaseString)
+
+        }
+    }
+
 }

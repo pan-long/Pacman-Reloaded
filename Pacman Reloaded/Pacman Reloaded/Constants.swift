@@ -16,6 +16,9 @@ struct Constants {
     
     struct Ghost {
         static let speed = CGFloat(4)
+        static let defaultImageSuffix = "-right"
+        static let fleeImageSuffix = "-special"
+        static let imageSeparator = "-"
     }
     struct PacMan {
         static let Width = CGFloat(30)
@@ -26,6 +29,7 @@ struct Constants {
     struct PacDot {
         static let normalPacDotImage = "pacdot"
         static let superPacDotImage = "super-pacdot"
+        static let zPosition = CGFloat(-90)
     }
 
     struct Locale {

@@ -31,6 +31,16 @@ class PacMan: MovableObject {
         super.reset()
     }
 
+    override func changeDirection(newDirection: Direction) {
+        super.changeDirection(newDirection)
+        self.sprite.zRotation = CGFloat(currentDir.getRotation())
+        if currentDir == .Left {
+            self.sprite.yScale = -1
+        } else {
+            self.sprite.yScale = 1
+        }
+    }
+
     func setupAnimationSequence() {
         var atlas = SKTextureAtlas(named: "pacman-female")
         var textures: [SKTexture] = []

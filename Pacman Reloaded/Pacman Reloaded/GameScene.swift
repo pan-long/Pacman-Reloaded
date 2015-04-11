@@ -20,11 +20,13 @@ class GameScene: SKScene {
     
     // Assume there is only one pacman for now.
     var pacman = PacMan()
-    var blinky = Ghost()
+    var blinky = Ghost(imageName: "ghost-red")
+    var pinky = Ghost(imageName: "ghost-yellow")
     var totalPacDots:Int = 0
 
     var pacmanMovement: GestureMovementControl!
     var blinkyMovement: MovementControl!
+    var pinkyMovement: MovementControl!
     
     
     // TODO Pass in the file name from map selection interface
@@ -42,6 +44,8 @@ class GameScene: SKScene {
         pacmanMovement.dataSource = self
         blinkyMovement = BlinkyAIMovememntControl(movableObject: blinky)
         blinkyMovement.dataSource = self
+        pinkyMovement = PinkyAIMovementControl(movableObject: pinky)
+        pinkyMovement.dataSource = self
         
         self.anchorPoint = CGPoint(x: 0.5 - pacman.position.x / Constants.IPadWidth,
             y: 0.5 - pacman.position.y / Constants.IPadHeight)
@@ -80,10 +84,12 @@ class GameScene: SKScene {
         /* Called before each frame is rendered */
         // Update directions of sprite nodes
         blinkyMovement.update()
+        pinkyMovement.update()
         
         // Update positions of sprite nodes
         pacman.update()
         blinky.update()
+        pinky.update()
         // Put the pacman in the center of the screen
         self.anchorPoint = CGPoint(x: 0.5 - pacman.position.x / Constants.IPadWidth,
             y: 0.5 - pacman.position.y / Constants.IPadHeight)
@@ -258,7 +264,7 @@ extension GameScene: NSXMLParserDelegate {
                     let pacdot = PacDot(superSize: size)
                     addChild(pacdot)
                     pacdot.position = origin
-
+                    self.totalPacDots++
                     break
                 case "pacman":
                     // TODO Support multiplayer mode
@@ -272,6 +278,10 @@ extension GameScene: NSXMLParserDelegate {
                     println("set up blinky")
                     
                     break
+                case "pinky":
+                    pinky.position = origin
+                    addChild(pinky)
+                    println("set up pinky")
                 default:
                     break
                 }
