@@ -12,21 +12,23 @@ class GameLevelDesignerCollectionViewLayout: UICollectionViewLayout {
     
     let width = Double(Constants.GameScene.GridWidth)
     let height = Double(Constants.GameScene.GridHeight)
+    let rows = Double(Constants.GameScene.NumberOfRows)
+    let columns = Double(Constants.GameScene.NumberOfColumns)
     
     override func prepareLayout() {
         super.prepareLayout()
     }
     
     override func collectionViewContentSize() -> CGSize {
-        let rows = Double(Constants.GameScene.NumberOfRows)
-        let columns = Double(Constants.GameScene.NumberOfColumns)
         return CGSize(width: columns * width, height: rows * height)
     }
     
     override func layoutAttributesForItemAtIndexPath(indexPath: NSIndexPath) -> UICollectionViewLayoutAttributes! {
         var attr = UICollectionViewLayoutAttributes(forCellWithIndexPath: indexPath)
-        attr.center = CGPoint(x: width * (Double(indexPath.row) + 0.5),
-            y: height * (Double(indexPath.section) + 0.5))
+        let row: Int = indexPath.section
+        let column: Int = indexPath.row
+        attr.center = CGPoint(x: width * (Double(column) + 0.5),
+            y: height * (Double(row) + 0.5))
         attr.size = CGSize(width: width, height: height)
         return attr
     }

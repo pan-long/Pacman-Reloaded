@@ -12,6 +12,7 @@ class GameLevelDesignGridCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        self.layer.borderColor = UIColor.grayColor().CGColor
         self.layer.borderWidth = 0.3
     }
 

@@ -47,10 +47,10 @@ struct Constants {
     }
     
     struct GameScene {
-        static let GridWidth = CGFloat(50)
+        static let GridWidth = CGFloat(40)
         static let GridHeight = GridWidth
         static let NumberOfRows = 20
-        static let NumberOfColumns = 20
+        static let NumberOfColumns = 30
         
         static let PacmanMaleTag = 10
         static let PacmanFemaleTag = 20
@@ -58,6 +58,8 @@ struct Constants {
         static let BlinkyTag = 40
         static let PinkyTag = 50
         static let ClydeTag = 60
+        static let WallTag = 70
+        static let EraserTag = 1000
         
         static let MaxNumberOfPacman = 8
         static let MaxNumberOfGhosts = 8
