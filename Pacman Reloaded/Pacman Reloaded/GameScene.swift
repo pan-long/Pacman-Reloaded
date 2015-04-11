@@ -151,7 +151,7 @@ extension GameScene: SKPhysicsContactDelegate {
         println("START")
     }
 
-    func handlePacDotEvent(pacdot: PacDot, pacman: PacMan) {
+    private func handlePacDotEvent(pacdot: PacDot, pacman: PacMan) {
         pacdot.removeFromParent()
         pacman.score++
         totalPacDots--
@@ -165,7 +165,7 @@ extension GameScene: SKPhysicsContactDelegate {
         //self.runAction(AudioManager.pacdotSoundEffectAction())
     }
     
-    func handleSensorEvent(bodyA: SKNode?, bodyB: SKNode?, direction: Direction, start: Bool) {
+    private func handleSensorEvent(bodyA: SKNode?, bodyB: SKNode?, direction: Direction, start: Bool) {
         var sensor = SKNode()
         if let boundary = bodyA? as? Boundary {
             if let bodyB = bodyB {
