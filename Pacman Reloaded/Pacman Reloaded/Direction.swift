@@ -11,6 +11,8 @@ import Foundation
 enum Direction {
     case Up, Down, Left, Right, None
 
+    static var Default: Direction = .Right
+
     func getRotation() -> Double {
         switch self {
         case .Right:
