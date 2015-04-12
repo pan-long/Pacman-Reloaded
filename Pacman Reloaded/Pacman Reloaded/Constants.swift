@@ -16,10 +16,16 @@ struct Constants {
     static let IPadHeight = CGFloat(768)
     static let FrameInterval = 2
 
+    struct Score {
+        static let PacDot = 1
+        static let Ghost = 10
+    }
+
     struct Ghost {
         static let speed = CGFloat(4)
         static let defaultImageSuffix = "-right"
         static let frightenedImage = "ghost-frightened"
+        static let eatedImage = "ghost-eyes"
         static let imageSeparator = "-"
         static let FrightenModeDuration: NSTimeInterval = 10
     }
@@ -59,6 +65,8 @@ struct Constants {
         static let PinkyTag = 50
         static let ClydeTag = 60
         static let WallTag = 70
+        static let PacdotTag = 80
+        static let SuperPacdotTag = 90
         static let EraserTag = 1000
         
         static let MaxNumberOfPacman = 8

@@ -9,7 +9,8 @@
 import Foundation
 
 enum GameDesignType: Int {
-    case None = -1, PacmanMale, PacmanFemale, Inky, Blinky, Pinky, Clyde, Wall, Eraser
+    case None = -1, PacmanMale, PacmanFemale, Inky, Blinky, Pinky, Clyde,
+        Wall, Pacdot, SuperPacdot, Eraser
     
     var image: String? {
         switch self {
@@ -25,8 +26,10 @@ enum GameDesignType: Int {
             return "ghost-yellow-left"
         case .Clyde:
             return "ghost-orange-left"
-        case .Wall:
-            return "wall"
+        case .Pacdot:
+            return "pacdot"
+        case .SuperPacdot:
+            return "super-pacdot-design"
         default:
             return nil
         }

@@ -19,6 +19,8 @@ class GameLevelDesignViewController: UIViewController {
     @IBOutlet weak var arrowDown: UIButton!
     @IBOutlet weak var arrowLeft: UIButton!
     @IBOutlet weak var arrowRight: UIButton!
+    private var arrowHolding: UIButton?
+    private var arrowTimer: NSTimer?
     
     private let cellIdentifier = "levelDesignGrid"
     private var selected = GameDesignType.None
@@ -44,6 +46,8 @@ class GameLevelDesignViewController: UIViewController {
         // Initially the left and up arrows should be hidden.
         arrowUp.hidden = true
         arrowLeft.hidden = true
+        arrowTimer = NSTimer.scheduledTimerWithTimeInterval(0.2, target: self,
+                selector: "handleArrowLongPressing:", userInfo: nil, repeats: true)
     }
     
     override func didReceiveMemoryWarning() {
@@ -57,11 +61,13 @@ class GameLevelDesignViewController: UIViewController {
             allButtons[i].alpha = 0.5
         }
     }
-}
-
-
-extension GameLevelDesignViewController: UICollectionViewDelegate {
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    
+    private func setCellToSelected(indexPath: NSIndexPath) {
+        setCellToSelected(designArea, indexPath: indexPath)
+        
+    }
+    
+    private func setCellToSelected(collectionView: UICollectionView, indexPath: NSIndexPath) {
         let cell = collectionView.cellForItemAtIndexPath(indexPath) as GameLevelDesignGridCell
         if selected.isPacman {
             if numberOfPacmans >= Constants.GameScene.MaxNumberOfPacman {
@@ -89,13 +95,17 @@ extension GameLevelDesignViewController: UICollectionViewDelegate {
         
         if selected == .None {
             cellMappings.removeValueForKey(indexPath)
-        } else if selected == .Wall {
-            // Wall is handled separately
-            return
         } else {
             cellMappings[indexPath] = selected
         }
         cell.setType(selected)
+    }
+}
+
+
+extension GameLevelDesignViewController: UICollectionViewDelegate {
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        setCellToSelected(collectionView, indexPath: indexPath)
     }
 }
 
@@ -120,7 +130,6 @@ extension GameLevelDesignViewController: UICollectionViewDataSource {
 }
 
 extension GameLevelDesignViewController {
-    // Handle clicking on the buttons.
     @IBAction func designButtonClicked(sender: AnyObject) {
         if let button = sender as? UIButton {
             switch button.tag {
@@ -143,8 +152,13 @@ extension GameLevelDesignViewController {
                 selected = GameDesignType.Clyde
                 break
             case Constants.GameScene.WallTag:
-                // Handle wall separately
                 selected = GameDesignType.Wall
+                break
+            case Constants.GameScene.PacdotTag:
+                selected = GameDesignType.Pacdot
+                break
+            case Constants.GameScene.SuperPacdotTag:
+                selected = GameDesignType.SuperPacdot
                 break
             case Constants.GameScene.EraserTag:
                 selected = GameDesignType.None
@@ -153,11 +167,24 @@ extension GameLevelDesignViewController {
                 break
             }
             unselectAllButtons()
-            button.alpha = 1
+            button.alpha = 1 // TODO Refactor
         }
     }
     
-    @IBAction func arrowClicked(sender: AnyObject) {
+    @IBAction func handlePanGesture(sender: UIPanGestureRecognizer) {
+        // Pan gesture is only applicable to these three types
+        if selected == .Wall || selected == .Pacdot || selected == .None {
+            let currentPosition = sender.locationInView(designArea)
+            if let indexPath = designArea.indexPathForItemAtPoint(currentPosition) {
+                setCellToSelected(indexPath)
+            }
+        }
+    }
+}
+
+// This extension deals with the arrows.
+extension GameLevelDesignViewController {
+    func moveDesignArea(toDirection arrow: UIButton) {
         let visibleItems = designArea.indexPathsForVisibleItems()
             .sorted({ (o1: AnyObject, o2: AnyObject) -> Bool in
                 // Since the list of visible items is unsorted
@@ -177,7 +204,6 @@ extension GameLevelDesignViewController {
         let lastItem = visibleItems.last as NSIndexPath
         var nextItem: NSIndexPath
         
-        let arrow = sender as UIButton
         switch arrow {
         case arrowUp:
             if firstItem.section == 0 {
@@ -200,7 +226,7 @@ extension GameLevelDesignViewController {
             } else {
                 nextItem = NSIndexPath(forRow: lastItem.row, inSection: lastItem.section + 1)
                 designArea.scrollToItemAtIndexPath(nextItem, atScrollPosition: .Bottom, animated: true)
-
+                
                 arrowUp.hidden = false
                 if nextItem.section == Constants.GameScene.NumberOfRows - 1 {
                     arrowDown.hidden = true
@@ -215,7 +241,7 @@ extension GameLevelDesignViewController {
             } else {
                 nextItem = NSIndexPath(forRow: firstItem.row - 1, inSection: firstItem.section)
                 designArea.scrollToItemAtIndexPath(nextItem, atScrollPosition: .Left, animated: true)
-
+                
                 arrowRight.hidden = false
                 if nextItem.row == 0 {
                     arrowLeft.hidden = true
@@ -244,5 +270,23 @@ extension GameLevelDesignViewController {
         }
     }
     
-    // TODO Handle long pressing the arrows.
+    // Click an arrow
+    @IBAction func arrowClicked(sender: AnyObject) {
+        moveDesignArea(toDirection: (sender as UIButton))
+    }
+    
+    // Long pressing an arrow
+    @IBAction func arrowLongPressed(sender: UILongPressGestureRecognizer) {
+        if sender.state == .Began {
+            arrowHolding = (sender.view as UIButton)
+        } else if sender.state == .Ended {
+            arrowHolding = nil
+        }
+    }
+    
+    func handleArrowLongPressing(timer: NSTimer) {
+        if let arrow = arrowHolding {
+            moveDesignArea(toDirection: arrow)
+        }
+    }
 }
