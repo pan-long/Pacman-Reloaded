@@ -26,6 +26,11 @@ class PacMan: MovableObject {
         self.currentSpeed = Constants.PacMan.speed
     }
 
+    convenience init(id: Int) {
+        self.init()
+        objectId = id
+    }
+    
     override func reset() {
         score = 0
         super.reset()

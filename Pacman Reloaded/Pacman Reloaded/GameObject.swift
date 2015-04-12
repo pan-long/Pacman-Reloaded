@@ -10,6 +10,7 @@ import Foundation
 import SpriteKit
 
 class GameObject: SKNode {
+    var objectId: Int?
     var sprite: SKSpriteNode
 
     init(image: String) {
@@ -17,6 +18,12 @@ class GameObject: SKNode {
         super.init()
         self.physicsBody = SKPhysicsBody(rectangleOfSize: sprite.size)
         addChild(sprite)
+    }
+    
+    convenience init(id: Int, image: String) {
+        self.init(image: image)
+        
+        objectId = id
     }
 
     required init?(coder aDecoder: NSCoder) {
