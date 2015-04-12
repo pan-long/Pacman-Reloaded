@@ -10,7 +10,8 @@ import SpriteKit
 import AVFoundation
 
 protocol MovementDataSource: class {
-    func getVisibleObjects() -> [MovableObject]
+    func getPacmans() -> [MovableObject]
+    func getBlinky() -> MovableObject
 }
 
 
@@ -157,10 +158,14 @@ class GameScene: SKScene {
 }
 
 extension GameScene: MovementDataSource {
-    func getVisibleObjects() -> [MovableObject] {
-        var visibleObjects = [MovableObject]()
-        visibleObjects.append(pacman)
-        return visibleObjects
+    func getPacmans() -> [MovableObject] {
+        var pacmans = [MovableObject]()
+        pacmans.append(pacman)
+        return pacmans
+    }
+    
+    func getBlinky() -> MovableObject {
+        return blinky
     }
 }
 

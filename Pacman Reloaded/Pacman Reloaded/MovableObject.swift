@@ -175,40 +175,39 @@ class MovableObject: GameObject {
         }
     }
     
-    func getNextPosition(direction: Direction) -> CGPoint {
+    func getNextPosition(direction: Direction, offset: CGFloat) -> CGPoint {        
         var nextPosition : CGPoint
         
         switch direction {
         case .Right:
             nextPosition = CGPoint(
-                x: self.position.x + currentSpeed,
+                x: self.position.x + offset * currentSpeed,
                 y: self.position.y
             )
         case .Left:
             nextPosition = CGPoint(
-                x: self.position.x - currentSpeed,
+                x: self.position.x - offset * currentSpeed,
                 y: self.position.y
             )
         case .Down:
             nextPosition = CGPoint(
                 x: self.position.x,
-                y: self.position.y - currentSpeed
+                y: self.position.y - offset * currentSpeed
             )
         case .Up:
             nextPosition = CGPoint(
                 x: self.position.x,
-                y: self.position.y + currentSpeed
+                y: self.position.y + offset * currentSpeed
             )
         case .None:
             nextPosition = self.position
         }
         
         return nextPosition
-        
     }
 
     func update() {
-        self.position = getNextPosition(currentDir)
+        self.position = getNextPosition(currentDir, offset: 1)
     }
 
     // MARK: - SENSORS
