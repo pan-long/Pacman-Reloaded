@@ -237,7 +237,6 @@
 				DC3E42BA1AD12B7C0083609C /* MultiplayerManagementViewController.swift */,
 				DC076DA81AD178D8004268B5 /* MultiplayerGameSettingViewController.swift */,
 				DC3F277B1AD13823000DE7B7 /* MultiplayerGameViewController.swift */,
-				FF7F83841AC7E32400018CD2 /* MovementControl.swift */,
 				DCEC3E011AD6C7440089F50D /* GameLevelDesign */,
 				C5C8D7251AB847E5005ACB47 /* Main.storyboard */,
 				DCADC4851AD92E3800835A22 /* Images.xcassets */,
@@ -295,6 +294,7 @@
 		FFD7AD451AD166AD00EAB0FA /* MovementControl */ = {
 			isa = PBXGroup;
 			children = (
+				FF7F83841AC7E32400018CD2 /* MovementControl.swift */,
 				FFD7AD461AD166E500EAB0FA /* GestureMovementControl.swift */,
 				FFD7AD481AD1671F00EAB0FA /* AIMovementControl.swift */,
 			);

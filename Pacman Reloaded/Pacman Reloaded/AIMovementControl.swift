@@ -21,7 +21,7 @@ class AIMovementControl: MovementControl {
     weak var movableObject: MovableObject!
     weak var dataSource: MovementDataSource!
     
-    private var counter = 1
+    private var counter = 0
     private var currentMode = MovementMode.Scatter
     private var currentModeDuration = 0
     private var shouldUpdate = true
@@ -62,10 +62,10 @@ class AIMovementControl: MovementControl {
         var minDistanceToPacman: Double = 100000
         
         for direction in availableDirections {
-            for visibleObject in dataSource.getVisibleObjects() {
+            for pacman in dataSource.getPacmans() {
                 let distance = calculateDistance(
                     movableObject.getNextPosition(direction),
-                    secondPostion: getChaseTarget(visibleObject))
+                    secondPostion: getChaseTarget(pacman))
                 
                 if distance < minDistanceToPacman {
                     minDistanceToPacman = distance
@@ -82,8 +82,12 @@ class AIMovementControl: MovementControl {
         return shouldUpdate
     }
     
+    private func reverseDirection() {
+        movableObject.changeDirection(movableObject.currentDir.opposite)
+    }
+    
     func reset() {
-        counter = 1
+        counter = 0
         currentMode = MovementMode.Scatter
         currentModeDuration = 0
         shouldUpdate = true
@@ -100,28 +104,33 @@ class AIMovementControl: MovementControl {
             }
             
             // If counter exceed indefinite chase -> chase update
-            counter += 1
-            if counter >= INDEFINITE_CHASE {
+            if counter > INDEFINITE_CHASE {
+                println("Indefinite chase")
                 chaseUpdate()
             }
+            counter += 1
             
             // Update movable object's direction
             switch currentMode {
             case .Scatter:
-                scatterUpdate()
-                currentModeDuration += 1
-                if currentModeDuration >= SCATTER_MODE_DURATION {
+                if currentModeDuration > SCATTER_MODE_DURATION {
                     println("Chase Mode")
+                    reverseDirection()
                     currentMode = .Chase
                     currentModeDuration = 0
+                } else {
+                    scatterUpdate()
+                    currentModeDuration += 1
                 }
             case .Chase:
-                chaseUpdate()
-                currentModeDuration += 1
-                if currentModeDuration >= CHASE_MODE_DURATION {
+                if currentModeDuration > CHASE_MODE_DURATION {
                     println("Scatter Mode")
+                    reverseDirection()
                     currentMode = .Scatter
                     currentModeDuration = 0
+                } else {
+                    chaseUpdate()
+                    currentModeDuration += 1
                 }
             default:
                 break
