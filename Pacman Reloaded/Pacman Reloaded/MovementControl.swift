@@ -21,3 +21,8 @@ protocol MovementControl: class {
     // Reset the movement control
     func reset()
 }
+
+protocol MovementDataSource: class {
+    func getPacmans() -> [MovableObject]
+    func getBlinky() -> MovableObject
+}

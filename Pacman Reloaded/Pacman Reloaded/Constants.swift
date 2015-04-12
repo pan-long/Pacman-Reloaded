@@ -72,4 +72,15 @@ struct Constants {
         static let MaxNumberOfPacman = 8
         static let MaxNumberOfGhosts = 8
     }
+    
+    struct AIMovementControl {
+        static let GAME_SCENE_MIN_X: CGFloat = 0
+        static let GAME_SCENE_MIN_Y: CGFloat = 0
+        static let GAME_SCENE_MAX_X = Constants.GameScene.GridWidth  * CGFloat(Constants.GameScene.NumberOfColumns)
+        static let GAME_SCENE_MAX_Y = Constants.GameScene.GridHeight * CGFloat(Constants.GameScene.NumberOfRows)
+        
+        static let INDEFINITE_CHASE = 2100
+        static let CHASE_MODE_DURATION = 400
+        static let SCATTER_MODE_DURATION = 100
+    }
 }

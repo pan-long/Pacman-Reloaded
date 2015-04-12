@@ -9,11 +9,6 @@
 import SpriteKit
 import AVFoundation
 
-protocol MovementDataSource: class {
-    func getPacmans() -> [MovableObject]
-    func getBlinky() -> MovableObject
-}
-
 
 class GameScene: SKScene {
 
