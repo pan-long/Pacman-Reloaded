@@ -9,19 +9,46 @@
 import Foundation
 import SpriteKit
 
+private enum GhostMode {
+    case Normal, Frightened, Eaten
+}
+
 class Ghost: MovableObject {
     private var imageName: String = ""
 
-    var frightened: Bool = false {
+    private var _currentMode: GhostMode = .Normal {
         didSet {
             updateTexture()
-            if frightened && oldValue == false {
-                // just frightened
+        }
+    }
+
+    var frightened: Bool {
+        get {
+            return _currentMode != .Normal
+        }
+        set (newValue) {
+            if newValue && _currentMode == .Normal {
+                _currentMode = .Frightened
                 self.currentDir = self.currentDir.opposite
+            } else if !newValue {
+                _currentMode = .Normal
             }
         }
     }
 
+    var eaten: Bool {
+        get {
+            return _currentMode == .Eaten
+        }
+        set (newValue) {
+            if newValue && _currentMode == .Frightened {
+                _currentMode = .Eaten
+                self.currentDir = self.currentDir.opposite
+            } else if !newValue {
+                _currentMode = .Normal
+            }
+        }
+    }
 
     convenience init(imageName: String) {
         self.init(image: imageName + Constants.Ghost.defaultImageSuffix)
@@ -43,8 +70,10 @@ class Ghost: MovableObject {
     }
 
     private func updateTexture() {
-        if self.frightened {
+        if self.frightened && !self.eaten {
             self.sprite.texture = SKTexture(imageNamed: Constants.Ghost.frightenedImage)
+        } else if self.eaten {
+            self.sprite.texture = SKTexture(imageNamed: Constants.Ghost.eatedImage)
         } else if self.currentDir != .None {
             self.sprite.texture = SKTexture(imageNamed: self.imageName +
                 Constants.Ghost.imageSeparator +

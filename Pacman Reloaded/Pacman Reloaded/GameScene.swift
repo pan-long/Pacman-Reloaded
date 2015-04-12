@@ -179,7 +179,7 @@ extension GameScene: SKPhysicsContactDelegate {
                 handlePacDotEvent(pacdot, pacman: contact.bodyA.node as PacMan)
             }
         case GameObjectType.PacMan | GameObjectType.Ghost:
-            gameOver(false)
+            handleGhostPacmanEvent(contact.bodyA.node, bodyB: contact.bodyB.node)
         case GameObjectType.Boundary | GameObjectType.SensorUp:
             handleSensorEvent(contact.bodyA.node, bodyB: contact.bodyB.node, direction: .Up, start: true)
         case GameObjectType.Boundary | GameObjectType.SensorDown:
@@ -193,9 +193,35 @@ extension GameScene: SKPhysicsContactDelegate {
         }
     }
 
+    private func handleGhostPacmanEvent(bodyA: SKNode?, bodyB: SKNode?) {
+        var pacman: PacMan!
+        var ghost: Ghost!
+        if let bodyA = bodyA? as? PacMan {
+            if let bodyB = bodyB? as? Ghost  {
+                pacman = bodyA
+                ghost = bodyB
+            }
+        } else if let bodyB = bodyB? as? PacMan {
+            if let bodyA = bodyA? as? Ghost {
+                pacman = bodyB
+                ghost = bodyA
+            }
+        } else {
+            println("???")
+            return //
+        }
+
+        if !ghost.frightened {
+            gameOver(false)
+        } else if !ghost.eaten {
+            pacman.score += Constants.Score.Ghost
+            ghost.eaten = true
+            sceneDelegate.updateScore(pacman.score, dotsLeft: totalPacDots)
+        }
+    }
     private func handlePacDotEvent(pacdot: PacDot, pacman: PacMan) {
         pacdot.removeFromParent()
-        pacman.score++
+        pacman.score += Constants.Score.PacDot
         totalPacDots--
         if pacdot.isSuper {
             frightenGhost()
