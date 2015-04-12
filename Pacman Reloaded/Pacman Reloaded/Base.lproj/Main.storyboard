@@ -355,44 +355,52 @@
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Bh-0X-z7r">
                                 <rect key="frame" x="22" y="369" width="30" height="30"/>
-                                <state key="normal" backgroundImage="arrow-left">
+                                <gestureRecognizers/>
+                                <state key="normal" title="arrow-left" backgroundImage="arrow-left">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <action selector="arrowClicked:" destination="q9R-B0-rYt" eventType="touchUpInside" id="YgT-iz-0Aw"/>
+                                    <outletCollection property="gestureRecognizers" destination="iI8-4K-wdu" appends="YES" id="Jyj-bp-uTA"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LD3-Ss-msP">
                                 <rect key="frame" x="365" y="28" width="30" height="30"/>
-                                <state key="normal" backgroundImage="arrow-up">
+                                <gestureRecognizers/>
+                                <state key="normal" title="arrow-up" backgroundImage="arrow-up">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <action selector="arrowClicked:" destination="q9R-B0-rYt" eventType="touchUpInside" id="s88-aw-NVj"/>
+                                    <outletCollection property="gestureRecognizers" destination="4EX-qe-Mqk" appends="YES" id="r2k-bl-P3R"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Aqq-hm-eAw">
                                 <rect key="frame" x="365" y="707" width="30" height="30"/>
-                                <state key="normal" backgroundImage="arrow-down">
+                                <gestureRecognizers/>
+                                <state key="normal" title="arrow-down" backgroundImage="arrow-down">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <action selector="arrowClicked:" destination="q9R-B0-rYt" eventType="touchUpInside" id="G2Q-wZ-vLa"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hZi-xz-W5i">
-                                <rect key="frame" x="700" y="369" width="30" height="30"/>
-                                <state key="normal" backgroundImage="arrow-right">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="arrowClicked:" destination="q9R-B0-rYt" eventType="touchUpInside" id="Zzb-wA-MKh"/>
+                                    <outletCollection property="gestureRecognizers" destination="aXI-vW-Dwe" appends="YES" id="xBd-IJ-oau"/>
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="N5S-HC-eyo">
                                 <rect key="frame" x="752" y="443" width="256" height="256"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hZi-xz-W5i">
+                                <rect key="frame" x="700" y="369" width="30" height="30"/>
+                                <gestureRecognizers/>
+                                <state key="normal" title="arrow-right" backgroundImage="arrow-right">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="arrowClicked:" destination="q9R-B0-rYt" eventType="touchUpInside" id="Zzb-wA-MKh"/>
+                                    <outletCollection property="gestureRecognizers" destination="aqk-0m-wUa" appends="YES" id="0Zg-hf-aSg"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -409,6 +417,26 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3fd-GG-hbL" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="iI8-4K-wdu">
+                    <connections>
+                        <action selector="arrowLongPressed:" destination="q9R-B0-rYt" id="eHx-xx-g8C"/>
+                    </connections>
+                </pongPressGestureRecognizer>
+                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="4EX-qe-Mqk">
+                    <connections>
+                        <action selector="arrowLongPressed:" destination="q9R-B0-rYt" id="n0I-ET-d7A"/>
+                    </connections>
+                </pongPressGestureRecognizer>
+                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="aqk-0m-wUa">
+                    <connections>
+                        <action selector="arrowLongPressed:" destination="q9R-B0-rYt" id="sp4-pK-4QK"/>
+                    </connections>
+                </pongPressGestureRecognizer>
+                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="aXI-vW-Dwe">
+                    <connections>
+                        <action selector="arrowLongPressed:" destination="q9R-B0-rYt" id="lh9-yR-lag"/>
+                    </connections>
+                </pongPressGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-1031" y="320"/>
         </scene>

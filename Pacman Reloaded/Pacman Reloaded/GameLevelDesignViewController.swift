@@ -19,6 +19,8 @@ class GameLevelDesignViewController: UIViewController {
     @IBOutlet weak var arrowDown: UIButton!
     @IBOutlet weak var arrowLeft: UIButton!
     @IBOutlet weak var arrowRight: UIButton!
+    private var arrowHolding: UIButton?
+    private var arrowTimer: NSTimer?
     
     private let cellIdentifier = "levelDesignGrid"
     private var selected = GameDesignType.None
@@ -41,9 +43,11 @@ class GameLevelDesignViewController: UIViewController {
         miniMap.backgroundColor = UIColor.blackColor()
         miniMap.layer.cornerRadius = CGFloat(10)
         
-        // Initially the left and up arrows should be hidden.
+        // Initially the left and up arrows should be hidde
         arrowUp.hidden = true
         arrowLeft.hidden = true
+        arrowTimer = NSTimer.scheduledTimerWithTimeInterval(0.2, target: self,
+                selector: "handleArrowLongPressing:", userInfo: nil, repeats: true)
     }
     
     override func didReceiveMemoryWarning() {
@@ -156,8 +160,11 @@ extension GameLevelDesignViewController {
             button.alpha = 1
         }
     }
-    
-    @IBAction func arrowClicked(sender: AnyObject) {
+}
+
+// This extension deals with the arrows.
+extension GameLevelDesignViewController {
+    func moveDesignArea(toDirection arrow: UIButton) {
         let visibleItems = designArea.indexPathsForVisibleItems()
             .sorted({ (o1: AnyObject, o2: AnyObject) -> Bool in
                 // Since the list of visible items is unsorted
@@ -177,7 +184,6 @@ extension GameLevelDesignViewController {
         let lastItem = visibleItems.last as NSIndexPath
         var nextItem: NSIndexPath
         
-        let arrow = sender as UIButton
         switch arrow {
         case arrowUp:
             if firstItem.section == 0 {
@@ -200,7 +206,7 @@ extension GameLevelDesignViewController {
             } else {
                 nextItem = NSIndexPath(forRow: lastItem.row, inSection: lastItem.section + 1)
                 designArea.scrollToItemAtIndexPath(nextItem, atScrollPosition: .Bottom, animated: true)
-
+                
                 arrowUp.hidden = false
                 if nextItem.section == Constants.GameScene.NumberOfRows - 1 {
                     arrowDown.hidden = true
@@ -215,7 +221,7 @@ extension GameLevelDesignViewController {
             } else {
                 nextItem = NSIndexPath(forRow: firstItem.row - 1, inSection: firstItem.section)
                 designArea.scrollToItemAtIndexPath(nextItem, atScrollPosition: .Left, animated: true)
-
+                
                 arrowRight.hidden = false
                 if nextItem.row == 0 {
                     arrowLeft.hidden = true
@@ -244,5 +250,23 @@ extension GameLevelDesignViewController {
         }
     }
     
-    // TODO Handle long pressing the arrows.
+    // Click an arrow
+    @IBAction func arrowClicked(sender: AnyObject) {
+        moveDesignArea(toDirection: (sender as UIButton))
+    }
+    
+    // Long pressing an arrow
+    @IBAction func arrowLongPressed(sender: UILongPressGestureRecognizer) {
+        if sender.state == .Began {
+            arrowHolding = (sender.view as UIButton)
+        } else if sender.state == .Ended {
+            arrowHolding = nil
+        }
+    }
+    
+    func handleArrowLongPressing(timer: NSTimer) {
+        if let arrow = arrowHolding {
+            moveDesignArea(toDirection: arrow)
+        }
+    }
 }
