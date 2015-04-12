@@ -22,6 +22,7 @@ class GameLevelDesignGridCell: UICollectionViewCell {
     
     // TODO Set wall type.
     func setType(type: GameDesignType) {
+        self.layer.backgroundColor = UIColor.blackColor().CGColor
         for subview in contentView.subviews {
             subview.removeFromSuperview()
         }
@@ -32,6 +33,8 @@ class GameLevelDesignGridCell: UICollectionViewCell {
             let imageView = UIImageView(image: image)
             imageView.frame = CGRectMake(0, 0, width, height)
             contentView.addSubview(imageView)
+        } else if type == .Wall {
+            self.layer.backgroundColor = UIColor.yellowColor().CGColor
         }
     }
 }

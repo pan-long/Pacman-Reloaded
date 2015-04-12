@@ -43,7 +43,7 @@ class GameLevelDesignViewController: UIViewController {
         miniMap.backgroundColor = UIColor.blackColor()
         miniMap.layer.cornerRadius = CGFloat(10)
         
-        // Initially the left and up arrows should be hidde
+        // Initially the left and up arrows should be hidden.
         arrowUp.hidden = true
         arrowLeft.hidden = true
         arrowTimer = NSTimer.scheduledTimerWithTimeInterval(0.2, target: self,
@@ -61,11 +61,13 @@ class GameLevelDesignViewController: UIViewController {
             allButtons[i].alpha = 0.5
         }
     }
-}
-
-
-extension GameLevelDesignViewController: UICollectionViewDelegate {
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    
+    private func setCellToSelected(indexPath: NSIndexPath) {
+        setCellToSelected(designArea, indexPath: indexPath)
+        
+    }
+    
+    private func setCellToSelected(collectionView: UICollectionView, indexPath: NSIndexPath) {
         let cell = collectionView.cellForItemAtIndexPath(indexPath) as GameLevelDesignGridCell
         if selected.isPacman {
             if numberOfPacmans >= Constants.GameScene.MaxNumberOfPacman {
@@ -93,13 +95,17 @@ extension GameLevelDesignViewController: UICollectionViewDelegate {
         
         if selected == .None {
             cellMappings.removeValueForKey(indexPath)
-        } else if selected == .Wall {
-            // Wall is handled separately
-            return
         } else {
             cellMappings[indexPath] = selected
         }
         cell.setType(selected)
+    }
+}
+
+
+extension GameLevelDesignViewController: UICollectionViewDelegate {
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        setCellToSelected(collectionView, indexPath: indexPath)
     }
 }
 
@@ -124,7 +130,6 @@ extension GameLevelDesignViewController: UICollectionViewDataSource {
 }
 
 extension GameLevelDesignViewController {
-    // Handle clicking on the buttons.
     @IBAction func designButtonClicked(sender: AnyObject) {
         if let button = sender as? UIButton {
             switch button.tag {
@@ -147,8 +152,13 @@ extension GameLevelDesignViewController {
                 selected = GameDesignType.Clyde
                 break
             case Constants.GameScene.WallTag:
-                // Handle wall separately
                 selected = GameDesignType.Wall
+                break
+            case Constants.GameScene.PacdotTag:
+                selected = GameDesignType.Pacdot
+                break
+            case Constants.GameScene.SuperPacdotTag:
+                selected = GameDesignType.SuperPacdot
                 break
             case Constants.GameScene.EraserTag:
                 selected = GameDesignType.None
@@ -157,7 +167,17 @@ extension GameLevelDesignViewController {
                 break
             }
             unselectAllButtons()
-            button.alpha = 1
+            button.alpha = 1 // TODO Refactor
+        }
+    }
+    
+    @IBAction func handlePanGesture(sender: UIPanGestureRecognizer) {
+        // Pan gesture is only applicable to these three types
+        if selected == .Wall || selected == .Pacdot || selected == .None {
+            let currentPosition = sender.locationInView(designArea)
+            if let indexPath = designArea.indexPathForItemAtPoint(currentPosition) {
+                setCellToSelected(indexPath)
+            }
         }
     }
 }
