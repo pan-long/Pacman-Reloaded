@@ -241,8 +241,44 @@ class InkyAIMovememntControl: AIMovementControl {
 }
 
 class ClydeAIMovememntControl: AIMovementControl {
+    private let CLYDE_SAFETY_COEFFICIENT: Double = 8
+    
     override func getHome() -> CGPoint {
         return CGPoint(x: GAME_SCENE_MIN_X, y: GAME_SCENE_MIN_Y)
+    }
+    
+    override func chaseUpdate() {
+        let availableDirections = movableObject.getAvailableDirections()
+        var nextDirection: Direction
+        
+        if availableDirections.isEmpty {
+            nextDirection = .None
+        } else {
+            nextDirection = availableDirections[0]
+        }
+        
+        var minDistanceToPacman: Double = 100000
+        
+        for direction in availableDirections {
+            for pacman in dataSource.getPacmans() {
+                let distance = calculateDistance(
+                    movableObject.getNextPosition(direction, offset: 1),
+                    secondPostion: getChaseTarget(pacman))
+                
+                // Clyde turns into scatter mode when it is close to pacman
+                if distance < CLYDE_SAFETY_COEFFICIENT * Double(movableObject.speed) {
+                    scatterUpdate()
+                    return
+                }
+                
+                if distance < minDistanceToPacman {
+                    minDistanceToPacman = distance
+                    nextDirection = direction
+                }
+            }
+        }
+        
+        movableObject.changeDirection(nextDirection)
     }
     
     override func getChaseTarget(visibleObject: MovableObject) -> CGPoint {
