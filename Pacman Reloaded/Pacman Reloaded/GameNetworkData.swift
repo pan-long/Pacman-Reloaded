@@ -45,10 +45,10 @@ class GameNetworkMovementData: GameNetworkData {
 }
 
 class GameNetworkPacmanMovementData: GameNetworkMovementData {
-    let playerName: String
+    let pacmanId: Int
     
-    init(playerName: String, pacmanPosition: CGPoint, pacmanDirection: Direction) {
-        self.playerName = playerName
+    init(pacmanId: Int, pacmanPosition: CGPoint, pacmanDirection: Direction) {
+        self.pacmanId = pacmanId
         
         super.init(type: GameNetworkDataType.TYPE_PACMAN_MOVEMENT, position: pacmanPosition, direction: pacmanDirection)
     }
@@ -74,11 +74,11 @@ class GameNetworkGhostMovementData: GameNetworkMovementData {
 }
 
 class GameNetworkPacmanScoreData: GameNetworkData {
-    let pacmanName: String
+    let pacmanId: Int
     let pacmanScore: Int
     
-    init(pacmanName: String, pacmanScore: Int) {
-        self.pacmanName = pacmanName
+    init(pacmanId: Int, pacmanScore: Int) {
+        self.pacmanId = pacmanId
         self.pacmanScore = pacmanScore
         
         super.init(type: GameNetworkDataType.TYPE_PACMAN_SCORE)

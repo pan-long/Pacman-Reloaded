@@ -10,10 +10,10 @@ import Foundation
 import SpriteKit
 
 struct GhostName {
-    let GHOST_NAME_BLINKY = "BLINKY"
-    let GHOST_NAME_CLYDE = "CLYDE"
-    let GHOST_NAME_INKY = "INKY"
-    let GHOST_NAME_PINKY = "PINKY"
+    static let GHOST_NAME_BLINKY = "BLINKY"
+    static let GHOST_NAME_CLYDE = "CLYDE"
+    static let GHOST_NAME_INKY = "INKY"
+    static let GHOST_NAME_PINKY = "PINKY"
 }
 
 class Ghost: MovableObject {

@@ -10,14 +10,25 @@ import Foundation
 import SpriteKit
 
 class NetworkMovementControl: MovementControl {
-    private let movableObject: MovableObject
+    weak var movableObject: MovableObject!
     
-    var dataSource: MovementDataSource!
+    weak var dataSource: MovementDataSource!
     
     required init(movableObject: MovableObject) {
         self.movableObject = movableObject
     }
     
     func update() {
+    }
+    
+    func reset() {
+    }
+    
+    func changeDirection(direction: Direction) {
+        movableObject.changeDirection(direction)
+    }
+    
+    func correctPosition(position: CGPoint) {
+        movableObject.position = position
     }
 }

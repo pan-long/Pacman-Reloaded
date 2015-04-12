@@ -14,6 +14,9 @@ class GameCenter {
     let hostName: String
     let otherPlayersName: [String]
     
+    private var pacmanMovementControl = [Int: NetworkMovementControl]()
+    private var ghostMovementControl = [String: NetworkMovementControl]()
+    
     let connectivity: MultiplayerConnectivity
     var scene: MultiplayerGameScene?
     
@@ -55,13 +58,57 @@ extension GameCenter: SessionDataDelegate {
     }
     
     private func processPackage(data: GameNetworkData) {
-        if let scene = scene {
+        switch data.dataType {
+        case GameNetworkDataType.TYPE_PACMAN_MOVEMENT:
+            let pacmanMovementData = data as GameNetworkPacmanMovementData
+            let pacmanId = pacmanMovementData.pacmanId
+            let networkMovementControl = pacmanMovementControl[pacmanId]
+            networkMovementControl?.correctPosition(pacmanMovementData.position)
+            networkMovementControl?.changeDirection(pacmanMovementData.direction)
+            break
+        case GameNetworkDataType.TYPE_GHOST_MOVEMENT:
+            let ghostMovementData = data as GameNetworkGhostMovementData
+            let ghostName = ghostMovementData.ghostName
+            let networkMovementControl = ghostMovementControl[ghostName]
+            networkMovementControl?.correctPosition(ghostMovementData.position)
+            networkMovementControl?.changeDirection(ghostMovementData.direction)
+            break
+        case GameNetworkDataType.TYPE_PACMAN_SCORE:
+            let pacmanScoreData = data as GameNetworkPacmanScoreData
+            let pacmanId = pacmanScoreData.pacmanId
+            let networkMovementControl = pacmanMovementControl[pacmanId]
+            var pacman = networkMovementControl?.movableObject as PacMan
+            pacman.score = pacmanScoreData.pacmanScore
+            break
+        default:
+            break
         }
     }
 }
 
 extension GameCenter: GameSceneNetworkDelegate {
-    func updateStatus(pacman: PacMan, ghost: Ghost) {
+    func updatePacmanMovementData(pacman: PacMan) {
+        let pacmanMovementData = GameNetworkPacmanMovementData(pacmanId: pacman.objectId!, pacmanPosition: pacman.position, pacmanDirection: pacman.currentDir)
         
+        // TO-Do: handle error
+        connectivity.sendData(toPlayer: otherPlayersName, data: pacmanMovementData, error: nil)
+    }
+    
+    func updateGhostMovementData(name: String, ghost: Ghost) {
+        let ghostMovementData = GameNetworkGhostMovementData(ghostName: name, ghostPosition: ghost.position, ghostDirection: ghost.currentDir)
+        connectivity.sendData(toPlayer: otherPlayersName, data: ghostMovementData, error: nil)
+    }
+    
+    func updatePacmanScore(pacman: PacMan) {
+        let pacmanScoreData = GameNetworkPacmanScoreData(pacmanId: pacman.objectId!, pacmanScore: pacman.score)
+        connectivity.sendData(toPlayer: otherPlayersName, data: pacmanScoreData, error: nil)
+    }
+    
+    func setPacmanMovementControl(id: Int, movementControl: NetworkMovementControl) {
+        pacmanMovementControl[id] = movementControl
+    }
+    
+    func setGhostMovementControl(name: String, movementControl: NetworkMovementControl) {
+        ghostMovementControl[name] = movementControl
     }
 }
