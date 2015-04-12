@@ -18,7 +18,6 @@ class GameCenter {
     private var ghostMovementControl = [String: NetworkMovementControl]()
     
     let connectivity: MultiplayerConnectivity
-    var scene: MultiplayerGameScene?
     
     init(selfName: String, hostName: String, otherPlayersName: [String], connectivity: MultiplayerConnectivity) {
         self.selfName = selfName
