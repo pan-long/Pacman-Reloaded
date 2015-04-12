@@ -25,15 +25,6 @@ enum GhostMovementMode {
 }
 
 class AIMovementControl: MovementControl {
-    private let INDEFINITE_CHASE = 2100
-    private let CHASE_MODE_DURATION = 400
-    private let SCATTER_MODE_DURATION = 100
-    
-    private let GAME_SCENE_MIN_X: CGFloat = 0
-    private let GAME_SCENE_MIN_Y: CGFloat = 0
-    private let GAME_SCENE_MAX_X = Constants.GameScene.GridWidth  * CGFloat(Constants.GameScene.NumberOfColumns)
-    private let GAME_SCENE_MAX_Y = Constants.GameScene.GridHeight * CGFloat(Constants.GameScene.NumberOfRows)
-    
     weak var movableObject: MovableObject!
     weak var dataSource: MovementDataSource!
     
@@ -59,7 +50,7 @@ class AIMovementControl: MovementControl {
             }
             
             // If counter exceed indefinite chase -> chase update
-            if counter > INDEFINITE_CHASE {
+            if counter > Constants.AIMovementControl.INDEFINITE_CHASE {
                 println("Indefinite chase")
                 chaseUpdate()
             }
@@ -68,13 +59,13 @@ class AIMovementControl: MovementControl {
             // Update movable object's direction
             switch currentMode {
             case .Scatter:
-                if currentModeDuration > SCATTER_MODE_DURATION {
+                if currentModeDuration > Constants.AIMovementControl.SCATTER_MODE_DURATION {
                     changeMode(.Chase)
                 } else {
                     scatterUpdate()
                 }
             case .Chase:
-                if currentModeDuration > CHASE_MODE_DURATION {
+                if currentModeDuration > Constants.AIMovementControl.CHASE_MODE_DURATION {
                     changeMode(.Scatter)
                 } else {
                     chaseUpdate()
@@ -196,7 +187,9 @@ class AIMovementControl: MovementControl {
 
 class BlinkyAIMovememntControl: AIMovementControl {
     override func getHome() -> CGPoint {
-        return CGPoint(x: GAME_SCENE_MAX_X, y: GAME_SCENE_MAX_Y)
+        return CGPoint(
+            x: Constants.AIMovementControl.GAME_SCENE_MAX_X,
+            y: Constants.AIMovementControl.GAME_SCENE_MAX_Y)
     }
     
     override func getChaseTarget(visibleObject: MovableObject) -> CGPoint {
@@ -208,7 +201,9 @@ class PinkyAIMovementControl: AIMovementControl {
     private let PINKY_CHASE_OFFSET: CGFloat = 4
     
     override func getHome() -> CGPoint {
-        return CGPoint(x: GAME_SCENE_MIN_X, y: GAME_SCENE_MAX_Y)
+        return CGPoint(
+            x: Constants.AIMovementControl.GAME_SCENE_MIN_X,
+            y: Constants.AIMovementControl.GAME_SCENE_MAX_Y)
     }
     
     override func getChaseTarget(visibleObject: MovableObject) -> CGPoint {
@@ -224,7 +219,9 @@ class InkyAIMovememntControl: AIMovementControl {
     private let INKY_CHASE_OFFSET: CGFloat = 4
     
     override func getHome() -> CGPoint {
-        return CGPoint(x: GAME_SCENE_MAX_X, y: GAME_SCENE_MIN_Y)
+        return CGPoint(
+            x: Constants.AIMovementControl.GAME_SCENE_MAX_X,
+            y: Constants.AIMovementControl.GAME_SCENE_MIN_Y)
     }
     
     override func getChaseTarget(visibleObject: MovableObject) -> CGPoint {
@@ -244,7 +241,9 @@ class ClydeAIMovememntControl: AIMovementControl {
     private let CLYDE_SAFETY_COEFFICIENT: Double = 8
     
     override func getHome() -> CGPoint {
-        return CGPoint(x: GAME_SCENE_MIN_X, y: GAME_SCENE_MIN_Y)
+        return CGPoint(
+            x: Constants.AIMovementControl.GAME_SCENE_MIN_X,
+            y: Constants.AIMovementControl.GAME_SCENE_MIN_Y)
     }
     
     override func chaseUpdate() {

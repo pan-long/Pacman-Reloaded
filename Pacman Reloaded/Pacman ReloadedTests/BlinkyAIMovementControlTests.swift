@@ -27,6 +27,19 @@ class BlinkyAIMovementControlTests: XCTestCase {
         blinkyMovement = BlinkyAIMovememntControl(movableObject: blinky)
         blinkyMovement.dataSource = self
     }
+    
+    func testCheckUpdateFrame() {
+        constructBlinkyAIMovementControl()
+        
+        blinky.position = CGPoint(
+            x: Constants.AIMovementControl.GAME_SCENE_MAX_X,
+            y: Constants.AIMovementControl.GAME_SCENE_MAX_Y - 1)
+        blinkyMovement.update()
+        XCTAssertEqual(blinky.currentDir, Direction.Right, "Can check update frame correctly")
+        
+        blinkyMovement.update()
+        XCTAssertEqual(blinky.currentDir, Direction.Up, "Can check update frame correctly")
+    }
 }
 
 extension BlinkyAIMovementControlTests: MovementDataSource {
