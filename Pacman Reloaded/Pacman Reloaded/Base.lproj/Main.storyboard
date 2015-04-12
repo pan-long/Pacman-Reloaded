@@ -389,6 +389,10 @@
                                     <action selector="arrowClicked:" destination="q9R-B0-rYt" eventType="touchUpInside" id="Zzb-wA-MKh"/>
                                 </connections>
                             </button>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="N5S-HC-eyo">
+                                <rect key="frame" x="752" y="443" width="256" height="256"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -401,6 +405,7 @@
                         <outlet property="arrowUp" destination="LD3-Ss-msP" id="ARr-yz-RS1"/>
                         <outlet property="buttons" destination="odP-W5-XQx" id="Ulc-wi-0d0"/>
                         <outlet property="designArea" destination="R8O-pn-Ym3" id="wTk-aA-oz3"/>
+                        <outlet property="miniMap" destination="N5S-HC-eyo" id="wcO-M7-1yI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3fd-GG-hbL" userLabel="First Responder" sceneMemberID="firstResponder"/>

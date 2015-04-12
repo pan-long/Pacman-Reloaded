@@ -49,8 +49,8 @@ struct Constants {
     struct GameScene {
         static let GridWidth = CGFloat(40)
         static let GridHeight = GridWidth
-        static let NumberOfRows = 20
-        static let NumberOfColumns = 30
+        static let NumberOfRows = 50
+        static let NumberOfColumns = 50
         
         static let PacmanMaleTag = 10
         static let PacmanFemaleTag = 20

@@ -20,6 +20,7 @@ class GameLevelDesignGridCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // TODO Set wall type.
     func setType(type: GameDesignType) {
         for subview in contentView.subviews {
             subview.removeFromSuperview()
