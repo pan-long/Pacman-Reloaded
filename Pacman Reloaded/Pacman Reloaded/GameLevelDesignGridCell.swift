@@ -20,7 +20,6 @@ class GameLevelDesignGridCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // TODO Set wall type.
     func setType(type: GameDesignType) {
         self.layer.backgroundColor = UIColor.blackColor().CGColor
         for subview in contentView.subviews {
@@ -33,7 +32,7 @@ class GameLevelDesignGridCell: UICollectionViewCell {
             let imageView = UIImageView(image: image)
             imageView.frame = CGRectMake(0, 0, width, height)
             contentView.addSubview(imageView)
-        } else if type == .Wall {
+        } else if type == .Boundary {
             self.layer.backgroundColor = UIColor.yellowColor().CGColor
         }
     }

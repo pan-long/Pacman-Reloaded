@@ -151,8 +151,8 @@ extension GameLevelDesignViewController {
             case Constants.GameScene.ClydeTag:
                 selected = GameDesignType.Clyde
                 break
-            case Constants.GameScene.WallTag:
-                selected = GameDesignType.Wall
+            case Constants.GameScene.BoundaryTag:
+                selected = GameDesignType.Boundary
                 break
             case Constants.GameScene.PacdotTag:
                 selected = GameDesignType.Pacdot
@@ -173,33 +173,23 @@ extension GameLevelDesignViewController {
     
     @IBAction func handlePanGesture(sender: UIPanGestureRecognizer) {
         // Pan gesture is only applicable to these three types
-        if selected == .Wall || selected == .Pacdot || selected == .None {
+        if selected == .Boundary || selected == .Pacdot || selected == .None {
             let currentPosition = sender.locationInView(designArea)
             if let indexPath = designArea.indexPathForItemAtPoint(currentPosition) {
                 setCellToSelected(indexPath)
             }
         }
     }
+    
+    @IBAction func saveFile(sender: UIButton) {
+        GameLevelStorage.storeGameLevelToFile(cellMappings, fileName: "myFirstFile.xml")
+    }
 }
 
 // This extension deals with the arrows.
 extension GameLevelDesignViewController {
     func moveDesignArea(toDirection arrow: UIButton) {
-        let visibleItems = designArea.indexPathsForVisibleItems()
-            .sorted({ (o1: AnyObject, o2: AnyObject) -> Bool in
-                // Since the list of visible items is unsorted
-                let first = o1 as NSIndexPath
-                let second = o2 as NSIndexPath
-                var result: Bool
-                if first.section < second.section {
-                    result = true
-                } else if first.section == second.section {
-                    result = first.row < second.row
-                } else {
-                    result = false
-                }
-                return result
-            })
+        let visibleItems = designArea.indexPathsForVisibleItems().sorted(gameLevelIndexPathComparator)
         let firstItem = visibleItems.first as NSIndexPath
         let lastItem = visibleItems.last as NSIndexPath
         var nextItem: NSIndexPath
@@ -209,7 +199,7 @@ extension GameLevelDesignViewController {
             if firstItem.section == 0 {
                 break
             } else {
-                nextItem = NSIndexPath(forRow: firstItem.row, inSection: firstItem.section - 1)
+                nextItem = firstItem.previousRow
                 designArea.scrollToItemAtIndexPath(nextItem, atScrollPosition: .Top, animated: true)
                 
                 arrowDown.hidden = false
@@ -224,7 +214,7 @@ extension GameLevelDesignViewController {
             if lastItem.section == Constants.GameScene.NumberOfRows - 1 {
                 break
             } else {
-                nextItem = NSIndexPath(forRow: lastItem.row, inSection: lastItem.section + 1)
+                nextItem = lastItem.nextRow
                 designArea.scrollToItemAtIndexPath(nextItem, atScrollPosition: .Bottom, animated: true)
                 
                 arrowUp.hidden = false
@@ -239,7 +229,7 @@ extension GameLevelDesignViewController {
             if firstItem.row == 0 {
                 break
             } else {
-                nextItem = NSIndexPath(forRow: firstItem.row - 1, inSection: firstItem.section)
+                nextItem = firstItem.previousColumn
                 designArea.scrollToItemAtIndexPath(nextItem, atScrollPosition: .Left, animated: true)
                 
                 arrowRight.hidden = false
@@ -254,7 +244,7 @@ extension GameLevelDesignViewController {
             if lastItem.row == Constants.GameScene.NumberOfColumns - 1 {
                 break
             } else {
-                nextItem = NSIndexPath(forRow: lastItem.row + 1, inSection: lastItem.section)
+                nextItem = lastItem.nextColumn
                 designArea.scrollToItemAtIndexPath(nextItem, atScrollPosition: .Right, animated: true)
                 
                 arrowLeft.hidden = false

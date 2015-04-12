@@ -64,7 +64,7 @@ struct Constants {
         static let BlinkyTag = 40
         static let PinkyTag = 50
         static let ClydeTag = 60
-        static let WallTag = 70
+        static let BoundaryTag = 70
         static let PacdotTag = 80
         static let SuperPacdotTag = 90
         static let EraserTag = 1000

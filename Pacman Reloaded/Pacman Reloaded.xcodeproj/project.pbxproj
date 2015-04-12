@@ -33,6 +33,7 @@
 		C5C8D7381AB847E5005ACB47 /* Pacman_ReloadedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5C8D7371AB847E5005ACB47 /* Pacman_ReloadedTests.swift */; };
 		DC076DA91AD178D8004268B5 /* MultiplayerGameSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC076DA81AD178D8004268B5 /* MultiplayerGameSettingViewController.swift */; };
 		DC076DAB1AD18058004268B5 /* GamePopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC076DAA1AD18058004268B5 /* GamePopoverViewController.swift */; };
+		DC11D63C1ADAB898003836FF /* myFirstFile.xml in Resources */ = {isa = PBXBuildFile; fileRef = DC11D63B1ADAB898003836FF /* myFirstFile.xml */; };
 		DC3C36E51AC69DFC00298612 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3C36E41AC69DFC00298612 /* Constants.swift */; };
 		DC3E42BB1AD12B7C0083609C /* MultiplayerManagementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3E42BA1AD12B7C0083609C /* MultiplayerManagementViewController.swift */; };
 		DC3F277C1AD13823000DE7B7 /* MultiplayerGameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3F277B1AD13823000DE7B7 /* MultiplayerGameViewController.swift */; };
@@ -41,6 +42,8 @@
 		DC7B1D3A1AC6B334008DEA0F /* pacman-female.atlas in Resources */ = {isa = PBXBuildFile; fileRef = DC7B1D391AC6B334008DEA0F /* pacman-female.atlas */; };
 		DC7B1D3C1AC6B65F008DEA0F /* pacman-male.atlas in Resources */ = {isa = PBXBuildFile; fileRef = DC7B1D3B1AC6B65F008DEA0F /* pacman-male.atlas */; };
 		DC86076D1AC714F700472BCD /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = DC86076C1AC714F700472BCD /* GameScene.sks */; };
+		DC9F87541ADA87040055AA3D /* GameLevelStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC9F87531ADA87040055AA3D /* GameLevelStorage.swift */; };
+		DC9F87581ADA9D2D0055AA3D /* FileOpState.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC9F87571ADA9D2D0055AA3D /* FileOpState.swift */; };
 		DCADC4861AD92E3800835A22 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DCADC4851AD92E3800835A22 /* Images.xcassets */; };
 		DCCF5D1E1AD8F76D00C1FA68 /* GameLevelDesignGridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCCF5D1D1AD8F76D00C1FA68 /* GameLevelDesignGridCell.swift */; };
 		DCCF5D201AD90E9A00C1FA68 /* GameDesignType.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCCF5D1F1AD90E9A00C1FA68 /* GameDesignType.swift */; };
@@ -92,6 +95,7 @@
 		C5C8D7371AB847E5005ACB47 /* Pacman_ReloadedTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pacman_ReloadedTests.swift; sourceTree = "<group>"; };
 		DC076DA81AD178D8004268B5 /* MultiplayerGameSettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiplayerGameSettingViewController.swift; sourceTree = "<group>"; };
 		DC076DAA1AD18058004268B5 /* GamePopoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GamePopoverViewController.swift; sourceTree = "<group>"; };
+		DC11D63B1ADAB898003836FF /* myFirstFile.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = myFirstFile.xml; sourceTree = "<group>"; };
 		DC3C36E41AC69DFC00298612 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		DC3E42BA1AD12B7C0083609C /* MultiplayerManagementViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiplayerManagementViewController.swift; sourceTree = "<group>"; };
 		DC3F277B1AD13823000DE7B7 /* MultiplayerGameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiplayerGameViewController.swift; sourceTree = "<group>"; };
@@ -100,6 +104,8 @@
 		DC7B1D391AC6B334008DEA0F /* pacman-female.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = "pacman-female.atlas"; sourceTree = "<group>"; };
 		DC7B1D3B1AC6B65F008DEA0F /* pacman-male.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = "pacman-male.atlas"; sourceTree = "<group>"; };
 		DC86076C1AC714F700472BCD /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
+		DC9F87531ADA87040055AA3D /* GameLevelStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameLevelStorage.swift; sourceTree = "<group>"; };
+		DC9F87571ADA9D2D0055AA3D /* FileOpState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileOpState.swift; sourceTree = "<group>"; };
 		DCADC4851AD92E3800835A22 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		DCCF5D1D1AD8F76D00C1FA68 /* GameLevelDesignGridCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameLevelDesignGridCell.swift; sourceTree = "<group>"; };
 		DCCF5D1F1AD90E9A00C1FA68 /* GameDesignType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameDesignType.swift; sourceTree = "<group>"; };
@@ -187,6 +193,8 @@
 				6F6D62F11ABC500400AF2E2A /* Utilities.swift */,
 				DC45121D1AB863DA00FF37BA /* GameObjectType.swift */,
 				DCCF5D1F1AD90E9A00C1FA68 /* GameDesignType.swift */,
+				DC9F87531ADA87040055AA3D /* GameLevelStorage.swift */,
+				DC9F87571ADA9D2D0055AA3D /* FileOpState.swift */,
 			);
 			name = Support;
 			sourceTree = "<group>";
@@ -275,6 +283,7 @@
 		DC3C36E61AC69E0100298612 /* Config */ = {
 			isa = PBXGroup;
 			children = (
+				DC11D63B1ADAB898003836FF /* myFirstFile.xml */,
 				DC766F9F1AC5D24500FB18F9 /* PacmanMapOne.tmx */,
 				DC3C36E41AC69DFC00298612 /* Constants.swift */,
 			);
@@ -392,6 +401,7 @@
 				DC86076D1AC714F700472BCD /* GameScene.sks in Resources */,
 				C5C8D7271AB847E5005ACB47 /* Main.storyboard in Resources */,
 				DC766FA01AC5D24500FB18F9 /* PacmanMapOne.tmx in Resources */,
+				DC11D63C1ADAB898003836FF /* myFirstFile.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -421,9 +431,11 @@
 				6FD17C531AD16D8C001891F6 /* GameMenuViewController.swift in Sources */,
 				DC076DA91AD178D8004268B5 /* MultiplayerGameSettingViewController.swift in Sources */,
 				6F6D62F21ABC500400AF2E2A /* Utilities.swift in Sources */,
+				DC9F87581ADA9D2D0055AA3D /* FileOpState.swift in Sources */,
 				FFD7AD491AD1671F00EAB0FA /* AIMovementControl.swift in Sources */,
 				C5C8D7241AB847E5005ACB47 /* GameViewController.swift in Sources */,
 				6FD827CD1AB854800079147F /* PacDot.swift in Sources */,
+				DC9F87541ADA87040055AA3D /* GameLevelStorage.swift in Sources */,
 				6F2F0AD11ABEA53A00B9DB78 /* Boundary.swift in Sources */,
 				6F8AEFB71AC7E24900C8BEA8 /* AudioManager.swift in Sources */,
 				DC076DAB1AD18058004268B5 /* GamePopoverViewController.swift in Sources */,

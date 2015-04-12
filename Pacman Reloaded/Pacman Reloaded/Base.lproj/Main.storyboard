@@ -378,7 +378,7 @@
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Bh-0X-z7r">
                                 <rect key="frame" x="22" y="369" width="30" height="30"/>
                                 <gestureRecognizers/>
-                                <state key="normal" title="arrow-left" backgroundImage="arrow-left">
+                                <state key="normal" backgroundImage="arrow-left">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -389,7 +389,7 @@
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LD3-Ss-msP">
                                 <rect key="frame" x="365" y="28" width="30" height="30"/>
                                 <gestureRecognizers/>
-                                <state key="normal" title="arrow-up" backgroundImage="arrow-up">
+                                <state key="normal" backgroundImage="arrow-up">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -400,7 +400,7 @@
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Aqq-hm-eAw">
                                 <rect key="frame" x="365" y="707" width="30" height="30"/>
                                 <gestureRecognizers/>
-                                <state key="normal" title="arrow-down" backgroundImage="arrow-down">
+                                <state key="normal" backgroundImage="arrow-down">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -415,12 +415,21 @@
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hZi-xz-W5i">
                                 <rect key="frame" x="700" y="369" width="30" height="30"/>
                                 <gestureRecognizers/>
-                                <state key="normal" title="arrow-right" backgroundImage="arrow-right">
+                                <state key="normal" backgroundImage="arrow-right">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <action selector="arrowClicked:" destination="q9R-B0-rYt" eventType="touchUpInside" id="Zzb-wA-MKh"/>
                                     <outletCollection property="gestureRecognizers" destination="aqk-0m-wUa" appends="YES" id="0Zg-hf-aSg"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ghf-Tw-XbO">
+                                <rect key="frame" x="962" y="405" width="46" height="30"/>
+                                <state key="normal" title="Save">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="saveFile:" destination="q9R-B0-rYt" eventType="touchUpInside" id="stW-dP-Jlk"/>
                                 </connections>
                             </button>
                         </subviews>

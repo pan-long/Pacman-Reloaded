@@ -48,7 +48,7 @@ class GameScene: SKScene {
     
     
     // TODO Pass in the file name from map selection interface
-    var TMXFileName: String? = "PacmanMapOne"
+    var fileName: String? = "myFirstFile.xml"
     
     override func didMoveToView(view: SKView) {
         physicsWorld.gravity = CGVectorMake(0, 0)
@@ -104,15 +104,15 @@ class GameScene: SKScene {
     }
 
     private func setupGameObjects() {
-        if let fileName = TMXFileName {
-            println("Loading game map from TMX file...")
+        if let fileName = fileName {
+            println("Loading game map from file...")
 
             self.enumerateChildNodesWithName("*") {
                 node, stop in
                 node.removeFromParent()
             }
 
-            parseTMXFileWithName(fileName)
+            parseFileWithName(fileName)
         }
     }
 
@@ -307,33 +307,25 @@ extension GameScene: SKPhysicsContactDelegate {
     }
 }
 
-extension GameScene: NSXMLParserDelegate {
-    func parseTMXFileWithName(name: String) {
-        let path: String = NSBundle.mainBundle().pathForResource(name, ofType: "tmx")!
-        let data: NSData = NSData(contentsOfFile: path)!
-        let parser: NSXMLParser = NSXMLParser(data: data)
-        
-        parser.delegate = self
-        self.totalPacDots = 0
-        parser.parse()
-    }
-    
-    func parser(parser: NSXMLParser!, didStartElement elementName: String!, namespaceURI: String!, qualifiedName qName: String!, attributes attributeDict: [NSObject : AnyObject]!) {
+extension GameScene {
+    func parseFileWithName(name: String) {
+        if let content = GameLevelStorage.loadGameLevelFromFile(name) {
+            self.totalPacDots = 0
 
-        if elementName == "object" {
-            let type: AnyObject? = attributeDict["type"]
+            for i in 0..<content.count {
+                let gameObject = content[i]
+                let type = gameObject["type"]!
             
-            if let typeStr = type as? String {
-                let width = CGFloat((attributeDict["width"] as String).toInt()!)
-                let height = CGFloat((attributeDict["height"] as String).toInt()!)
+                let width = CGFloat(gameObject["width"]!.toInt()!)
+                let height = CGFloat(gameObject["height"]!.toInt()!)
                 let size = CGSize(width: width, height: height)
                 
-                let xPos = CGFloat((attributeDict["x"] as String).toInt()!) + width/2
-                let yPos = Constants.IPadHeight - CGFloat((attributeDict["y"] as String).toInt()!)
-                    - height/2
+                let xPos = CGFloat(gameObject["x"]!.toInt()!) // + width/2
+                let yPos = Constants.IPadHeight - CGFloat(gameObject["y"]!.toInt()!) // - height/2
                 let origin = CGPoint(x: xPos, y: yPos)
+                println(origin)
                 
-                switch typeStr {
+                switch type {
                 case "boundary":
                     let boundary = Boundary(size: size, isExterior: false)
                     addChild(boundary)
