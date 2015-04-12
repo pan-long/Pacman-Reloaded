@@ -25,9 +25,14 @@ enum GhostMovementMode {
 }
 
 class AIMovementControl: MovementControl {
-    private let INDEFINITE_CHASE = 2800
+    private let INDEFINITE_CHASE = 2100
     private let CHASE_MODE_DURATION = 400
-    private let SCATTER_MODE_DURATION = 200
+    private let SCATTER_MODE_DURATION = 1000
+    private let GAME_SCENE_MIN_X: CGFloat = 0
+    private let GAME_SCENE_MIN_Y: CGFloat = 0
+    private let GAME_SCENE_MAX_X = Constants.GameScene.GridWidth  * CGFloat(Constants.GameScene.NumberOfColumns)
+    private let GAME_SCENE_MAX_Y = Constants.GameScene.GridHeight * CGFloat(Constants.GameScene.NumberOfRows)
+    
     
     weak var movableObject: MovableObject!
     weak var dataSource: MovementDataSource!
@@ -190,12 +195,20 @@ class AIMovementControl: MovementControl {
 }
 
 class BlinkyAIMovememntControl: AIMovementControl {
+    override func getHome() -> CGPoint {
+        return CGPoint(x: GAME_SCENE_MAX_X, y: GAME_SCENE_MAX_Y)
+    }
+    
     override func getChaseTarget(visibleObject: MovableObject) -> CGPoint {
         return visibleObject.position
     }
 }
 
 class PinkyAIMovementControl: AIMovementControl {
+    override func getHome() -> CGPoint {
+        return CGPoint(x: GAME_SCENE_MIN_X, y: GAME_SCENE_MAX_Y)
+    }
+    
     override func getChaseTarget(visibleObject: MovableObject) -> CGPoint {
         var chaseTarget: CGPoint
         let targetSpeed = visibleObject.currentSpeed
@@ -229,12 +242,20 @@ class PinkyAIMovementControl: AIMovementControl {
 }
 
 class InkyAIMovememntControl: AIMovementControl {
+    override func getHome() -> CGPoint {
+        return CGPoint(x: GAME_SCENE_MAX_X, y: GAME_SCENE_MIN_Y)
+    }
+    
     override func getChaseTarget(visibleObject: MovableObject) -> CGPoint {
         return visibleObject.position
     }
 }
 
 class ClydeAIMovememntControl: AIMovementControl {
+    override func getHome() -> CGPoint {
+        return CGPoint(x: GAME_SCENE_MIN_X, y: GAME_SCENE_MIN_Y)
+    }
+    
     override func getChaseTarget(visibleObject: MovableObject) -> CGPoint {
         return visibleObject.position
     }
