@@ -13,6 +13,21 @@ enum Direction: String {
 
     static var Default: Direction = .Right
 
+    var opposite: Direction {
+        switch self {
+        case .Up:
+            return .Down
+        case .Down:
+            return .Up
+        case .Left:
+            return .Right
+        case .Right:
+            return .Left
+        default:
+            return .None
+        }
+    }
+
     func getRotation() -> Double {
         switch self {
         case .Right:
@@ -43,7 +58,7 @@ enum Direction: String {
         }
     }
     
-    static var directionArray: [Direction] {
+    private static var directionArray: [Direction] {
         return [Direction.Up, Direction.Down, Direction.Left, Direction.Right]
     }
     
@@ -54,7 +69,7 @@ enum Direction: String {
 }
 
 
-func DegreesToRadians (value:Double) -> Double {
+private func DegreesToRadians (value:Double) -> Double {
     return value * M_PI / 180.0
 }
 

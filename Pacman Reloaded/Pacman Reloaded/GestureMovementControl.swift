@@ -10,14 +10,17 @@ import Foundation
 import SpriteKit
 
 class GestureMovementControl: NSObject, MovementControl{
-    private let movableObject: MovableObject!
-    var dataSource: MovementDataSource!
-    
+    weak var dataSource: MovementDataSource!
+    weak var movableObject: MovableObject!
+
     required init(movableObject: MovableObject) {
         self.movableObject = movableObject
     }
     
     func update() {
+    }
+    
+    func reset() {
     }
     
     func swipeLeft(sender: UISwipeGestureRecognizer) {

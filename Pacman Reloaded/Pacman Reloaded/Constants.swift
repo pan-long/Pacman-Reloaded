@@ -7,18 +7,21 @@
 //
 
 import SpriteKit
+import Foundation
 
 struct Constants {
     static let gameResumeCountDownNumber = 3
     
     static let IPadWidth = CGFloat(1024)
     static let IPadHeight = CGFloat(768)
-    
+    static let FrameInterval = 2
+
     struct Ghost {
         static let speed = CGFloat(4)
         static let defaultImageSuffix = "-right"
-        static let fleeImageSuffix = "-special"
+        static let frightenedImage = "ghost-frightened"
         static let imageSeparator = "-"
+        static let FrightenModeDuration: NSTimeInterval = 10
     }
     struct PacMan {
         static let Width = CGFloat(30)
@@ -41,5 +44,24 @@ struct Constants {
     struct Identifiers {
         static let NewGameTableCell = "newGame"
         static let NewGame = "newGame2"
+    }
+    
+    struct GameScene {
+        static let GridWidth = CGFloat(40)
+        static let GridHeight = GridWidth
+        static let NumberOfRows = 50
+        static let NumberOfColumns = 50
+        
+        static let PacmanMaleTag = 10
+        static let PacmanFemaleTag = 20
+        static let InkyTag = 30
+        static let BlinkyTag = 40
+        static let PinkyTag = 50
+        static let ClydeTag = 60
+        static let WallTag = 70
+        static let EraserTag = 1000
+        
+        static let MaxNumberOfPacman = 8
+        static let MaxNumberOfGhosts = 8
     }
 }

@@ -9,10 +9,22 @@
 import Foundation
 import SpriteKit
 
+enum MovementMode {
+    case Chase, Scatter, Frightened
+}
+
 class AIMovementControl: MovementControl {
-    private let movableObject: MovableObject!
-    var dataSource: MovementDataSource!
-    var counter = 0
+    private let INDEFINITE_CHASE = 2800
+    private let CHASE_MODE_DURATION = 400
+    private let SCATTER_MODE_DURATION = 200
+    
+    weak var movableObject: MovableObject!
+    weak var dataSource: MovementDataSource!
+    
+    private var counter = 1
+    private var currentMode = MovementMode.Scatter
+    private var currentModeDuration = 0
+    private var shouldUpdate = true
     
     required init(movableObject: MovableObject) {
         self.movableObject = movableObject
@@ -64,28 +76,56 @@ class AIMovementControl: MovementControl {
         
         movableObject.changeDirection(nextDirection)
     }
+
+    private func isUpdateFrame() -> Bool {
+        shouldUpdate = !shouldUpdate
+        return shouldUpdate
+    }
+    
+    func reset() {
+        counter = 1
+        currentMode = MovementMode.Scatter
+        currentModeDuration = 0
+        shouldUpdate = true
+    }
     
     func update() {
-        counter += 1
-        println("\(counter)")
-        
-        switch counter {
-        case 2...100:
-            scatterUpdate()
-        case 101...400:
-            chaseUpdate()
-        case 401...500:
-            scatterUpdate()
-        case 501...800:
-            chaseUpdate()
-        case 801...870:
-            scatterUpdate()
-        case 871...1500:
-            chaseUpdate()
-        case 1501...1570:
-            scatterUpdate()
-        default:
-            chaseUpdate()
+        if isUpdateFrame() {
+            let ghost = movableObject as Ghost
+            
+            // Ghost moves randomly when it's frightened
+            if ghost.frightened {
+                scatterUpdate()
+                return
+            }
+            
+            // If counter exceed indefinite chase -> chase update
+            counter += 1
+            if counter >= INDEFINITE_CHASE {
+                chaseUpdate()
+            }
+            
+            // Update movable object's direction
+            switch currentMode {
+            case .Scatter:
+                scatterUpdate()
+                currentModeDuration += 1
+                if currentModeDuration >= SCATTER_MODE_DURATION {
+                    println("Chase Mode")
+                    currentMode = .Chase
+                    currentModeDuration = 0
+                }
+            case .Chase:
+                chaseUpdate()
+                currentModeDuration += 1
+                if currentModeDuration >= CHASE_MODE_DURATION {
+                    println("Scatter Mode")
+                    currentMode = .Scatter
+                    currentModeDuration = 0
+                }
+            default:
+                break
+            }
         }
     }
 }
@@ -98,12 +138,45 @@ class BlinkyAIMovememntControl: AIMovementControl {
 
 class PinkyAIMovementControl: AIMovementControl {
     override func getChaseTarget(visibleObject: MovableObject) -> CGPoint {
-//        var chaseTarget: CGPoint
-//        switch visibleObject.currentDir {
-//        case .Up:
-//            return CGPoint(visibleObject.position.x + 3 * )
-//        }
-//        return chaseTarget: CGPoint
+        var chaseTarget: CGPoint
+        let targetSpeed = visibleObject.currentSpeed
+        let targetDir = visibleObject.currentDir != .None ?
+            visibleObject.currentDir : visibleObject.previousDir
+        
+        switch visibleObject.currentDir {
+        case .Up:
+            chaseTarget = CGPoint(
+                x: visibleObject.position.x - 4 * targetSpeed,
+                y: visibleObject.position.y + 4 * targetSpeed
+            )
+        case .Down:
+            chaseTarget = CGPoint(
+                x: visibleObject.position.x,
+                y: visibleObject.position.y - 4 * targetSpeed
+            )
+        case .Left:
+            chaseTarget = CGPoint(
+                x: visibleObject.position.x - 4 * targetSpeed,
+                y: visibleObject.position.y
+            )
+        default:
+            chaseTarget = CGPoint(
+                x: visibleObject.position.x + 4 * targetSpeed,
+                y: visibleObject.position.y
+            )
+        }
+        return chaseTarget
+    }
+}
+
+class InkyAIMovememntControl: AIMovementControl {
+    override func getChaseTarget(visibleObject: MovableObject) -> CGPoint {
+        return visibleObject.position
+    }
+}
+
+class ClydeAIMovememntControl: AIMovementControl {
+    override func getChaseTarget(visibleObject: MovableObject) -> CGPoint {
         return visibleObject.position
     }
 }

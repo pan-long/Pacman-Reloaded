@@ -21,6 +21,7 @@ class MultiplayerManagementViewController: UIViewController {
     
     override func viewDidLoad() {
         view.backgroundColor = UIColor.blackColor()
+        newGameTable.layer.cornerRadius = CGFloat(19) // TODO Magic number
         newGameTable.delegate = self
         newGameTable.dataSource = self
         connectivity.matchDelegate = self

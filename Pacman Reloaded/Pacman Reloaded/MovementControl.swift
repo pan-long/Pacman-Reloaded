@@ -9,11 +9,15 @@
 import Foundation
 import SpriteKit
 
-protocol MovementControl {
-    var dataSource: MovementDataSource! { get set }
-    
+protocol MovementControl: class {
+    weak var dataSource: MovementDataSource! { get set }
+    weak var movableObject: MovableObject! { get set }
+
     init(movableObject: MovableObject)
+    
+    // Change the direction of movable object
     func update()
+    
+    // Reset the movement control
+    func reset()
 }
-
-

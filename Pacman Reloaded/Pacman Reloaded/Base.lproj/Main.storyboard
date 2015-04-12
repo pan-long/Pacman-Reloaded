@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="13F1066" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="CsF-LZ-baB">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="CsF-LZ-baB">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -38,6 +38,15 @@
                                     <segue destination="dky-fn-pWs" kind="presentation" id="7pA-EV-TA8"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dLe-dP-rPq">
+                                <rect key="frame" x="158" y="596" width="521" height="60"/>
+                                <state key="normal" title="Button" image="button-level-designer">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="q9R-B0-rYt" kind="presentation" id="clm-tr-xj0"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -47,7 +56,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="l99-ve-j4h" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="7jJ-nl-2nd" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="99" y="-528"/>
+            <point key="canvasLocation" x="99" y="-703"/>
         </scene>
         <!--Multiplayer Management View Controller-->
         <scene sceneID="CVu-Ev-ZR5">
@@ -116,7 +125,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6eI-55-zax" customClass="SKView">
-                                <rect key="frame" x="16" y="20" width="728" height="728"/>
+                                <rect key="frame" x="16" y="24" width="720" height="720"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
@@ -188,7 +197,7 @@
                         <viewControllerLayoutGuide type="bottom" id="Q4l-3h-2bj"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="0Sw-Zg-2hR">
-                        <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
+                        <rect key="frame" x="0.0" y="0.0" width="300" height="236"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="H9W-Nx-n9i">
@@ -209,13 +218,14 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Number of Players:     2" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PKP-HK-Cll">
                                 <rect key="frame" x="16" y="32" width="181" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <value key="contentSizeForViewInPopover" type="size" width="300" height="300"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="300" height="300"/>
                     <connections>
@@ -227,6 +237,180 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4OE-LV-zYH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1246" y="984"/>
+        </scene>
+        <!--Game Level Design View Controller-->
+        <scene sceneID="ytM-0y-frn">
+            <objects>
+                <viewController id="q9R-B0-rYt" customClass="GameLevelDesignViewController" customModule="Pacman_Reloaded" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Xvp-zO-sBO"/>
+                        <viewControllerLayoutGuide type="bottom" id="3Ri-uh-5rs"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="GTs-D9-b6q">
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O7e-Kt-7VP">
+                                <rect key="frame" x="813" y="707" width="195" height="36"/>
+                                <state key="normal" image="pacman-logo">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="CsF-LZ-baB" kind="presentation" id="dzB-Qb-zJX"/>
+                                </connections>
+                            </button>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="R8O-pn-Ym3">
+                                <rect key="frame" x="16" y="24" width="720" height="720"/>
+                                <collectionViewLayout key="collectionViewLayout" id="t7r-Hi-JlL" customClass="GameLevelDesignerCollectionViewLayout" customModule="Pacman_Reloaded" customModuleProvider="target"/>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="levelDesignGrid" id="RZn-9d-6vg">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <size key="customSize" width="50" height="50"/>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="odP-W5-XQx">
+                                <rect key="frame" x="752" y="20" width="256" height="364"/>
+                                <subviews>
+                                    <button opaque="NO" tag="10" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jvH-Y8-4ho">
+                                        <rect key="frame" x="0.0" y="8" width="64" height="64"/>
+                                        <state key="normal" backgroundImage="pacman-male">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="designButtonClicked:" destination="q9R-B0-rYt" eventType="touchUpInside" id="H70-4E-rQs"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" tag="20" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h7O-Og-dIW">
+                                        <rect key="frame" x="61" y="8" width="64" height="64"/>
+                                        <state key="normal" backgroundImage="pacman-female">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="designButtonClicked:" destination="q9R-B0-rYt" eventType="touchUpInside" id="JLt-uf-OtK"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" tag="30" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hVB-MB-mS8">
+                                        <rect key="frame" x="0.0" y="80" width="64" height="64"/>
+                                        <state key="normal" backgroundImage="ghost-blue-left">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="designButtonClicked:" destination="q9R-B0-rYt" eventType="touchUpInside" id="7iE-Im-M2Y"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" tag="40" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gt4-xu-FD4">
+                                        <rect key="frame" x="64" y="80" width="64" height="64"/>
+                                        <state key="normal" backgroundImage="ghost-red-left">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="designButtonClicked:" destination="q9R-B0-rYt" eventType="touchUpInside" id="xkM-gN-idt"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" tag="50" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R2z-mG-OA6">
+                                        <rect key="frame" x="128" y="80" width="64" height="64"/>
+                                        <state key="normal" backgroundImage="ghost-yellow-left">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="designButtonClicked:" destination="q9R-B0-rYt" eventType="touchUpInside" id="mAC-Sc-i9k"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" tag="60" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="msO-Hn-ZjX">
+                                        <rect key="frame" x="192" y="80" width="64" height="64"/>
+                                        <state key="normal" backgroundImage="ghost-orange-left">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="designButtonClicked:" destination="q9R-B0-rYt" eventType="touchUpInside" id="uGv-A2-hjb"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" tag="70" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5QF-f0-5F8">
+                                        <rect key="frame" x="0.0" y="152" width="128" height="64"/>
+                                        <state key="normal" backgroundImage="wall">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="designButtonClicked:" destination="q9R-B0-rYt" eventType="touchUpInside" id="Pqr-bN-8Ei"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" tag="1000" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B1m-9c-wkr">
+                                        <rect key="frame" x="0.0" y="224" width="64" height="64"/>
+                                        <state key="normal" backgroundImage="eraser">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="designButtonClicked:" destination="q9R-B0-rYt" eventType="touchUpInside" id="abx-Pu-2n1"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Bh-0X-z7r">
+                                <rect key="frame" x="22" y="369" width="30" height="30"/>
+                                <state key="normal" backgroundImage="arrow-left">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="arrowClicked:" destination="q9R-B0-rYt" eventType="touchUpInside" id="YgT-iz-0Aw"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LD3-Ss-msP">
+                                <rect key="frame" x="365" y="28" width="30" height="30"/>
+                                <state key="normal" backgroundImage="arrow-up">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="arrowClicked:" destination="q9R-B0-rYt" eventType="touchUpInside" id="s88-aw-NVj"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Aqq-hm-eAw">
+                                <rect key="frame" x="365" y="707" width="30" height="30"/>
+                                <state key="normal" backgroundImage="arrow-down">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="arrowClicked:" destination="q9R-B0-rYt" eventType="touchUpInside" id="G2Q-wZ-vLa"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hZi-xz-W5i">
+                                <rect key="frame" x="700" y="369" width="30" height="30"/>
+                                <state key="normal" backgroundImage="arrow-right">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="arrowClicked:" destination="q9R-B0-rYt" eventType="touchUpInside" id="Zzb-wA-MKh"/>
+                                </connections>
+                            </button>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="N5S-HC-eyo">
+                                <rect key="frame" x="752" y="443" width="256" height="256"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="iPad"/>
+                    <connections>
+                        <outlet property="arrowDown" destination="Aqq-hm-eAw" id="7Ww-Nb-pcq"/>
+                        <outlet property="arrowLeft" destination="5Bh-0X-z7r" id="wXs-wb-4Oo"/>
+                        <outlet property="arrowRight" destination="hZi-xz-W5i" id="18o-o4-dQI"/>
+                        <outlet property="arrowUp" destination="LD3-Ss-msP" id="ARr-yz-RS1"/>
+                        <outlet property="buttons" destination="odP-W5-XQx" id="Ulc-wi-0d0"/>
+                        <outlet property="designArea" destination="R8O-pn-Ym3" id="wTk-aA-oz3"/>
+                        <outlet property="miniMap" destination="N5S-HC-eyo" id="wcO-M7-1yI"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3fd-GG-hbL" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1031" y="320"/>
         </scene>
         <!--Game View Controller-->
         <scene sceneID="tXr-a1-R10">
@@ -240,10 +424,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wBb-BW-aMq" customClass="SKView">
-                                <rect key="frame" x="16" y="20" width="728" height="728"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="pacman-female" translatesAutoresizingMaskIntoConstraints="NO" id="vsC-tT-pMT">
                                 <rect key="frame" x="812" y="20" width="150" height="150"/>
                             </imageView>
@@ -272,6 +452,10 @@
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wBb-BW-aMq" customClass="SKView">
+                                <rect key="frame" x="16" y="24" width="720" height="720"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -294,11 +478,23 @@
         </scene>
     </scenes>
     <resources>
+        <image name="arrow-down" width="100" height="100"/>
+        <image name="arrow-left" width="100" height="100"/>
+        <image name="arrow-right" width="100" height="100"/>
+        <image name="arrow-up" width="100" height="100"/>
         <image name="button-create-new-room" width="267" height="250"/>
+        <image name="button-level-designer" width="1650" height="202"/>
         <image name="button-multiplayer" width="397" height="57"/>
         <image name="button-single-player" width="426" height="42"/>
+        <image name="eraser" width="200" height="169"/>
+        <image name="ghost-blue-left" width="33" height="33"/>
+        <image name="ghost-orange-left" width="33" height="33"/>
+        <image name="ghost-red-left" width="33" height="33"/>
+        <image name="ghost-yellow-left" width="33" height="33"/>
         <image name="landing-page" width="1024" height="768"/>
         <image name="pacman-female" width="33" height="33"/>
         <image name="pacman-logo" width="684" height="125"/>
+        <image name="pacman-male" width="33" height="33"/>
+        <image name="wall" width="200" height="100"/>
     </resources>
 </document>
