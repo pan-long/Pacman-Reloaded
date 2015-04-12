@@ -85,10 +85,6 @@ class MultiplayerGameScene: GameScene {
         super.update(currentTime)
     }
     
-    override func getVisibleObjects() -> [MovableObject] {
-        return super.getVisibleObjects() + otherPacmans
-    }
-    
     override func restart() {
         super.restart()
         otherPacmans.removeAll(keepCapacity: false)

@@ -371,7 +371,8 @@ extension GameScene: NSXMLParserDelegate {
                     break
                 case "pacman":
                     let id: AnyObject? = attributeDict["name"]
-                    if let idInt = id as? Int {
+                    if let idStr = id as? String {
+                        let idInt = idStr.toInt()!
                         addPacmanFromTMXFile(idInt, position: origin)
                     }
                     
