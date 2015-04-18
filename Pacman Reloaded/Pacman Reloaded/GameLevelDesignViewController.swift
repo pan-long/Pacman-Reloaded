@@ -55,6 +55,20 @@ class GameLevelDesignViewController: UIViewController {
         changeArrowVisibility()
     }
     
+    deinit {
+        println("Deinit designer")
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        miniMap.dataSource = nil
+        miniMap.delegate = nil
+        designArea.delegate = nil
+        designArea.dataSource = nil
+        arrowTimer?.invalidate()
+        arrowTimer = nil
+        println("Exit segue in designer")
+    }
+    
     private func unselectAllButtons() {
         let allButtons = buttons.subviews as [UIView]
         for i in 0..<allButtons.count {

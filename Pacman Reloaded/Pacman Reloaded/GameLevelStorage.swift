@@ -31,10 +31,6 @@ class GameLevelStorage {
             
             var dic = Dictionary<String, String>()
             if let typeName = level[indexPath]!.name {
-                if typeName == "boundary" {
-                    // TODO Need special handling with boundaries
-                }
-                
                 dic["type"] = typeName
                 dic["x"] = Int((column + 0.5) * Double(gridWidth)).description
                 dic["y"] = Int((row + 0.5) * Double(gridHeight)).description
@@ -42,6 +38,12 @@ class GameLevelStorage {
                 dic["height"] = "10"
                 
                 if level[indexPath]!.isPacman || level[indexPath]!.isGhost {
+                    dic["width"] = "30"
+                    dic["height"] = "30"
+                }
+                
+                if typeName == "boundary" {
+                    // TODO Need special handling with boundaries
                     dic["width"] = "30"
                     dic["height"] = "30"
                 }
