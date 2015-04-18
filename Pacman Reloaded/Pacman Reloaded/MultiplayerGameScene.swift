@@ -32,6 +32,10 @@ class MultiplayerGameScene: GameScene {
         registerObserverForPacmanDirection()
     }
     
+    override func didMoveToView(view: SKView) {
+        super.didMoveToView(view)
+    }
+    
     override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
         if context == &movableObjectContex {
             if let networkDelegate = networkDelegate {
