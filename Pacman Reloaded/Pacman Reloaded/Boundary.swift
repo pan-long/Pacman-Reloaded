@@ -26,7 +26,7 @@ class Boundary: SKNode {
 
     func setup(rect:CGRect, isExterior: Bool) {
 
-        let shape = SKShapeNode(rect: rect, cornerRadius: 19)
+        let shape = SKShapeNode(rect: rect, cornerRadius: 0)
         shape.fillColor = SKColor.clearColor()
         shape.strokeColor = SKColor.whiteColor()
         shape.lineWidth = 1

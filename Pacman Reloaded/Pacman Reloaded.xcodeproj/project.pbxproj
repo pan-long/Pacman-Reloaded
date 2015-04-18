@@ -37,9 +37,9 @@
 		C5C8D7381AB847E5005ACB47 /* Pacman_ReloadedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5C8D7371AB847E5005ACB47 /* Pacman_ReloadedTests.swift */; };
 		DC076DA91AD178D8004268B5 /* MultiplayerGameSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC076DA81AD178D8004268B5 /* MultiplayerGameSettingViewController.swift */; };
 		DC076DAB1AD18058004268B5 /* GamePopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC076DAA1AD18058004268B5 /* GamePopoverViewController.swift */; };
-		DC11D63C1ADAB898003836FF /* myFirstFile.xml in Resources */ = {isa = PBXBuildFile; fileRef = DC11D63B1ADAB898003836FF /* myFirstFile.xml */; };
 		DC11D63E1ADAE63C003836FF /* GameLevelDesignGridNormalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC11D63D1ADAE63C003836FF /* GameLevelDesignGridNormalCell.swift */; };
 		DC17F3291AE25C8700452018 /* GameLevelDesignerNormalCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC17F3281AE25C8700452018 /* GameLevelDesignerNormalCollectionViewLayout.swift */; };
+		DC17F32B1AE2AFCD00452018 /* myFirstFile.xml in Resources */ = {isa = PBXBuildFile; fileRef = DC11D63B1ADAB898003836FF /* myFirstFile.xml */; };
 		DC3C36E51AC69DFC00298612 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3C36E41AC69DFC00298612 /* Constants.swift */; };
 		DC3E42BB1AD12B7C0083609C /* MultiplayerManagementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3E42BA1AD12B7C0083609C /* MultiplayerManagementViewController.swift */; };
 		DC3F277C1AD13823000DE7B7 /* MultiplayerGameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3F277B1AD13823000DE7B7 /* MultiplayerGameViewController.swift */; };
@@ -421,6 +421,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DC17F32B1AE2AFCD00452018 /* myFirstFile.xml in Resources */,
 				DC7B1D3C1AC6B65F008DEA0F /* pacman-male.atlas in Resources */,
 				DCADC4861AD92E3800835A22 /* Images.xcassets in Resources */,
 				6FD17C4A1AD14334001891F6 /* crackman.ttf in Resources */,
@@ -431,7 +432,6 @@
 				DC86076D1AC714F700472BCD /* GameScene.sks in Resources */,
 				C5C8D7271AB847E5005ACB47 /* Main.storyboard in Resources */,
 				DC766FA01AC5D24500FB18F9 /* PacmanMapOne.tmx in Resources */,
-				DC11D63C1ADAB898003836FF /* myFirstFile.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

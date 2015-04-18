@@ -324,7 +324,7 @@ extension GameScene {
             
                 let width = CGFloat(gameObject["width"]!.toInt()!)
                 let height = CGFloat(gameObject["height"]!.toInt()!)
-                let size = CGSize(width: width, height: height)
+                var size = CGSize(width: width, height: height)
                 
                 let xPos = CGFloat(gameObject["x"]!.toInt()!) // + width/2
                 let yPos = Constants.IPadHeight - CGFloat(gameObject["y"]!.toInt()!) // - height/2
@@ -333,6 +333,7 @@ extension GameScene {
                 
                 switch type {
                 case "boundary":
+                    size = CGSize(width: 35, height: 35)
                     let boundary = Boundary(size: size, isExterior: false)
                     addChild(boundary)
                     boundary.position = origin
@@ -357,11 +358,15 @@ extension GameScene {
                     self.totalPacDots++
                     break
                 case "pacman":
-                    let id: AnyObject? = gameObject["id"]
-                    if let idStr = id as? String {
-                        let idInt = idStr.toInt()!
-                        addPacmanFromTMXFile(idInt, position: origin)
-                    }
+//                    let id: AnyObject? = gameObject["id"]
+//                    if let idStr = id as? String {
+//                        let idInt = idStr.toInt()!
+//                        println("pacman added")
+//                        addPacmanFromTMXFile(idInt, position: origin)
+//                    }
+                    
+                    pacman.position = origin
+                    addChild(pacman)
                     
                     break
                 case "blinky":
