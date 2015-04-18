@@ -24,6 +24,7 @@
 		6FD827CD1AB854800079147F /* PacDot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FD827CC1AB854800079147F /* PacDot.swift */; };
 		6FD827CF1AB854EA0079147F /* Ghost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FD827CE1AB854EA0079147F /* Ghost.swift */; };
 		C540CFD11AD93306008C3D35 /* NetworkMovementControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = C540CFD01AD93306008C3D35 /* NetworkMovementControl.swift */; };
+		C5776FFE1AE2994D0049A869 /* MultiplayerGameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = C5776FFD1AE2994D0049A869 /* MultiplayerGameScene.sks */; };
 		C59CB9521AD16C3B00E41CAE /* MultiplayerGameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C59CB9511AD16C3B00E41CAE /* MultiplayerGameScene.swift */; };
 		C59CB9541AD172C000E41CAE /* GameNetworkData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C59CB9531AD172C000E41CAE /* GameNetworkData.swift */; };
 		C59CB9561AD174A900E41CAE /* GameCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C59CB9551AD174A900E41CAE /* GameCenter.swift */; };
@@ -93,6 +94,7 @@
 		6FD827CC1AB854800079147F /* PacDot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PacDot.swift; sourceTree = "<group>"; };
 		6FD827CE1AB854EA0079147F /* Ghost.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ghost.swift; sourceTree = "<group>"; };
 		C540CFD01AD93306008C3D35 /* NetworkMovementControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkMovementControl.swift; sourceTree = "<group>"; };
+		C5776FFD1AE2994D0049A869 /* MultiplayerGameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MultiplayerGameScene.sks; sourceTree = "<group>"; };
 		C59CB9511AD16C3B00E41CAE /* MultiplayerGameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiplayerGameScene.swift; sourceTree = "<group>"; };
 		C59CB9531AD172C000E41CAE /* GameNetworkData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameNetworkData.swift; sourceTree = "<group>"; };
 		C59CB9551AD174A900E41CAE /* GameCenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameCenter.swift; sourceTree = "<group>"; };
@@ -249,6 +251,7 @@
 				6F8AEFB61AC7E24900C8BEA8 /* AudioManager.swift */,
 				C5C8D71D1AB847E5005ACB47 /* AppDelegate.swift */,
 				DC86076C1AC714F700472BCD /* GameScene.sks */,
+				C5776FFD1AE2994D0049A869 /* MultiplayerGameScene.sks */,
 				C5C8D7211AB847E5005ACB47 /* GameScene.swift */,
 				C59CB9511AD16C3B00E41CAE /* MultiplayerGameScene.swift */,
 				6F8AEFB11AC7DB2F00C8BEA8 /* GameSceneDelegate.swift */,
@@ -406,6 +409,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C5776FFE1AE2994D0049A869 /* MultiplayerGameScene.sks in Resources */,
 				DC7B1D3C1AC6B65F008DEA0F /* pacman-male.atlas in Resources */,
 				DCADC4861AD92E3800835A22 /* Images.xcassets in Resources */,
 				6FD17C4A1AD14334001891F6 /* crackman.ttf in Resources */,

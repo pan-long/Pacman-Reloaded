@@ -18,18 +18,16 @@ protocol GameSceneNetworkDelegate {
 }
 
 class MultiplayerGameScene: GameScene {
-    private let isHost: Bool
+    private var isHost = false
     
-    private let pacmanId: Int
+    private var pacmanId = 0
     private var otherPacmans = [PacMan]()
     
     var networkDelegate: GameSceneNetworkDelegate?
     
-    init(pacmanId: Int, isHost: Bool) {
+    func setupPacman(pacmanId: Int, isHost: Bool) {
         self.pacmanId = pacmanId
         self.isHost = isHost
-        
-        super.init()
         
         registerObserverForPacmanDirection()
     }
