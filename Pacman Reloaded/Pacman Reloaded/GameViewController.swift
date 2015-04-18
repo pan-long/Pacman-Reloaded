@@ -57,11 +57,13 @@ class GameViewController: UIViewController {
     }
 
     override func viewDidAppear(animated: Bool) {
-        // Present game settings
-        scene?.view?.paused = true
-        
-        let gameSetting = self.storyboard!.instantiateViewControllerWithIdentifier("gameSetting") as GamePopoverViewController
-        self.presentViewController(gameSetting, animated: true, completion: nil)
+        if numberOfPlayers > 1 {
+            // Present game settings
+            scene?.view?.paused = true
+            
+            let gameSetting = self.storyboard!.instantiateViewControllerWithIdentifier("gameSetting") as GamePopoverViewController
+            self.presentViewController(gameSetting, animated: true, completion: nil)
+        }
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -240,7 +242,7 @@ extension GameViewController: MatchPeersDelegate {
     func session(player playername: String, didChangeState state: MCSessionState) {
         switch state {
         case .Connected:
-            
+            println("connected")
             break
         case .Connecting:
             println("connecting")

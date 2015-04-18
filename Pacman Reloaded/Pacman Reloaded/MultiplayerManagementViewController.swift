@@ -69,7 +69,9 @@ extension MultiplayerManagementViewController: UITableViewDataSource {
 
 extension MultiplayerManagementViewController: MatchPeersDelegate {
     func didReceiveInvitationFromPlayer(playerName: String, invitationHandler: ((Bool) -> Void)) {}
-    func session(player playername: String, didChangeState state: MCSessionState) {}
+    func session(player playername: String, didChangeState state: MCSessionState) {
+    
+    }
     
     func browser(foundPlayer playerName: String, withDiscoveryInfo info: [NSObject : AnyObject]?) {
         newGames.append(playerName)
