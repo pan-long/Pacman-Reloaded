@@ -60,10 +60,26 @@ struct Constants {
     }
     
     struct GameScene {
+        static let NumberOfRows = 40
+        static let NumberOfColumns = 40
+        static let NumberOfRowsPerScreen = 18
+        static let NumberOfColumnsPerScreen = 18
+        
         static let GridWidth = CGFloat(40)
         static let GridHeight = GridWidth
-        static let NumberOfRows = 50
-        static let NumberOfColumns = 50
+        static let DesignAreaMinX = GridWidth * CGFloat(NumberOfColumnsPerScreen / 2)
+        static let DesignAreaMinY = GridHeight * CGFloat(NumberOfRowsPerScreen / 2)
+        static let DesignAreaMaxX = GridWidth * CGFloat(NumberOfColumns) - DesignAreaMinX
+        static let DesignAreaMaxY = GridHeight * CGFloat(NumberOfRows) - DesignAreaMinY
+        static let DesignAreaWidth = GridWidth * CGFloat(NumberOfColumns)
+        static let DesignAreaHeight = GridHeight * CGFloat(NumberOfRows)
+        
+        static let MiniGridWidth = CGFloat(6.4)
+        static let MiniGridHeight = MiniGridWidth
+        static let RecCenterMinX = MiniGridWidth * CGFloat(NumberOfColumnsPerScreen / 2)
+        static let RecCenterMinY = MiniGridHeight * CGFloat(NumberOfRowsPerScreen / 2)
+        static let RecCenterMaxX = MiniGridWidth * CGFloat(NumberOfRows) - RecCenterMinX
+        static let RecCenterMaxY = MiniGridHeight * CGFloat(NumberOfColumns) - RecCenterMinY
         
         static let PacmanMaleTag = 10
         static let PacmanFemaleTag = 20
@@ -71,7 +87,7 @@ struct Constants {
         static let BlinkyTag = 40
         static let PinkyTag = 50
         static let ClydeTag = 60
-        static let WallTag = 70
+        static let BoundaryTag = 70
         static let PacdotTag = 80
         static let SuperPacdotTag = 90
         static let EraserTag = 1000

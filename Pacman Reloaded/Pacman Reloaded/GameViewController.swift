@@ -55,8 +55,8 @@ class GameViewController: UIViewController {
             let skView = gameSceneView as SKView
             skView.showsFPS = true
             skView.frameInterval = Constants.FrameInterval
-//            skView.showsNodeCount = true
-//            skView.showsPhysics = true
+            skView.showsNodeCount = true
+            skView.showsPhysics = true
             /* Sprite Kit applies additional optimizations to improve rendering performance */
             skView.ignoresSiblingOrder = true
             

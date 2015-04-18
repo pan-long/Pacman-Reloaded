@@ -10,10 +10,10 @@ import SpriteKit
 
 class GameLevelDesignerCollectionViewLayout: UICollectionViewLayout {
     
-    let width = Double(Constants.GameScene.GridWidth)
-    let height = Double(Constants.GameScene.GridHeight)
-    let rows = Double(Constants.GameScene.NumberOfRows)
-    let columns = Double(Constants.GameScene.NumberOfColumns)
+    var width = Double(Constants.GameScene.MiniGridWidth)
+    var height = Double(Constants.GameScene.MiniGridWidth)
+    var rows = Double(Constants.GameScene.NumberOfRows)
+    var columns = Double(Constants.GameScene.NumberOfColumns)
     
     override func prepareLayout() {
         super.prepareLayout()
