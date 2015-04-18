@@ -17,18 +17,16 @@ class GameScene: SKScene {
 
     // Initiate game objects
     var pacman = PacMan()
-    var blinky = Ghost(imageName: "ghost-red")
-    var pinky = Ghost(imageName: "ghost-yellow")
-    var inky = Ghost(imageName: "ghost-blue")
-    var clyde = Ghost(imageName: "ghost-orange")
+    
+    var blinkys = [Ghost]()
+    var pinkys = [Ghost]()
+    var inkys = [Ghost]()
+    var clydes = [Ghost]()
+
     var totalPacDots:Int = 0
     var frightenTimer: NSTimer?
 
     var pacmanMovement: GestureMovementControl!
-    var blinkyMovement: MovementControl!
-    var pinkyMovement: MovementControl!
-    var inkyMovement: MovementControl!
-    var clydeMovement: MovementControl!
 
     var swipeLeft: UISwipeGestureRecognizer!
 
@@ -39,7 +37,7 @@ class GameScene: SKScene {
     var swipeDown: UISwipeGestureRecognizer!
 
     var ghosts: [Ghost]!
-    var ghostMovements: [MovementControl]!
+    var ghostMovements = [MovementControl]()
     
     
     // TODO Pass in the file name from map selection interface
@@ -52,24 +50,26 @@ class GameScene: SKScene {
         self.presentingView = view
         initGameObjects()
         setupGameObjects()
+        setupMovementControls()
 
         self.anchorPoint = CGPoint(x: 0.5 - pacman.position.x / Constants.IPadWidth,
             y: 0.5 - pacman.position.y / Constants.IPadHeight)
     }
-
-    private func initGameObjects() {
-        pacman = PacMan()
-        blinky = Ghost(imageName: "ghost-red")
-        pinky = Ghost(imageName: "ghost-yellow")
-        inky = Ghost(imageName: "ghost-blue")
-        clyde = Ghost(imageName: "ghost-orange")
-        totalPacDots = 0
-
-        ghosts = [blinky, pinky, inky, clyde]
-
+    
+    private func setupMovementControls() {
         setupOwnPacmanGestureMovementControl()
         setupObjectsMovementControl()
         setGhostMovementDatasource()
+    }
+
+    private func initGameObjects() {
+        pacman = PacMan()
+        
+        blinkys = [Ghost]()
+        pinkys = [Ghost]()
+        inkys = [Ghost]()
+        clydes = [Ghost]()
+        totalPacDots = 0
     }
     
     private func setupOwnPacmanGestureMovementControl() {
@@ -96,14 +96,28 @@ class GameScene: SKScene {
     }
     
     func setupObjectsMovementControl() {
-        blinkyMovement = BlinkyAIMovememntControl(movableObject: blinky)
-        pinkyMovement = PinkyAIMovementControl(movableObject: pinky)
-        inkyMovement = InkyAIMovememntControl(movableObject: inky)
-        clydeMovement = ClydeAIMovememntControl(movableObject: clyde)
+        for blinky in blinkys {
+            var blinkyMovement = BlinkyAIMovememntControl(movableObject: blinky)
+            ghostMovements.append(blinkyMovement)
+        }
+        
+        for pinky in pinkys {
+            var pinkyMovement = PinkyAIMovementControl(movableObject: pinky)
+            ghostMovements.append(pinkyMovement)
+        }
+        
+        for inky in inkys {
+            var inkyMovement = InkyAIMovememntControl(movableObject: inky)
+            ghostMovements.append(inkyMovement)
+        }
+        
+        for clyde in clydes {
+            var clydeMovement = ClydeAIMovememntControl(movableObject: clyde)
+            ghostMovements.append(clydeMovement)
+        }
     }
     
     private func setGhostMovementDatasource() {
-        ghostMovements = [blinkyMovement, pinkyMovement, inkyMovement, clydeMovement]
         for i in 0..<ghostMovements.count {
             ghostMovements[i].dataSource = self
         }
@@ -119,6 +133,8 @@ class GameScene: SKScene {
             }
 
             parseFileWithName(fileName)
+            
+            ghosts = blinkys + pinkys + inkys + clydes
         }
     }
 
@@ -170,8 +186,8 @@ extension GameScene: MovementDataSource {
         return pacmans
     }
     
-    func getBlinky() -> MovableObject {
-        return blinky
+    func getBlinkys() -> [MovableObject] {
+        return blinkys
     }
 }
 
@@ -370,27 +386,31 @@ extension GameScene {
                     
                     break
                 case "blinky":
+                    var blinky = Ghost(imageName: "ghost-red")
                     blinky.position = origin
                     addChild(blinky)
-                    println("set up blinky")
+                    blinkys.append(blinky)
                     
                     break
                 case "pinky":
+                    var pinky = Ghost(imageName: "ghost-yellow")
                     pinky.position = origin
                     addChild(pinky)
-                    println("set up pinky")
+                    pinkys.append(pinky)
                     
                     break
                 case "inky":
+                    var inky = Ghost(imageName: "ghost-blue")
                     inky.position = origin
                     addChild(inky)
-                    println("set up inky")
+                    inkys.append(inky)
                     
                     break
                 case "clyde":
+                    var clyde = Ghost(imageName: "ghost-orange")
                     clyde.position = origin
                     addChild(clyde)
-                    println("set up clyde")
+                    clydes.append(clyde)
                     
                     break
                 default:

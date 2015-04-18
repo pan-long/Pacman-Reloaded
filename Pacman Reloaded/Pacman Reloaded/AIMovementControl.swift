@@ -25,6 +25,8 @@ enum GhostMovementMode {
 }
 
 class AIMovementControl: MovementControl {
+    private let MAX_DISTANCE: Double = 10000
+    
     weak var movableObject: MovableObject!
     weak var dataSource: MovementDataSource!
     
@@ -123,7 +125,7 @@ class AIMovementControl: MovementControl {
             nextDirection = availableDirections[0]
         }
         
-        var minDistanceFromHome: Double = 100000
+        var minDistanceFromHome: Double = MAX_DISTANCE
         
         for direction in availableDirections {
             let distance = calculateDistance(
@@ -228,10 +230,24 @@ class InkyAIMovememntControl: AIMovementControl {
         let offsetPosition = visibleObject.getNextPosition(
             visibleObject.currentDir,
             offset: INKY_CHASE_OFFSET)
-        let blinkyPosition = dataSource.getBlinky().position
-        let chaseTarget = CGPoint(
-            x: blinkyPosition.x + 2 * (offsetPosition.x - blinkyPosition.x),
-            y: blinkyPosition.y + 2 * (offsetPosition.y - blinkyPosition.y))
+        let blinkys = dataSource.getBlinkys()
+        
+        var chaseTarget = visibleObject.position
+        var minDistance = MAX_DISTANCE
+        for blinky in blinkys {
+            var blinkyPosition = blinky.position
+            let blinkyTarget = CGPoint(
+                x: blinkyPosition.x + 2 * (offsetPosition.x - blinkyPosition.x),
+                y: blinkyPosition.y + 2 * (offsetPosition.y - blinkyPosition.y))
+            let blinkyTargetDistance = calculateDistance(
+                movableObject.position,
+                secondPostion: blinkyTarget)
+            
+            if  blinkyTargetDistance < minDistance {
+                minDistance = blinkyTargetDistance
+                chaseTarget = blinkyTarget
+            }
+        }
         
         return chaseTarget
     }

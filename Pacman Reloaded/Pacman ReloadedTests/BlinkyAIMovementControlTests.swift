@@ -49,7 +49,7 @@ extension BlinkyAIMovementControlTests: MovementDataSource {
         return pacmans
     }
     
-    func getBlinky() -> MovableObject {
-        return blinky
+    func getBlinkys() -> [MovableObject] {
+        return [blinky]
     }
 }
