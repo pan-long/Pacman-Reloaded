@@ -9,19 +9,26 @@
 import Foundation
 import SpriteKit
 
+struct GhostName {
+    static let GHOST_NAME_BLINKY = "BLINKY"
+    static let GHOST_NAME_CLYDE = "CLYDE"
+    static let GHOST_NAME_INKY = "INKY"
+    static let GHOST_NAME_PINKY = "PINKY"
+}
+
 private enum GhostMode {
     case Normal, Frightened, Eaten
 }
 
 class Ghost: MovableObject {
     private var imageName: String = ""
-
+    
     private var _currentMode: GhostMode = .Normal {
         didSet {
             updateTexture()
         }
     }
-
+    
     var frightened: Bool {
         get {
             return _currentMode != .Normal
@@ -35,7 +42,7 @@ class Ghost: MovableObject {
             }
         }
     }
-
+    
     var eaten: Bool {
         get {
             return _currentMode == .Eaten
@@ -49,7 +56,7 @@ class Ghost: MovableObject {
             }
         }
     }
-
+    
     convenience init(imageName: String) {
         self.init(image: imageName + Constants.Ghost.defaultImageSuffix)
         self.imageName = imageName
@@ -63,12 +70,12 @@ class Ghost: MovableObject {
         
         self.currentSpeed = Constants.Ghost.speed
     }
-
+    
     override func changeDirection(newDirection: Direction) {
         super.changeDirection(newDirection)
         updateTexture()
     }
-
+    
     private func updateTexture() {
         if self.frightened && !self.eaten {
             self.sprite.texture = SKTexture(imageNamed: Constants.Ghost.frightenedImage)
@@ -82,8 +89,8 @@ class Ghost: MovableObject {
             self.sprite.texture = SKTexture(imageNamed: self.imageName +
                 Constants.Ghost.imageSeparator +
                 Direction.Default.str.lowercaseString)
-
+            
         }
     }
-
+    
 }

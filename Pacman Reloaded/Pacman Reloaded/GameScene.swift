@@ -67,35 +67,46 @@ class GameScene: SKScene {
 
         ghosts = [blinky, pinky, inky, clyde]
 
+        setupOwnPacmanGestureMovementControl()
+        setupObjectsMovementControl()
+        setGhostMovementDatasource()
+    }
+    
+    private func setupOwnPacmanGestureMovementControl() {
         // Set up movemnt control
         pacmanMovement = GestureMovementControl(movableObject: pacman)
         pacmanMovement.dataSource = self
-
+        
+        // setup gesture recognizer
+        swipeLeft = UISwipeGestureRecognizer(target: pacmanMovement, action: "swipeLeft:")
+        swipeLeft.direction = .Left
+        self.presentingView.addGestureRecognizer(swipeLeft)
+        
+        swipeRight = UISwipeGestureRecognizer(target: pacmanMovement, action: "swipeRight:")
+        swipeRight.direction = .Right
+        self.presentingView.addGestureRecognizer(swipeRight)
+        
+        swipeUp = UISwipeGestureRecognizer(target: pacmanMovement, action: "swipeUp:")
+        swipeUp.direction = .Up
+        self.presentingView.addGestureRecognizer(swipeUp)
+        
+        swipeDown = UISwipeGestureRecognizer(target: pacmanMovement, action: "swipeDown:")
+        swipeDown.direction = .Down
+        self.presentingView.addGestureRecognizer(swipeDown)
+    }
+    
+    func setupObjectsMovementControl() {
         blinkyMovement = BlinkyAIMovememntControl(movableObject: blinky)
         pinkyMovement = PinkyAIMovementControl(movableObject: pinky)
         inkyMovement = InkyAIMovememntControl(movableObject: inky)
         clydeMovement = ClydeAIMovememntControl(movableObject: clyde)
-
+    }
+    
+    private func setGhostMovementDatasource() {
         ghostMovements = [blinkyMovement, pinkyMovement, inkyMovement, clydeMovement]
         for i in 0..<ghostMovements.count {
             ghostMovements[i].dataSource = self
         }
-
-        swipeLeft = UISwipeGestureRecognizer(target: pacmanMovement, action: "swipeLeft:")
-        swipeLeft.direction = .Left
-        self.presentingView.addGestureRecognizer(swipeLeft)
-
-        swipeRight = UISwipeGestureRecognizer(target: pacmanMovement, action: "swipeRight:")
-        swipeRight.direction = .Right
-        self.presentingView.addGestureRecognizer(swipeRight)
-
-        swipeUp = UISwipeGestureRecognizer(target: pacmanMovement, action: "swipeUp:")
-        swipeUp.direction = .Up
-        self.presentingView.addGestureRecognizer(swipeUp)
-
-        swipeDown = UISwipeGestureRecognizer(target: pacmanMovement, action: "swipeDown:")
-        swipeDown.direction = .Down
-        self.presentingView.addGestureRecognizer(swipeDown)
     }
 
     private func setupGameObjects() {
@@ -354,9 +365,11 @@ extension GameScene: NSXMLParserDelegate {
                     self.totalPacDots++
                     break
                 case "pacman":
-                    // TODO Support multiplayer mode
-                    pacman.position = origin
-                    addChild(pacman)
+                    let id: AnyObject? = attributeDict["name"]
+                    if let idStr = id as? String {
+                        let idInt = idStr.toInt()!
+                        addPacmanFromTMXFile(idInt, position: origin)
+                    }
                     
                     break
                 case "blinky":
@@ -388,5 +401,10 @@ extension GameScene: NSXMLParserDelegate {
                 }
             }
         }
+    }
+    
+    func addPacmanFromTMXFile(id: Int, position: CGPoint) {
+        pacman.position = position
+        addChild(pacman)
     }
 }

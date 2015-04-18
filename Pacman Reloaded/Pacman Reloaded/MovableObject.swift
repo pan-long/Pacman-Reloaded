@@ -9,9 +9,16 @@
 import Foundation
 import SpriteKit
 
+var movableObjectContex = 0
 class MovableObject: GameObject {
     var previousDir = Direction.None
-    var currentDir = Direction.Default
+    var currentDir: Direction = Direction.Default {
+        didSet {
+            currentDirRaw = currentDir.rawValue
+        }
+    }
+    
+    dynamic var currentDirRaw = Direction.Right.rawValue
     var requestedDir = Direction.None
 
     var blocked = (up: 0, down: 0, left: 0, right: 0)
@@ -46,7 +53,7 @@ class MovableObject: GameObject {
         createLeftSensorPhysicsBody( whileTravellingLeftOrRight: true)
 
     }
-
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
