@@ -357,7 +357,7 @@ extension GameScene {
                     self.totalPacDots++
                     break
                 case "pacman":
-                    let id: AnyObject? = attributeDict["name"]
+                    let id: AnyObject? = gameObject["id"]
                     if let idStr = id as? String {
                         let idInt = idStr.toInt()!
                         addPacmanFromTMXFile(idInt, position: origin)
