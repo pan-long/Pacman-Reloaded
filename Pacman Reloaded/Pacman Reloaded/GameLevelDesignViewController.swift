@@ -13,7 +13,8 @@ class GameLevelDesignViewController: UIViewController {
     // TODO Handle the memory issue.
     @IBOutlet weak var buttons: UIView!
     @IBOutlet weak var designArea: UICollectionView!
-    @IBOutlet weak var miniMap: UIView!
+    @IBOutlet weak var miniMap: UICollectionView!
+    @IBOutlet weak var miniMapRec: UIImageView!
     
     @IBOutlet weak var arrowUp: UIButton!
     @IBOutlet weak var arrowDown: UIButton!
@@ -22,9 +23,11 @@ class GameLevelDesignViewController: UIViewController {
     private var arrowHolding: UIButton?
     private var arrowTimer: NSTimer?
     
-    private let cellIdentifier = "levelDesignGrid"
+    private let designAreaCellIdentifier = "levelDesignGrid"
+    private let miniMapCellIdentifier = "levelDesignMinimapGrid"
     private var selected = GameDesignType.None
     private var cellMappings = Dictionary<NSIndexPath, GameDesignType>()
+    
     private var numberOfPacmans = 0
     private var numberOfGhosts = 0
     
@@ -32,27 +35,24 @@ class GameLevelDesignViewController: UIViewController {
         super.viewDidLoad()
         
         unselectAllButtons()
-        designArea.registerClass(GameLevelDesignGridCell.self,
-            forCellWithReuseIdentifier: cellIdentifier)
+        designArea.registerClass(GameLevelDesignGridNormalCell.self,
+            forCellWithReuseIdentifier: designAreaCellIdentifier)
         designArea.backgroundColor = UIColor.blackColor()
         designArea.dataSource = self
         designArea.delegate = self
         designArea.scrollEnabled = false
         designArea.layer.cornerRadius = CGFloat(20)
-        
+
+        miniMap.registerClass(GameLevelDesignGridCell.self,
+            forCellWithReuseIdentifier: miniMapCellIdentifier)
         miniMap.backgroundColor = UIColor.blackColor()
-        miniMap.layer.cornerRadius = CGFloat(10)
+        miniMap.delegate = self
+        miniMap.dataSource = self
+        miniMap.scrollEnabled = false
         
-        // Initially the left and up arrows should be hidden.
-        arrowUp.hidden = true
-        arrowLeft.hidden = true
         arrowTimer = NSTimer.scheduledTimerWithTimeInterval(0.2, target: self,
                 selector: "handleArrowLongPressing:", userInfo: nil, repeats: true)
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        changeArrowVisibility()
     }
     
     private func unselectAllButtons() {
@@ -64,48 +64,106 @@ class GameLevelDesignViewController: UIViewController {
     
     private func setCellToSelected(indexPath: NSIndexPath) {
         setCellToSelected(designArea, indexPath: indexPath)
-        
+        setCellToSelected(miniMap, indexPath: indexPath)
     }
     
     private func setCellToSelected(collectionView: UICollectionView, indexPath: NSIndexPath) {
-        let cell = collectionView.cellForItemAtIndexPath(indexPath) as GameLevelDesignGridCell
-        if selected.isPacman {
-            if numberOfPacmans >= Constants.GameScene.MaxNumberOfPacman {
-                return
-            } else {
-                numberOfPacmans++
+        if let cellAtIndexPath = collectionView.cellForItemAtIndexPath(indexPath) {
+            var cell = cellAtIndexPath as GameLevelDesignGridCell
+            if collectionView == designArea {
+                cell = cell as GameLevelDesignGridNormalCell
             }
+            
+            if selected.isPacman {
+                if numberOfPacmans >= Constants.GameScene.MaxNumberOfPacman {
+                    return
+                } else {
+                    numberOfPacmans++
+                }
+            }
+            if selected.isGhost {
+                if numberOfGhosts >= Constants.GameScene.MaxNumberOfGhosts {
+                    return
+                } else {
+                    numberOfGhosts++
+                }
+            }
+            
+            if let existing = cellMappings[indexPath] {
+                if existing.isPacman {
+                    numberOfPacmans--
+                }
+                if existing.isGhost {
+                    numberOfGhosts--
+                }
+            }
+            
+            if selected == .None {
+                cellMappings.removeValueForKey(indexPath)
+            } else {
+                cellMappings[indexPath] = selected
+            }
+            cell.setType(selected)
         }
-        if selected.isGhost {
-            if numberOfGhosts >= Constants.GameScene.MaxNumberOfGhosts {
-                return
-            } else {
-                numberOfGhosts++
-            }
+    }
+    
+    private func changeArrowVisibility() {
+        // Min and max x, y values for the design area
+        let minX = Constants.GameScene.DesignAreaMinX
+        let minY = Constants.GameScene.DesignAreaMinY
+        let maxX = Constants.GameScene.DesignAreaMaxX
+        let maxY = Constants.GameScene.DesignAreaMaxY
+        let curX = designAreaCenter().x
+        let curY = designAreaCenter().y
+
+        arrowLeft.hidden = false
+        arrowRight.hidden = false
+        if curX <= minX {
+            arrowLeft.hidden = true
+        } else if curX >= maxX {
+            arrowRight.hidden = true
         }
         
-        if let existing = cellMappings[indexPath] {
-            if existing.isPacman {
-                numberOfPacmans--
-            }
-            if existing.isGhost {
-                numberOfGhosts--
-            }
+        arrowUp.hidden = false
+        arrowDown.hidden = false
+        if curY <= minY {
+            arrowUp.hidden = true
+        } else if curY >= maxY {
+            arrowDown.hidden = true
         }
-        
-        if selected == .None {
-            cellMappings.removeValueForKey(indexPath)
-        } else {
-            cellMappings[indexPath] = selected
-        }
-        cell.setType(selected)
+    }
+    
+    // Move the red rectangle in the minimap to an appropriate place
+    private func moveMiniMapRec() {
+        let xRatio = designAreaCenter().x / Constants.GameScene.DesignAreaWidth
+        let yRatio = designAreaCenter().y / Constants.GameScene.DesignAreaHeight
+        let miniMapOrig = miniMap.frame.origin
+        miniMapRec.center.x = miniMapOrig.x + miniMap.frame.width * xRatio
+        miniMapRec.center.y = miniMapOrig.y + miniMap.frame.height * yRatio
+    }
+    
+    private func designAreaCenter() -> CGPoint {
+        return CGPoint(x: Constants.GameScene.DesignAreaMinX + designArea.contentOffset.x,
+            y: Constants.GameScene.DesignAreaMinY + designArea.contentOffset.y);
     }
 }
 
 
 extension GameLevelDesignViewController: UICollectionViewDelegate {
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        setCellToSelected(collectionView, indexPath: indexPath)
+        if collectionView == designArea {
+            setCellToSelected(indexPath)
+        } else if collectionView == miniMap {
+            let curIndexPath = designArea.indexPathForItemAtPoint(designAreaCenter())!
+            let cornerIndexPath = NSIndexPath(forRow: indexPath.row, inSection: curIndexPath.section)
+            designArea.scrollToItemAtIndexPath(cornerIndexPath,
+                atScrollPosition: .CenteredHorizontally, animated: false)
+            designArea.scrollToItemAtIndexPath(indexPath,
+                atScrollPosition: .CenteredVertically, animated: false)
+            
+            moveMiniMapRec()
+            changeArrowVisibility()
+        }
     }
 }
 
@@ -119,7 +177,13 @@ extension GameLevelDesignViewController: UICollectionViewDataSource {
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(cellIdentifier, forIndexPath: indexPath) as GameLevelDesignGridCell
+        var cell: GameLevelDesignGridCell
+        if collectionView == designArea {
+            cell = collectionView.dequeueReusableCellWithReuseIdentifier(designAreaCellIdentifier, forIndexPath: indexPath) as GameLevelDesignGridNormalCell
+        } else {
+            cell = collectionView.dequeueReusableCellWithReuseIdentifier(miniMapCellIdentifier, forIndexPath: indexPath) as GameLevelDesignGridCell
+        }
+        
         if let cellType = cellMappings[indexPath] {
             cell.setType(cellMappings[indexPath]!)
         } else {
@@ -182,6 +246,7 @@ extension GameLevelDesignViewController {
     }
     
     @IBAction func saveFile(sender: UIButton) {
+        // TODO Refactor the file name
         GameLevelStorage.storeGameLevelToFile(cellMappings, fileName: "myFirstFile.xml")
     }
 }
@@ -201,13 +266,6 @@ extension GameLevelDesignViewController {
             } else {
                 nextItem = firstItem.previousRow
                 designArea.scrollToItemAtIndexPath(nextItem, atScrollPosition: .Top, animated: true)
-                
-                arrowDown.hidden = false
-                if nextItem.section == 0 {
-                    arrowUp.hidden = true
-                } else {
-                    arrowUp.hidden = false
-                }
             }
             break
         case arrowDown:
@@ -216,13 +274,6 @@ extension GameLevelDesignViewController {
             } else {
                 nextItem = lastItem.nextRow
                 designArea.scrollToItemAtIndexPath(nextItem, atScrollPosition: .Bottom, animated: true)
-                
-                arrowUp.hidden = false
-                if nextItem.section == Constants.GameScene.NumberOfRows - 1 {
-                    arrowDown.hidden = true
-                } else {
-                    arrowDown.hidden = false
-                }
             }
             break
         case arrowLeft:
@@ -231,13 +282,6 @@ extension GameLevelDesignViewController {
             } else {
                 nextItem = firstItem.previousColumn
                 designArea.scrollToItemAtIndexPath(nextItem, atScrollPosition: .Left, animated: true)
-                
-                arrowRight.hidden = false
-                if nextItem.row == 0 {
-                    arrowLeft.hidden = true
-                } else {
-                    arrowLeft.hidden = false
-                }
             }
             break
         case arrowRight:
@@ -246,18 +290,14 @@ extension GameLevelDesignViewController {
             } else {
                 nextItem = lastItem.nextColumn
                 designArea.scrollToItemAtIndexPath(nextItem, atScrollPosition: .Right, animated: true)
-                
-                arrowLeft.hidden = false
-                if nextItem.row == Constants.GameScene.NumberOfColumns - 1 {
-                    arrowRight.hidden = true
-                } else {
-                    arrowRight.hidden = false
-                }
             }
             break
         default:
             break
         }
+        
+        moveMiniMapRec()
+        changeArrowVisibility()
     }
     
     // Click an arrow

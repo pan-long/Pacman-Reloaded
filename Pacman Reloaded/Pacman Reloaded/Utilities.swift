@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 cs3217. All rights reserved.
 //
 
-import Foundation
+import SpriteKit
 
 let gameLevelIndexPathComparator = { (o1: AnyObject, o2: AnyObject) -> Bool in
     let first = o1 as NSIndexPath

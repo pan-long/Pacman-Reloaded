@@ -9,16 +9,8 @@
 import SpriteKit
 
 class GameLevelDesignGridCell: UICollectionViewCell {
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        self.layer.borderColor = UIColor.grayColor().CGColor
-        self.layer.borderWidth = 0.3
-    }
-
-    required init(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    var width = Constants.GameScene.MiniGridWidth
+    var height = Constants.GameScene.MiniGridHeight
     
     func setType(type: GameDesignType) {
         self.layer.backgroundColor = UIColor.blackColor().CGColor
@@ -26,8 +18,6 @@ class GameLevelDesignGridCell: UICollectionViewCell {
             subview.removeFromSuperview()
         }
         if let imageStr = type.image {
-            let width = Constants.GameScene.GridWidth
-            let height = Constants.GameScene.GridHeight
             let image = UIImage(named: imageStr)
             let imageView = UIImageView(image: image)
             imageView.frame = CGRectMake(0, 0, width, height)

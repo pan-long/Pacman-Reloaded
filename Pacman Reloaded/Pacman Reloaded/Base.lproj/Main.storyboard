@@ -262,7 +262,7 @@
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="R8O-pn-Ym3">
                                 <rect key="frame" x="16" y="24" width="720" height="720"/>
                                 <gestureRecognizers/>
-                                <collectionViewLayout key="collectionViewLayout" id="t7r-Hi-JlL" customClass="GameLevelDesignerCollectionViewLayout" customModule="Pacman_Reloaded" customModuleProvider="target"/>
+                                <collectionViewLayout key="collectionViewLayout" id="t7r-Hi-JlL" customClass="GameLevelDesignerNormalCollectionViewLayout" customModule="Pacman_Reloaded" customModuleProvider="target"/>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="levelDesignGrid" id="RZn-9d-6vg">
                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
@@ -408,10 +408,6 @@
                                     <outletCollection property="gestureRecognizers" destination="aXI-vW-Dwe" appends="YES" id="xBd-IJ-oau"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="N5S-HC-eyo">
-                                <rect key="frame" x="752" y="443" width="256" height="256"/>
-                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hZi-xz-W5i">
                                 <rect key="frame" x="700" y="369" width="30" height="30"/>
                                 <gestureRecognizers/>
@@ -432,6 +428,28 @@
                                     <action selector="saveFile:" destination="q9R-B0-rYt" eventType="touchUpInside" id="stW-dP-Jlk"/>
                                 </connections>
                             </button>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="eA4-O4-5PU">
+                                <rect key="frame" x="752" y="435" width="256" height="256"/>
+                                <collectionViewLayout key="collectionViewLayout" id="UtF-fj-aCr" customClass="GameLevelDesignerCollectionViewLayout" customModule="Pacman_Reloaded" customModuleProvider="target"/>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="levelDesignMinimapGrid" id="JQk-cB-9Rz">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="6.5" height="6.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <size key="customSize" width="6.4000000000000909" height="6.4000000000000909"/>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                            <imageView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="minimap-rectangle" translatesAutoresizingMaskIntoConstraints="NO" id="WGS-Je-Mpf">
+                                <rect key="frame" x="752" y="435" width="115" height="115"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" none="YES" image="YES" notEnabled="YES"/>
+                                </accessibility>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
@@ -445,7 +463,8 @@
                         <outlet property="arrowUp" destination="LD3-Ss-msP" id="ARr-yz-RS1"/>
                         <outlet property="buttons" destination="odP-W5-XQx" id="Ulc-wi-0d0"/>
                         <outlet property="designArea" destination="R8O-pn-Ym3" id="wTk-aA-oz3"/>
-                        <outlet property="miniMap" destination="N5S-HC-eyo" id="wcO-M7-1yI"/>
+                        <outlet property="miniMap" destination="eA4-O4-5PU" id="HYg-uV-lwm"/>
+                        <outlet property="miniMapRec" destination="WGS-Je-Mpf" id="ILD-zj-EVL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3fd-GG-hbL" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -475,7 +494,7 @@
                     </connections>
                 </panGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="-1031" y="320"/>
+            <point key="canvasLocation" x="-1031" y="318"/>
         </scene>
         <!--Game View Controller-->
         <scene sceneID="tXr-a1-R10">
@@ -557,7 +576,8 @@
         <image name="ghost-red-left" width="33" height="33"/>
         <image name="ghost-yellow-left" width="33" height="33"/>
         <image name="landing-page" width="1024" height="768"/>
-        <image name="pacdot" width="100" height="100"/>
+        <image name="minimap-rectangle" width="200" height="200"/>
+        <image name="pacdot" width="10" height="10"/>
         <image name="pacman-female" width="33" height="33"/>
         <image name="pacman-logo" width="684" height="125"/>
         <image name="pacman-male" width="33" height="33"/>
