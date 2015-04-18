@@ -8,6 +8,7 @@
 
 import UIKit
 import SpriteKit
+import MultipeerConnectivity
 
 extension SKNode {
     class func unarchiveFromFile(file : NSString) -> SKNode? {
@@ -16,7 +17,7 @@ extension SKNode {
             var archiver = NSKeyedUnarchiver(forReadingWithData: sceneData)
             
             archiver.setClass(self.classForKeyedUnarchiver(), forClassName: "SKScene")
-            let scene = archiver.decodeObjectForKey(NSKeyedArchiveRootObjectKey) as MultiplayerGameScene
+            let scene = archiver.decodeObjectForKey(NSKeyedArchiveRootObjectKey) as SKNode
             archiver.finishDecoding()
             return scene
         } else {
@@ -33,12 +34,14 @@ class GameViewController: UIViewController {
     @IBOutlet weak var pauseBtn: UIButton!
     @IBOutlet weak var remainingDots: UILabel!
 
+    var scene: GameScene?
+    
     // Single player mode is the default and the play self hosts the game
     private var isHost = true
     private var numberOfPlayers = 1
     
     private let newGameIdentifier = Constants.Identifiers.NewGameService
-    private var connectivity: MultiplayerConnectivity?
+    private var connectivity: MultiplayerConnectivity = MultiplayerConnectivity(name: UIDevice.currentDevice().name)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,26 +52,67 @@ class GameViewController: UIViewController {
         view.addSubview(background)
         view.sendSubviewToBack(background)
 
-
-        if let scene = MultiplayerGameScene.unarchiveFromFile("MultiplayerGameScene") as? MultiplayerGameScene {
-            // Configure the view.
-            let skView = gameSceneView as SKView
-            skView.showsFPS = true
-            skView.frameInterval = Constants.FrameInterval
-            skView.showsNodeCount = true
-            // skView.showsPhysics = true
-            /* Sprite Kit applies additional optimizations to improve rendering performance */
-            skView.ignoresSiblingOrder = true
-            
-            /* Set the scale mode to scale to fit the window */
-            scene.scaleMode = .AspectFill
-            scene.sceneDelegate = self
-            
-            scene.setupPacman(0, isHost: true)
-            skView.presentScene(scene)
-        }
+        setupGameScene()
+        startGameScene(0, isHost: true)
     }
 
+    override func viewDidAppear(animated: Bool) {
+        // Present game settings
+        scene?.view?.paused = true
+        
+        let gameSetting = self.storyboard!.instantiateViewControllerWithIdentifier("gameSetting") as GamePopoverViewController
+        self.presentViewController(gameSetting, animated: true, completion: nil)
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        connectivity.stopServiceAdvertising()
+        connectivity.stopServiceBrowsing()
+    }
+    
+    private func setupGameScene() {
+        scene = getGameSceneFromFile()
+        // Configure the view.
+        let skView = gameSceneView as SKView
+        skView.showsFPS = true
+        skView.frameInterval = Constants.FrameInterval
+        skView.showsNodeCount = true
+        // skView.showsPhysics = true
+        /* Sprite Kit applies additional optimizations to improve rendering performance */
+        skView.ignoresSiblingOrder = true
+        
+        /* Set the scale mode to scale to fit the window */
+        scene!.scaleMode = .AspectFill
+        scene!.sceneDelegate = self
+    }
+    
+    func startGameScene(pacmanId: Int, isHost: Bool) {
+        if let scene = scene as? MultiplayerGameScene {
+            scene.setupPacman(pacmanId, isHost: isHost)
+        }
+        
+        let skView = gameSceneView as SKView
+        skView.presentScene(scene)
+    }
+    
+    func setNumberOfPlayers(numberOfPlayers: Int) {
+        self.numberOfPlayers = numberOfPlayers
+        
+        self.dismissViewControllerAnimated(true, completion: {() -> Void in
+            self.connectivity.matchDelegate = self
+            self.connectivity.startServiceAdvertising(self.newGameIdentifier,
+                discoveryInfo: Dictionary<String, String>())
+            self.connectivity.stopServiceBrowsing()
+        })
+    }
+    
+    private func getGameSceneFromFile() -> GameScene {
+        if numberOfPlayers > 1 {
+            return MultiplayerGameScene.unarchiveFromFile("MultiplayerGameScene") as MultiplayerGameScene
+        } else {
+            return GameScene.unarchiveFromFile("GameScene") as GameScene
+        }
+    }
+    
     override func shouldAutorotate() -> Bool {
         return true
     }
@@ -165,5 +209,48 @@ extension GameViewController: GameSceneDelegate {
 
         self.presentViewController(alertVC, animated: true, completion: nil)
 
+    }
+}
+
+extension GameViewController: MatchPeersDelegate {
+    func browser(lostPlayer playerName: String) {}
+    func browser(foundPlayer playerName: String, withDiscoveryInfo info: [NSObject : AnyObject]?) {}
+    
+    func didReceiveInvitationFromPlayer(playerName: String, invitationHandler: ((Bool) -> Void)) {
+        var alert = UIAlertController(title: "Joining Game",
+            message: "\(playerName) is asking to join your game. Allow?",
+            preferredStyle: .Alert)
+        
+        let joinGameAction = UIAlertAction(title: "Yes", style: .Default,
+            handler: { (action) -> Void in
+                invitationHandler(true)
+        })
+        
+        let cancelAction = UIAlertAction(title: "No", style: .Cancel,
+            handler: { (action) -> Void in
+                invitationHandler(false)
+        })
+        
+        alert.addAction(cancelAction)
+        alert.addAction(joinGameAction)
+        
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    func session(player playername: String, didChangeState state: MCSessionState) {
+        switch state {
+        case .Connected:
+            
+            break
+        case .Connecting:
+            println("connecting")
+            break
+        case .NotConnected:
+            // Player disconnected from game
+            println("not connected")
+            break
+        default:
+            break
+        }
     }
 }

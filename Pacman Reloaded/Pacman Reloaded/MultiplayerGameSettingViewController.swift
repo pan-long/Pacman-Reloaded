@@ -28,7 +28,7 @@ class MultiplayerGameSettingViewController: GamePopoverViewController {
     }
     
     @IBAction func confirmButtonClicked(sender: AnyObject) {
-        let presentingVC = self.presentingViewController as MultiplayerGameViewController
+        let presentingVC = self.presentingViewController as GameViewController
         presentingVC.setNumberOfPlayers(Int(numberOfPlayersStepper.value))
     }
 }

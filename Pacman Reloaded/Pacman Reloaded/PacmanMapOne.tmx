@@ -2,7 +2,7 @@
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="300" height="300" tilewidth="10" tileheight="10">
     <objectgroup name="Object Layer 1">
         <object id="0" type="pacman" x="250" y="391" width="12" height="12"/>
-        <object id="1" type="pacman" x="350" y="391" width="12" height="12"/>
+<!--        <object id="1" type="pacman" x="350" y="391" width="12" height="12"/>-->
         <object type="boundary" x="400" y="110" width="50" height="260"/>
         <object type="boundary" x="290" y="110" width="60" height="260"/>
         <object type="boundary" x="290" y="420" width="160" height="50"/>
