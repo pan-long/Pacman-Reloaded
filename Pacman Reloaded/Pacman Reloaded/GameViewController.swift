@@ -16,7 +16,7 @@ extension SKNode {
             var archiver = NSKeyedUnarchiver(forReadingWithData: sceneData)
             
             archiver.setClass(self.classForKeyedUnarchiver(), forClassName: "SKScene")
-            let scene = archiver.decodeObjectForKey(NSKeyedArchiveRootObjectKey) as GameScene
+            let scene = archiver.decodeObjectForKey(NSKeyedArchiveRootObjectKey) as MultiplayerGameScene
             archiver.finishDecoding()
             return scene
         } else {
@@ -33,6 +33,13 @@ class GameViewController: UIViewController {
     @IBOutlet weak var pauseBtn: UIButton!
     @IBOutlet weak var remainingDots: UILabel!
 
+    // Single player mode is the default and the play self hosts the game
+    private var isHost = true
+    private var numberOfPlayers = 1
+    
+    private let newGameIdentifier = Constants.Identifiers.NewGameService
+    private var connectivity: MultiplayerConnectivity?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -43,7 +50,7 @@ class GameViewController: UIViewController {
         view.sendSubviewToBack(background)
 
 
-        if let scene = GameScene.unarchiveFromFile("GameScene") as? GameScene {
+        if let scene = MultiplayerGameScene.unarchiveFromFile("MultiplayerGameScene") as? MultiplayerGameScene {
             // Configure the view.
             let skView = gameSceneView as SKView
             skView.showsFPS = true
@@ -56,6 +63,8 @@ class GameViewController: UIViewController {
             /* Set the scale mode to scale to fit the window */
             scene.scaleMode = .AspectFill
             scene.sceneDelegate = self
+            
+            scene.setupPacman(0, isHost: true)
             skView.presentScene(scene)
         }
     }

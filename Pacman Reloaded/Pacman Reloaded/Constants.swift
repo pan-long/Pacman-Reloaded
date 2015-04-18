@@ -48,8 +48,15 @@ struct Constants {
 
     static let invitePlayerTimeout: NSTimeInterval = 20
     struct Identifiers {
+        // singgle player segue identifier
+        static let SinglePlayerGameSegueIdentifier = "SinglePlayerGameSeuge"
+        static let MultiplayerGameSegueIdentifier = "MultiplayerGameSegue"
+        
+        // game network service identifier
+        static let NewGameService = "newGame2"
+        
+        // cell reuse identifier
         static let NewGameTableCell = "newGame"
-        static let NewGame = "newGame2"
     }
     
     struct GameScene {

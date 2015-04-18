@@ -14,7 +14,7 @@ class MultiplayerGameViewController: UIViewController {
     @IBOutlet var gameSceneView: SKView!
     private var numberOfPlayers = 1
     
-    private let newGameIdentifier = Constants.Identifiers.NewGame
+    private let newGameIdentifier = Constants.Identifiers.NewGameService
     private var connectivity = MultiplayerConnectivity(name: UIDevice.currentDevice().name)
     
     override func viewDidLoad() {

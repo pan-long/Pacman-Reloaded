@@ -14,7 +14,7 @@ class MultiplayerManagementViewController: UIViewController {
     @IBOutlet var createNewRoom: UIButton!
     @IBOutlet var newGameTable: UITableView!
     
-    private let newGameIdentifier = Constants.Identifiers.NewGame
+    private let newGameIdentifier = Constants.Identifiers.NewGameService
     private var newGames: [String] = []
     private var gameIndices = Dictionary<String, Int>()
     private var connectivity = MultiplayerConnectivity(name: UIDevice.currentDevice().name) // Current iPad name

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="CsF-LZ-baB">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="13F1066" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="CsF-LZ-baB">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -26,7 +26,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="BV1-FR-VrT" kind="show" id="rCU-rN-mAP"/>
+                                    <segue destination="BV1-FR-VrT" kind="show" identifier="SinglePlayerGameSeuge" id="rCU-rN-mAP"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l1E-lm-h3j">
@@ -76,7 +76,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="4q5-uR-GFR" kind="presentation" id="Bbb-VC-qx2"/>
+                                    <segue destination="BV1-FR-VrT" kind="show" identifier="MultiplayerGameSegue" id="stH-RB-cTP"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Nx-QG-u4x">
@@ -111,35 +111,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Eee-yc-RMq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1246" y="-528"/>
-        </scene>
-        <!--Multiplayer Game View Controller-->
-        <scene sceneID="Apg-3f-WlB">
-            <objects>
-                <viewController id="4q5-uR-GFR" customClass="MultiplayerGameViewController" customModule="Pacman_Reloaded" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="o6c-Oh-Rfu"/>
-                        <viewControllerLayoutGuide type="bottom" id="fuC-aA-wjr"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="bRm-6h-ySo">
-                        <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6eI-55-zax" customClass="SKView">
-                                <rect key="frame" x="16" y="24" width="720" height="720"/>
-                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="iPad"/>
-                    <connections>
-                        <outlet property="gameSceneView" destination="6eI-55-zax" id="jjp-4k-vmJ"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="wyG-SG-aAV" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1246" y="320"/>
         </scene>
         <!--Game Menu-->
         <scene sceneID="fUA-3N-3ij">
@@ -548,11 +519,14 @@
         <image name="ghost-red-left" width="33" height="33"/>
         <image name="ghost-yellow-left" width="33" height="33"/>
         <image name="landing-page" width="1024" height="768"/>
-        <image name="pacdot" width="100" height="100"/>
+        <image name="pacdot" width="10" height="10"/>
         <image name="pacman-female" width="33" height="33"/>
         <image name="pacman-logo" width="684" height="125"/>
         <image name="pacman-male" width="33" height="33"/>
         <image name="super-pacdot-design" width="100" height="100"/>
         <image name="wall" width="200" height="100"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="rCU-rN-mAP"/>
+    </inferredMetricsTieBreakers>
 </document>

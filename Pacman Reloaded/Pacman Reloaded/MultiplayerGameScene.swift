@@ -28,12 +28,12 @@ class MultiplayerGameScene: GameScene {
     func setupPacman(pacmanId: Int, isHost: Bool) {
         self.pacmanId = pacmanId
         self.isHost = isHost
-        
-        registerObserverForPacmanDirection()
     }
     
     override func didMoveToView(view: SKView) {
         super.didMoveToView(view)
+        
+        registerObserverForPacmanDirection()
     }
     
     override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
@@ -88,23 +88,28 @@ class MultiplayerGameScene: GameScene {
     }
     
     override func restart() {
-        super.restart()
+        removeObserverForPacmanDirection()
         otherPacmans.removeAll(keepCapacity: false)
+        super.restart()
+        registerObserverForPacmanDirection()
     }
     
     override func addPacmanFromTMXFile(id: Int, position: CGPoint) {
-        let pacman = PacMan(id: id)
-        pacman.position = position
+        var newPacman: PacMan!
+        
         if id == pacmanId {
-            self.pacman.position = position
+            newPacman = pacman
         } else {
+            let pacman = PacMan(id: id)
             otherPacmans.append(pacman)
             let networkMovementControl = NetworkMovementControl(movableObject: pacman)
             if let networkDelegate = networkDelegate {
                 networkDelegate.setPacmanMovementControl(id, movementControl: networkMovementControl)
             }
+            newPacman = pacman
         }
         
-        addChild(pacman)
+        newPacman.position = position
+        addChild(newPacman)
     }
 }
