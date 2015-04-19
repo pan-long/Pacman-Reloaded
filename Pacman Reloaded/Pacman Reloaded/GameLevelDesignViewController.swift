@@ -10,10 +10,9 @@ import SpriteKit
 
 class GameLevelDesignViewController: UIViewController {
     
-    // TODO Handle the memory issue.
     @IBOutlet weak var buttons: UIView!
-    @IBOutlet weak var designArea: UICollectionView!
-    @IBOutlet weak var miniMap: UICollectionView!
+    @IBOutlet var designArea: UICollectionView!
+    @IBOutlet var miniMap: UICollectionView!
     @IBOutlet weak var miniMapRec: UIImageView!
     
     @IBOutlet weak var arrowUp: UIButton!
@@ -25,6 +24,7 @@ class GameLevelDesignViewController: UIViewController {
     
     private let designAreaCellIdentifier = "levelDesignGrid"
     private let miniMapCellIdentifier = "levelDesignMinimapGrid"
+    
     private var selected = GameDesignType.None
     private var cellMappings = Dictionary<NSIndexPath, GameDesignType>()
     
@@ -56,7 +56,7 @@ class GameLevelDesignViewController: UIViewController {
     }
     
     deinit {
-        println("Deinit designer")
+        println("Deinit level designer")
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -66,7 +66,6 @@ class GameLevelDesignViewController: UIViewController {
         designArea.dataSource = nil
         arrowTimer?.invalidate()
         arrowTimer = nil
-        println("Exit segue in designer")
     }
     
     private func unselectAllButtons() {
@@ -88,6 +87,15 @@ class GameLevelDesignViewController: UIViewController {
                 cell = cell as GameLevelDesignGridNormalCell
             }
             
+            if let existing = cellMappings[indexPath] {
+                if existing.isPacman {
+                    numberOfPacmans--
+                }
+                if existing.isGhost {
+                    numberOfGhosts--
+                }
+            }
+            
             if selected.isPacman {
                 if numberOfPacmans >= Constants.GameScene.MaxNumberOfPacman {
                     return
@@ -100,15 +108,6 @@ class GameLevelDesignViewController: UIViewController {
                     return
                 } else {
                     numberOfGhosts++
-                }
-            }
-            
-            if let existing = cellMappings[indexPath] {
-                if existing.isPacman {
-                    numberOfPacmans--
-                }
-                if existing.isGhost {
-                    numberOfGhosts--
                 }
             }
             
@@ -148,6 +147,7 @@ class GameLevelDesignViewController: UIViewController {
     }
     
     // Move the red rectangle in the minimap to an appropriate place
+    // according to the current design area
     private func moveMiniMapRec() {
         let xRatio = designAreaCenter().x / Constants.GameScene.DesignAreaWidth
         let yRatio = designAreaCenter().y / Constants.GameScene.DesignAreaHeight
@@ -156,9 +156,26 @@ class GameLevelDesignViewController: UIViewController {
         miniMapRec.center.y = miniMapOrig.y + miniMap.frame.height * yRatio
     }
     
+    // Move the design area to center around the given index path.
+    private func moveDesignAreaToIndexPath(indexPath: NSIndexPath) {
+        let curIndexPath = designArea.indexPathForItemAtPoint(designAreaCenter())!
+        let cornerIndexPath = NSIndexPath(forRow: indexPath.row, inSection: curIndexPath.section)
+        designArea.scrollToItemAtIndexPath(cornerIndexPath,
+            atScrollPosition: .CenteredHorizontally, animated: false)
+        designArea.scrollToItemAtIndexPath(indexPath,
+            atScrollPosition: .CenteredVertically, animated: false)
+    }
+    
     private func designAreaCenter() -> CGPoint {
         return CGPoint(x: Constants.GameScene.DesignAreaMinX + designArea.contentOffset.x,
-            y: Constants.GameScene.DesignAreaMinY + designArea.contentOffset.y);
+            y: Constants.GameScene.DesignAreaMinY + designArea.contentOffset.y)
+    }
+}
+
+extension GameLevelDesignViewController {
+    // Called by the presented controller
+    func saveFileWithName(fileName: String) {
+        GameLevelStorage.storeGameLevelToFile(cellMappings, fileName: fileName + ".xml")
     }
 }
 
@@ -168,13 +185,7 @@ extension GameLevelDesignViewController: UICollectionViewDelegate {
         if collectionView == designArea {
             setCellToSelected(indexPath)
         } else if collectionView == miniMap {
-            let curIndexPath = designArea.indexPathForItemAtPoint(designAreaCenter())!
-            let cornerIndexPath = NSIndexPath(forRow: indexPath.row, inSection: curIndexPath.section)
-            designArea.scrollToItemAtIndexPath(cornerIndexPath,
-                atScrollPosition: .CenteredHorizontally, animated: false)
-            designArea.scrollToItemAtIndexPath(indexPath,
-                atScrollPosition: .CenteredVertically, animated: false)
-            
+            moveDesignAreaToIndexPath(indexPath)
             moveMiniMapRec()
             changeArrowVisibility()
         }
@@ -259,9 +270,33 @@ extension GameLevelDesignViewController {
         }
     }
     
-    @IBAction func saveFile(sender: UIButton) {
-        // TODO Refactor the file name
-        GameLevelStorage.storeGameLevelToFile(cellMappings, fileName: "myFirstFile.xml")
+    @IBAction func handlePanGestureInMiniMap(sender: UIPanGestureRecognizer) {
+        var currentPosition = sender.locationInView(miniMap)
+        
+        let minX = Constants.GameScene.RecCenterMinX
+        let minY = Constants.GameScene.RecCenterMinY
+        let maxX = Constants.GameScene.RecCenterMaxX
+        let maxY = Constants.GameScene.RecCenterMaxY
+        if currentPosition.x <= minX {
+           currentPosition.x = minX
+        }
+        if currentPosition.y <= minY {
+            currentPosition.y = minY
+        }
+        if currentPosition.x >= maxX {
+            currentPosition.x = maxX
+        }
+        if currentPosition.y >= maxY {
+            currentPosition.y = maxY
+        }
+        
+        let miniMapOrig = miniMap.frame.origin
+        miniMapRec.center.x = miniMapOrig.x + currentPosition.x
+        miniMapRec.center.y = miniMapOrig.y + currentPosition.y
+        
+        let indexPath = miniMap.indexPathForItemAtPoint(currentPosition)!
+        moveDesignAreaToIndexPath(indexPath)
+        changeArrowVisibility()
     }
 }
 
@@ -310,8 +345,8 @@ extension GameLevelDesignViewController {
             break
         }
         
-        moveMiniMapRec()
         changeArrowVisibility()
+        moveMiniMapRec()
     }
     
     // Click an arrow

@@ -6,24 +6,32 @@
 //  Copyright (c) 2015 cs3217. All rights reserved.
 //
 
-import Foundation
+import SpriteKit
 
 class GameLevelStorage {
     
-    // Given a game level from the level design interface, store it to the specified file.
+    class func getGameLevels() -> [String] {
+        return getAllFiles()
+    }
+    
+    class func getGameLevelImage(fileName: String) {
+        
+    }
+    
+}
+
+extension GameLevelStorage { // For storing and loading new designs from/into dictionary
+    
     class func storeGameLevelToFile(level: Dictionary<NSIndexPath, GameDesignType>, fileName: String) -> FileOpState {
         
         let indexPaths = level.keys.array.sorted(gameLevelIndexPathComparator)
-        var visited = Dictionary<NSIndexPath, Bool>()
         var doc: [Dictionary<String, String>] = []
+        
+        var pacmanID = 0
+        var ghostID = 0
         
         for i in 0..<indexPaths.count {
             let indexPath = indexPaths[i]
-            if visited[indexPath] == true {
-                continue
-            }
-            visited[indexPath] = true
-            
             let row = Double(indexPath.section)
             let column = Double(indexPath.row)
             let gridWidth = Constants.GameScene.GridWidth
@@ -34,18 +42,19 @@ class GameLevelStorage {
                 dic["type"] = typeName
                 dic["x"] = Int((column + 0.5) * Double(gridWidth)).description
                 dic["y"] = Int((row + 0.5) * Double(gridHeight)).description
-                dic["width"] = "10"
-                dic["height"] = "10"
+                dic["width"] = Constants.GameScene.PacdotWidth.description
+                dic["height"] = Constants.GameScene.PacdotWidth.description
                 
-                if level[indexPath]!.isPacman || level[indexPath]!.isGhost {
-                    dic["width"] = "30"
-                    dic["height"] = "30"
-                }
-                
-                if typeName == "boundary" {
-                    // TODO Need special handling with boundaries
-                    dic["width"] = "30"
-                    dic["height"] = "30"
+                if level[indexPath]!.isPacman || level[indexPath]!.isGhost || typeName == "boundary" {
+                    dic["width"] = Constants.GameScene.NormalWidth.description
+                    dic["height"] = Constants.GameScene.NormalWidth.description
+                    if level[indexPath]!.isPacman {
+                        dic["id"] = pacmanID.description
+                        pacmanID++
+                    } else {
+                        dic["id"] = ghostID.description
+                        ghostID++
+                    }
                 }
             }
             
@@ -53,7 +62,6 @@ class GameLevelStorage {
         }
         
         let fileSaved = addFile(fileName, contents: doc)
-        println(doc)
         println(getFilePath(fileName))
         return fileSaved ? .Success : .Failure
     }
@@ -73,6 +81,13 @@ extension GameLevelStorage {
     private class func getFilePath(fileName: String) -> String {
         let documentDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
         return documentDirectory.stringByAppendingPathComponent(fileName)
+    }
+    
+    private class func getAllFiles() -> [String] {
+        let documentDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
+        let fileManager = NSFileManager.defaultManager()
+        let directoryFiles = fileManager.contentsOfDirectoryAtPath(documentDirectory, error: nil) as [String]
+        return directoryFiles
     }
     
     private class func fileExists(fileName: String) -> Bool {

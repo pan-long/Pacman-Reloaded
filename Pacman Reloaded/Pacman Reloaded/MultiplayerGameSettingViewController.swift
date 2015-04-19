@@ -9,7 +9,7 @@
 
 import SpriteKit
 
-class MultiplayerGameSettingViewController: GamePopoverViewController {
+class MultiplayerGameSettingViewController: UIViewController {
     
     @IBOutlet var numberOfPlayersStepper: UIStepper!
     @IBOutlet var numberOfPlayersLabel: UILabel!

@@ -65,9 +65,13 @@ struct Constants {
         
         // cell reuse identifier
         static let NewGameTableCell = "newGame"
+        static let GameLevelTableCell = "gameLevelTableCell"
     }
     
     struct GameScene {
+        static let PacdotWidth = 10
+        static let NormalWidth = 30
+        
         static let NumberOfRows = 40
         static let NumberOfColumns = 40
         static let NumberOfRowsPerScreen = 18
@@ -101,7 +105,7 @@ struct Constants {
         static let EraserTag = 1000
         
         static let MaxNumberOfPacman = 8
-        static let MaxNumberOfGhosts = 8
+        static let MaxNumberOfGhosts = 16
     }
     
     struct AIMovementControl {
