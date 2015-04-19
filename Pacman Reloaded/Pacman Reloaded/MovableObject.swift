@@ -27,9 +27,9 @@ class MovableObject: GameObject {
     var currentSpeed: CGFloat = 5.0
     var sensorBuffer: CGFloat = 0
 
-    override init(image: String) {
-        super.init(image: image)
-
+    init(image: String) {
+        super.init(image: image, sizeScale: Constants.MovableObject.sizeScale)
+        
         sensorBuffer = self.sprite.size.width * 0.5
 
         sensors.up = SKNode()

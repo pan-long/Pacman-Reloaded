@@ -60,21 +60,30 @@ class MultiplayerGameScene: GameScene {
     
     override func setupObjectsMovementControl() {
         if isHost { // do the same thing as single player
-            blinkyMovement = BlinkyAIMovememntControl(movableObject: blinky)
-            pinkyMovement = PinkyAIMovementControl(movableObject: pinky)
-            inkyMovement = InkyAIMovememntControl(movableObject: inky)
-            clydeMovement = ClydeAIMovememntControl(movableObject: clyde)
+            super.setupObjectsMovementControl()
         } else { // the movement of ghosts should only be controlled by the host
-            blinkyMovement = NetworkMovementControl(movableObject: blinky) as NetworkMovementControl
-            pinkyMovement = NetworkMovementControl(movableObject: pinky)
-            inkyMovement = NetworkMovementControl(movableObject: inky)
-            clydeMovement = NetworkMovementControl(movableObject: clyde)
+            for blinky in blinkys {
+                var blinkyMovement = NetworkMovementControl(movableObject: blinky)
+                ghostMovements.append(blinkyMovement)
+                networkDelegate!.setGhostMovementControl(blinky.objectId!, movementControl: blinkyMovement)
+            }
             
-            if let networkDelegate = networkDelegate {
-                networkDelegate.setGhostMovementControl(Name.GHOST_NAME_BLINKY, movementControl: blinkyMovement as NetworkMovementControl)
-                networkDelegate.setGhostMovementControl(GhostName.GHOST_NAME_PINKY, movementControl: pinkyMovement as NetworkMovementControl)
-                networkDelegate.setGhostMovementControl(GhostName.GHOST_NAME_INKY, movementControl: inkyMovement as NetworkMovementControl)
-                networkDelegate.setGhostMovementControl(GhostName.GHOST_NAME_CLYDE, movementControl: clydeMovement as NetworkMovementControl)
+            for pinky in pinkys {
+                var pinkyMovement = NetworkMovementControl(movableObject: pinky)
+                ghostMovements.append(pinkyMovement)
+                networkDelegate!.setGhostMovementControl(pinky.objectId!, movementControl: pinkyMovement)
+            }
+            
+            for inky in inkys {
+                var inkyMovement = NetworkMovementControl(movableObject: inky)
+                ghostMovements.append(inkyMovement)
+                networkDelegate!.setGhostMovementControl(inky.objectId!, movementControl: inkyMovement)
+            }
+            
+            for clyde in clydes {
+                var clydeMovement = NetworkMovementControl(movableObject: clyde)
+                ghostMovements.append(clydeMovement)
+                networkDelegate!.setGhostMovementControl(clyde.objectId!, movementControl: clydeMovement)
             }
         }
     }

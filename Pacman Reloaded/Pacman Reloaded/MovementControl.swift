@@ -24,5 +24,5 @@ protocol MovementControl: class {
 
 protocol MovementDataSource: class {
     func getPacmans() -> [MovableObject]
-    func getBlinky() -> MovableObject
+    func getBlinkys() -> [MovableObject]
 }

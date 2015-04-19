@@ -33,6 +33,10 @@ class PacDot: Item {
         isSuper = true
     }
 
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     func setup(newRect: CGRect) {
 
         self.physicsBody = SKPhysicsBody(circleOfRadius: newRect.size.width / 2  )

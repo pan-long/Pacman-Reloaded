@@ -9,6 +9,12 @@
 import Foundation
 
 class Item: GameObject {
-    
+    init(image: String) {
+        super.init(image: image, sizeScale: Constants.Item.sizeScale)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }
 

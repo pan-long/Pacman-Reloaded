@@ -71,6 +71,11 @@ class Ghost: MovableObject {
         self.currentSpeed = Constants.Ghost.speed
     }
     
+    convenience init(id: Int, imageName: String) {
+        self.init(image: imageName)
+        objectId = id
+    }
+    
     override func changeDirection(newDirection: Direction) {
         super.changeDirection(newDirection)
         updateTexture()
