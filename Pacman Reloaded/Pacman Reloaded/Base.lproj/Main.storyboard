@@ -105,7 +105,7 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="iPad"/>
                     <connections>
                         <outlet property="newGameTable" destination="RJc-ZM-ZFI" id="yG7-bq-Nd3"/>
-                        <segue destination="BV1-FR-VrT" kind="show" identifier="MultiplayerGameScene" id="d0P-1Z-G0e"/>
+                        <segue destination="BV1-FR-VrT" kind="show" identifier="MultiplayerGameSegue" id="d0P-1Z-G0e"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Eee-yc-RMq" userLabel="First Responder" sceneMemberID="firstResponder"/>
