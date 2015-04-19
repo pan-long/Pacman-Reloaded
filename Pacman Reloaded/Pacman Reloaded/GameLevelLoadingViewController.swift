@@ -48,7 +48,10 @@ extension GameLevelLoadingViewController {
     
     @IBAction func loadButtonClicked(sender: UIButton) {
         let presentingVC = self.presentingViewController as GameViewController
-        presentingVC.loadGameLevelFromFile(fileSelected!)
+        presentingVC.setupGameScene(fileSelected!)
+        self.dismissViewControllerAnimated(true, completion: {() -> Void in
+            presentingVC.startGameScene(0, isHost: true)
+        })
     }
     
 }

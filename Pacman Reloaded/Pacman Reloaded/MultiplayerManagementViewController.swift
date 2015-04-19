@@ -30,6 +30,19 @@ class MultiplayerManagementViewController: UIViewController {
         connectivity.startServiceBrowsing(newGameIdentifier)
     }
     
+    deinit {
+        println("multi management deinited")
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if let identifier = segue.identifier {
+            if identifier == Constants.Identifiers.MultiplayerGameSegueIdentifier {
+                let gameVC = segue.destinationViewController as GameViewController
+                gameVC.setNumberOfPlayers(2)
+            }
+        }
+    }
+    
     @IBAction func createNewGame(sender: AnyObject) {
         isHost = true
         pacmanId = 0

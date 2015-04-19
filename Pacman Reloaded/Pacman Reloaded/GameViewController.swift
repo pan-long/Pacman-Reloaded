@@ -51,9 +51,6 @@ class GameViewController: UIViewController {
         background.backgroundColor = UIColor.darkGrayColor()
         view.addSubview(background)
         view.sendSubviewToBack(background)
-        
-        setupGameScene()
-//        startGameScene(0, isHost: true)
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -67,41 +64,18 @@ class GameViewController: UIViewController {
             // Present game settings
             let gameSetting = self.storyboard!.instantiateViewControllerWithIdentifier("gameSetting") as UIViewController
             self.presentViewController(gameSetting, animated: true, completion: nil)
-        } else {
-            let gameLevelSelection = self.storyboard!.instantiateViewControllerWithIdentifier("gameLevelSelection") as UIViewController
-            self.presentViewController(gameLevelSelection, animated: true, completion: nil)
         }
+        
+        let gameLevelSelection = self.storyboard!.instantiateViewControllerWithIdentifier("gameLevelSelection") as UIViewController
+        self.presentViewController(gameLevelSelection, animated: true, completion: nil)
     }
-    
-    func loadGameLevelFromFile(fileName: String) {
-        self.dismissViewControllerAnimated(true, completion: {() -> Void in
-            if let scene = GameScene.unarchiveFromFile("GameScene") as? GameScene {
-                // Configure the view.
-                let skView = self.gameSceneView as SKView
-                skView.showsFPS = true
-                skView.frameInterval = Constants.FrameInterval
-                skView.showsNodeCount = true
-                // skView.showsPhysics = true
-                /* Sprite Kit applies additional optimizations to improve rendering performance */
-                skView.ignoresSiblingOrder = true
-                
-                /* Set the scale mode to scale to fit the window */
-                scene.scaleMode = .AspectFill
-                scene.sceneDelegate = self
-                scene.fileName = fileName
-                skView.presentScene(scene)
-            }
-        })
-    }
-    
-
     
     override func viewWillDisappear(animated: Bool) {
         connectivity.stopServiceAdvertising()
         connectivity.stopServiceBrowsing()
     }
     
-    private func setupGameScene() {
+    func setupGameScene(mapFile: String) {
         scene = getGameSceneFromFile()
         // Configure the view.
         let skView = gameSceneView as SKView
@@ -115,6 +89,8 @@ class GameViewController: UIViewController {
         /* Set the scale mode to scale to fit the window */
         scene!.scaleMode = .AspectFill
         scene!.sceneDelegate = self
+        
+        scene!.fileName = mapFile
     }
     
     func startGameScene(pacmanId: Int, isHost: Bool) {
