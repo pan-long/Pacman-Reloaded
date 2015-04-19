@@ -37,7 +37,7 @@ class GameScene: SKScene {
     var swipeDown: UISwipeGestureRecognizer!
 
     var ghosts: [Ghost]!
-    var ghostMovements = [MovementControl]()
+    var ghostMovements: [MovementControl]!
     
     
     // TODO Pass in the file name from map selection interface
@@ -69,6 +69,8 @@ class GameScene: SKScene {
         pinkys = [Ghost]()
         inkys = [Ghost]()
         clydes = [Ghost]()
+        
+        ghostMovements = [MovementControl]()
         totalPacDots = 0
     }
     
@@ -151,6 +153,7 @@ class GameScene: SKScene {
 
         initGameObjects()
         setupGameObjects()
+        setupMovementControls()
 
         sceneDelegate.updateScore(pacman.score, dotsLeft: totalPacDots)
 
@@ -246,6 +249,7 @@ extension GameScene: SKPhysicsContactDelegate {
             sceneDelegate.updateScore(pacman.score, dotsLeft: totalPacDots)
         }
     }
+    
     private func handlePacDotEvent(pacdot: PacDot, pacman: PacMan) {
         pacdot.removeFromParent()
         pacman.score += Constants.Score.PacDot
