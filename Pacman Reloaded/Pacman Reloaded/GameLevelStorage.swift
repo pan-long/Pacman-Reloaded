@@ -11,11 +11,23 @@ import SpriteKit
 class GameLevelStorage {
     
     class func getGameLevels() -> [String] {
-        return getAllFiles()
+        println(getAllFiles())
+        return getAllFiles().filter({ (str: String) -> Bool in
+            return str.pathExtension == "xml"
+        }).map({ (str: String) -> String in
+            return str.stringByDeletingPathExtension
+        })
     }
     
-    class func getGameLevelImage(fileName: String) {
-        
+    class func getGameLevelImage(fileName: String) -> UIImage? {
+        let name = addPNGExtensionToFile(fileName)
+        if !fileExists(name) {
+            return nil
+        }
+        let path = getFilePath(name)
+        let data = NSData(contentsOfFile: path)!
+        let image = UIImage(data: data)
+        return image
     }
     
 }
@@ -61,8 +73,23 @@ extension GameLevelStorage { // For storing and loading new designs from/into di
             doc.append(dic)
         }
         
-        let fileSaved = addFile(fileName, contents: doc)
-        println(getFilePath(fileName))
+        let name = addXMLExtensionToFile(fileName)
+        if fileExists(name) {
+            deleteFile(name)
+        }
+        
+        let fileSaved = addFile(name, contents: doc)
+        return fileSaved ? .Success : .Failure
+    }
+    
+    class func storeGameLevelImageToFile(image: UIImage, fileName: String) -> FileOpState {
+        let imageData = UIImagePNGRepresentation(image)
+        let name = addPNGExtensionToFile(fileName)
+        if fileExists(name) {
+            deleteFile(name)
+        }
+        let path = getFilePath(name)
+        let fileSaved = imageData.writeToFile(path, atomically: true)
         return fileSaved ? .Success : .Failure
     }
     
@@ -77,6 +104,14 @@ extension GameLevelStorage { // For storing and loading new designs from/into di
 
 // Lower level interactions with file system
 extension GameLevelStorage {
+    
+    class func addXMLExtensionToFile(fileName: String) -> String {
+        return fileName.stringByAppendingPathExtension("xml")!
+    }
+    
+    class func addPNGExtensionToFile(fileName: String) -> String {
+        return fileName.stringByAppendingPathExtension("png")!
+    }
     
     private class func getFilePath(fileName: String) -> String {
         let documentDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String

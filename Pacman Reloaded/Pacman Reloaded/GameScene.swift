@@ -132,7 +132,7 @@ class GameScene: SKScene {
                 node.removeFromParent()
             }
 
-            parseFileWithName(fileName)
+            parseFileWithName(GameLevelStorage.addXMLExtensionToFile(fileName))
             
             ghosts = blinkys + pinkys + inkys + clydes
         }

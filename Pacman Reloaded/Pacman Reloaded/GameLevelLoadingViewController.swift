@@ -24,6 +24,7 @@ class GameLevelLoadingViewController: UIViewController {
 extension GameLevelLoadingViewController: UITableViewDelegate {
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         fileSelected = allFiles[indexPath.row]
+        gameLevelPreview.image = GameLevelStorage.getGameLevelImage(fileSelected!)!
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {

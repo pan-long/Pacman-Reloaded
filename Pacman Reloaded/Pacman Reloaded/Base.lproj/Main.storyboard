@@ -230,21 +230,15 @@
                         <viewControllerLayoutGuide type="bottom" id="wou-2O-z4d"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Bwm-CW-Nmi">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="650"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="landing-page" translatesAutoresizingMaskIntoConstraints="NO" id="5bJ-1c-AB7">
-                                <rect key="frame" x="125" y="276" width="350" height="304"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5bJ-1c-AB7">
+                                <rect key="frame" x="133" y="295" width="335" height="335"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" none="YES" image="YES" notEnabled="YES"/>
+                                </accessibility>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ddk-md-cce">
-                                <rect key="frame" x="538" y="550" width="46" height="30"/>
-                                <state key="normal" title="Load">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="loadButtonClicked:" destination="u77-Yq-CF0" eventType="touchUpInside" id="8hX-03-OAc"/>
-                                </connections>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Game Level Selection" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RkK-Pe-Loj">
                                 <rect key="frame" x="60" y="28" width="174" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -264,12 +258,21 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ddk-md-cce">
+                                <rect key="frame" x="538" y="600" width="46" height="30"/>
+                                <state key="normal" title="Load">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="loadButtonClicked:" destination="u77-Yq-CF0" eventType="touchUpInside" id="8hX-03-OAc"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <value key="contentSizeForViewInPopover" type="size" width="600" height="600"/>
+                    <value key="contentSizeForViewInPopover" type="size" width="600" height="650"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="600" height="600"/>
+                    <size key="freeformSize" width="600" height="650"/>
                     <connections>
                         <outlet property="gameLevelPreview" destination="5bJ-1c-AB7" id="Sg9-pC-BxL"/>
                         <outlet property="gameLevelsTable" destination="jK0-qN-qtx" id="pVD-bF-EU2"/>
