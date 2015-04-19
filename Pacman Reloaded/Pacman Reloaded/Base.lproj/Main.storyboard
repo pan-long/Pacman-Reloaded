@@ -141,6 +141,65 @@
             </objects>
             <point key="canvasLocation" x="1246" y="320"/>
         </scene>
+        <!--Game Level Save File View Controller-->
+        <scene sceneID="62t-9h-vQA">
+            <objects>
+                <viewController modalPresentationStyle="formSheet" id="Lrx-KD-ooL" customClass="GameLevelSaveFileViewController" customModule="Pacman_Reloaded" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="uYt-Sl-pc3"/>
+                        <viewControllerLayoutGuide type="bottom" id="goR-zM-DI7"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="hK5-Kh-K1g">
+                        <rect key="frame" x="0.0" y="0.0" width="300" height="200"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="File name to save" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dev-9z-8tG">
+                                <rect key="frame" x="16" y="28" width="202" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z4h-Yu-pco">
+                                <rect key="frame" x="238" y="28" width="46" height="30"/>
+                                <state key="normal" title="Save">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="saveFile:" destination="Lrx-KD-ooL" eventType="touchUpInside" id="rgo-Pc-HOD"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fNI-GL-Czz">
+                                <rect key="frame" x="126" y="86" width="48" height="30"/>
+                                <state key="normal" title="Cancel">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="cancel:" destination="Lrx-KD-ooL" eventType="touchUpInside" id="P61-cI-Bpl"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vYG-WU-aD7">
+                                <rect key="frame" x="112" y="139" width="76" height="30"/>
+                                <state key="normal" title="Homepage">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="goToHomepage:" destination="Lrx-KD-ooL" eventType="touchUpInside" id="xnA-0m-mzy"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <value key="contentSizeForViewInPopover" type="size" width="300" height="200"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="300" height="200"/>
+                    <connections>
+                        <outlet property="fileNameTextField" destination="dev-9z-8tG" id="wUL-cm-WsS"/>
+                        <outlet property="saveButton" destination="Z4h-Yu-pco" id="u9l-9T-bsN"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9Ds-u3-jea" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-669" y="932"/>
+        </scene>
         <!--Game Menu-->
         <scene sceneID="fUA-3N-3ij">
             <objects>
@@ -186,7 +245,65 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gNM-6K-HWd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="99" y="1056"/>
+            <point key="canvasLocation" x="-263" y="1007"/>
+        </scene>
+        <!--Game Level Loading View Controller-->
+        <scene sceneID="C9w-MM-jXP">
+            <objects>
+                <viewController storyboardIdentifier="gameLevelSelection" modalPresentationStyle="formSheet" id="u77-Yq-CF0" customClass="GameLevelLoadingViewController" customModule="Pacman_Reloaded" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="yGB-Ii-r62"/>
+                        <viewControllerLayoutGuide type="bottom" id="wou-2O-z4d"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Bwm-CW-Nmi">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="landing-page" translatesAutoresizingMaskIntoConstraints="NO" id="5bJ-1c-AB7">
+                                <rect key="frame" x="125" y="276" width="350" height="304"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ddk-md-cce">
+                                <rect key="frame" x="538" y="550" width="46" height="30"/>
+                                <state key="normal" title="Load">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="loadButtonClicked:" destination="u77-Yq-CF0" eventType="touchUpInside" id="8hX-03-OAc"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Game Level Selection" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RkK-Pe-Loj">
+                                <rect key="frame" x="60" y="28" width="174" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="jK0-qN-qtx">
+                                <rect key="frame" x="60" y="74" width="480" height="194"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="gameLevelTableCell" id="ag4-ud-mnN">
+                                        <rect key="frame" x="0.0" y="0.0" width="480" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ag4-ud-mnN" id="tSJ-Bb-k4U">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <value key="contentSizeForViewInPopover" type="size" width="600" height="600"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="600" height="600"/>
+                    <connections>
+                        <outlet property="gameLevelPreview" destination="5bJ-1c-AB7" id="Sg9-pC-BxL"/>
+                        <outlet property="gameLevelsTable" destination="jK0-qN-qtx" id="pVD-bF-EU2"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="I1B-gd-fci" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="311" y="1150"/>
         </scene>
         <!--Multiplayer Game Setting View Controller-->
         <scene sceneID="6Ij-ie-cX6">
@@ -256,7 +373,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="16g-uL-wJJ" kind="unwind" unwindAction="unwindToThisViewController:" id="De6-de-C1f"/>
+                                    <segue destination="Lrx-KD-ooL" kind="presentation" id="jTC-WD-Bpe"/>
                                 </connections>
                             </button>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="R8O-pn-Ym3">
@@ -419,15 +536,6 @@
                                     <outletCollection property="gestureRecognizers" destination="aqk-0m-wUa" appends="YES" id="0Zg-hf-aSg"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ghf-Tw-XbO">
-                                <rect key="frame" x="962" y="405" width="46" height="30"/>
-                                <state key="normal" title="Save">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="saveFile:" destination="q9R-B0-rYt" eventType="touchUpInside" id="stW-dP-Jlk"/>
-                                </connections>
-                            </button>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="eA4-O4-5PU">
                                 <rect key="frame" x="752" y="435" width="256" height="256"/>
                                 <collectionViewLayout key="collectionViewLayout" id="UtF-fj-aCr" customClass="GameLevelDesignerCollectionViewLayout" customModule="Pacman_Reloaded" customModuleProvider="target"/>
@@ -443,6 +551,9 @@
                                         <size key="customSize" width="6.4000000000000909" height="6.4000000000000909"/>
                                     </collectionViewCell>
                                 </cells>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="P9o-58-Vrb" appends="YES" id="gFK-Cx-KCb"/>
+                                </connections>
                             </collectionView>
                             <imageView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="minimap-rectangle" translatesAutoresizingMaskIntoConstraints="NO" id="WGS-Je-Mpf">
                                 <rect key="frame" x="752" y="435" width="115" height="115"/>
@@ -468,7 +579,6 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3fd-GG-hbL" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="16g-uL-wJJ" userLabel="Exit" sceneMemberID="exit"/>
                 <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="iI8-4K-wdu">
                     <connections>
                         <action selector="arrowLongPressed:" destination="q9R-B0-rYt" id="eHx-xx-g8C"/>
@@ -492,6 +602,11 @@
                 <panGestureRecognizer minimumNumberOfTouches="1" id="HHw-a1-ar4">
                     <connections>
                         <action selector="handlePanGesture:" destination="q9R-B0-rYt" id="Zgv-t0-0zC"/>
+                    </connections>
+                </panGestureRecognizer>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="P9o-58-Vrb">
+                    <connections>
+                        <action selector="handlePanGestureInMiniMap:" destination="q9R-B0-rYt" id="C0W-Jd-Tsf"/>
                     </connections>
                 </panGestureRecognizer>
             </objects>

@@ -39,9 +39,7 @@ class GameScene: SKScene {
     var ghosts: [Ghost]!
     var ghostMovements: [MovementControl]!
     
-    
-    // TODO Pass in the file name from map selection interface
-    var fileName: String? = "myFirstFile.xml"
+    var fileName: String?
     
     override func didMoveToView(view: SKView) {
         physicsWorld.gravity = CGVectorMake(0, 0)

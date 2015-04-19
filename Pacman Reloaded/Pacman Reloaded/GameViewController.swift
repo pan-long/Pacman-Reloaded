@@ -41,23 +41,32 @@ class GameViewController: UIViewController {
         background.backgroundColor = UIColor.darkGrayColor()
         view.addSubview(background)
         view.sendSubviewToBack(background)
-
-
-        if let scene = GameScene.unarchiveFromFile("GameScene") as? GameScene {
-            // Configure the view.
-            let skView = gameSceneView as SKView
-            skView.showsFPS = true
-            skView.frameInterval = Constants.FrameInterval
-            skView.showsNodeCount = true
-            // skView.showsPhysics = true
-            /* Sprite Kit applies additional optimizations to improve rendering performance */
-            skView.ignoresSiblingOrder = true
-            
-            /* Set the scale mode to scale to fit the window */
-            scene.scaleMode = .AspectFill
-            scene.sceneDelegate = self
-            skView.presentScene(scene)
-        }
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        let gameLevelSelection = self.storyboard!.instantiateViewControllerWithIdentifier("gameLevelSelection") as UIViewController
+        self.presentViewController(gameLevelSelection, animated: true, completion: nil)
+    }
+    
+    func loadGameLevelFromFile(fileName: String) {
+        self.dismissViewControllerAnimated(true, completion: {() -> Void in
+            if let scene = GameScene.unarchiveFromFile("GameScene") as? GameScene {
+                // Configure the view.
+                let skView = self.gameSceneView as SKView
+                skView.showsFPS = true
+                skView.frameInterval = Constants.FrameInterval
+                skView.showsNodeCount = true
+                // skView.showsPhysics = true
+                /* Sprite Kit applies additional optimizations to improve rendering performance */
+                skView.ignoresSiblingOrder = true
+                
+                /* Set the scale mode to scale to fit the window */
+                scene.scaleMode = .AspectFill
+                scene.sceneDelegate = self
+                scene.fileName = fileName
+                skView.presentScene(scene)
+            }
+        })
     }
 
     override func shouldAutorotate() -> Bool {
