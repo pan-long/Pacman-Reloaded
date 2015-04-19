@@ -254,9 +254,9 @@ extension GameScene: SKPhysicsContactDelegate {
         totalPacDots--
         if pacdot.isSuper {
 //            frightenGhost()
-            var spotLightCenter = CGPointZero
-            spotLightCenter.x = pacman.position.x / view!.bounds.size.width
-            spotLightCenter.y = pacman.position.y / view!.bounds.size.height
+            let spotLightCenter = CGPoint(
+                x: 0.5 + view!.bounds.size.width / 2,
+                y: 0.5 + view!.bounds.size.height / 2)
             let spotLightViewFrame = CGRectMake(0, 0, view!.frame.width, view!.frame.height)
             let spotLightView = SpotLightUIView(
                 spotLightCenter: spotLightCenter,

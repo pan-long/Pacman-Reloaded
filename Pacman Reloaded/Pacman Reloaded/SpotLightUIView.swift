@@ -11,8 +11,8 @@ import UIKit
 public class SpotLightUIView: UIView {
     private let duration: NSTimeInterval = 0.3
     private var spotLightCenter: CGPoint
-    private var spotLightRadius: CGFloat = 300.0
-    private var modalOpacity: CGFloat = 0.8
+    private var spotLightRadius: CGFloat = 150.0
+    private var modalOpacity: CGFloat = 1.5
     private weak var _targetView: UIView?
     public var targetView: UIView? { get { return _targetView } }
     
@@ -38,8 +38,8 @@ public class SpotLightUIView: UIView {
         let gradient = CGGradientCreateWithColorComponents(colorSpace, colors, locations, 2)
         
         let gradientCenter = CGPoint(
-            x: spotLightCenter.x * rect.size.width,
-            y: spotLightCenter.y * rect.size.height)
+            x: spotLightCenter.x,
+            y: spotLightCenter.y)
         let startPoint = gradientCenter
         let startRadius: CGFloat = 0.0
         let endPoint = gradientCenter
