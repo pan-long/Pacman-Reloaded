@@ -106,6 +106,8 @@ struct Constants {
         
         static let MaxNumberOfPacman = 8
         static let MaxNumberOfGhosts = 16
+        
+        static let SpotLightDuration: NSTimeInterval = 15
     }
     
     struct AIMovementControl {
