@@ -253,7 +253,15 @@ extension GameScene: SKPhysicsContactDelegate {
         pacman.score += Constants.Score.PacDot
         totalPacDots--
         if pacdot.isSuper {
-            frightenGhost()
+//            frightenGhost()
+            var spotLightCenter = CGPointZero
+            spotLightCenter.x = pacman.position.x / view!.bounds.size.width
+            spotLightCenter.y = pacman.position.y / view!.bounds.size.height
+            let spotLightViewFrame = CGRectMake(0, 0, view!.frame.width, view!.frame.height)
+            let spotLightView = SpotLightUIView(
+                spotLightCenter: spotLightCenter,
+                frame: spotLightViewFrame)
+            view!.addSubview(spotLightView)
         }
         sceneDelegate.updateScore(pacman.score, dotsLeft: totalPacDots)
         if totalPacDots == 0 {
