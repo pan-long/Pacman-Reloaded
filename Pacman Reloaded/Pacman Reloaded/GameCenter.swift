@@ -15,7 +15,7 @@ class GameCenter {
     let otherPlayersName: [String]
     
     private var pacmanMovementControl = [Int: NetworkMovementControl]()
-    private var ghostMovementControl = [String: NetworkMovementControl]()
+    private var ghostMovementControl = [Int: NetworkMovementControl]()
     
     let connectivity: MultiplayerConnectivity
     
@@ -67,8 +67,8 @@ extension GameCenter: SessionDataDelegate {
             break
         case GameNetworkDataType.TYPE_GHOST_MOVEMENT:
             let ghostMovementData = data as GameNetworkGhostMovementData
-            let ghostName = ghostMovementData.ghostName
-            let networkMovementControl = ghostMovementControl[ghostName]
+            let ghostId = ghostMovementData.ghostId
+            let networkMovementControl = ghostMovementControl[ghostId]
             networkMovementControl?.correctPosition(ghostMovementData.position)
             networkMovementControl?.changeDirection(ghostMovementData.direction)
             break
@@ -93,8 +93,8 @@ extension GameCenter: GameSceneNetworkDelegate {
         connectivity.sendData(toPlayer: otherPlayersName, data: pacmanMovementData, error: nil)
     }
     
-    func updateGhostMovementData(name: String, ghost: Ghost) {
-        let ghostMovementData = GameNetworkGhostMovementData(ghostName: name, ghostPosition: ghost.position, ghostDirection: ghost.currentDir)
+    func updateGhostMovementData(id: Int, ghost: Ghost) {
+        let ghostMovementData = GameNetworkGhostMovementData(ghostId: id, ghostPosition: ghost.position, ghostDirection: ghost.currentDir)
         connectivity.sendData(toPlayer: otherPlayersName, data: ghostMovementData, error: nil)
     }
     
@@ -107,7 +107,7 @@ extension GameCenter: GameSceneNetworkDelegate {
         pacmanMovementControl[id] = movementControl
     }
     
-    func setGhostMovementControl(name: String, movementControl: NetworkMovementControl) {
-        ghostMovementControl[name] = movementControl
+    func setGhostMovementControl(id: Int, movementControl: NetworkMovementControl) {
+        ghostMovementControl[id] = movementControl
     }
 }

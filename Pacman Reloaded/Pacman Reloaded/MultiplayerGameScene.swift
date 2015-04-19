@@ -11,10 +11,10 @@ import AVFoundation
 
 protocol GameSceneNetworkDelegate {
     func updatePacmanMovementData(pacman: PacMan)
-    func updateGhostMovementData(name: String, ghost: Ghost)
+    func updateGhostMovementData(id: Int, ghost: Ghost)
     func updatePacmanScore(pacman: PacMan)
     func setPacmanMovementControl(id: Int, movementControl: NetworkMovementControl)
-    func setGhostMovementControl(name: String, movementControl: NetworkMovementControl)
+    func setGhostMovementControl(id: Int, movementControl: NetworkMovementControl)
 }
 
 class MultiplayerGameScene: GameScene {
@@ -71,7 +71,7 @@ class MultiplayerGameScene: GameScene {
             clydeMovement = NetworkMovementControl(movableObject: clyde)
             
             if let networkDelegate = networkDelegate {
-                networkDelegate.setGhostMovementControl(GhostName.GHOST_NAME_BLINKY, movementControl: blinkyMovement as NetworkMovementControl)
+                networkDelegate.setGhostMovementControl(Name.GHOST_NAME_BLINKY, movementControl: blinkyMovement as NetworkMovementControl)
                 networkDelegate.setGhostMovementControl(GhostName.GHOST_NAME_PINKY, movementControl: pinkyMovement as NetworkMovementControl)
                 networkDelegate.setGhostMovementControl(GhostName.GHOST_NAME_INKY, movementControl: inkyMovement as NetworkMovementControl)
                 networkDelegate.setGhostMovementControl(GhostName.GHOST_NAME_CLYDE, movementControl: clydeMovement as NetworkMovementControl)

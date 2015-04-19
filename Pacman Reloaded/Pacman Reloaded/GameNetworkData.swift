@@ -59,10 +59,10 @@ class GameNetworkPacmanMovementData: GameNetworkMovementData {
 }
 
 class GameNetworkGhostMovementData: GameNetworkMovementData {
-    let ghostName: String
+    let ghostId: Int
     
-    init(ghostName: String, ghostPosition: CGPoint, ghostDirection: Direction) {
-        self.ghostName = ghostName
+    init(ghostId: Int, ghostPosition: CGPoint, ghostDirection: Direction) {
+        self.ghostId = ghostId
         
         super.init(type: GameNetworkDataType.TYPE_PACMAN_MOVEMENT, position: ghostPosition, direction: ghostDirection)
     }
