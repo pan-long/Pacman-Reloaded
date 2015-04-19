@@ -59,7 +59,7 @@ class GameLevelDesignViewController: UIViewController {
         println("Deinit level designer")
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    func releaseMemory() {
         miniMap.dataSource = nil
         miniMap.delegate = nil
         designArea.delegate = nil

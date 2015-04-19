@@ -29,12 +29,13 @@ class GameLevelSaveFileViewController: UIViewController {
     @IBAction func goToHomepage(sender: UIButton) {
         let presentingVC = self.presentingViewController as GameLevelDesignViewController
         presentingVC.dismissViewControllerAnimated(true, completion: { () -> Void in
+            presentingVC.releaseMemory()
             let mainPageVC = presentingVC.presentingViewController!
             mainPageVC.dismissViewControllerAnimated(true, completion: nil)
         })
     }
     
     deinit {
-        println("game level save file deinited")
+        println("Game level save file deinited")
     }
 }
