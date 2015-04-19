@@ -11,8 +11,8 @@ import SpriteKit
 class GameLevelDesignViewController: UIViewController {
     
     @IBOutlet weak var buttons: UIView!
-    @IBOutlet var designArea: UICollectionView!
-    @IBOutlet var miniMap: UICollectionView!
+    @IBOutlet weak var designArea: UICollectionView!
+    @IBOutlet weak var miniMap: UICollectionView!
     @IBOutlet weak var miniMapRec: UIImageView!
     
     @IBOutlet weak var arrowUp: UIButton!
