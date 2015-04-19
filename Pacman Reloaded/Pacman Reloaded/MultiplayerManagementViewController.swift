@@ -31,16 +31,20 @@ class MultiplayerManagementViewController: UIViewController {
     }
     
     deinit {
+        connectivity.stopServiceAdvertising()
+        connectivity.stopServiceBrowsing()
         println("multi management deinited")
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+      if isHost {
         if let identifier = segue.identifier {
             if identifier == Constants.Identifiers.MultiplayerGameSegueIdentifier {
                 let gameVC = segue.destinationViewController as GameViewController
                 gameVC.setNumberOfPlayers(2)
             }
         }
+    }
     }
     
     @IBAction func createNewGame(sender: AnyObject) {
@@ -102,6 +106,7 @@ extension MultiplayerManagementViewController: MatchPeersDelegate {
         switch state {
         case .Connected:
             // connected with host, enter game and set game scene
+            isHost = false
             performSegueWithIdentifier(Constants.Identifiers.MultiplayerGameSegueIdentifier, sender: nil)
             break
         case .Connecting:

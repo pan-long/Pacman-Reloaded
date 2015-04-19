@@ -64,10 +64,10 @@ class GameViewController: UIViewController {
             // Present game settings
             let gameSetting = self.storyboard!.instantiateViewControllerWithIdentifier("gameSetting") as UIViewController
             self.presentViewController(gameSetting, animated: true, completion: nil)
+        } else {
+            let gameLevelSelection = self.storyboard!.instantiateViewControllerWithIdentifier("gameLevelSelection") as UIViewController
+            self.presentViewController(gameLevelSelection, animated: true, completion: nil)
         }
-        
-        let gameLevelSelection = self.storyboard!.instantiateViewControllerWithIdentifier("gameLevelSelection") as UIViewController
-        self.presentViewController(gameLevelSelection, animated: true, completion: nil)
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -248,7 +248,8 @@ extension GameViewController: MatchPeersDelegate {
     func session(player playername: String, didChangeState state: MCSessionState) {
         switch state {
         case .Connected:
-            println("connected")
+            let gameLevelSelection = self.storyboard!.instantiateViewControllerWithIdentifier("gameLevelSelection") as UIViewController
+            self.presentViewController(gameLevelSelection, animated: true, completion: nil)
             break
         case .Connecting:
             println("connecting")
