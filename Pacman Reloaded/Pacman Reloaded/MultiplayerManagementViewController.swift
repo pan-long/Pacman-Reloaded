@@ -70,7 +70,20 @@ extension MultiplayerManagementViewController: UITableViewDataSource {
 extension MultiplayerManagementViewController: MatchPeersDelegate {
     func didReceiveInvitationFromPlayer(playerName: String, invitationHandler: ((Bool) -> Void)) {}
     func session(player playername: String, didChangeState state: MCSessionState) {
-    
+        switch state {
+        case .Connected:
+            // connected with host, enter game and set game scene
+            performSegueWithIdentifier(Constants.Identifiers.MultiplayerGameSegueIdentifier, sender: nil)
+            break
+        case .Connecting:
+            // try connecting to the host, show an indicator with cancel button
+            break
+        case .NotConnected:
+            // there is a problem connecting with the host, show an alert message
+            break
+        default:
+            break
+        }
     }
     
     func browser(foundPlayer playerName: String, withDiscoveryInfo info: [NSObject : AnyObject]?) {

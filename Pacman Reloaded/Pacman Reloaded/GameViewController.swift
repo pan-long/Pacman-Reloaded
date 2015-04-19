@@ -56,11 +56,15 @@ class GameViewController: UIViewController {
         startGameScene(0, isHost: true)
     }
 
+    override func viewWillAppear(animated: Bool) {
+        if numberOfPlayers > 1 {
+            scene?.view?.paused = true
+        }
+    }
+    
     override func viewDidAppear(animated: Bool) {
         if numberOfPlayers > 1 {
             // Present game settings
-            scene?.view?.paused = true
-            
             let gameSetting = self.storyboard!.instantiateViewControllerWithIdentifier("gameSetting") as GamePopoverViewController
             self.presentViewController(gameSetting, animated: true, completion: nil)
         }
