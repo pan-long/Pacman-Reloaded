@@ -11,7 +11,8 @@ import UIKit
 enum GameNetworkDataType: Int {
     case TYPE_PACMAN_MOVEMENT = 0,
     TYPE_GHOST_MOVEMENT = 1,
-    TYPE_PACMAN_SCORE = 2
+    TYPE_PACMAN_SCORE = 2,
+    TYPE_MAP = 3
 }
 
 class GameNetworkData: NSData {
@@ -21,6 +22,21 @@ class GameNetworkData: NSData {
         dataType = type
         
         super.init()
+    }
+
+    required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+class GameNetworkMapData: GameNetworkData {
+    let pacmanId: Int
+    let mapContent: [Dictionary<String, String>]
+    
+    init(type: GameNetworkDataType, pacmanId: Int, mapContent: [Dictionary<String, String>]) {
+        self.pacmanId = pacmanId
+        self.mapContent = mapContent
+        super.init(type: type)
     }
 
     required init(coder aDecoder: NSCoder) {
