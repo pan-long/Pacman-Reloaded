@@ -334,82 +334,86 @@ extension GameScene: SKPhysicsContactDelegate {
 extension GameScene {
     func parseFileWithName(name: String) {
         if let content = GameLevelStorage.loadGameLevelFromFile(name) {
-            self.totalPacDots = 0
-
-            for i in 0..<content.count {
-                let gameObject = content[i]
-                let type = gameObject["type"]!
+            parseMapWithData(content)
+        }
+    }
+    
+    func parseMapWithData(content: [Dictionary<String, String>]) {
+        self.totalPacDots = 0
+        
+        for i in 0..<content.count {
+            let gameObject = content[i]
+            let type = gameObject["type"]!
             
-                let width = CGFloat(gameObject["width"]!.toInt()!)
-                let height = CGFloat(gameObject["height"]!.toInt()!)
-                var size = CGSize(width: width, height: height)
+            let width = CGFloat(gameObject["width"]!.toInt()!)
+            let height = CGFloat(gameObject["height"]!.toInt()!)
+            var size = CGSize(width: width, height: height)
+            
+            let xPos = CGFloat(gameObject["x"]!.toInt()!) // + width/2
+            let yPos = Constants.IPadHeight - CGFloat(gameObject["y"]!.toInt()!) // - height/2
+            let origin = CGPoint(x: xPos, y: yPos)
+            println(origin)
+            
+            switch type {
+            case "boundary":
+                size = CGSize(width: 35, height: 35)
+                let boundary = Boundary(size: size, isExterior: false)
+                addChild(boundary)
+                boundary.position = origin
                 
-                let xPos = CGFloat(gameObject["x"]!.toInt()!) // + width/2
-                let yPos = Constants.IPadHeight - CGFloat(gameObject["y"]!.toInt()!) // - height/2
-                let origin = CGPoint(x: xPos, y: yPos)
-                println(origin)
+                break
+            case "edge":
+                let boundary = Boundary(size: size, isExterior: true)
+                addChild(boundary)
+                boundary.position = origin
                 
-                switch type {
-                case "boundary":
-                    size = CGSize(width: 35, height: 35)
-                    let boundary = Boundary(size: size, isExterior: false)
-                    addChild(boundary)
-                    boundary.position = origin
-                    
-                    break
-                case "edge":
-                    let boundary = Boundary(size: size, isExterior: true)
-                    addChild(boundary)
-                    boundary.position = origin
-                    
-                    break
-                case "pacdot":
-                    let pacdot = PacDot(size: size)
-                    addChild(pacdot)
-                    pacdot.position = origin
-                    self.totalPacDots++
-                    break
-                case "super-pacdot":
-                    let pacdot = PacDot(superSize: size)
-                    addChild(pacdot)
-                    pacdot.position = origin
-                    self.totalPacDots++
-                    break
-                case "pacman":
-                    addPacmanFromTMXFile(i, position: origin)
-                    
-                    break
-                case "blinky":
-                    var blinky = Ghost(id: i, imageName: "ghost-red")
-                    blinky.position = origin
-                    addChild(blinky)
-                    blinkys.append(blinky)
-                    
-                    break
-                case "pinky":
-                    var pinky = Ghost(id: i, imageName: "ghost-yellow")
-                    pinky.position = origin
-                    addChild(pinky)
-                    pinkys.append(pinky)
-                    
-                    break
-                case "inky":
-                    var inky = Ghost(id: i, imageName: "ghost-blue")
-                    inky.position = origin
-                    addChild(inky)
-                    inkys.append(inky)
-                    
-                    break
-                case "clyde":
-                    var clyde = Ghost(id: i, imageName: "ghost-orange")
-                    clyde.position = origin
-                    addChild(clyde)
-                    clydes.append(clyde)
-                    
-                    break
-                default:
-                    break
-                }
+                break
+            case "pacdot":
+                let pacdot = PacDot(size: size)
+                addChild(pacdot)
+                pacdot.position = origin
+                self.totalPacDots++
+                break
+            case "super-pacdot":
+                let pacdot = PacDot(superSize: size)
+                addChild(pacdot)
+                pacdot.position = origin
+                self.totalPacDots++
+                break
+            case "pacman":
+                addPacmanFromTMXFile(i, position: origin)
+                
+                break
+            case "blinky":
+                var blinky = Ghost(id: i, imageName: "ghost-red")
+                blinky.position = origin
+                addChild(blinky)
+                blinkys.append(blinky)
+                
+                break
+            case "pinky":
+                var pinky = Ghost(id: i, imageName: "ghost-yellow")
+                pinky.position = origin
+                addChild(pinky)
+                pinkys.append(pinky)
+                
+                break
+            case "inky":
+                var inky = Ghost(id: i, imageName: "ghost-blue")
+                inky.position = origin
+                addChild(inky)
+                inkys.append(inky)
+                
+                break
+            case "clyde":
+                var clyde = Ghost(id: i, imageName: "ghost-orange")
+                clyde.position = origin
+                addChild(clyde)
+                clydes.append(clyde)
+                
+                break
+            default:
+                break
             }
         }
     }
