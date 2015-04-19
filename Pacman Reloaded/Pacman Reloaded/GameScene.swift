@@ -277,11 +277,12 @@ extension GameScene: SKPhysicsContactDelegate {
     }
     
     private func spotLightMode() {
-        view!.addSubview(spotLightView)
         
         if spotLightTimer != nil {
             spotLightTimer!.invalidate()
             spotLightTimer = nil
+        } else {
+            view!.addSubview(spotLightView)
         }
         
         self.spotLightTimer = NSTimer.scheduledTimerWithTimeInterval(
@@ -294,6 +295,7 @@ extension GameScene: SKPhysicsContactDelegate {
     
     func endSpotLightMode(timer: NSTimer) {
         spotLightView.removeFromSuperview()
+        spotLightTimer = nil
     }
 
     private func frightenGhost() {

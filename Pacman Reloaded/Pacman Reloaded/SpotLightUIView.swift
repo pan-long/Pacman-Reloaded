@@ -13,9 +13,6 @@ public class SpotLightUIView: UIView {
     private var spotLightCenter: CGPoint
     private var spotLightRadius: CGFloat = 150.0
     private var modalOpacity: CGFloat = 1.5
-    private weak var _targetView: UIView?
-    public var targetView: UIView? { get { return _targetView } }
-    
     
     init(spotLightCenter: CGPoint, frame: CGRect) {
         self.spotLightCenter = spotLightCenter
@@ -46,26 +43,5 @@ public class SpotLightUIView: UIView {
         let endRadius = spotLightRadius
         
         CGContextDrawRadialGradient(context, gradient, startPoint, startRadius, endPoint, endRadius, 2)
-        
-        println("Finish!")
-    }
-    
-    public func showInView() {
-        self._targetView = UIApplication.sharedApplication().keyWindow
-        if let tv = self.targetView {
-            self.alpha = 0.0
-            self.frame = tv.bounds
-            self.setNeedsDisplay()
-            tv.addSubview(self)
-            
-            var animation: () -> Void = {
-                self.alpha = 1.0
-            }
-            
-            UIView.animateWithDuration(
-                duration,
-                animations: animation,
-                completion: nil)
-        }
     }
 }
