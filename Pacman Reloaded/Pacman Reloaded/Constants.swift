@@ -15,6 +15,14 @@ struct Constants {
     static let IPadWidth = CGFloat(1024)
     static let IPadHeight = CGFloat(768)
     static let FrameInterval = 2
+    
+    struct Item {
+        static let sizeScale = CGFloat(1)
+    }
+    
+    struct MovableObject {
+        static let sizeScale = CGFloat(0.5)
+    }
 
     struct Score {
         static let PacDot = 1

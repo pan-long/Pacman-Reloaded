@@ -13,17 +13,17 @@ class GameObject: SKNode {
     var objectId: Int?
     var sprite: SKSpriteNode
 
-    init(image: String) {
+    init(image: String, sizeScale: CGFloat) {
         self.sprite = SKSpriteNode(imageNamed: image)
         super.init()
-        self.physicsBody = SKPhysicsBody(rectangleOfSize: sprite.size)
-        addChild(sprite)
-    }
-    
-    convenience init(id: Int, image: String) {
-        self.init(image: image)
         
-        objectId = id
+        
+        let spriteSize = CGSize(
+            width: self.sprite.size.width * sizeScale,
+            height: self.sprite.size.height * sizeScale)
+        
+        self.physicsBody = SKPhysicsBody(rectangleOfSize: spriteSize)
+        addChild(sprite)
     }
 
     required init?(coder aDecoder: NSCoder) {
