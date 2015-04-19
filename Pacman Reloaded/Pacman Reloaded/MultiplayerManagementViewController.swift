@@ -11,7 +11,7 @@ import MultipeerConnectivity
 
 class MultiplayerManagementViewController: UIViewController {
     
-    @IBOutlet var newGameTable: UITableView!
+    @IBOutlet weak var newGameTable: UITableView!
     
     private let newGameIdentifier = Constants.Identifiers.NewGameService
     private var newGames: [String] = []
@@ -47,6 +47,14 @@ class MultiplayerManagementViewController: UIViewController {
         isHost = true
         pacmanId = 0
         performSegueWithIdentifier(Constants.Identifiers.MultiplayerGameSegueIdentifier, sender: self)
+    }
+    
+    @IBAction func BackToHome(sender: AnyObject) {
+        newGameTable.delegate = nil
+        newGameTable.dataSource = nil
+        connectivity.matchDelegate = nil
+        
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
 }
 

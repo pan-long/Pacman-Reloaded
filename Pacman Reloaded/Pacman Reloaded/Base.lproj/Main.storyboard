@@ -84,6 +84,9 @@
                                 <state key="normal" image="pacman-logo">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="BackToHome:" destination="dky-fn-pWs" eventType="touchUpInside" id="Ugv-pJ-NqP"/>
+                                </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="RJc-ZM-ZFI">
                                 <rect key="frame" x="484" y="53" width="510" height="621"/>

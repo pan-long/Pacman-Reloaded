@@ -10,8 +10,8 @@ import SpriteKit
 
 class GameLevelSaveFileViewController: UIViewController {
     
-    @IBOutlet var fileNameTextField: UITextField!
-    @IBOutlet var saveButton: UIButton!
+    @IBOutlet weak var fileNameTextField: UITextField!
+    @IBOutlet weak var saveButton: UIButton!
     
     @IBAction func saveFile(sender: UIButton) {
         let presentingVC = self.presentingViewController as GameLevelDesignViewController
@@ -32,5 +32,9 @@ class GameLevelSaveFileViewController: UIViewController {
             let mainPageVC = presentingVC.presentingViewController!
             mainPageVC.dismissViewControllerAnimated(true, completion: nil)
         })
+    }
+    
+    deinit {
+        println("game level save file deinited")
     }
 }
