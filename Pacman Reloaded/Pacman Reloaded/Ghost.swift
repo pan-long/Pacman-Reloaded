@@ -72,7 +72,7 @@ class Ghost: MovableObject {
     }
     
     convenience init(id: Int, imageName: String) {
-        self.init(image: imageName)
+        self.init(imageName: imageName)
         objectId = id
     }
     

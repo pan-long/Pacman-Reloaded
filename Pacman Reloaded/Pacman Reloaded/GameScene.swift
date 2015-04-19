@@ -418,6 +418,7 @@ extension GameScene {
     
     func addPacmanFromTMXFile(id: Int, position: CGPoint) {
         pacman.position = position
+        removeChildrenInArray([pacman])
         addChild(pacman)
     }
 }
