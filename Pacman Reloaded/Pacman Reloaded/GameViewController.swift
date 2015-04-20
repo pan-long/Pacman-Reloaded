@@ -38,6 +38,7 @@ class GameViewController: UIViewController {
     
     // Single player mode is the default and the play self hosts the game
     private var isHost = true
+    private var isMultiplayerMode = false
     private var numberOfPlayers = 1
     
     private let newGameIdentifier = Constants.Identifiers.NewGameService
@@ -90,21 +91,13 @@ class GameViewController: UIViewController {
     func startGameScene(pacmanId: Int, isHost: Bool) {
         if let scene = scene as? MultiplayerGameScene {
             scene.setupPacman(pacmanId, isHost: isHost)
+            connectivity.matchDelegate = self
+            connectivity.stopServiceBrowsing()
+            connectivity.startServiceAdvertising(Constants.Identifiers.NewGameService, discoveryInfo: [String: String]())
         }
         
         let skView = gameSceneView as SKView
         skView.presentScene(scene)
-    }
-    
-    func setNumberOfPlayers(numberOfPlayers: Int) {
-        self.numberOfPlayers = numberOfPlayers
-        
-        self.dismissViewControllerAnimated(true, completion: {() -> Void in
-            self.connectivity.matchDelegate = self
-            self.connectivity.startServiceAdvertising(self.newGameIdentifier,
-                discoveryInfo: Dictionary<String, String>())
-            self.connectivity.stopServiceBrowsing()
-        })
     }
     
     private func getGameSceneFromFile() -> GameScene {

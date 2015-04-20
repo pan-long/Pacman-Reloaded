@@ -18,7 +18,6 @@ class MultiplayerManagementViewController: UIViewController {
     private var gameIndices = Dictionary<String, Int>()
     private var connectivity = MultiplayerConnectivity(name: UIDevice.currentDevice().name) // Current iPad name
     
-    private var isHost = false
     private var pacmanId = 0
     
     override func viewDidLoad() {
@@ -36,19 +35,7 @@ class MultiplayerManagementViewController: UIViewController {
         println("multi management deinited")
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-      if isHost {
-        if let identifier = segue.identifier {
-            if identifier == Constants.Identifiers.MultiplayerGameSegueIdentifier {
-                let gameVC = segue.destinationViewController as GameViewController
-                gameVC.setNumberOfPlayers(2)
-            }
-        }
-    }
-    }
-    
     @IBAction func createNewGame(sender: AnyObject) {
-        isHost = true
         pacmanId = 0
         performSegueWithIdentifier(Constants.Identifiers.MultiplayerGameSegueIdentifier, sender: self)
     }
@@ -106,7 +93,6 @@ extension MultiplayerManagementViewController: MatchPeersDelegate {
         switch state {
         case .Connected:
             // connected with host, enter game and set game scene
-            isHost = false
             performSegueWithIdentifier(Constants.Identifiers.MultiplayerGameSegueIdentifier, sender: nil)
             break
         case .Connecting:
