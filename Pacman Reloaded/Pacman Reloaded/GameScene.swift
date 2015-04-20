@@ -15,8 +15,8 @@ class GameScene: SKScene {
     weak var sceneDelegate: GameSceneDelegate!
     weak var presentingView: SKView!
 
-    // Initiate game objects
-    var pacman = PacMan()
+    // Initiate game objects, for single player mode, just set the id of pacman as 0, a dummy value
+    var pacman = PacMan(id: 0)
     
     var blinkys = [Ghost]()
     var pinkys = [Ghost]()
@@ -95,7 +95,7 @@ class GameScene: SKScene {
     }
     
     private func initGameObjects() {
-        pacman = PacMan()
+        pacman = PacMan(id: 0)
         
         blinkys = [Ghost]()
         pinkys = [Ghost]()
@@ -170,7 +170,7 @@ class GameScene: SKScene {
         }]
     }
     
-    private func setupGameObjects() {
+    func setupGameObjects() {
         // read from map data
         if let map = mapContent {
             parseMapWithData(map)
@@ -434,19 +434,19 @@ extension GameScene {
                 
                 break
             case "pacdot":
-                let pacdot = PacDot(size: size)
+                let pacdot = PacDot(id: i, size: size)
                 addChild(pacdot)
                 pacdot.position = origin
                 self.totalPacDots++
                 break
             case "super-pacdot":
-                let pacdot = PacDot(superSize: size)
+                let pacdot = PacDot(id: i, superSize: size)
                 addChild(pacdot)
                 pacdot.position = origin
                 self.totalPacDots++
                 break
             case "pacman":
-                addPacmanFromTMXFile(i, position: origin)
+                addPacmanFromMapData(i, position: origin)
                 
                 break
             case "blinky":
@@ -483,7 +483,7 @@ extension GameScene {
         }
     }
     
-    func addPacmanFromTMXFile(id: Int, position: CGPoint) {
+    func addPacmanFromMapData(id: Int, position: CGPoint) {
         pacman.position = position
         removeChildrenInArray([pacman])
         addChild(pacman)

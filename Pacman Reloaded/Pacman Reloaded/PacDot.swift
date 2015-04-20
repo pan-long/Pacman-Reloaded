@@ -16,18 +16,18 @@ class PacDot: Item {
 
     var isSuper = false
 
-    init(size: CGSize) {
+    init(id: Int, size: CGSize) {
         let location = CGPoint(x: -1 * size.width / 2, y: -1 * size.height / 2 )
         let newRect = CGRect(origin: location, size: size)
-        super.init(image: Constants.PacDot.normalPacDotImage)
+        super.init(id: id, image: Constants.PacDot.normalPacDotImage)
         self.sprite.size = size
         setup(newRect)
     }
 
-    init(superSize size: CGSize) {
+    init(id: Int, superSize size: CGSize) {
         let location = CGPoint(x: -1 * size.width / 2, y: -1 * size.height / 2 )
         let newRect = CGRect(origin: location, size: size)
-        super.init(image: Constants.PacDot.superPacDotImage)
+        super.init(id: id, image: Constants.PacDot.superPacDotImage)
         self.sprite.size = size
         setup(newRect)
         isSuper = true

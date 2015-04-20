@@ -37,9 +37,11 @@ class GameViewController: UIViewController {
     var scene: GameScene?
     
     // Single player mode is the default and the play self hosts the game
-    private var isHost = true
-    private var isMultiplayerMode = false
+    var isMultiplayerMode = false
+    var isHost = true
     private var numberOfPlayers = 1
+    
+    private var mapData: [Dictionary<String, String>]!
     
     private let newGameIdentifier = Constants.Identifiers.NewGameService
     private var connectivity: MultiplayerConnectivity = MultiplayerConnectivity(name: UIDevice.currentDevice().name)
@@ -52,56 +54,55 @@ class GameViewController: UIViewController {
         background.backgroundColor = UIColor.darkGrayColor()
         view.addSubview(background)
         view.sendSubviewToBack(background)
+        
+        if isMultiplayerMode {
+            connectivity.stopServiceBrowsing()
+        }
     }
 
-    override func viewWillAppear(animated: Bool) {
-        if numberOfPlayers > 1 {
-            scene?.view?.paused = true
+    override func viewDidAppear(animated: Bool) {
+        if !isMultiplayerMode || isHost {
+            let gameLevelSelection = self.storyboard!.instantiateViewControllerWithIdentifier("gameLevelSelection") as UIViewController
+            self.presentViewController(gameLevelSelection, animated: true, completion: nil)
         }
     }
     
-    override func viewDidAppear(animated: Bool) {
-        let gameLevelSelection = self.storyboard!.instantiateViewControllerWithIdentifier("gameLevelSelection") as UIViewController
-        self.presentViewController(gameLevelSelection, animated: true, completion: nil)
+    func loadGame(fromFile mapFile: String) {
+        setupGameScene()
+        scene!.parseFileWithName(mapFile)
+        
+        addGameSceneToView()
     }
     
-    override func viewWillDisappear(animated: Bool) {
-        connectivity.stopServiceAdvertising()
-        connectivity.stopServiceBrowsing()
+    func loadGame(fromData content: [Dictionary<String, String>]) {
+        setupGameScene()
+        scene!.parseMapWithData(content)
+        
+        addGameSceneToView()
     }
     
-    func setupGameScene(mapFile: String) {
+    private func setupGameScene() {
         scene = getGameSceneFromFile()
         // Configure the view.
         let skView = gameSceneView as SKView
         skView.showsFPS = true
         skView.frameInterval = Constants.FrameInterval
         skView.showsNodeCount = true
-        // skView.showsPhysics = true
         /* Sprite Kit applies additional optimizations to improve rendering performance */
         skView.ignoresSiblingOrder = true
         
         /* Set the scale mode to scale to fit the window */
         scene!.scaleMode = .AspectFill
         scene!.sceneDelegate = self
-        
-        scene!.fileName = mapFile
     }
     
-    func startGameScene(pacmanId: Int, isHost: Bool) {
-        if let scene = scene as? MultiplayerGameScene {
-            scene.setupPacman(pacmanId, isHost: isHost)
-            connectivity.matchDelegate = self
-            connectivity.stopServiceBrowsing()
-            connectivity.startServiceAdvertising(Constants.Identifiers.NewGameService, discoveryInfo: [String: String]())
-        }
-        
+    private func addGameSceneToView() {
         let skView = gameSceneView as SKView
         skView.presentScene(scene)
     }
     
     private func getGameSceneFromFile() -> GameScene {
-        if numberOfPlayers > 1 {
+        if isMultiplayerMode {
             return MultiplayerGameScene.unarchiveFromFile("MultiplayerGameScene") as MultiplayerGameScene
         } else {
             return GameScene.unarchiveFromFile("GameScene") as GameScene
@@ -131,7 +132,6 @@ class GameViewController: UIViewController {
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         gameSceneView.scene?.view?.paused = true
-
     }
 
     func unpause() {
@@ -241,8 +241,9 @@ extension GameViewController: MatchPeersDelegate {
     func session(player playername: String, didChangeState state: MCSessionState) {
         switch state {
         case .Connected:
-            let gameLevelSelection = self.storyboard!.instantiateViewControllerWithIdentifier("gameLevelSelection") as UIViewController
-            self.presentViewController(gameLevelSelection, animated: true, completion: nil)
+//            let gameLevelSelection = self.storyboard!.instantiateViewControllerWithIdentifier("gameLevelSelection") as UIViewController
+//            self.presentViewController(gameLevelSelection, animated: true, completion: nil)
+            println("connected")
             break
         case .Connecting:
             println("connecting")

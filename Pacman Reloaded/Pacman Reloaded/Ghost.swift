@@ -57,8 +57,8 @@ class Ghost: MovableObject {
         }
     }
     
-    convenience init(imageName: String) {
-        self.init(image: imageName + Constants.Ghost.defaultImageSuffix)
+    init(id: Int, imageName: String) {
+        super.init(id: id, image: imageName + Constants.Ghost.defaultImageSuffix)
         self.imageName = imageName
         self.physicsBody?.categoryBitMask = GameObjectType.Ghost
         self.physicsBody?.contactTestBitMask = GameObjectType.PacMan | GameObjectType.Boundary
@@ -70,10 +70,9 @@ class Ghost: MovableObject {
         
         self.currentSpeed = Constants.Ghost.speed
     }
-    
-    convenience init(id: Int, imageName: String) {
-        self.init(imageName: imageName)
-        objectId = id
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     override func changeDirection(newDirection: Direction) {

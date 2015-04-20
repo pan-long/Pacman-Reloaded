@@ -28,7 +28,7 @@ class GameCenter {
         self.selfName = selfName
         self.hostName = hostName
         self.ownPacman = pacman
-        self.pacmanId = pacman.objectId!
+        self.pacmanId = pacman.objectId
         self.otherPlayersName = otherPlayersName
         self.connectivity = connectivity
     }
@@ -106,7 +106,7 @@ extension GameCenter: SessionDataDelegate {
 
 extension GameCenter: GameSceneNetworkDelegate {
     func updatePacmanMovementData(pacman: PacMan) {
-        let pacmanMovementData = GameNetworkPacmanMovementData(pacmanId: pacman.objectId!, pacmanPosition: pacman.position, pacmanDirection: pacman.currentDir)
+        let pacmanMovementData = GameNetworkPacmanMovementData(pacmanId: pacman.objectId, pacmanPosition: pacman.position, pacmanDirection: pacman.currentDir)
         
         // TO-Do: handle error
         connectivity.sendData(toPlayer: otherPlayersName, data: pacmanMovementData, error: nil)
@@ -118,7 +118,7 @@ extension GameCenter: GameSceneNetworkDelegate {
     }
     
     func updatePacmanScore(pacman: PacMan) {
-        let pacmanScoreData = GameNetworkPacmanScoreData(pacmanId: pacman.objectId!, pacmanScore: pacman.score)
+        let pacmanScoreData = GameNetworkPacmanScoreData(pacmanId: pacman.objectId, pacmanScore: pacman.score)
         connectivity.sendData(toPlayer: otherPlayersName, data: pacmanScoreData, error: nil)
     }
     
