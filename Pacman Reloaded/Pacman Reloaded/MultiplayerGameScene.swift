@@ -24,6 +24,7 @@ class MultiplayerGameScene: GameScene {
     private var otherPacmans = [PacMan]()
     
     var networkDelegate: GameSceneNetworkDelegate?
+    var multiplayerDelegate: MultiplayerGameSceneDelegate?
     
     func setupPacman(pacmanId: Int, isHost: Bool) {
         self.pacmanId = pacmanId
@@ -101,6 +102,13 @@ class MultiplayerGameScene: GameScene {
         otherPacmans.removeAll(keepCapacity: false)
         super.restart()
         registerObserverForPacmanDirection()
+    }
+    
+    override func parseMapWithData(content: [Dictionary<String, String>]) {
+        if let delegate = multiplayerDelegate {
+            delegate.didLoadGameMap(content)
+        }
+        super.parseMapWithData(content)
     }
     
     override func addPacmanFromTMXFile(id: Int, position: CGPoint) {
