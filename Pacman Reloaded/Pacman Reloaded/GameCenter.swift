@@ -34,19 +34,6 @@ class GameCenter {
         
         self.connectivity = connectivity
     }
-    
-    func updateGameStatus(gameStatus data: GameNetworkData) {
-        var error: NSError?
-        if selfName == hostName { // if I am the host, simply notify all the other players
-            connectivity.sendData(toPlayer: otherPlayersName, data: data, error: &error)
-        } else { // we are not the host, we need to send this package to the host and the host will then distributed it to other players
-            connectivity.sendData(toPlayer: [hostName], data: data, error: &error)
-        }
-        
-        if error != nil {
-            println("error sending data!")
-        }
-    }
 }
 
 extension GameCenter: SessionDataDelegate {
