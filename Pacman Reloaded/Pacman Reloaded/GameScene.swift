@@ -40,9 +40,10 @@ class GameScene: SKScene {
 
     var ghosts: [Ghost]!
     var ghostMovements: [MovementControl]!
-    
+
+    var superDotEvents: [() -> Void] = []
     var fileName: String?
-    
+
     override func didMoveToView(view: SKView) {
         physicsWorld.gravity = CGVectorMake(0, 0)
         physicsWorld.contactDelegate = self
@@ -59,6 +60,7 @@ class GameScene: SKScene {
             frame: spotLightViewFrame)
         initGameObjects()
         setupGameObjects()
+        setupMisc()
         setupMovementControls()
 
         self.anchorPoint = CGPoint(x: 0.5 - pacman.position.x / Constants.IPadWidth,
@@ -134,6 +136,14 @@ class GameScene: SKScene {
         }
     }
 
+    private func setupMisc() {
+        self.superDotEvents = [{() -> Void in
+            self.frightenGhost()
+            },
+            {() -> Void in
+                self.spotLightMode()
+        }]
+    }
     private func setupGameObjects() {
         if let fileName = fileName {
             println("Loading game map from file...")
@@ -163,6 +173,7 @@ class GameScene: SKScene {
 
         initGameObjects()
         setupGameObjects()
+        setupMisc()
         setupMovementControls()
 
         sceneDelegate.updateScore(pacman.score, dotsLeft: totalPacDots)
@@ -265,8 +276,8 @@ extension GameScene: SKPhysicsContactDelegate {
         pacman.score += Constants.Score.PacDot
         totalPacDots--
         if pacdot.isSuper {
-            frightenGhost()
-//            spotLightMode()
+            let roll = Int(arc4random_uniform(UInt32(self.superDotEvents.count)))
+            self.superDotEvents[roll]()
         }
         sceneDelegate.updateScore(pacman.score, dotsLeft: totalPacDots)
         if totalPacDots == 0 {
