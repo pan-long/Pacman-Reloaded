@@ -59,9 +59,11 @@ extension GameLevelLoadingViewController {
         if let fileSelected = fileSelected {
             let presentingVC = self.presentingViewController as GameViewController
             let mapContent = GameLevelStorage.loadGameLevelFromFile(GameLevelStorage.addXMLExtensionToFile(fileSelected))
-
+            let miniMapImage = GameLevelStorage.getGameLevelImage(Constants.GameScene.ImageWithoutBoundaryPrefix + fileSelected)
+            
             presentingVC.setupSingleGame(fromMap: mapContent!)
-
+            presentingVC.setupMiniMap(miniMapImage!)
+            
             self.dismissViewControllerAnimated(true, completion: nil)
         }
     }

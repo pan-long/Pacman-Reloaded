@@ -33,7 +33,8 @@ class GameViewController: UIViewController {
     @IBOutlet weak var score: UILabel!
     @IBOutlet weak var pauseBtn: UIButton!
     @IBOutlet weak var remainingDots: UILabel!
-
+    @IBOutlet weak var miniMap: UIImageView!
+    
     var scene: GameScene?
     
     // Single player mode is the default and the play self hosts the game
@@ -48,6 +49,8 @@ class GameViewController: UIViewController {
     private let newGameIdentifier = Constants.Identifiers.NewGameService
     private var connectivity: MultiplayerConnectivity?
     private var gameCenter: GameCenter?
+    
+    private var miniMapMovableObjects = Dictionary<MovableObject, UIImageView>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -216,8 +219,6 @@ extension GameViewController: GameSceneDelegate {
     func updateScore(score: Int, dotsLeft: Int) {
         self.score.text = "Score: \(score)"
         self.remainingDots.text = "Remaining: \(dotsLeft)"
-        
-        
     }
 
     func gameDidEnd(scene: GameScene, didWin: Bool, score: Int) {
@@ -237,6 +238,18 @@ extension GameViewController: GameSceneDelegate {
         
         self.presentViewController(alertVC, animated: true, completion: nil)
 
+    }
+    
+    func iniatilizeMovableObjectPosition() {
+        initializeMiniMap()
+    }
+    
+    func updateMovableObjectPosition() {
+        updateMiniMap()
+    }
+    
+    func setupLightViewOnMiniMap() {
+        println("light view!")
     }
 }
 
@@ -281,6 +294,52 @@ extension GameViewController: MatchPeersDelegate {
             break
         default:
             break
+        }
+    }
+}
+
+// This extension deals with miniMap
+extension GameViewController {
+    
+    private func gameScenePosToMiniMapPos(position: CGPoint) -> CGPoint {
+        let xRatio = position.x / CGFloat(Constants.GameScene.TotalWidth)
+        let yRatio = (CGFloat(Constants.GameScene.Height) - position.y) /
+            CGFloat(Constants.GameScene.TotalHeight)
+        
+        return CGPoint(x: xRatio * CGFloat(Constants.GameScene.MiniMapWidth),
+            y: yRatio * CGFloat(Constants.GameScene.MiniMapHeight))
+    }
+    
+    func setupMiniMap(image: UIImage) {
+        miniMap.image = image
+        initializeMiniMap()
+        updateMiniMap()
+    }
+    
+    func initializeMiniMap() {
+        for subview in miniMap.subviews {
+            subview.removeFromSuperview()
+        }
+        
+        miniMapMovableObjects = Dictionary<MovableObject, UIImageView>()
+        let movableObjs = scene!.getMovableObjectsWithPosition()
+        for obj in movableObjs.keys {
+            let image = UIImage(named: obj.image)
+            let imageView = UIImageView(image: image)
+            imageView.frame.size = CGSize(width: Constants.GameScene.MiniGridWidth,
+                height: Constants.GameScene.MiniGridHeight)
+            miniMap.addSubview(imageView)
+            miniMap.bringSubviewToFront(imageView)
+            miniMapMovableObjects[obj] = imageView
+        }
+    }
+    
+    func updateMiniMap() {
+        let movableObjs = scene!.getMovableObjectsWithPosition()
+        for obj in movableObjs.keys {
+            if let imageView = miniMapMovableObjects[obj] {
+                imageView.center = gameScenePosToMiniMapPos(movableObjs[obj]!)
+            }
         }
     }
 }

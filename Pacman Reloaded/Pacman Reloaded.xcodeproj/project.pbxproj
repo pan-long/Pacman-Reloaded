@@ -281,6 +281,7 @@
 				6FD17C541AD17B89001891F6 /* MainMenuViewController.swift */,
 				6FD17C521AD16D8C001891F6 /* GameMenuViewController.swift */,
 				C5C8D7231AB847E5005ACB47 /* GameViewController.swift */,
+				FFD39C4D1AE3D30E00591FD7 /* SpotLightUIView.swift */,
 				DCA852B31AE2CFB3006A04C4 /* GameLevelLoadingViewController.swift */,
 				DC3E42BA1AD12B7C0083609C /* MultiplayerManagementViewController.swift */,
 				6FECFC1A1AE5729400A80920 /* MenuController.swift */,
@@ -289,7 +290,6 @@
 				DCADC4851AD92E3800835A22 /* Images.xcassets */,
 				C5C8D72A1AB847E5005ACB47 /* LaunchScreen.xib */,
 				C5C8D71B1AB847E5005ACB47 /* Supporting Files */,
-				FFD39C4D1AE3D30E00591FD7 /* SpotLightUIView.swift */,
 			);
 			path = "Pacman Reloaded";
 			sourceTree = "<group>";
