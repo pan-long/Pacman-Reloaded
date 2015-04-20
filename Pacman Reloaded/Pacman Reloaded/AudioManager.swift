@@ -13,7 +13,7 @@ import AVFoundation
 private var AudioPlayer: AVAudioPlayer?
 class AudioManager {
     struct config {
-        static let PacdotSoundEffect = "pacman_chomp.wav"
+        static let PacdotSoundEffect = "coin.wav"
         static let MenuSoundEffect = "menu"
 
     }

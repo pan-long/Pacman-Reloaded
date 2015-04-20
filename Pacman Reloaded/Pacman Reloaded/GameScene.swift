@@ -317,7 +317,7 @@ extension GameScene: SKPhysicsContactDelegate {
         if totalPacDots == 0 {
             self.sceneDelegate.gameDidEnd(self, didWin: true, score: pacman.score)
         }
-        //self.runAction(AudioManager.pacdotSoundEffectAction())
+        self.runAction(AudioManager.pacdotSoundEffectAction())
     }
     
     private func spotLightMode() {
