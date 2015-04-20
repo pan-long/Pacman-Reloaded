@@ -201,22 +201,6 @@ class GameViewController: UIViewController {
 
         self.presentViewController(alertVC, animated: true, completion: nil)
     }
-    
-    func countDown(timer: NSTimer) {
-        if let number = pauseBtn.titleLabel?.text?.toInt() {
-            if number > 0 {
-                pauseBtn.setTitle(String(number - 1), forState: UIControlState.Normal)
-            } else {
-                pauseBtn.setTitle("Pause", forState: UIControlState.Normal)
-                timer.invalidate()
-                gameSceneView.scene?.view?.paused = false
-                pauseBtn.enabled = true
-            }
-        } else {
-            pauseBtn.setTitle(String(Constants.gameResumeCountDownNumber), forState: UIControlState.Normal)
-            pauseBtn.enabled = false
-        }
-    }
 
     deinit {
         if isMultiplayerMode {
