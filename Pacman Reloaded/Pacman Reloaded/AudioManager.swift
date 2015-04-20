@@ -10,12 +10,32 @@ import Foundation
 import SpriteKit
 import AVFoundation
 
+private var AudioPlayer: AVAudioPlayer?
 class AudioManager {
     struct config {
-        static let pacdotSoundEffect = "pacman_chomp.wav"
+        static let PacdotSoundEffect = "pacman_chomp.wav"
+        static let MenuSoundEffect = "menu"
+
     }
 
     class func pacdotSoundEffectAction() -> SKAction {
-        return SKAction.playSoundFileNamed(config.pacdotSoundEffect, waitForCompletion: false)
+        return SKAction.playSoundFileNamed(config.PacdotSoundEffect, waitForCompletion: false)
+    }
+
+    class func playMenuSound() {
+        var sound = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource(config.MenuSoundEffect, ofType: "wav")!)
+        println(sound)
+
+        // Removed deprecated use of AVAudioSessionDelegate protocol
+        AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback, error: nil)
+        AVAudioSession.sharedInstance().setActive(true, error: nil)
+
+        var error:NSError?
+        if AudioPlayer == nil {
+            AudioPlayer = AVAudioPlayer(contentsOfURL: sound, error: &error)
+        }
+        AudioPlayer?.prepareToPlay()
+        AudioPlayer?.volume = 1.0
+        AudioPlayer?.play()
     }
 }
