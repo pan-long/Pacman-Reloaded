@@ -172,7 +172,6 @@ class MovableObject: GameObject {
             blocked.right = 0
 
             createUpSensorPhysicsBody(whileTravellingUpOrDown: upDown)
-
             createDownSensorPhysicsBody(whileTravellingUpOrDown: upDown )
             createLeftSensorPhysicsBody(whileTravellingLeftOrRight: !upDown )
             createRightSensorPhysicsBody(whileTravellingLeftOrRight: !upDown )
@@ -219,15 +218,30 @@ class MovableObject: GameObject {
 
     // MARK: - SENSORS
 
-    func createUpSensorPhysicsBody(#whileTravellingUpOrDown:Bool) {
+    private func getForwardSensorLongEdge() -> CGFloat {
+        return self.sprite.size.width * 0.8
+    }
+
+    private func getForwardSensorShortEdge() -> CGFloat {
+        return Constants.GameScene.GridWidth - self.sprite.size.width + 2 * (self.currentSpeed - 1)
+    }
+
+    private func getSideSensorLongEdge() -> CGFloat {
+        return Constants.GameScene.GridWidth - 2 * (self.currentSpeed - 1)
+    }
+
+    private func getSideSensorShortEdge() -> CGFloat {
+        return self.sprite.size.height * 0.8
+    }
+
+    private func createUpSensorPhysicsBody(#whileTravellingUpOrDown:Bool) {
 
         var size:CGSize
         if (whileTravellingUpOrDown == true) {
-            size = CGSize(width: self.sprite.size.width * 0.8, height: 16.6) // tunnel 50 - size 33.3
+            size = CGSize(width: getForwardSensorLongEdge(), height: getForwardSensorShortEdge())
         } else {
-            size = CGSize(width: (self.sprite.size.width + 16.6) * 0.85, height: self.sprite.size.height * 0.8)
+            size = CGSize(width: getSideSensorLongEdge(), height: getSideSensorShortEdge())
         }
-
         sensors.up!.physicsBody = nil // get rid of any existing physics body
         let bodyUp:SKPhysicsBody = SKPhysicsBody(rectangleOfSize: size)
         sensors.up!.physicsBody = bodyUp
@@ -238,12 +252,12 @@ class MovableObject: GameObject {
         sensors.up!.physicsBody?.allowsRotation = false
     }
 
-    func createDownSensorPhysicsBody(#whileTravellingUpOrDown:Bool){
+    private func createDownSensorPhysicsBody(#whileTravellingUpOrDown:Bool){
         var size:CGSize
         if (whileTravellingUpOrDown == true) {
-            size = CGSize(width: self.sprite.size.width * 0.8, height: 16.6)
+            size = CGSize(width: getForwardSensorLongEdge(), height: getForwardSensorShortEdge())
         } else {
-            size = CGSize(width: (self.sprite.size.width + 16.6) * 0.85, height: self.sprite.size.height * 0.8)
+            size = CGSize(width: getSideSensorLongEdge(), height: getSideSensorShortEdge())
         }
         sensors.down?.physicsBody = nil
         let bodyDown:SKPhysicsBody = SKPhysicsBody(rectangleOfSize: size )
@@ -257,13 +271,13 @@ class MovableObject: GameObject {
 
     }
 
-    func createLeftSensorPhysicsBody( #whileTravellingLeftOrRight:Bool){
+    private func createLeftSensorPhysicsBody( #whileTravellingLeftOrRight:Bool){
 
         var size:CGSize
         if (whileTravellingLeftOrRight == true) {
-            size = CGSize(width: 16.6, height: self.sprite.size.width * 0.8)
+            size = CGSize(width: getForwardSensorShortEdge(), height: getForwardSensorLongEdge())
         } else {
-            size = CGSize(width: self.sprite.size.width * 0.8, height: (self.sprite.size.width + 16.6) * 0.85)
+            size = CGSize(width: getSideSensorShortEdge(), height: getSideSensorLongEdge())
         }
         sensors.left?.physicsBody = nil
         let bodyLeft:SKPhysicsBody = SKPhysicsBody(rectangleOfSize: size )
@@ -275,12 +289,12 @@ class MovableObject: GameObject {
         sensors.left!.physicsBody!.allowsRotation = false
     }
 
-    func createRightSensorPhysicsBody( #whileTravellingLeftOrRight:Bool){
+    private func createRightSensorPhysicsBody( #whileTravellingLeftOrRight:Bool){
         var size:CGSize
         if (whileTravellingLeftOrRight == true) {
-            size = CGSize(width: 16.6, height: self.sprite.size.width * 0.8)
+            size = CGSize(width: getForwardSensorShortEdge(), height: getForwardSensorLongEdge())
         } else {
-            size = CGSize(width: self.sprite.size.width * 0.8, height: (self.sprite.size.width + 16.6) * 0.85)
+            size = CGSize(width: getSideSensorShortEdge(), height: getSideSensorLongEdge())
         }
         sensors.right?.physicsBody = nil
         let bodyRight:SKPhysicsBody = SKPhysicsBody(rectangleOfSize: size )
@@ -308,7 +322,7 @@ class MovableObject: GameObject {
         //println("left: \(blocked.left), right: \(blocked.right), up: \(blocked.up), down: \(blocked.down)")
 
         if currentDir == direction {
-            println("blocking")
+            //println("blocking")
             previousDir = currentDir
             currentDir = .None
             self.physicsBody?.dynamic = false
@@ -328,10 +342,10 @@ class MovableObject: GameObject {
         default:
             break
         }
-        println("left: \(blocked.left), right: \(blocked.right), up: \(blocked.up), down: \(blocked.down)")
+        //println("left: \(blocked.left), right: \(blocked.right), up: \(blocked.up), down: \(blocked.down)")
 
         if requestedDir == direction {
-            println("unblocking")
+            //println("unblocking")
             changeDirection(direction)
         }
     }

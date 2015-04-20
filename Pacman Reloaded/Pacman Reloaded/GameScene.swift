@@ -137,12 +137,14 @@ class GameScene: SKScene {
     }
 
     private func setupMisc() {
-        self.superDotEvents = [{() -> Void in
-            self.frightenGhost()
+        self.superDotEvents = [
+            {() -> Void in
+                self.frightenGhost()
             },
             {() -> Void in
                 self.spotLightMode()
-        }]
+            }
+        ]
     }
     private func setupGameObjects() {
         if let fileName = fileName {
@@ -397,7 +399,7 @@ extension GameScene {
                 
                 switch type {
                 case "boundary":
-                    size = CGSize(width: 35, height: 35)
+                    size = CGSize(width: 40, height: 40)
                     let boundary = Boundary(size: size, isExterior: false)
                     addChild(boundary)
                     boundary.position = origin
