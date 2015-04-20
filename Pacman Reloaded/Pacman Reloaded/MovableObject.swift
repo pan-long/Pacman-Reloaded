@@ -224,8 +224,11 @@ class MovableObject: GameObject {
         var size:CGSize
         if (whileTravellingUpOrDown == true) {
             size = CGSize(width: self.sprite.size.width * 0.8, height: 16.6) // tunnel 50 - size 33.3
+            size.height += (self.currentSpeed - 4)*2
         } else {
             size = CGSize(width: (self.sprite.size.width + 16.6) * 0.85, height: self.sprite.size.height * 0.8)
+            size.width -= abs(self.currentSpeed - 4)*4
+
         }
 
         sensors.up!.physicsBody = nil // get rid of any existing physics body
@@ -242,8 +245,10 @@ class MovableObject: GameObject {
         var size:CGSize
         if (whileTravellingUpOrDown == true) {
             size = CGSize(width: self.sprite.size.width * 0.8, height: 16.6)
+            size.height += (self.currentSpeed - 4)*2
         } else {
             size = CGSize(width: (self.sprite.size.width + 16.6) * 0.85, height: self.sprite.size.height * 0.8)
+            size.width -= abs(self.currentSpeed - 4)*4
         }
         sensors.down?.physicsBody = nil
         let bodyDown:SKPhysicsBody = SKPhysicsBody(rectangleOfSize: size )
@@ -262,8 +267,11 @@ class MovableObject: GameObject {
         var size:CGSize
         if (whileTravellingLeftOrRight == true) {
             size = CGSize(width: 16.6, height: self.sprite.size.width * 0.8)
+            size.width += (self.currentSpeed - 4)*2
         } else {
             size = CGSize(width: self.sprite.size.width * 0.8, height: (self.sprite.size.width + 16.6) * 0.85)
+            size.height -= abs(self.currentSpeed - 4)*4
+
         }
         sensors.left?.physicsBody = nil
         let bodyLeft:SKPhysicsBody = SKPhysicsBody(rectangleOfSize: size )
@@ -279,8 +287,11 @@ class MovableObject: GameObject {
         var size:CGSize
         if (whileTravellingLeftOrRight == true) {
             size = CGSize(width: 16.6, height: self.sprite.size.width * 0.8)
+            size.width += (self.currentSpeed - 4)*2
         } else {
             size = CGSize(width: self.sprite.size.width * 0.8, height: (self.sprite.size.width + 16.6) * 0.85)
+            size.height -= abs(self.currentSpeed - 4)*4
+
         }
         sensors.right?.physicsBody = nil
         let bodyRight:SKPhysicsBody = SKPhysicsBody(rectangleOfSize: size )
