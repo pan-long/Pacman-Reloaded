@@ -84,12 +84,14 @@ class GameViewController: UIViewController {
     }
     
     override func viewWillAppear(animated: Bool) {
-//        setupGameScene()
-//        addGameSceneToView()
+        if isMultiplayerMode {
+            setupGameScene()
+            addGameSceneToView()
+        }
     }
     
     override func viewDidAppear(animated: Bool) {
-        if !isMultiplayerMode || isHost {
+        if !isMultiplayerMode { // in single player mode, pop up the level selection window
             let gameLevelSelection = self.storyboard!.instantiateViewControllerWithIdentifier("gameLevelSelection") as UIViewController
             self.presentViewController(gameLevelSelection, animated: true, completion: nil)
         }
