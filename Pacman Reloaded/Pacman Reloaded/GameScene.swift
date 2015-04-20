@@ -171,6 +171,9 @@ class GameScene: SKScene {
     }
     
     func setupGameObjects() {
+        // clear map
+        clearMap()
+        
         // read from map data
         if let map = mapContent {
             parseMapWithData(map)
@@ -180,6 +183,12 @@ class GameScene: SKScene {
         ghosts = blinkys + pinkys + inkys + clydes
     }
     
+    private func clearMap() {
+        self.enumerateChildNodesWithName("*") {
+            node, stop in
+            node.removeFromParent()
+        }
+    }
     
     func gameOver(didWin: Bool) {
         self.sceneDelegate.gameDidEnd(self, didWin: didWin, score: pacman.score)
@@ -403,7 +412,7 @@ extension GameScene: SKPhysicsContactDelegate {
 }
 
 extension GameScene {
-    func parseMapWithData(content: [Dictionary<String, String>]) {
+    private func parseMapWithData(content: [Dictionary<String, String>]) {
         self.totalPacDots = 0
         
         for i in 0..<content.count {

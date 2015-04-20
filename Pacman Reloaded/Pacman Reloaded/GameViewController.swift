@@ -37,14 +37,17 @@ class GameViewController: UIViewController {
     var scene: GameScene?
     
     // Single player mode is the default and the play self hosts the game
-    var isMultiplayerMode = false
-    var isHost = true
+    private var pacmanId = 0
+    private var isMultiplayerMode = false
+    private var isHost = true
+    
     private var numberOfPlayers = 1
     
     private var mapData: [Dictionary<String, String>]!
     
     private let newGameIdentifier = Constants.Identifiers.NewGameService
-    private var connectivity: MultiplayerConnectivity = MultiplayerConnectivity(name: UIDevice.currentDevice().name)
+    private var connectivity: MultiplayerConnectivity?
+    private var gameCenter: GameCenter?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,12 +57,37 @@ class GameViewController: UIViewController {
         background.backgroundColor = UIColor.darkGrayColor()
         view.addSubview(background)
         view.sendSubviewToBack(background)
-        
-        if isMultiplayerMode {
-            connectivity.stopServiceBrowsing()
-        }
     }
 
+    func setupSingleGame(fromMap mapData: [Dictionary<String, String>]) {
+        setupGameProperties(fromMap: mapData, pacmanId: 0, isMultiplayerMode: false, isHost: true)
+        
+        setupGameScene()
+        addGameSceneToView()
+    }
+    
+    func setupMultiplayerGame(fromMap mapData: [Dictionary<String, String>], pacmanId: Int, isHost: Bool, gameCenter: GameCenter) {
+        setupGameProperties(fromMap: mapData, pacmanId: pacmanId, isMultiplayerMode: true, isHost: isHost)
+        
+        connectivity = MultiplayerConnectivity(name: UIDevice.currentDevice().name)
+        connectivity!.stopServiceBrowsing()
+        connectivity!.startServiceAdvertising(Constants.Identifiers.NewGameService, discoveryInfo: [NSObject: AnyObject]())
+        
+        self.gameCenter = gameCenter
+    }
+    
+    private func setupGameProperties(fromMap mapData: [Dictionary<String, String>], pacmanId: Int, isMultiplayerMode: Bool, isHost: Bool) {
+        self.mapData = mapData
+        self.pacmanId = pacmanId
+        self.isMultiplayerMode = isMultiplayerMode
+        self.isHost = isHost
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+//        setupGameScene()
+//        addGameSceneToView()
+    }
+    
     override func viewDidAppear(animated: Bool) {
         if !isMultiplayerMode || isHost {
             let gameLevelSelection = self.storyboard!.instantiateViewControllerWithIdentifier("gameLevelSelection") as UIViewController
@@ -67,33 +95,33 @@ class GameViewController: UIViewController {
         }
     }
     
-    func loadGame(fromFile mapFile: String) {
-        setupGameScene()
-        scene!.parseFileWithName(mapFile)
-        
-        addGameSceneToView()
-    }
-    
-    func loadGame(fromData content: [Dictionary<String, String>]) {
-        setupGameScene()
-        scene!.parseMapWithData(content)
-        
-        addGameSceneToView()
-    }
-    
     private func setupGameScene() {
+        // initialize game scene from spritkit resource file
         scene = getGameSceneFromFile()
+        
+        setupGameSKView()
+        
+        /* Set the scale mode to scale to fit the window */
+        scene!.scaleMode = .AspectFill
+        scene!.sceneDelegate = self
+        
+        if let scene = scene as? MultiplayerGameScene {
+            scene.setupPacman(fromMapContent: mapData, pacmanId: pacmanId, isHost: isHost)
+            scene.networkDelegate = gameCenter
+        } else {
+            scene!.setup(fromMapContent: mapData)
+        }
+    }
+    
+    private func setupGameSKView() {
         // Configure the view.
         let skView = gameSceneView as SKView
         skView.showsFPS = true
         skView.frameInterval = Constants.FrameInterval
         skView.showsNodeCount = true
+        
         /* Sprite Kit applies additional optimizations to improve rendering performance */
         skView.ignoresSiblingOrder = true
-        
-        /* Set the scale mode to scale to fit the window */
-        scene!.scaleMode = .AspectFill
-        scene!.sceneDelegate = self
     }
     
     private func addGameSceneToView() {
@@ -131,10 +159,11 @@ class GameViewController: UIViewController {
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        // pause the game first whenever navigating to other vc
         gameSceneView.scene?.view?.paused = true
     }
 
-    func unpause() {
+    func resume() {
         self.dismissViewControllerAnimated(true, completion: {
             self.gameSceneView.scene?.view?.paused = false
             return
@@ -146,9 +175,9 @@ class GameViewController: UIViewController {
     }
     
     func restart() {
-        self.dismissViewControllerAnimated(true, completion: nil)        
         self.scene!.restart()
-        self.gameSceneView.scene?.view?.paused = false
+        
+        resume()
     }
 
     // pause button action
@@ -183,6 +212,11 @@ class GameViewController: UIViewController {
     }
 
     deinit {
+        if isMultiplayerMode {
+            connectivity!.stopServiceAdvertising()
+            connectivity!.stopServiceBrowsing()
+        }
+        
         println("deinit Game")
     }
 }

@@ -10,11 +10,11 @@ import UIKit
 import XCTest
 
 class BlinkyAIMovementControlTests: XCTestCase {
-    private var blinky = Ghost(imageName: "ghost-red")
-    private var pinky = Ghost(imageName: "ghost-yellow")
-    private var inky = Ghost(imageName: "ghost-blue")
-    private var clyde = Ghost(imageName: "ghost-orange")
-    private let pacman = PacMan()
+    private var blinky = Ghost(id: 0, imageName: "ghost-red")
+    private var pinky = Ghost(id: 1, imageName: "ghost-yellow")
+    private var inky = Ghost(id: 2, imageName: "ghost-blue")
+    private var clyde = Ghost(id: 3,imageName: "ghost-orange")
+    private let pacman = PacMan(id: 4)
     
     private var ghosts: [MovableObject]!
     private var pacmans: [MovableObject]!

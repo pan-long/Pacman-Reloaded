@@ -51,8 +51,10 @@ extension GameLevelLoadingViewController {
     
     @IBAction func loadButtonClicked(sender: UIButton) {
         let presentingVC = self.presentingViewController as GameViewController
-        presentingVC.loadGame(fromFile: fileSelected!)
+        let mapContent = GameLevelStorage.loadGameLevelFromFile(GameLevelStorage.addXMLExtensionToFile(fileSelected!))
+        
+        presentingVC.setupSingleGame(fromMap: mapContent!)
+        
         self.dismissViewControllerAnimated(true, completion: nil)
     }
-    
 }
