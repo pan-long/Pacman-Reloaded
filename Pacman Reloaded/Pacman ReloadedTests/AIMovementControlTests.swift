@@ -303,7 +303,55 @@ class AIMovementControlTests: XCTestCase {
         pacman1.position = CGPointMake(CGFloat(200), CGFloat(304))
         inkyMovement2.scatterUpdate()
         XCTAssertEqual(inky2.currentDir, Direction.Right, "Inky scatter mode is affected by Pacman's position")
+    }
+    
+    func testInkyChaseMode() {
+        let inkyMovement1 = InkyAIMovementControl(movableObject: inky1)
+        inkyMovement1.dataSource = self
+        let inkyMovement2 = InkyAIMovementControl(movableObject: inky2)
+        inkyMovement2.dataSource = self
         
+        inky1.position = CGPointMake(CGFloat(1300), CGFloat(500))
+        inky2.position = CGPointMake(CGFloat(200), CGFloat(300))
+        
+        pacman1.position = CGPointMake(CGFloat(1290), CGFloat(512))
+        pacman1.currentDir = Direction.Down
+        blinky1.position = CGPointMake(CGFloat(1280), CGFloat(504))
+        
+        pacman2.position = CGPointMake(CGFloat(1316), CGFloat(450))
+        pacman2.currentDir = Direction.Left
+        blinky1.position = CGPointMake(CGFloat(1308), CGFloat(400))
+        
+        // Tests for blinky1 in chase mode
+        inkyMovement1.chaseUpdate()
+        XCTAssertEqual(inky1.currentDir, Direction.Up, "Inky chase mode corrctly chase the nearest pacman")
+        
+        inky1.changeDirection(Direction.Down)
+        inkyMovement1.chaseUpdate()
+        XCTAssertEqual(inky1.currentDir, Direction.Down, "Inky chase mode incorrectly check update frame")
+
+        finishUpdateBuffer(inkyMovement1, mode: GhostMovementMode.Chase, buffer: 3)
+        
+        inkyMovement1.chaseUpdate()
+        XCTAssertNotEqual(inky1.currentDir, Direction.Down, "Inky chase mode incorrectly resume update frame")
+
+        
+        // Tests for blinky2 in chase mode
+        pacman1.position = CGPointMake(CGFloat(250), CGFloat(272))
+        pacman1.currentDir = Direction.Up
+        blinky1.position = CGPointMake(CGFloat(300), CGFloat(280))
+
+        inkyMovement2.chaseUpdate()
+        XCTAssertEqual(inky2.currentDir, Direction.Down, "Inky chase mode incorrectly change Blinky's direction")
+
+        finishUpdateBuffer(inkyMovement2, mode: GhostMovementMode.Scatter, buffer: 4)
+        inky2.blocked.down = 1
+        inkyMovement2.chaseUpdate()
+        XCTAssertEqual(inky2.currentDir, Direction.Left, "Inky chase mode incorrectly chase nearest pacman")
+
+        inky2.blocked = (up: 1, down: 1, left: 1, right: 0)
+        inkyMovement2.chaseUpdate()
+        XCTAssertEqual(inky2.currentDir, Direction.Right, "Inky chase mode incorrectly reverse direction in dead end")
     }
 
 }
