@@ -303,6 +303,7 @@
                     <connections>
                         <outlet property="gameLevelPreview" destination="5bJ-1c-AB7" id="Sg9-pC-BxL"/>
                         <outlet property="gameLevelsTable" destination="jK0-qN-qtx" id="pVD-bF-EU2"/>
+                        <outlet property="loadButton" destination="ddk-md-cce" id="sdR-ed-Xg8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="I1B-gd-fci" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -9,7 +9,7 @@
 import SpriteKit
 
 class GameLevelLoadingViewController: UIViewController {
-    
+    @IBOutlet var loadButton: UIButton!
     @IBOutlet var gameLevelsTable: UITableView!
     @IBOutlet var gameLevelPreview: UIImageView!
     let allFiles = GameLevelStorage.getGameLevels()
@@ -22,12 +22,14 @@ class GameLevelLoadingViewController: UIViewController {
     override func viewDidLoad() {
         gameLevelsTable.delegate = self
         gameLevelsTable.dataSource = self
+        loadButton.enabled = false
     }
 }
 
 extension GameLevelLoadingViewController: UITableViewDelegate {
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         fileSelected = allFiles[indexPath.row]
+        loadButton.enabled = true
         if let image = GameLevelStorage.getGameLevelImage(fileSelected!) {
             gameLevelPreview.image = image
         }
@@ -54,11 +56,13 @@ extension GameLevelLoadingViewController: UITableViewDataSource {
 extension GameLevelLoadingViewController {
     
     @IBAction func loadButtonClicked(sender: UIButton) {
-        let presentingVC = self.presentingViewController as GameViewController
-        let mapContent = GameLevelStorage.loadGameLevelFromFile(GameLevelStorage.addXMLExtensionToFile(fileSelected!))
-        
-        presentingVC.setupSingleGame(fromMap: mapContent!)
-        
-        self.dismissViewControllerAnimated(true, completion: nil)
+        if let fileSelected = fileSelected {
+            let presentingVC = self.presentingViewController as GameViewController
+            let mapContent = GameLevelStorage.loadGameLevelFromFile(GameLevelStorage.addXMLExtensionToFile(fileSelected))
+
+            presentingVC.setupSingleGame(fromMap: mapContent!)
+
+            self.dismissViewControllerAnimated(true, completion: nil)
+        }
     }
 }
