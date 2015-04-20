@@ -78,13 +78,13 @@ class AIMovementControl: MovementControl {
                 break
             }
             currentModeDuration += 1
-            
-            // Record steps since update to prevent chaging direction too frequently
-            if movableObject.previousDir != movableObject.currentDir {
-                stepsSinceUpdate = 0
-            } else {
-                stepsSinceUpdate += 1
-            }
+        }
+        
+        // Record steps since update to prevent chaging direction too frequently
+        if movableObject.previousDir != movableObject.currentDir && movableObject.currentDir != .None{
+            stepsSinceUpdate = 0
+        } else {
+            stepsSinceUpdate += 1
         }
     }
     
