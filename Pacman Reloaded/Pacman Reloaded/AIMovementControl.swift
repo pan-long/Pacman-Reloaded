@@ -167,7 +167,7 @@ class AIMovementControl: MovementControl {
             nextDirection = availableDirections[0]
         }
         
-        var minDistanceToPacman: Double = 100000
+        var minDistanceToPacman: Double = MAX_DISTANCE
         
         for direction in availableDirections {
             for pacman in dataSource.getPacmans() {
