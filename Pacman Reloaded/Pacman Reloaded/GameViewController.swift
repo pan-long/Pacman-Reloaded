@@ -60,14 +60,8 @@ class GameViewController: UIViewController {
     }
     
     override func viewDidAppear(animated: Bool) {
-        if numberOfPlayers > 1 {
-            // Present game settings
-            let gameSetting = self.storyboard!.instantiateViewControllerWithIdentifier("gameSetting") as UIViewController
-            self.presentViewController(gameSetting, animated: true, completion: nil)
-        } else {
-            let gameLevelSelection = self.storyboard!.instantiateViewControllerWithIdentifier("gameLevelSelection") as UIViewController
-            self.presentViewController(gameLevelSelection, animated: true, completion: nil)
-        }
+        let gameLevelSelection = self.storyboard!.instantiateViewControllerWithIdentifier("gameLevelSelection") as UIViewController
+        self.presentViewController(gameLevelSelection, animated: true, completion: nil)
     }
     
     override func viewWillDisappear(animated: Bool) {
