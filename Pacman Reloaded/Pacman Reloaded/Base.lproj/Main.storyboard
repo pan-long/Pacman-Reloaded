@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="CsF-LZ-baB">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="13F1066" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="CsF-LZ-baB">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -186,15 +186,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GIg-RD-r2O">
-                                <rect key="frame" x="122" y="135" width="56" height="30"/>
-                                <state key="normal" title="Resume">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="cancelButtonPressed:" destination="vz7-Ml-Qja" eventType="touchUpInside" id="fad-aw-eWR"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YyG-2f-KHb">
                                 <rect key="frame" x="135" y="190" width="30" height="30"/>
                                 <state key="normal" title="Exit">
@@ -204,14 +195,50 @@
                                     <segue destination="7jJ-nl-2nd" kind="unwind" unwindAction="unwindToThisViewController:" id="SWI-jD-h78"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m6s-Ps-EOV">
+                                <rect key="frame" x="127" y="135" width="46" height="30"/>
+                                <state key="normal" title="Restart">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="restartButtonPressed:" destination="vz7-Ml-Qja" eventType="touchUpInside" id="1iF-5C-386"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GIg-RD-r2O">
+                                <rect key="frame" x="122" y="80" width="56" height="30"/>
+                                <state key="normal" title="Resume">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="cancelButtonPressed:" destination="vz7-Ml-Qja" eventType="touchUpInside" id="fad-aw-eWR"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="centerX" secondItem="YyG-2f-KHb" secondAttribute="centerX" id="0xX-Gw-mXz"/>
                             <constraint firstAttribute="centerX" secondItem="GIg-RD-r2O" secondAttribute="centerX" id="43l-zG-4Cd"/>
                             <constraint firstAttribute="centerY" secondItem="GIg-RD-r2O" secondAttribute="centerY" id="GtN-lr-AMc"/>
+                            <constraint firstAttribute="centerY" secondItem="m6s-Ps-EOV" secondAttribute="centerY" id="IoB-0i-hJk"/>
                             <constraint firstAttribute="centerX" secondItem="YyG-2f-KHb" secondAttribute="centerX" id="Koh-x5-F8z"/>
+                            <constraint firstItem="YyG-2f-KHb" firstAttribute="top" secondItem="m6s-Ps-EOV" secondAttribute="bottom" constant="25" id="N0P-Bb-bAC"/>
                             <constraint firstItem="YyG-2f-KHb" firstAttribute="top" secondItem="GIg-RD-r2O" secondAttribute="bottom" constant="25" id="QFI-xU-6uo"/>
+                            <constraint firstAttribute="centerY" secondItem="YyG-2f-KHb" secondAttribute="centerY" constant="-56" id="euS-BY-89Y"/>
+                            <constraint firstAttribute="centerX" secondItem="m6s-Ps-EOV" secondAttribute="centerX" id="lUf-BQ-oFu"/>
+                            <constraint firstAttribute="centerY" secondItem="GIg-RD-r2O" secondAttribute="centerY" constant="52" id="leq-pL-78y"/>
+                            <constraint firstItem="m6s-Ps-EOV" firstAttribute="top" secondItem="GIg-RD-r2O" secondAttribute="bottom" constant="25" id="nfN-PB-ZbC"/>
+                            <constraint firstAttribute="centerX" secondItem="GIg-RD-r2O" secondAttribute="centerX" id="shp-xW-TWw"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="43l-zG-4Cd"/>
+                                <exclude reference="GtN-lr-AMc"/>
+                                <exclude reference="leq-pL-78y"/>
+                                <exclude reference="Koh-x5-F8z"/>
+                                <exclude reference="QFI-xU-6uo"/>
+                                <exclude reference="euS-BY-89Y"/>
+                            </mask>
+                        </variation>
                     </view>
                     <value key="contentSizeForViewInPopover" type="size" width="300" height="300"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
@@ -521,7 +548,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="6.5" height="6.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="6" height="6"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
