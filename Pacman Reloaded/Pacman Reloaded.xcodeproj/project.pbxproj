@@ -67,6 +67,7 @@
 		FFCDCAA51ADAB807009FBD76 /* GameObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FD827BB1AB84B390079147F /* GameObject.swift */; };
 		FFCDCAA61ADAB816009FBD76 /* Direction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FD827C51AB8511B0079147F /* Direction.swift */; };
 		FFCDCAA71ADAB824009FBD76 /* GameObjectType.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC45121D1AB863DA00FF37BA /* GameObjectType.swift */; };
+		FFD39C4E1AE3D30E00591FD7 /* SpotLightUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD39C4D1AE3D30E00591FD7 /* SpotLightUIView.swift */; };
 		FFD7AD471AD166E500EAB0FA /* GestureMovementControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD7AD461AD166E500EAB0FA /* GestureMovementControl.swift */; };
 		FFD7AD491AD1671F00EAB0FA /* AIMovementControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD7AD481AD1671F00EAB0FA /* AIMovementControl.swift */; };
 /* End PBXBuildFile section */
@@ -137,6 +138,7 @@
 		DCFFDF201AE2D9240078C34A /* GameLevelSaveFileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameLevelSaveFileViewController.swift; sourceTree = "<group>"; };
 		FF7F83841AC7E32400018CD2 /* MovementControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovementControl.swift; sourceTree = "<group>"; };
 		FFCDCA9D1ADAB71D009FBD76 /* BlinkyAIMovementControlTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlinkyAIMovementControlTests.swift; sourceTree = "<group>"; };
+		FFD39C4D1AE3D30E00591FD7 /* SpotLightUIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpotLightUIView.swift; sourceTree = "<group>"; };
 		FFD7AD461AD166E500EAB0FA /* GestureMovementControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GestureMovementControl.swift; sourceTree = "<group>"; };
 		FFD7AD481AD1671F00EAB0FA /* AIMovementControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AIMovementControl.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -278,6 +280,7 @@
 				DCADC4851AD92E3800835A22 /* Images.xcassets */,
 				C5C8D72A1AB847E5005ACB47 /* LaunchScreen.xib */,
 				C5C8D71B1AB847E5005ACB47 /* Supporting Files */,
+				FFD39C4D1AE3D30E00591FD7 /* SpotLightUIView.swift */,
 			);
 			path = "Pacman Reloaded";
 			sourceTree = "<group>";
@@ -477,6 +480,7 @@
 				6F2F0AD11ABEA53A00B9DB78 /* Boundary.swift in Sources */,
 				6F8AEFB71AC7E24900C8BEA8 /* AudioManager.swift in Sources */,
 				6F8AEFB21AC7DB2F00C8BEA8 /* GameSceneDelegate.swift in Sources */,
+				FFD39C4E1AE3D30E00591FD7 /* SpotLightUIView.swift in Sources */,
 				6FD827C21AB84BAD0079147F /* Item.swift in Sources */,
 				FFD7AD471AD166E500EAB0FA /* GestureMovementControl.swift in Sources */,
 				DC11D63E1ADAE63C003836FF /* GameLevelDesignGridNormalCell.swift in Sources */,

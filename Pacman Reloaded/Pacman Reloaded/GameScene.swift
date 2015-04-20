@@ -25,6 +25,7 @@ class GameScene: SKScene {
 
     var totalPacDots:Int = 0
     var frightenTimer: NSTimer?
+    var spotLightTimer: NSTimer?
 
     var pacmanMovement: GestureMovementControl!
 
@@ -41,11 +42,23 @@ class GameScene: SKScene {
     
     var fileName: String?
     
+    var spotLightView: SpotLightUIView!
+    
     override func didMoveToView(view: SKView) {
         physicsWorld.gravity = CGVectorMake(0, 0)
         physicsWorld.contactDelegate = self
         backgroundColor = SKColor.blackColor()
         self.presentingView = view
+        
+        
+        let spotLightCenter = CGPoint(
+            x: 0.5 + view.bounds.size.width / 2,
+            y: 0.5 + view.bounds.size.height / 2)
+        let spotLightViewFrame = CGRectMake(0, 0, view.frame.width, view.frame.height)
+        spotLightView = SpotLightUIView(
+            spotLightCenter: spotLightCenter,
+            frame: spotLightViewFrame)
+        
         initGameObjects()
         setupGameObjects()
         setupMovementControls()
@@ -132,7 +145,7 @@ class GameScene: SKScene {
                 node.removeFromParent()
             }
 
-            parseFileWithName(fileName)
+            parseFileWithName(GameLevelStorage.addXMLExtensionToFile(fileName))
             
             ghosts = blinkys + pinkys + inkys + clydes
         }
@@ -253,13 +266,36 @@ extension GameScene: SKPhysicsContactDelegate {
         pacman.score += Constants.Score.PacDot
         totalPacDots--
         if pacdot.isSuper {
-            frightenGhost()
+//            frightenGhost()
+            spotLightMode()
         }
         sceneDelegate.updateScore(pacman.score, dotsLeft: totalPacDots)
         if totalPacDots == 0 {
             self.sceneDelegate.gameDidEnd(self, didWin: true, score: pacman.score)
         }
         //self.runAction(AudioManager.pacdotSoundEffectAction())
+    }
+    
+    private func spotLightMode() {
+        
+        if spotLightTimer != nil {
+            spotLightTimer!.invalidate()
+            spotLightTimer = nil
+        } else {
+            view!.addSubview(spotLightView)
+        }
+        
+        self.spotLightTimer = NSTimer.scheduledTimerWithTimeInterval(
+            Constants.GameScene.SpotLightDuration,
+            target: self,
+            selector: "endSpotLightMode:",
+            userInfo: nil,
+            repeats: false)
+    }
+    
+    func endSpotLightMode(timer: NSTimer) {
+        spotLightView.removeFromSuperview()
+        spotLightTimer = nil
     }
 
     private func frightenGhost() {

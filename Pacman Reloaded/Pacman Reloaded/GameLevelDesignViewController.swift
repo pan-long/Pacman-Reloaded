@@ -173,9 +173,21 @@ class GameLevelDesignViewController: UIViewController {
 }
 
 extension GameLevelDesignViewController {
-    // Called by the presented controller
+    
+    // Save file functionalities
     func saveFileWithName(fileName: String) {
-        GameLevelStorage.storeGameLevelToFile(cellMappings, fileName: fileName + ".xml")
+        GameLevelStorage.storeGameLevelToFile(cellMappings, fileName: fileName)
+        GameLevelStorage.storeGameLevelImageToFile(getMiniMapImage(), fileName: fileName)
+    }
+    
+    private func getMiniMapImage() -> UIImage {
+        let rect = miniMap.bounds
+        UIGraphicsBeginImageContextWithOptions(rect.size, true, 0)
+        let context = UIGraphicsGetCurrentContext()
+        miniMap.layer.renderInContext(context)
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return image
     }
 }
 
