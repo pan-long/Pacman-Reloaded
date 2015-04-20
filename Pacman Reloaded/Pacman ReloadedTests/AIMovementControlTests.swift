@@ -59,7 +59,20 @@ class AIMovementControlTests: XCTestCase {
         return optimalDirection
     }
     
-    func testBLinkyScatterMode() {
+    private func finishUpdateBuffer(movement: AIMovementControl, mode: GhostMovementMode, buffer: Int) {
+        for i in 0..<buffer {
+            switch mode {
+            case .Chase:
+                movement.chaseUpdate()
+            case .Scatter:
+                movement.scatterUpdate()
+            case .Frightened:
+                movement.frightenUpdate()
+            }
+        }
+    }
+    
+    func testBlinkyScatterMode() {
         let blinkyMovement1 = BlinkyAIMovememntControl(movableObject: blinky1)
         blinkyMovement1.dataSource = self
         let blinkyMovement2 = BlinkyAIMovememntControl(movableObject: blinky2)
@@ -90,6 +103,31 @@ class AIMovementControlTests: XCTestCase {
         pacman1.position = CGPointMake(CGFloat(200), CGFloat(304))
         blinkyMovement2.scatterUpdate()
         XCTAssertEqual(blinky2.currentDir, Direction.Right, "Blinky scatter mode is affected by Pacman's position")
+    }
+    
+    func testBlinkyChaseMode() {
+        let blinkyMovement1 = BlinkyAIMovememntControl(movableObject: blinky1)
+        blinkyMovement1.dataSource = self
+        let blinkyMovement2 = BlinkyAIMovememntControl(movableObject: blinky2)
+        blinkyMovement2.dataSource = self
+        
+        blinky1.position = CGPointMake(CGFloat(1300), CGFloat(500))
+        blinky2.position = CGPointMake(CGFloat(200), CGFloat(300))
+        
+        pacman1.position = CGPointMake(CGFloat(1308), CGFloat(500))
+        pacman2.position = CGPointMake(CGFloat(1300), CGFloat(504))
+        blinkyMovement1.chaseUpdate()
+        XCTAssertEqual(blinky1.currentDir, Direction.Up, "Blinky chase mode corrctly chase the nearest pacman")
+        
+        blinky1.changeDirection(Direction.Down)
+        blinkyMovement1.chaseUpdate()
+        XCTAssertEqual(blinky1.currentDir, Direction.Down, "Blinky scatter mode incorrectly check update frame")
+        
+        finishUpdateBuffer(blinkyMovement1, mode: GhostMovementMode.Chase, buffer: 3)
+        
+        blinkyMovement1.chaseUpdate()
+        XCTAssertNotEqual(blinky1.currentDir, Direction.Down, "Blinky scatter mode incorrectly resume update frame")
+        
     }
 }
 
