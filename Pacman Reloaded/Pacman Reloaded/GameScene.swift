@@ -24,7 +24,6 @@ class GameScene: SKScene {
     var clydes = [Ghost]()
 
     var totalPacDots:Int = 0
-    var frightenTimer: NSTimer?
     var spotLightTimer: NSTimer?
     
     var spotLightView: SpotLightUIView!
@@ -156,11 +155,6 @@ class GameScene: SKScene {
     }
 
     func restart() {
-        if frightenTimer != nil {
-            self.frightenTimer!.invalidate()
-            self.frightenTimer = nil
-        }
-        
         if spotLightTimer != nil {
             self.spotLightTimer!.invalidate()
             self.spotLightTimer = nil
@@ -271,8 +265,8 @@ extension GameScene: SKPhysicsContactDelegate {
         pacman.score += Constants.Score.PacDot
         totalPacDots--
         if pacdot.isSuper {
-//            frightenGhost()
-            spotLightMode()
+            frightenGhost()
+//            spotLightMode()
         }
         sceneDelegate.updateScore(pacman.score, dotsLeft: totalPacDots)
         if totalPacDots == 0 {
@@ -305,20 +299,21 @@ extension GameScene: SKPhysicsContactDelegate {
     private func frightenGhost() {
         for ghost in ghosts {
             ghost.frightened = true
-        }
-        if frightenTimer != nil {
-            self.frightenTimer!.invalidate()
-            self.frightenTimer = nil
+            let wait = SKAction.waitForDuration(Constants.Ghost.FrightenModeDuration)
+            let blinkOnce = SKAction.sequence([
+                SKAction.fadeOutWithDuration(Constants.Ghost.FrightenModeBlinkDuration),
+                SKAction.fadeInWithDuration(Constants.Ghost.FrightenModeBlinkDuration)
+                ])
+            let blink = SKAction.repeatAction(blinkOnce, count: Constants.Ghost.FrightenModeBlinkCount)
+
+            let resetFrighten = SKAction.runBlock {
+                ghost.frightened = false
+            }
+
+
+            ghost.runAction(SKAction.sequence([wait, blink, resetFrighten]), withKey: "frighten")
         }
 
-        self.frightenTimer = NSTimer.scheduledTimerWithTimeInterval(Constants.Ghost.FrightenModeDuration,
-            target: self, selector: "endFrightenGhost:", userInfo: nil, repeats: false)
-    }
-
-    func endFrightenGhost(timer: NSTimer) {
-        for ghost in ghosts {
-            ghost.frightened = false
-        }
     }
     
     private func handleSensorEvent(bodyA: SKNode?, bodyB: SKNode?, direction: Direction, start: Bool) {
