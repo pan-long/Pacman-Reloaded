@@ -14,17 +14,19 @@ enum GameNetworkDataType: Int {
     TYPE_INIT = 2
 }
 
-class GameNetworkData: NSData {
+class GameNetworkData: NSCoding {
     let dataType: GameNetworkDataType
     
     init(type: GameNetworkDataType) {
         dataType = type
-        
-        super.init()
     }
 
     required init(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        self.dataType = GameNetworkDataType(rawValue: aDecoder.decodeIntegerForKey("dataType"))!
+    }
+    
+    func encodeWithCoder(aCoder: NSCoder) {
+        aCoder.encodeInteger(dataType.rawValue, forKey: "dataType")
     }
 }
 
@@ -44,7 +46,19 @@ class GameNetworkInitData: GameNetworkData {
     }
 
     required init(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        self.hostName = aDecoder.decodeObjectForKey("hostName") as String
+        self.allPlayersName = aDecoder.decodeObjectForKey("allPlayersName") as [String]
+        self.pacmanId = aDecoder.decodeIntegerForKey("pacmanId")
+        self.mapContent = aDecoder.decodeObjectForKey("mapContent") as [Dictionary<String, String>]
+        super.init(coder: aDecoder)
+    }
+    
+    override func encodeWithCoder(aCoder: NSCoder) {
+        aCoder.encodeObject(hostName, forKey: "hostName")
+        aCoder.encodeObject(allPlayersName, forKey: "allPlayersName")
+        aCoder.encodeInteger(pacmanId, forKey: "pacmanId")
+        aCoder.encodeObject(mapContent, forKey: "mapContent")
+        super.encodeWithCoder(aCoder)
     }
 }
 
@@ -62,7 +76,17 @@ class GameNetworkMovementData: GameNetworkData {
     }
 
     required init(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        self.objectId = aDecoder.decodeIntegerForKey("objectId")
+        self.position = (aDecoder.decodeObjectForKey("position") as NSValue).CGPointValue()
+        self.direction = Direction(rawValue: aDecoder.decodeObjectForKey("direction") as String)!
+        super.init(coder: aDecoder)
+    }
+    
+    override func encodeWithCoder(aCoder: NSCoder) {
+        aCoder.encodeInteger(objectId, forKey: "objectId")
+        aCoder.encodeObject(NSValue(CGPoint: position), forKey: "position")
+        aCoder.encodeObject(direction.rawValue, forKey: "direction")
+        super.encodeWithCoder(aCoder)
     }
 }
 
@@ -78,6 +102,15 @@ class GameNetworkPacmanScoreData: GameNetworkData {
     }
 
     required init(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        self.pacmanId = aDecoder.decodeIntegerForKey("pacmanId")
+        self.pacmanScore = aDecoder.decodeIntegerForKey("pacmanScore")
+        
+        super.init(coder: aDecoder)
+    }
+    
+    override func encodeWithCoder(aCoder: NSCoder) {
+        aCoder.encodeInteger(pacmanId, forKey: "pacmanId")
+        aCoder.encodeInteger(pacmanScore, forKey: "pacmanScore")
+        super.encodeWithCoder(aCoder)
     }
 }

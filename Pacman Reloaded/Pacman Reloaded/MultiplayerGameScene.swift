@@ -22,7 +22,6 @@ class MultiplayerGameScene: GameScene {
     private var otherPacmans = [PacMan]()
     
     var networkDelegate: GameSceneNetworkDelegate?
-    var multiplayerDelegate: MultiplayerGameSceneDelegate?
     
     func setupPacman(fromMapContent content: [Dictionary<String, String>], pacmanId: Int, isHost: Bool) {
         super.setup(fromMapContent: content)

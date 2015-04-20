@@ -9,11 +9,18 @@
 import UIKit
 import MultipeerConnectivity
 
+protocol NewGameStartDelegate: class {
+    func startNewGame(sourceVC: UIViewController, hostName: String, allPlayers: [String])
+    func joinNewGame(mapContent: [Dictionary<String, String>], pacmanId: Int, selfName: String, hostName: String, otherPlayersName: [String])
+}
+
 class NewGameRoomViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var startBtn: UIButton!
     
     private var players = [String]()
+    
+    weak var gameStartDelegate: NewGameStartDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,7 +35,9 @@ class NewGameRoomViewController: UIViewController {
     }
     
     @IBAction func startBtnPressed(sender: AnyObject) {
-        
+        if let delegate = gameStartDelegate {
+            delegate.startNewGame(self, hostName: UIDevice.currentDevice().name, allPlayers: players)
+        }
     }
     /*
     // MARK: - Navigation
@@ -86,7 +95,7 @@ extension NewGameRoomViewController: MatchPeersDelegate {
         case .Connected:
             // connected with host, enter game and set game scene
             players.append(playername)
-            tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: players.count, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Automatic)
+            tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: players.count, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Automatic)
             break
         case .Connecting:
             // try connecting to the host, show an indicator with cancel button
@@ -106,5 +115,17 @@ extension NewGameRoomViewController: MatchPeersDelegate {
     }
     
     func browser(lostPlayer playerName: String) {
+    }
+}
+
+extension NewGameRoomViewController: SessionDataDelegate {
+    // Received data from remote player
+    func session(didReceiveData data: NSData, fromPlayer playerName: String) {
+        let unarchivedData: AnyObject? = NSKeyedUnarchiver.unarchiveObjectWithData(data)
+        if let gameInitData = unarchivedData as? GameNetworkInitData {
+            if let delegate = gameStartDelegate {
+                delegate.joinNewGame(gameInitData.mapContent, pacmanId: gameInitData.pacmanId, selfName: UIDevice.currentDevice().name, hostName: gameInitData.hostName, otherPlayersName: gameInitData.allPlayersName)
+            }
+        }
     }
 }

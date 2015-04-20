@@ -28,9 +28,6 @@ protocol MatchPeersDelegate {
 protocol SessionDataDelegate {
     // Received data from remote player
     func session(didReceiveData data: NSData, fromPlayer playerName: String)
-    
-    // The connection status has been changed on the other end
-    func session(player playerName: String, didChangeState state: MCSessionState)
 }
 
 // This is the main class in Network component, it handles network traffic and is also responsible for communication with local game engine
@@ -60,7 +57,9 @@ class MultiplayerConnectivity: NSObject {
         session.delegate = self
     }
     
-    func sendData(toPlayer players: [String], data: NSData, error: NSErrorPointer) {
+    func sendData(toPlayer players: [String], data: NSCoding, error: NSErrorPointer) {
+        let dataToSend = NSKeyedArchiver.archivedDataWithRootObject(data)
+        
         var peerIDs = [MCPeerID]()
         for name in players {
             if let id = nameToPeerIDDict[name] {
@@ -68,7 +67,7 @@ class MultiplayerConnectivity: NSObject {
             }
         }
         
-        session.sendData(data, toPeers: peerIDs, withMode: MCSessionSendDataMode.Reliable, error: error)
+        session.sendData(dataToSend, toPeers: peerIDs, withMode: MCSessionSendDataMode.Reliable, error: error)
     }
     
     // the serviceType should be in the same format as a Bonjour service type
@@ -155,10 +154,6 @@ extension MultiplayerConnectivity: MCSessionDelegate {
     // Remote peer changed state
     func session(session: MCSession!, peer peerID: MCPeerID!, didChangeState state: MCSessionState) {
         if let validDelegate = matchDelegate {
-            validDelegate.session(player: peerID.displayName, didChangeState: state)
-        }
-        
-        if let validDelegate = sessionDelegate {
             validDelegate.session(player: peerID.displayName, didChangeState: state)
         }
     }

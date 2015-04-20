@@ -53,7 +53,7 @@ extension GameCenter: SessionDataDelegate {
     // Received data from remote player
     func session(didReceiveData data: NSData, fromPlayer playerName: String) {
         var error: NSError?
-        processPackage(data as GameNetworkData)
+        processPackage(data)
     }
     
     // The connection status has been changed on the other end
@@ -61,11 +61,10 @@ extension GameCenter: SessionDataDelegate {
         println("Peers status change not implemented in GameCenter")
     }
     
-    private func processPackage(data: GameNetworkData) {
+    private func processPackage(data: NSData) {
         println("processing network data")
-        switch data.dataType {
-        case GameNetworkDataType.TYPE_OBJECT_MOVEMENT:
-            let objectMovementData = data as GameNetworkMovementData
+        let unarchivedData: AnyObject? = NSKeyedUnarchiver.unarchiveObjectWithData(data)
+        if let objectMovementData = unarchivedData as? GameNetworkMovementData {
             let objectId = objectMovementData.objectId
             let networkMovementControl = objectMovementControl[objectId]
             
@@ -81,10 +80,7 @@ extension GameCenter: SessionDataDelegate {
             if self.pacmanId != objectId {
                 networkMovementControl?.changeDirection(objectMovementData.direction)
             }
-            
-            break
-        case GameNetworkDataType.TYPE_PACMAN_SCORE:
-            let pacmanScoreData = data as GameNetworkPacmanScoreData
+        } else if let pacmanScoreData = unarchivedData as? GameNetworkPacmanScoreData {
             let pacmanId = pacmanScoreData.pacmanId
             let networkMovementControl = objectMovementControl[pacmanId]
             var pacman = networkMovementControl?.movableObject as PacMan
@@ -96,10 +92,6 @@ extension GameCenter: SessionDataDelegate {
                     pacman.score = pacmanScoreData.pacmanScore
                 }
             }
-            
-            break
-        default:
-            break
         }
     }
 }
