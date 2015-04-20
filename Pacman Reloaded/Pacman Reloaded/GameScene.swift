@@ -143,12 +143,12 @@ class GameScene: SKScene {
         }
         
         for inky in inkys {
-            var inkyMovement = InkyAIMovememntControl(movableObject: inky)
+            var inkyMovement = InkyAIMovementControl(movableObject: inky)
             ghostMovements.append(inkyMovement)
         }
         
         for clyde in clydes {
-            var clydeMovement = ClydeAIMovememntControl(movableObject: clyde)
+            var clydeMovement = ClydeAIMovementControl(movableObject: clyde)
             ghostMovements.append(clydeMovement)
         }
     }
