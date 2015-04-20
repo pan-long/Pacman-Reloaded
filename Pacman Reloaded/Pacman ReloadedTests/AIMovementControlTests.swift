@@ -81,6 +81,7 @@ class AIMovementControlTests: XCTestCase {
         blinky1.position = CGPointMake(CGFloat(1300), CGFloat(500))
         blinky2.position = CGPointMake(CGFloat(200), CGFloat(300))
         
+        // Tests for blinky1 in scatter mode
         blinkyMovement1.scatterUpdate()
         XCTAssertEqual(blinky1.currentDir, Direction.Up, "Blinky scatter mode incorrectly change Blinky's direction")
         
@@ -102,6 +103,7 @@ class AIMovementControlTests: XCTestCase {
         blinkyMovement1.scatterUpdate()
         XCTAssertEqual(blinky1.currentDir, Direction.Down, "Blinky scatter mode incorrectly reverse direction in dead end")
         
+        // Tests for blinky2 in scatter mode
         blinkyMovement2.scatterUpdate()
         XCTAssertEqual(blinky2.currentDir, Direction.Right, "Blinky scatter mode incorrectly change Blinky's direction")
         
@@ -125,18 +127,36 @@ class AIMovementControlTests: XCTestCase {
         
         pacman1.position = CGPointMake(CGFloat(1308), CGFloat(500))
         pacman2.position = CGPointMake(CGFloat(1300), CGFloat(504))
+        
+        // Tests for blinky1 in chase mode
         blinkyMovement1.chaseUpdate()
         XCTAssertEqual(blinky1.currentDir, Direction.Up, "Blinky chase mode corrctly chase the nearest pacman")
         
         blinky1.changeDirection(Direction.Down)
         blinkyMovement1.chaseUpdate()
-        XCTAssertEqual(blinky1.currentDir, Direction.Down, "Blinky scatter mode incorrectly check update frame")
+        XCTAssertEqual(blinky1.currentDir, Direction.Down, "Blinky chase mode incorrectly check update frame")
         
         finishUpdateBuffer(blinkyMovement1, mode: GhostMovementMode.Chase, buffer: 3)
         
         blinkyMovement1.chaseUpdate()
-        XCTAssertNotEqual(blinky1.currentDir, Direction.Down, "Blinky scatter mode incorrectly resume update frame")
+        XCTAssertNotEqual(blinky1.currentDir, Direction.Down, "Blinky chase mode incorrectly resume update frame")
         
+        
+        // Tests for blinky2 in chase mode
+        pacman1.position = CGPointMake(CGFloat(200), CGFloat(290))
+        pacman2.position = CGPointMake(CGFloat(180), CGFloat(300))
+        
+        blinkyMovement2.chaseUpdate()
+        XCTAssertEqual(blinky2.currentDir, Direction.Down, "Blinky chase mode incorrectly change Blinky's direction")
+        
+        finishUpdateBuffer(blinkyMovement1, mode: GhostMovementMode.Scatter, buffer: 4)
+        blinky2.blocked.down = 1
+        blinkyMovement2.chaseUpdate()
+        XCTAssertEqual(blinky2.currentDir, Direction.Down, "Blinky chase mode incorrectly chase nearest pacman")
+        
+        blinky2.blocked = (up: 0, down: 1, left: 1, right: 1)
+        blinkyMovement2.chaseUpdate()
+        XCTAssertEqual(blinky2.currentDir, Direction.Up, "Blinky scatter mode incorrectly reverse direction in dead end")
     }
 }
 
