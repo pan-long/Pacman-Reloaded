@@ -309,56 +309,6 @@
             </objects>
             <point key="canvasLocation" x="311" y="1150"/>
         </scene>
-        <!--Multiplayer Game Setting View Controller-->
-        <scene sceneID="6Ij-ie-cX6">
-            <objects>
-                <viewController storyboardIdentifier="gameSetting" modalPresentationStyle="formSheet" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Ezp-Oy-OqY" customClass="MultiplayerGameSettingViewController" customModule="Pacman_Reloaded" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="i6L-pE-Y4c"/>
-                        <viewControllerLayoutGuide type="bottom" id="Q4l-3h-2bj"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="0Sw-Zg-2hR">
-                        <rect key="frame" x="0.0" y="0.0" width="300" height="236"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="H9W-Nx-n9i">
-                                <rect key="frame" x="190" y="28" width="94" height="29"/>
-                                <connections>
-                                    <action selector="numberOfPlayersChanged:" destination="Ezp-Oy-OqY" eventType="valueChanged" id="pfY-23-oQ5"/>
-                                </connections>
-                            </stepper>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Iut-oh-q6P">
-                                <rect key="frame" x="238" y="262" width="46" height="30"/>
-                                <state key="normal" title="OK">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="confirmButtonClicked:" destination="Ezp-Oy-OqY" eventType="touchUpInside" id="4Op-Qq-cyc"/>
-                                </connections>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Number of Players:     2" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PKP-HK-Cll">
-                                <rect key="frame" x="16" y="32" width="181" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <value key="contentSizeForViewInPopover" type="size" width="300" height="300"/>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
-                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="300" height="300"/>
-                    <connections>
-                        <outlet property="confirmButton" destination="Iut-oh-q6P" id="K1o-yQ-KCt"/>
-                        <outlet property="numberOfPlayersLabel" destination="PKP-HK-Cll" id="QNZ-Iu-9et"/>
-                        <outlet property="numberOfPlayersStepper" destination="H9W-Nx-n9i" id="eXo-aP-P6y"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="4OE-LV-zYH" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1246" y="984"/>
-        </scene>
         <!--Game Level Design View Controller-->
         <scene sceneID="ytM-0y-frn">
             <objects>
@@ -705,6 +655,6 @@
         <image name="wall" width="200" height="100"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="d0P-1Z-G0e"/>
+        <segue reference="rCU-rN-mAP"/>
     </inferredMetricsTieBreakers>
 </document>

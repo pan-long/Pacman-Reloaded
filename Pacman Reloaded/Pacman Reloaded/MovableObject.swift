@@ -9,7 +9,10 @@
 import Foundation
 import SpriteKit
 
-var movableObjectContex = 0
+protocol MovementNetworkDelegate: class {
+    func objectDirectionChanged(objectId: Int, newDirection: Direction, position: CGPoint)
+}
+
 class MovableObject: GameObject {
     var previousDir = Direction.None
     var currentDir: Direction = Direction.Default {
@@ -26,9 +29,11 @@ class MovableObject: GameObject {
 
     var currentSpeed: CGFloat = 5.0
     var sensorBuffer: CGFloat = 0
+    
+    weak var networkDelegate: MovementNetworkDelegate?
 
-    init(image: String) {
-        super.init(image: image, sizeScale: Constants.MovableObject.sizeScale)
+    init(id: Int, image: String) {
+        super.init(id: id, image: image, sizeScale: Constants.MovableObject.sizeScale)
         
         sensorBuffer = self.sprite.size.width * 0.5
 
@@ -178,6 +183,10 @@ class MovableObject: GameObject {
 
         } else {
             requestedDir = newDirection
+        }
+        
+        if let networkDelegate = networkDelegate { // update network that the direction has been changed
+            networkDelegate.objectDirectionChanged(objectId, newDirection: newDirection, position: position)
         }
     }
     

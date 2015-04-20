@@ -65,7 +65,7 @@ struct Constants {
         static let MultiplayerGameSegueIdentifier = "MultiplayerGameSegue"
         
         // Game network service identifier
-        static let NewGameService = "newGame2"
+        static let NewGameService = "pacman-net"
         
         // Cell reuse identifier
         static let NewGameTableCell = "newGame"

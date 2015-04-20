@@ -9,8 +9,8 @@
 import Foundation
 
 class Item: GameObject {
-    init(image: String) {
-        super.init(image: image, sizeScale: Constants.Item.sizeScale)
+    init(id: Int, image: String) {
+        super.init(id: id, image: image, sizeScale: Constants.Item.sizeScale)
     }
 
     required init?(coder aDecoder: NSCoder) {
