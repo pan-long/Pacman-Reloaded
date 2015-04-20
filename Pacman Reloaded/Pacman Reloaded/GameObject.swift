@@ -10,13 +10,14 @@ import Foundation
 import SpriteKit
 
 class GameObject: SKNode {
-    var objectId: Int?
+    let objectId: Int
     var sprite: SKSpriteNode
 
-    init(image: String, sizeScale: CGFloat) {
+    init(id: Int, image: String, sizeScale: CGFloat) {
+        self.objectId = id
+        
         self.sprite = SKSpriteNode(imageNamed: image)
         super.init()
-        
         
         let spriteSize = CGSize(
             width: self.sprite.size.width * sizeScale,

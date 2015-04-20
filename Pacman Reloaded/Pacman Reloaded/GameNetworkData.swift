@@ -9,9 +9,9 @@
 import UIKit
 
 enum GameNetworkDataType: Int {
-    case TYPE_PACMAN_MOVEMENT = 0,
-    TYPE_GHOST_MOVEMENT = 1,
-    TYPE_PACMAN_SCORE = 2
+    case TYPE_OBJECT_MOVEMENT = 0,
+    TYPE_PACMAN_SCORE = 1,
+    TYPE_INIT = 2
 }
 
 class GameNetworkData: NSData {
@@ -28,49 +28,42 @@ class GameNetworkData: NSData {
     }
 }
 
+class GameNetworkInitData: GameNetworkData {
+    let hostName: String
+    let allPlayersName: [String]
+    let pacmanId: Int
+    let mapContent: [Dictionary<String, String>]
+    
+    
+    init(hostName: String, allPlayersName: [String], pacmanId: Int, mapContent: [Dictionary<String, String>]) {
+        self.hostName = hostName
+        self.allPlayersName = allPlayersName
+        self.pacmanId = pacmanId
+        self.mapContent = mapContent
+        super.init(type: GameNetworkDataType.TYPE_INIT)
+    }
+
+    required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
 class GameNetworkMovementData: GameNetworkData {
+    let objectId: Int
     let position: CGPoint
     let direction: Direction
     
-    init(type: GameNetworkDataType, position: CGPoint, direction: Direction) {
+    init(objectId: Int, position: CGPoint, direction: Direction) {
+        self.objectId = objectId
         self.position = position
         self.direction = direction
         
-        super.init(type: type)
+        super.init(type: GameNetworkDataType.TYPE_OBJECT_MOVEMENT)
     }
 
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-}
-
-class GameNetworkPacmanMovementData: GameNetworkMovementData {
-    let pacmanId: Int
-    
-    init(pacmanId: Int, pacmanPosition: CGPoint, pacmanDirection: Direction) {
-        self.pacmanId = pacmanId
-        
-        super.init(type: GameNetworkDataType.TYPE_PACMAN_MOVEMENT, position: pacmanPosition, direction: pacmanDirection)
-    }
-
-    required init(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-class GameNetworkGhostMovementData: GameNetworkMovementData {
-    let ghostId: Int
-    
-    init(ghostId: Int, ghostPosition: CGPoint, ghostDirection: Direction) {
-        self.ghostId = ghostId
-        
-        super.init(type: GameNetworkDataType.TYPE_PACMAN_MOVEMENT, position: ghostPosition, direction: ghostDirection)
-    }
-
-    required init(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
 }
 
 class GameNetworkPacmanScoreData: GameNetworkData {

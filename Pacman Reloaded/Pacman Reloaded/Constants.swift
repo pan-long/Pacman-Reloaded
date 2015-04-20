@@ -65,7 +65,7 @@ struct Constants {
         static let MultiplayerGameSegueIdentifier = "MultiplayerGameSegue"
         
         // Game network service identifier
-        static let NewGameService = "newGame2"
+        static let NewGameService = "pacman-net"
         
         // Cell reuse identifier
         static let NewGameTableCell = "newGame"
@@ -81,6 +81,9 @@ struct Constants {
         // amount needed to shift the location of movable objects along x axis
         static let MovableObjectAdjustment = CGFloat(4)
 
+        static let Width = 720
+        static let Height = 720
+        
         static let NumberOfRows = 40
         static let NumberOfColumns = 40
         static let NumberOfRowsPerScreen = 18

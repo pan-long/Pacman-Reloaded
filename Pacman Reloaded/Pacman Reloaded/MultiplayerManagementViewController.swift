@@ -18,7 +18,6 @@ class MultiplayerManagementViewController: UIViewController {
     private var gameIndices = Dictionary<String, Int>()
     private var connectivity = MultiplayerConnectivity(name: UIDevice.currentDevice().name) // Current iPad name
     
-    private var isHost = false
     private var pacmanId = 0
     
     override func viewDidLoad() {
@@ -31,20 +30,12 @@ class MultiplayerManagementViewController: UIViewController {
     }
     
     deinit {
+        connectivity.stopServiceAdvertising()
+        connectivity.stopServiceBrowsing()
         println("multi management deinited")
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if let identifier = segue.identifier {
-            if identifier == Constants.Identifiers.MultiplayerGameSegueIdentifier {
-                let gameVC = segue.destinationViewController as GameViewController
-                gameVC.setNumberOfPlayers(2)
-            }
-        }
-    }
-    
     @IBAction func createNewGame(sender: AnyObject) {
-        isHost = true
         pacmanId = 0
         performSegueWithIdentifier(Constants.Identifiers.MultiplayerGameSegueIdentifier, sender: self)
     }

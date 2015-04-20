@@ -12,23 +12,32 @@ import MultipeerConnectivity
 class GameCenter {
     let selfName: String
     let hostName: String
+    
     let otherPlayersName: [String]
     
-    private var pacmanMovementControl = [Int: NetworkMovementControl]()
-    private var ghostMovementControl = [Int: NetworkMovementControl]()
+    // own pacman id
+    private var pacmanId: Int
+    
+    private var objectMovementControl = [Int: NetworkMovementControl]()
+    
+    private var mapContent: [Dictionary<String, String>]
     
     let connectivity: MultiplayerConnectivity
     
-    init(selfName: String, hostName: String, otherPlayersName: [String], connectivity: MultiplayerConnectivity) {
+    init(selfName: String, hostName: String, otherPlayersName: [String],pacmanId: Int, mapContent: [Dictionary<String, String>], connectivity: MultiplayerConnectivity) {
         self.selfName = selfName
         self.hostName = hostName
         self.otherPlayersName = otherPlayersName
+        
+        self.pacmanId = pacmanId
+        self.mapContent = mapContent
+        
         self.connectivity = connectivity
     }
     
     func updateGameStatus(gameStatus data: GameNetworkData) {
         var error: NSError?
-        if selfName == hostName { // if I am the host, I simply notify all the other players
+        if selfName == hostName { // if I am the host, simply notify all the other players
             connectivity.sendData(toPlayer: otherPlayersName, data: data, error: &error)
         } else { // we are not the host, we need to send this package to the host and the host will then distributed it to other players
             connectivity.sendData(toPlayer: [hostName], data: data, error: &error)
@@ -44,10 +53,6 @@ extension GameCenter: SessionDataDelegate {
     // Received data from remote player
     func session(didReceiveData data: NSData, fromPlayer playerName: String) {
         var error: NSError?
-        if selfName == hostName {// if this is the host, you need to forward it to other players
-            connectivity.sendData(toPlayer: otherPlayersName.filter({$0 != playerName}), data: data, error: &error)
-        }
-        
         processPackage(data as GameNetworkData)
     }
     
@@ -57,27 +62,41 @@ extension GameCenter: SessionDataDelegate {
     }
     
     private func processPackage(data: GameNetworkData) {
+        println("processing network data")
         switch data.dataType {
-        case GameNetworkDataType.TYPE_PACMAN_MOVEMENT:
-            let pacmanMovementData = data as GameNetworkPacmanMovementData
-            let pacmanId = pacmanMovementData.pacmanId
-            let networkMovementControl = pacmanMovementControl[pacmanId]
-            networkMovementControl?.correctPosition(pacmanMovementData.position)
-            networkMovementControl?.changeDirection(pacmanMovementData.direction)
-            break
-        case GameNetworkDataType.TYPE_GHOST_MOVEMENT:
-            let ghostMovementData = data as GameNetworkGhostMovementData
-            let ghostId = ghostMovementData.ghostId
-            let networkMovementControl = ghostMovementControl[ghostId]
-            networkMovementControl?.correctPosition(ghostMovementData.position)
-            networkMovementControl?.changeDirection(ghostMovementData.direction)
+        case GameNetworkDataType.TYPE_OBJECT_MOVEMENT:
+            let objectMovementData = data as GameNetworkMovementData
+            let objectId = objectMovementData.objectId
+            let networkMovementControl = objectMovementControl[objectId]
+            
+            if selfName == hostName { // if the player is the host, it will receive the movementdata of other pacmans
+                let object = networkMovementControl!.movableObject
+                let correctedNetworkMovementData = GameNetworkMovementData(objectId: objectId, position: object.position, direction: objectMovementData.direction)
+                connectivity.sendData(toPlayer: otherPlayersName, data: correctedNetworkMovementData, error: nil)
+            } else { // correct the location from host first
+                networkMovementControl?.correctPosition(objectMovementData.position)
+            }
+            
+            // don't change the direction twice
+            if self.pacmanId != objectId {
+                networkMovementControl?.changeDirection(objectMovementData.direction)
+            }
+            
             break
         case GameNetworkDataType.TYPE_PACMAN_SCORE:
             let pacmanScoreData = data as GameNetworkPacmanScoreData
             let pacmanId = pacmanScoreData.pacmanId
-            let networkMovementControl = pacmanMovementControl[pacmanId]
+            let networkMovementControl = objectMovementControl[pacmanId]
             var pacman = networkMovementControl?.movableObject as PacMan
-            pacman.score = pacmanScoreData.pacmanScore
+            if pacman.score != pacmanScoreData.pacmanScore {
+                if selfName == hostName {
+                    let correctedPacmanScoreData = GameNetworkPacmanScoreData(pacmanId: pacmanScoreData.pacmanId, pacmanScore: pacman.score)
+                    connectivity.sendData(toPlayer: otherPlayersName, data: correctedPacmanScoreData, error: nil)
+                } else {
+                    pacman.score = pacmanScoreData.pacmanScore
+                }
+            }
+            
             break
         default:
             break
@@ -86,28 +105,27 @@ extension GameCenter: SessionDataDelegate {
 }
 
 extension GameCenter: GameSceneNetworkDelegate {
-    func updatePacmanMovementData(pacman: PacMan) {
-        let pacmanMovementData = GameNetworkPacmanMovementData(pacmanId: pacman.objectId!, pacmanPosition: pacman.position, pacmanDirection: pacman.currentDir)
+    func updateObjectMovementData(objectId: Int, newDirection: Direction, position: CGPoint) {
+        let objectMovementData = GameNetworkMovementData(objectId: objectId, position: position, direction: newDirection)
         
-        // TO-Do: handle error
-        connectivity.sendData(toPlayer: otherPlayersName, data: pacmanMovementData, error: nil)
+        if selfName == hostName {
+            connectivity.sendData(toPlayer: otherPlayersName, data: objectMovementData, error: nil)
+        } else {
+            connectivity.sendData(toPlayer: [hostName], data: objectMovementData, error: nil)
+        }
     }
     
-    func updateGhostMovementData(id: Int, ghost: Ghost) {
-        let ghostMovementData = GameNetworkGhostMovementData(ghostId: id, ghostPosition: ghost.position, ghostDirection: ghost.currentDir)
-        connectivity.sendData(toPlayer: otherPlayersName, data: ghostMovementData, error: nil)
+    func updatePacmanScore(pacmanId: Int, newScore: Int) {
+        let pacmanScoreData = GameNetworkPacmanScoreData(pacmanId: pacmanId, pacmanScore: newScore)
+        
+        if selfName == hostName {
+            connectivity.sendData(toPlayer: otherPlayersName, data: pacmanScoreData, error: nil)
+        } else {
+            connectivity.sendData(toPlayer: [hostName], data: pacmanScoreData, error: nil)
+        }
     }
     
-    func updatePacmanScore(pacman: PacMan) {
-        let pacmanScoreData = GameNetworkPacmanScoreData(pacmanId: pacman.objectId!, pacmanScore: pacman.score)
-        connectivity.sendData(toPlayer: otherPlayersName, data: pacmanScoreData, error: nil)
-    }
-    
-    func setPacmanMovementControl(id: Int, movementControl: NetworkMovementControl) {
-        pacmanMovementControl[id] = movementControl
-    }
-    
-    func setGhostMovementControl(id: Int, movementControl: NetworkMovementControl) {
-        ghostMovementControl[id] = movementControl
+    func setObjectMovementControl(objectId: Int, movementControl: NetworkMovementControl) {
+        objectMovementControl[objectId] = movementControl
     }
 }

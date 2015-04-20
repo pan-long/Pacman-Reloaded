@@ -9,11 +9,23 @@
 import Foundation
 import SpriteKit
 
-class PacMan: MovableObject {
-    var score = 0
+protocol PacmanScoreNetworkDelegate: class {
+    func pacmanScoreUpdated(pacmanId: Int, newScore: Int)
+}
 
-    convenience init() {
-        self.init(image: "pacman-female")
+class PacMan: MovableObject {
+    var score: Int = 0 {
+        didSet {
+            if let scoreNetworkDelegate = scoreNetworkDelegate {
+                scoreNetworkDelegate.pacmanScoreUpdated(objectId, newScore: score)
+            }
+        }
+    }
+    
+    weak var scoreNetworkDelegate: PacmanScoreNetworkDelegate?
+    
+    init(id: Int) {
+        super.init(id: id, image: "pacman-female")
         self.physicsBody?.categoryBitMask = GameObjectType.PacMan
         self.physicsBody?.contactTestBitMask = GameObjectType.Ghost | GameObjectType.Boundary | GameObjectType.PacDot
         self.physicsBody!.collisionBitMask = 0
@@ -26,9 +38,8 @@ class PacMan: MovableObject {
         self.currentSpeed = Constants.PacMan.speed
     }
 
-    convenience init(id: Int) {
-        self.init()
-        objectId = id
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     override func reset() {
@@ -59,6 +70,4 @@ class PacMan: MovableObject {
         self.sprite.runAction(SKAction.repeatActionForever(animation))
 
     }
-
-    
 }

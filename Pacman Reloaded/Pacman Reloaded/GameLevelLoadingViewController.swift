@@ -13,7 +13,11 @@ class GameLevelLoadingViewController: UIViewController {
     @IBOutlet var gameLevelsTable: UITableView!
     @IBOutlet var gameLevelPreview: UIImageView!
     let allFiles = GameLevelStorage.getGameLevels()
+    
     var fileSelected: String?
+    
+    // by default it is in single player mode
+    var isMultiplayerMode = false
     
     override func viewDidLoad() {
         gameLevelsTable.delegate = self
@@ -51,10 +55,10 @@ extension GameLevelLoadingViewController {
     
     @IBAction func loadButtonClicked(sender: UIButton) {
         let presentingVC = self.presentingViewController as GameViewController
-        presentingVC.setupGameScene(fileSelected!)
-        self.dismissViewControllerAnimated(true, completion: {() -> Void in
-            presentingVC.startGameScene(0, isHost: true)
-        })
+        let mapContent = GameLevelStorage.loadGameLevelFromFile(GameLevelStorage.addXMLExtensionToFile(fileSelected!))
+        
+        presentingVC.setupSingleGame(fromMap: mapContent!)
+        
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
-    
 }

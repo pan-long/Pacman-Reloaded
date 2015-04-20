@@ -15,8 +15,8 @@ class GameScene: SKScene {
     weak var sceneDelegate: GameSceneDelegate!
     weak var presentingView: SKView!
 
-    // Initiate game objects
-    var pacman = PacMan()
+    // Initiate game objects, for single player mode, just set the id of pacman as 0, a dummy value
+    var pacman = PacMan(id: 0)
     
     var blinkys = [Ghost]()
     var pinkys = [Ghost]()
@@ -42,15 +42,42 @@ class GameScene: SKScene {
     var ghostMovements: [MovementControl]!
 
     var superDotEvents: [() -> Void] = []
-    var fileName: String?
+    
+    var mapContent: [Dictionary<String, String>]?
 
     override func didMoveToView(view: SKView) {
-        physicsWorld.gravity = CGVectorMake(0, 0)
-        physicsWorld.contactDelegate = self
         backgroundColor = SKColor.blackColor()
         self.presentingView = view
         
+        // set up the lightspot view for blind special effects
+        setupLightView(inParentView: view)
+       
+        initGameScene()
+        setPacmanAtCenter()
+    }
+    
+    func setup(fromMapContent content: [Dictionary<String, String>]) {
+        // set up game physics world
+        physicsWorld.gravity = CGVectorMake(0, 0)
+        physicsWorld.contactDelegate = self
         
+        mapContent = content
+    }
+    
+    private func initGameScene() {
+        initGameObjects()
+        setupGameObjects()
+        setupMisc()
+        setupMovementControls()
+    }
+    
+    private func setPacmanAtCenter() {
+        // keep the pacman to be at the center of the game scene
+        self.anchorPoint = CGPoint(x: 0.5 - pacman.position.x / Constants.IPadWidth,
+            y: 0.5 - pacman.position.y / Constants.IPadHeight)
+    }
+    
+    private func setupLightView(inParentView view: SKView) {
         let spotLightCenter = CGPoint(
             x: 0.5 + view.bounds.size.width / 2,
             y: 0.5 + view.bounds.size.height / 2)
@@ -58,13 +85,6 @@ class GameScene: SKScene {
         spotLightView = SpotLightUIView(
             spotLightCenter: spotLightCenter,
             frame: spotLightViewFrame)
-        initGameObjects()
-        setupGameObjects()
-        setupMisc()
-        setupMovementControls()
-
-        self.anchorPoint = CGPoint(x: 0.5 - pacman.position.x / Constants.IPadWidth,
-            y: 0.5 - pacman.position.y / Constants.IPadHeight)
     }
     
     private func setupMovementControls() {
@@ -72,9 +92,9 @@ class GameScene: SKScene {
         setupObjectsMovementControl()
         setGhostMovementDatasource()
     }
-
+    
     private func initGameObjects() {
-        pacman = PacMan()
+        pacman = PacMan(id: 0)
         
         blinkys = [Ghost]()
         pinkys = [Ghost]()
@@ -86,6 +106,8 @@ class GameScene: SKScene {
     }
     
     private func setupOwnPacmanGestureMovementControl() {
+        // Only use gestures to control your own pacman
+        
         // Set up movemnt control
         pacmanMovement = GestureMovementControl(movableObject: pacman)
         pacmanMovement.dataSource = self
@@ -109,6 +131,7 @@ class GameScene: SKScene {
     }
     
     func setupObjectsMovementControl() {
+        // Use AI to control ghosts
         for blinky in blinkys {
             var blinkyMovement = BlinkyAIMovememntControl(movableObject: blinky)
             ghostMovements.append(blinkyMovement)
@@ -135,8 +158,9 @@ class GameScene: SKScene {
             ghostMovements[i].dataSource = self
         }
     }
-
+    
     private func setupMisc() {
+        // every super dot has special effect, listed as different events
         self.superDotEvents = [
             {() -> Void in
                 self.frightenGhost()
@@ -146,43 +170,50 @@ class GameScene: SKScene {
             }
         ]
     }
-    private func setupGameObjects() {
-        if let fileName = fileName {
-            println("Loading game map from file...")
-
-            self.enumerateChildNodesWithName("*") {
-                node, stop in
-                node.removeFromParent()
-            }
-
-            parseFileWithName(GameLevelStorage.addXMLExtensionToFile(fileName))
-            
-            ghosts = blinkys + pinkys + inkys + clydes
+    
+    func setupGameObjects() {
+        // clear map
+        clearMap()
+        
+        // read from map data
+        if let map = mapContent {
+            parseMapWithData(map)
+        }
+        
+        // for convenience, combine all ghosts in one array
+        ghosts = blinkys + pinkys + inkys + clydes
+    }
+    
+    private func clearMap() {
+        self.enumerateChildNodesWithName("*") {
+            node, stop in
+            node.removeFromParent()
         }
     }
-
-
+    
     func gameOver(didWin: Bool) {
         self.sceneDelegate.gameDidEnd(self, didWin: didWin, score: pacman.score)
     }
-
+    
     func restart() {
+        // stop spotlight effect on game scene
+        stopSpotLight()
+        
+        initGameScene()
+        
+        sceneDelegate.updateScore(pacman.score, dotsLeft: totalPacDots)
+        
+        println("START")
+    }
+    
+    private func stopSpotLight() {
         if spotLightTimer != nil {
             self.spotLightTimer!.invalidate()
             self.spotLightTimer = nil
             spotLightView.removeFromSuperview()
         }
-
-        initGameObjects()
-        setupGameObjects()
-        setupMisc()
-        setupMovementControls()
-
-        sceneDelegate.updateScore(pacman.score, dotsLeft: totalPacDots)
-
-        println("START")
     }
-
+    
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
         // Update directions of sprite nodes
@@ -195,12 +226,13 @@ class GameScene: SKScene {
         for ghost in ghosts {
             ghost.update()
         }
-        // Put the pacman in the center of the screen
-        self.anchorPoint = CGPoint(x: 0.5 - pacman.position.x / Constants.IPadWidth,
-            y: 0.5 - pacman.position.y / Constants.IPadHeight)
+        
+        // keep pacman at the center of the screen
+        setPacmanAtCenter()
     }
-
+    
     deinit {
+        // debug use, check if game scene is released on exiting
         println("deinit Scene")
     }
 }
@@ -245,7 +277,7 @@ extension GameScene: SKPhysicsContactDelegate {
             return
         }
     }
-
+    
     private func handleGhostPacmanEvent(bodyA: SKNode?, bodyB: SKNode?) {
         var pacman: PacMan!
         var ghost: Ghost!
@@ -263,7 +295,7 @@ extension GameScene: SKPhysicsContactDelegate {
             println("???")
             return //
         }
-
+        
         if !ghost.frightened {
             gameOver(false)
         } else if !ghost.eaten {
@@ -289,10 +321,9 @@ extension GameScene: SKPhysicsContactDelegate {
     }
     
     private func spotLightMode() {
-        
         if spotLightTimer != nil {
-            spotLightTimer!.invalidate()
-            spotLightTimer = nil
+            // if there is an existing spotlight effect, stop that first
+            stopSpotLight()
         } else {
             view!.addSubview(spotLightView)
         }
@@ -307,8 +338,11 @@ extension GameScene: SKPhysicsContactDelegate {
     
     func endSpotLightMode(timer: NSTimer) {
         spotLightView.removeFromSuperview()
+        
+        // release the resources
+        stopSpotLight()
     }
-
+    
     private func frightenGhost() {
         for ghost in ghosts {
             ghost.frightened = true
@@ -318,15 +352,14 @@ extension GameScene: SKPhysicsContactDelegate {
                 SKAction.fadeInWithDuration(Constants.Ghost.FrightenModeBlinkDuration)
                 ])
             let blink = SKAction.repeatAction(blinkOnce, count: Constants.Ghost.FrightenModeBlinkCount)
-
+            
             let resetFrighten = SKAction.runBlock {
                 ghost.frightened = false
             }
-
-
+            
             ghost.runAction(SKAction.sequence([wait, blink, resetFrighten]), withKey: "frighten")
         }
-
+        
     }
     
     private func handleSensorEvent(bodyA: SKNode?, bodyB: SKNode?, direction: Direction, start: Bool) {
@@ -380,89 +413,84 @@ extension GameScene: SKPhysicsContactDelegate {
 }
 
 extension GameScene {
-    func parseFileWithName(name: String) {
-        if let content = GameLevelStorage.loadGameLevelFromFile(name) {
-            self.totalPacDots = 0
-
-            for i in 0..<content.count {
-                let gameObject = content[i]
-                let type = gameObject["type"]!
+    private func parseMapWithData(content: [Dictionary<String, String>]) {
+        self.totalPacDots = 0
+        
+        for i in 0..<content.count {
+            let gameObject = content[i]
+            let type = gameObject["type"]!
+            let width = CGFloat(gameObject["width"]!.toInt()!)
+            let height = CGFloat(gameObject["height"]!.toInt()!)
+            var size = CGSize(width: width, height: height)
             
-                let width = CGFloat(gameObject["width"]!.toInt()!)
-                let height = CGFloat(gameObject["height"]!.toInt()!)
-                var size = CGSize(width: width, height: height)
+            let xPos = CGFloat(gameObject["x"]!.toInt()!)
+            let yPos = CGFloat(gameObject["y"]!.toInt()!)
+            let origin = CGPoint(x: xPos, y: yPos)
+            
+            switch type {
+            case "boundary":
+                size = CGSize(width: 40, height: 40)
+                let boundary = Boundary(size: size, isExterior: false)
+                addChild(boundary)
+                boundary.position = origin
                 
-                let xPos = CGFloat(gameObject["x"]!.toInt()!) // + width/2
-                let yPos = Constants.IPadHeight - CGFloat(gameObject["y"]!.toInt()!) // - height/2
-                var origin = CGPoint(x: xPos, y: yPos)
-                println(origin)
+                break
+            case "edge":
+                let boundary = Boundary(size: size, isExterior: true)
+                addChild(boundary)
+                boundary.position = origin
                 
-                switch type {
-                case "boundary":
-                    size = CGSize(width: 40, height: 40)
-                    let boundary = Boundary(size: size, isExterior: false)
-                    addChild(boundary)
-                    boundary.position = origin
-                    
-                    break
-                case "edge":
-                    let boundary = Boundary(size: size, isExterior: true)
-                    addChild(boundary)
-                    boundary.position = origin
-                    
-                    break
-                case "pacdot":
-                    let pacdot = PacDot(size: size)
-                    addChild(pacdot)
-                    pacdot.position = origin
-                    self.totalPacDots++
-                    break
-                case "super-pacdot":
-                    let pacdot = PacDot(superSize: size)
-                    addChild(pacdot)
-                    pacdot.position = origin
-                    self.totalPacDots++
-                    break
-                case "pacman":
-                    addPacmanFromTMXFile(i, position: adjustOriginForMovableObject(origin))
-                    
-                    break
-                case "blinky":
-                    var blinky = Ghost(id: i, imageName: "ghost-red")
-                    blinky.position = adjustOriginForMovableObject(origin)
-                    addChild(blinky)
-                    blinkys.append(blinky)
-                    
-                    break
-                case "pinky":
-                    var pinky = Ghost(id: i, imageName: "ghost-yellow")
-                    pinky.position = adjustOriginForMovableObject(origin)
-                    addChild(pinky)
-                    pinkys.append(pinky)
-                    
-                    break
-                case "inky":
-                    var inky = Ghost(id: i, imageName: "ghost-blue")
-                    inky.position = adjustOriginForMovableObject(origin)
-                    addChild(inky)
-                    inkys.append(inky)
-                    
-                    break
-                case "clyde":
-                    var clyde = Ghost(id: i, imageName: "ghost-orange")
-                    clyde.position = adjustOriginForMovableObject(origin)
-                    addChild(clyde)
-                    clydes.append(clyde)
-                    
-                    break
-                default:
-                    break
-                }
+                break
+            case "pacdot":
+                let pacdot = PacDot(id: i, size: size)
+                addChild(pacdot)
+                pacdot.position = origin
+                self.totalPacDots++
+                break
+            case "super-pacdot":
+                let pacdot = PacDot(id: i, superSize: size)
+                addChild(pacdot)
+                pacdot.position = origin
+                self.totalPacDots++
+                break
+            case "pacman":
+                addPacmanFromMapData(i, position: adjustOriginForMovableObject(origin))
+                
+                break
+            case "blinky":
+                var blinky = Ghost(id: i, imageName: "ghost-red")
+                blinky.position = adjustOriginForMovableObject(origin)
+                addChild(blinky)
+                blinkys.append(blinky)
+                
+                break
+            case "pinky":
+                var pinky = Ghost(id: i, imageName: "ghost-yellow")
+                pinky.position = adjustOriginForMovableObject(origin)
+                addChild(pinky)
+                pinkys.append(pinky)
+                
+                break
+            case "inky":
+                var inky = Ghost(id: i, imageName: "ghost-blue")
+                inky.position = adjustOriginForMovableObject(origin)
+                addChild(inky)
+                inkys.append(inky)
+                break
+            case "clyde":
+                var clyde = Ghost(id: i, imageName: "ghost-orange")
+                clyde.position = adjustOriginForMovableObject(origin)
+                addChild(clyde)
+                clydes.append(clyde)
+                
+                break
+            default:
+                break
             }
         }
     }
     
-    func addPacmanFromTMXFile(id: Int, position: CGPoint) {
+    func addPacmanFromMapData(id: Int, position: CGPoint) {
         pacman.position = position
         removeChildrenInArray([pacman])
         addChild(pacman)

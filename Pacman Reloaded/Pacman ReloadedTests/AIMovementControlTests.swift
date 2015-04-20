@@ -19,16 +19,16 @@ class AIMovementControlTests: XCTestCase {
         x: Constants.AIMovementControl.GAME_SCENE_MIN_X,
         y: Constants.AIMovementControl.GAME_SCENE_MAX_Y)
     
-    private var blinky1 = Ghost(imageName: "ghost-red")
-    private var blinky2 = Ghost(imageName: "ghost-red")
-    private var pinky1 = Ghost(imageName: "ghost-yellow")
-    private var pinky2 = Ghost(imageName: "ghost-yellow")
-    private var inky1 = Ghost(imageName: "ghost-blue")
-    private var inky2 = Ghost(imageName: "ghost-blue")
-    private var clyde1 = Ghost(imageName: "ghost-orange")
-    private var clyde2 = Ghost(imageName: "ghost-orange")
-    private let pacman1 = PacMan()
-    private let pacman2 = PacMan()
+    private var blinky1 = Ghost(id: 0, imageName: "ghost-red")
+    private var blinky2 = Ghost(id: 1, imageName: "ghost-red")
+    private var pinky1 = Ghost(id: 2, imageName: "ghost-yellow")
+    private var pinky2 = Ghost(id: 3, imageName: "ghost-yellow")
+    private var inky1 = Ghost(id: 4, imageName: "ghost-blue")
+    private var inky2 = Ghost(id: 5, imageName: "ghost-blue")
+    private var clyde1 = Ghost(id: 6, imageName: "ghost-orange")
+    private var clyde2 = Ghost(id: 7, imageName: "ghost-orange")
+    private let pacman1 = PacMan(id: 8)
+    private let pacman2 = PacMan(id: 9)
     
     private var ghosts: [MovableObject]!
     private var pacmans: [MovableObject]!

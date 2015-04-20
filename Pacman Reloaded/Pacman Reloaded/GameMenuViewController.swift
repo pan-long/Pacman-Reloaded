@@ -34,7 +34,7 @@ class GameMenuViewController: UIViewController {
 
     @IBAction func cancelButtonPressed(sender: UIButton) {
         let presentingVC = self.presentingViewController? as? GameViewController
-        presentingVC?.unpause()
+        presentingVC?.resume()
     }
 
     @IBAction func quitButtonPressed(sender: UIButton) {

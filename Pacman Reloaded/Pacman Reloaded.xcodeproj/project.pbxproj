@@ -24,6 +24,7 @@
 		6FD827CD1AB854800079147F /* PacDot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FD827CC1AB854800079147F /* PacDot.swift */; };
 		6FD827CF1AB854EA0079147F /* Ghost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FD827CE1AB854EA0079147F /* Ghost.swift */; };
 		C540CFD11AD93306008C3D35 /* NetworkMovementControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = C540CFD01AD93306008C3D35 /* NetworkMovementControl.swift */; };
+		C553BEA41AE4E8B90073B216 /* MultiplayerGameSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C553BEA31AE4E8B90073B216 /* MultiplayerGameSceneDelegate.swift */; };
 		C5776FFE1AE2994D0049A869 /* MultiplayerGameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = C5776FFD1AE2994D0049A869 /* MultiplayerGameScene.sks */; };
 		C59CB9521AD16C3B00E41CAE /* MultiplayerGameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C59CB9511AD16C3B00E41CAE /* MultiplayerGameScene.swift */; };
 		C59CB9541AD172C000E41CAE /* GameNetworkData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C59CB9531AD172C000E41CAE /* GameNetworkData.swift */; };
@@ -36,7 +37,6 @@
 		C5C8D7271AB847E5005ACB47 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C5C8D7251AB847E5005ACB47 /* Main.storyboard */; };
 		C5C8D72C1AB847E5005ACB47 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C5C8D72A1AB847E5005ACB47 /* LaunchScreen.xib */; };
 		C5C8D7381AB847E5005ACB47 /* Pacman_ReloadedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5C8D7371AB847E5005ACB47 /* Pacman_ReloadedTests.swift */; };
-		DC076DA91AD178D8004268B5 /* MultiplayerGameSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC076DA81AD178D8004268B5 /* MultiplayerGameSettingViewController.swift */; };
 		DC11D63E1ADAE63C003836FF /* GameLevelDesignGridNormalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC11D63D1ADAE63C003836FF /* GameLevelDesignGridNormalCell.swift */; };
 		DC17F3291AE25C8700452018 /* GameLevelDesignerNormalCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC17F3281AE25C8700452018 /* GameLevelDesignerNormalCollectionViewLayout.swift */; };
 		DC17F32B1AE2AFCD00452018 /* myFirstFile.xml in Resources */ = {isa = PBXBuildFile; fileRef = DC11D63B1ADAB898003836FF /* myFirstFile.xml */; };
@@ -100,6 +100,7 @@
 		6FD827CC1AB854800079147F /* PacDot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PacDot.swift; sourceTree = "<group>"; };
 		6FD827CE1AB854EA0079147F /* Ghost.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ghost.swift; sourceTree = "<group>"; };
 		C540CFD01AD93306008C3D35 /* NetworkMovementControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkMovementControl.swift; sourceTree = "<group>"; };
+		C553BEA31AE4E8B90073B216 /* MultiplayerGameSceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiplayerGameSceneDelegate.swift; sourceTree = "<group>"; };
 		C5776FFD1AE2994D0049A869 /* MultiplayerGameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MultiplayerGameScene.sks; sourceTree = "<group>"; };
 		C59CB9511AD16C3B00E41CAE /* MultiplayerGameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiplayerGameScene.swift; sourceTree = "<group>"; };
 		C59CB9531AD172C000E41CAE /* GameNetworkData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameNetworkData.swift; sourceTree = "<group>"; };
@@ -116,7 +117,6 @@
 		C5C8D7311AB847E5005ACB47 /* Pacman ReloadedTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Pacman ReloadedTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5C8D7361AB847E5005ACB47 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C5C8D7371AB847E5005ACB47 /* Pacman_ReloadedTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pacman_ReloadedTests.swift; sourceTree = "<group>"; };
-		DC076DA81AD178D8004268B5 /* MultiplayerGameSettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiplayerGameSettingViewController.swift; sourceTree = "<group>"; };
 		DC11D63B1ADAB898003836FF /* myFirstFile.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = myFirstFile.xml; sourceTree = "<group>"; };
 		DC11D63D1ADAE63C003836FF /* GameLevelDesignGridNormalCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameLevelDesignGridNormalCell.swift; sourceTree = "<group>"; };
 		DC17F3281AE25C8700452018 /* GameLevelDesignerNormalCollectionViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameLevelDesignerNormalCollectionViewLayout.swift; sourceTree = "<group>"; };
@@ -269,12 +269,12 @@
 				C5C8D7211AB847E5005ACB47 /* GameScene.swift */,
 				C59CB9511AD16C3B00E41CAE /* MultiplayerGameScene.swift */,
 				6F8AEFB11AC7DB2F00C8BEA8 /* GameSceneDelegate.swift */,
+				C553BEA31AE4E8B90073B216 /* MultiplayerGameSceneDelegate.swift */,
 				6FD17C541AD17B89001891F6 /* MainMenuViewController.swift */,
 				6FD17C521AD16D8C001891F6 /* GameMenuViewController.swift */,
 				C5C8D7231AB847E5005ACB47 /* GameViewController.swift */,
 				DCA852B31AE2CFB3006A04C4 /* GameLevelLoadingViewController.swift */,
 				DC3E42BA1AD12B7C0083609C /* MultiplayerManagementViewController.swift */,
-				DC076DA81AD178D8004268B5 /* MultiplayerGameSettingViewController.swift */,
 				DCEC3E011AD6C7440089F50D /* GameLevelDesign */,
 				C5C8D7251AB847E5005ACB47 /* Main.storyboard */,
 				DCADC4851AD92E3800835A22 /* Images.xcassets */,
@@ -465,10 +465,10 @@
 				C59CB9521AD16C3B00E41CAE /* MultiplayerGameScene.swift in Sources */,
 				6FD827C61AB8511B0079147F /* Direction.swift in Sources */,
 				6FD827CF1AB854EA0079147F /* Ghost.swift in Sources */,
+				C553BEA41AE4E8B90073B216 /* MultiplayerGameSceneDelegate.swift in Sources */,
 				C5C8D7221AB847E5005ACB47 /* GameScene.swift in Sources */,
 				DCFFDF211AE2D9240078C34A /* GameLevelSaveFileViewController.swift in Sources */,
 				6FD17C531AD16D8C001891F6 /* GameMenuViewController.swift in Sources */,
-				DC076DA91AD178D8004268B5 /* MultiplayerGameSettingViewController.swift in Sources */,
 				C540CFD11AD93306008C3D35 /* NetworkMovementControl.swift in Sources */,
 				C59CB9541AD172C000E41CAE /* GameNetworkData.swift in Sources */,
 				6F6D62F21ABC500400AF2E2A /* Utilities.swift in Sources */,
