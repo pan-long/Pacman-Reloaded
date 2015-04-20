@@ -24,7 +24,6 @@ class GameScene: SKScene {
     var clydes = [Ghost]()
 
     var totalPacDots:Int = 0
-    var frightenTimer: NSTimer?
     var spotLightTimer: NSTimer?
     
     var spotLightView: SpotLightUIView!
@@ -41,9 +40,10 @@ class GameScene: SKScene {
 
     var ghosts: [Ghost]!
     var ghostMovements: [MovementControl]!
-    
+
+    var superDotEvents: [() -> Void] = []
     var fileName: String?
-    
+
     override func didMoveToView(view: SKView) {
         physicsWorld.gravity = CGVectorMake(0, 0)
         physicsWorld.contactDelegate = self
@@ -60,6 +60,7 @@ class GameScene: SKScene {
             frame: spotLightViewFrame)
         initGameObjects()
         setupGameObjects()
+        setupMisc()
         setupMovementControls()
 
         self.anchorPoint = CGPoint(x: 0.5 - pacman.position.x / Constants.IPadWidth,
@@ -135,6 +136,14 @@ class GameScene: SKScene {
         }
     }
 
+    private func setupMisc() {
+        self.superDotEvents = [{() -> Void in
+            self.frightenGhost()
+            },
+            {() -> Void in
+                self.spotLightMode()
+        }]
+    }
     private func setupGameObjects() {
         if let fileName = fileName {
             println("Loading game map from file...")
@@ -156,11 +165,6 @@ class GameScene: SKScene {
     }
 
     func restart() {
-        if frightenTimer != nil {
-            self.frightenTimer!.invalidate()
-            self.frightenTimer = nil
-        }
-        
         if spotLightTimer != nil {
             self.spotLightTimer!.invalidate()
             self.spotLightTimer = nil
@@ -169,6 +173,7 @@ class GameScene: SKScene {
 
         initGameObjects()
         setupGameObjects()
+        setupMisc()
         setupMovementControls()
 
         sceneDelegate.updateScore(pacman.score, dotsLeft: totalPacDots)
@@ -271,8 +276,8 @@ extension GameScene: SKPhysicsContactDelegate {
         pacman.score += Constants.Score.PacDot
         totalPacDots--
         if pacdot.isSuper {
-//            frightenGhost()
-            spotLightMode()
+            let roll = Int(arc4random_uniform(UInt32(self.superDotEvents.count)))
+            self.superDotEvents[roll]()
         }
         sceneDelegate.updateScore(pacman.score, dotsLeft: totalPacDots)
         if totalPacDots == 0 {
@@ -305,20 +310,21 @@ extension GameScene: SKPhysicsContactDelegate {
     private func frightenGhost() {
         for ghost in ghosts {
             ghost.frightened = true
-        }
-        if frightenTimer != nil {
-            self.frightenTimer!.invalidate()
-            self.frightenTimer = nil
+            let wait = SKAction.waitForDuration(Constants.Ghost.FrightenModeDuration)
+            let blinkOnce = SKAction.sequence([
+                SKAction.fadeOutWithDuration(Constants.Ghost.FrightenModeBlinkDuration),
+                SKAction.fadeInWithDuration(Constants.Ghost.FrightenModeBlinkDuration)
+                ])
+            let blink = SKAction.repeatAction(blinkOnce, count: Constants.Ghost.FrightenModeBlinkCount)
+
+            let resetFrighten = SKAction.runBlock {
+                ghost.frightened = false
+            }
+
+
+            ghost.runAction(SKAction.sequence([wait, blink, resetFrighten]), withKey: "frighten")
         }
 
-        self.frightenTimer = NSTimer.scheduledTimerWithTimeInterval(Constants.Ghost.FrightenModeDuration,
-            target: self, selector: "endFrightenGhost:", userInfo: nil, repeats: false)
-    }
-
-    func endFrightenGhost(timer: NSTimer) {
-        for ghost in ghosts {
-            ghost.frightened = false
-        }
     }
     
     private func handleSensorEvent(bodyA: SKNode?, bodyB: SKNode?, direction: Direction, start: Bool) {
