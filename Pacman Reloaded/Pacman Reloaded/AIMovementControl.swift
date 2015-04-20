@@ -44,48 +44,39 @@ class AIMovementControl: MovementControl {
     // MARK: Update for movement control
     
     func update() {
-        if isUpdateFrame() {
-            let ghost = movableObject as Ghost
-            
-            // Ghost moves randomly when it's frightened
-            if ghost.frightened {
-                frightenUpdate()
-                return
-            }
-            
-            // If counter exceed indefinite chase -> chase update
-            if counter > Constants.AIMovementControl.INDEFINITE_CHASE {
-                println("Indefinite chase")
-                chaseUpdate()
-            }
-            counter += 1
-            
-            // Update movable object's direction
-            switch currentMode {
-            case .Scatter:
-                if currentModeDuration > Constants.AIMovementControl.SCATTER_MODE_DURATION {
-                    changeMode(.Chase)
-                } else {
-                    scatterUpdate()
-                }
-            case .Chase:
-                if currentModeDuration > Constants.AIMovementControl.CHASE_MODE_DURATION {
-                    changeMode(.Scatter)
-                } else {
-                    chaseUpdate()
-                }
-            default:
-                break
-            }
-            currentModeDuration += 1
+        let ghost = movableObject as Ghost
+        
+        // Ghost moves randomly when it's frightened
+        if ghost.frightened {
+            frightenUpdate()
+            return
         }
         
-        // Record steps since update to prevent chaging direction too frequently
-        if movableObject.previousDir != movableObject.currentDir && movableObject.currentDir != .None{
-            stepsSinceUpdate = 0
-        } else {
-            stepsSinceUpdate += 1
+        // If counter exceed indefinite chase -> chase update
+        if counter > Constants.AIMovementControl.INDEFINITE_CHASE {
+            println("Indefinite chase")
+            chaseUpdate()
         }
+        counter += 1
+        
+        // Update movable object's direction
+        switch currentMode {
+        case .Scatter:
+            if currentModeDuration > Constants.AIMovementControl.SCATTER_MODE_DURATION {
+                changeMode(.Chase)
+            } else {
+                scatterUpdate()
+            }
+        case .Chase:
+            if currentModeDuration > Constants.AIMovementControl.CHASE_MODE_DURATION {
+                changeMode(.Scatter)
+            } else {
+                chaseUpdate()
+            }
+        default:
+            break
+        }
+        currentModeDuration += 1
     }
     
     private func isUpdateFrame() -> Bool {
@@ -110,6 +101,16 @@ class AIMovementControl: MovementControl {
         stepsSinceUpdate = UPDATE_BUFFER
     }
     
+    func changeDirection(newDirection: Direction) {
+        if newDirection != movableObject.currentDir &&
+            (isUpdateFrame() || movableObject.currentDir == .None) {
+                movableObject.changeDirection(newDirection)
+                stepsSinceUpdate = 0
+        } else {
+            stepsSinceUpdate += 1
+        }
+    }
+    
     // MARK: AI Frightened Mode
     
     func frightenUpdate() {
@@ -117,7 +118,7 @@ class AIMovementControl: MovementControl {
         if availableDirections.count > 0 {
             let superDice = Int(arc4random_uniform(UInt32(availableDirections.count)))
             
-            movableObject.changeDirection(availableDirections[superDice])
+            changeDirection(availableDirections[superDice])
         }
     }
     
@@ -146,7 +147,7 @@ class AIMovementControl: MovementControl {
             }
         }
         
-        movableObject.changeDirection(nextDirection)
+        changeDirection(nextDirection)
     }
 
     
@@ -181,7 +182,7 @@ class AIMovementControl: MovementControl {
             }
         }
         
-        movableObject.changeDirection(nextDirection)
+        changeDirection(nextDirection)
     }
     
     func getChaseTarget(visibleObject: MovableObject) -> CGPoint {
