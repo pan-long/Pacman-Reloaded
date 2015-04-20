@@ -13,7 +13,11 @@ class GameLevelLoadingViewController: UIViewController {
     @IBOutlet var gameLevelsTable: UITableView!
     @IBOutlet var gameLevelPreview: UIImageView!
     let allFiles = GameLevelStorage.getGameLevels()
+    
     var fileSelected: String?
+    
+    // by default it is in single player mode
+    var isMultiplayerMode = false
     
     override func viewDidLoad() {
         gameLevelsTable.delegate = self

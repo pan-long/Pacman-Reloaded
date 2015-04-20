@@ -11,7 +11,7 @@ import UIKit
 enum GameNetworkDataType: Int {
     case TYPE_OBJECT_MOVEMENT = 0,
     TYPE_PACMAN_SCORE = 1,
-    TYPE_MAP = 2
+    TYPE_INIT = 2
 }
 
 class GameNetworkData: NSData {
@@ -28,14 +28,19 @@ class GameNetworkData: NSData {
     }
 }
 
-class GameNetworkMapData: GameNetworkData {
+class GameNetworkInitData: GameNetworkData {
+    let hostName: String
+    let allPlayersName: [String]
     let pacmanId: Int
     let mapContent: [Dictionary<String, String>]
     
-    init(type: GameNetworkDataType, pacmanId: Int, mapContent: [Dictionary<String, String>]) {
+    
+    init(hostName: String, allPlayersName: [String], pacmanId: Int, mapContent: [Dictionary<String, String>]) {
+        self.hostName = hostName
+        self.allPlayersName = allPlayersName
         self.pacmanId = pacmanId
         self.mapContent = mapContent
-        super.init(type: type)
+        super.init(type: GameNetworkDataType.TYPE_INIT)
     }
 
     required init(coder aDecoder: NSCoder) {
