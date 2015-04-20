@@ -103,6 +103,7 @@ class AIMovementControlTests: XCTestCase {
         blinkyMovement1.scatterUpdate()
         XCTAssertEqual(blinky1.currentDir, Direction.Down, "Blinky scatter mode incorrectly reverse direction in dead end")
         
+        
         // Tests for blinky2 in scatter mode
         blinkyMovement2.scatterUpdate()
         XCTAssertEqual(blinky2.currentDir, Direction.Right, "Blinky scatter mode incorrectly change Blinky's direction")
@@ -156,7 +157,66 @@ class AIMovementControlTests: XCTestCase {
         
         blinky2.blocked = (up: 0, down: 1, left: 1, right: 1)
         blinkyMovement2.chaseUpdate()
-        XCTAssertEqual(blinky2.currentDir, Direction.Up, "Blinky scatter mode incorrectly reverse direction in dead end")
+        XCTAssertEqual(blinky2.currentDir, Direction.Up, "Blinky chase mode incorrectly reverse direction in dead end")
+    }
+    
+    func testBlinkyFrightenedMode() {
+        let blinkyMovement1 = BlinkyAIMovememntControl(movableObject: blinky1)
+        blinkyMovement1.dataSource = self
+        
+        blinky1.position = CGPointMake(CGFloat(1300), CGFloat(500))
+        
+        blinky1.changeDirection(Direction.Left)
+        blinky1.blocked = (up: 1, left: 0, right: 1, down: 1)
+        blinkyMovement1.frightenUpdate()
+        XCTAssertEqual(blinky1.currentDir, Direction.Left, "Blinky frighened mode incorrectly reverse direction in dead end")
+    }
+    
+    func testPinkyScatterMode() {
+        let pinkyMovement1 = PinkyAIMovementControl(movableObject: pinky1)
+        pinkyMovement1.dataSource = self
+        let pinkyMovement2 = PinkyAIMovementControl(movableObject: pinky2)
+        pinkyMovement2.dataSource = self
+        
+        pinky1.position = CGPointMake(CGFloat(1300), CGFloat(500))
+        pinky2.position = CGPointMake(CGFloat(200), CGFloat(300))
+        
+        // Tests for blinky1 in scatter mode
+        pinkyMovement1.scatterUpdate()
+        XCTAssertEqual(pinky1.currentDir, Direction.Up, "Pinky scatter mode incorrectly change Blinky's direction")
+        
+        pinky1.changeDirection(.Down)
+        pinkyMovement1.scatterUpdate()
+        XCTAssertEqual(pinky1.currentDir, Direction.Down, "Pinky scatter mode incorrectly check update frame")
+
+        pinky1.currentDir = .None
+        pinky1.blocked.up = 1
+        pinkyMovement1.scatterUpdate()
+        XCTAssertEqual(pinky1.currentDir, Direction.Left, "Pinky scatter mode does not update when there are no paths")
+
+        finishUpdateBuffer(pinkyMovement1, mode: GhostMovementMode.Scatter, buffer: 4)
+        
+        pinky1.currentDir = .Down
+        pinkyMovement1.scatterUpdate()
+        XCTAssertEqual(pinky1.currentDir, Direction.Left, "Pinky scatter mode incorrectly resume update frame")
+
+        pinky1.blocked = (up: 1, down: 1, left: 1, right: 0)
+        pinkyMovement1.scatterUpdate()
+        XCTAssertEqual(pinky1.currentDir, Direction.Right, "Pinky scatter mode incorrectly reverse direction in dead end")
+
+        
+        // Tests for blinky2 in scatter mode
+        pinkyMovement2.scatterUpdate()
+        XCTAssertEqual(pinky2.currentDir, Direction.Up, "Pinky scatter mode incorrectly change Blinky's direction")
+
+        pinky2.changeDirection(.Down)
+        pinkyMovement2.scatterUpdate()
+        XCTAssertEqual(pinky2.currentDir, Direction.Down, "Pinky scatter mode incorrectly check update frame")
+
+        pacman1.position = CGPointMake(CGFloat(200), CGFloat(304))
+        pinkyMovement2.scatterUpdate()
+        XCTAssertEqual(pinky2.currentDir, Direction.Down, "Pinky scatter mode is affected by Pacman's position")
+        
     }
 }
 
