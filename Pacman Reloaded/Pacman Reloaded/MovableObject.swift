@@ -218,13 +218,29 @@ class MovableObject: GameObject {
 
     // MARK: - SENSORS
 
-    func createUpSensorPhysicsBody(#whileTravellingUpOrDown:Bool) {
+    private func getForwardSensorLongEdge() -> CGFloat {
+        return self.sprite.size.width * 0.8
+    }
+
+    private func getForwardSensorShortEdge() -> CGFloat {
+        return Constants.GameScene.GridWidth - self.sprite.size.width + 2 * (self.currentSpeed - 1)
+    }
+
+    private func getSideSensorLongEdge() -> CGFloat {
+        return Constants.GameScene.GridWidth - 2 * (self.currentSpeed - 1)
+    }
+
+    private func getSideSensorShortEdge() -> CGFloat {
+        return self.sprite.size.height * 0.8
+    }
+
+    private func createUpSensorPhysicsBody(#whileTravellingUpOrDown:Bool) {
 
         var size:CGSize
         if (whileTravellingUpOrDown == true) {
-            size = CGSize(width: self.sprite.size.width * 0.8, height: 40 - self.sprite.size.width + 2 * self.currentSpeed - 2) // 40 - 30, check
+            size = CGSize(width: getForwardSensorLongEdge(), height: getForwardSensorShortEdge())
         } else {
-            size = CGSize(width: 40 - 2 * self.currentSpeed + 2, height: self.sprite.size.height * 0.8)
+            size = CGSize(width: getSideSensorLongEdge(), height: getSideSensorShortEdge())
         }
         sensors.up!.physicsBody = nil // get rid of any existing physics body
         let bodyUp:SKPhysicsBody = SKPhysicsBody(rectangleOfSize: size)
@@ -236,12 +252,12 @@ class MovableObject: GameObject {
         sensors.up!.physicsBody?.allowsRotation = false
     }
 
-    func createDownSensorPhysicsBody(#whileTravellingUpOrDown:Bool){
+    private func createDownSensorPhysicsBody(#whileTravellingUpOrDown:Bool){
         var size:CGSize
         if (whileTravellingUpOrDown == true) {
-            size = CGSize(width: self.sprite.size.width * 0.8, height: 40 - self.sprite.size.width + 2 * self.currentSpeed - 2) // 40 - 30, check
+            size = CGSize(width: getForwardSensorLongEdge(), height: getForwardSensorShortEdge())
         } else {
-            size = CGSize(width: 40 - 2 * self.currentSpeed + 2, height: self.sprite.size.height * 0.8)
+            size = CGSize(width: getSideSensorLongEdge(), height: getSideSensorShortEdge())
         }
         sensors.down?.physicsBody = nil
         let bodyDown:SKPhysicsBody = SKPhysicsBody(rectangleOfSize: size )
@@ -255,13 +271,13 @@ class MovableObject: GameObject {
 
     }
 
-    func createLeftSensorPhysicsBody( #whileTravellingLeftOrRight:Bool){
+    private func createLeftSensorPhysicsBody( #whileTravellingLeftOrRight:Bool){
 
         var size:CGSize
         if (whileTravellingLeftOrRight == true) {
-            size = CGSize(width: 40 - self.sprite.size.width + 2 * self.currentSpeed - 2, height: self.sprite.size.width * 0.8) // 40 - 30, check
+            size = CGSize(width: getForwardSensorShortEdge(), height: getForwardSensorLongEdge())
         } else {
-            size = CGSize(width:self.sprite.size.height * 0.8 , height: 40 - 2 * self.currentSpeed + 2)
+            size = CGSize(width: getSideSensorShortEdge(), height: getSideSensorLongEdge())
         }
         sensors.left?.physicsBody = nil
         let bodyLeft:SKPhysicsBody = SKPhysicsBody(rectangleOfSize: size )
@@ -273,12 +289,12 @@ class MovableObject: GameObject {
         sensors.left!.physicsBody!.allowsRotation = false
     }
 
-    func createRightSensorPhysicsBody( #whileTravellingLeftOrRight:Bool){
+    private func createRightSensorPhysicsBody( #whileTravellingLeftOrRight:Bool){
         var size:CGSize
         if (whileTravellingLeftOrRight == true) {
-            size = CGSize(width: 40 - self.sprite.size.width + 2 * self.currentSpeed - 2, height: self.sprite.size.width * 0.8)
+            size = CGSize(width: getForwardSensorShortEdge(), height: getForwardSensorLongEdge())
         } else {
-            size = CGSize(width:self.sprite.size.height * 0.8 , height: 40 - 2 * self.currentSpeed + 2)
+            size = CGSize(width: getSideSensorShortEdge(), height: getSideSensorLongEdge())
         }
         sensors.right?.physicsBody = nil
         let bodyRight:SKPhysicsBody = SKPhysicsBody(rectangleOfSize: size )
