@@ -8,6 +8,10 @@
 
 import SpriteKit
 
+protocol GameLevelLoadingDelegate: class {
+    func didSelectedLevel(sourceVC:UIViewController, mapContent: [Dictionary<String, String>])
+}
+
 class GameLevelLoadingViewController: UIViewController {
     
     @IBOutlet var gameLevelsTable: UITableView!
@@ -16,8 +20,7 @@ class GameLevelLoadingViewController: UIViewController {
     
     var fileSelected: String?
     
-    // by default it is in single player mode
-    var isMultiplayerMode = false
+    weak var delegate: GameLevelLoadingDelegate?
     
     override func viewDidLoad() {
         gameLevelsTable.delegate = self
@@ -54,11 +57,9 @@ extension GameLevelLoadingViewController: UITableViewDataSource {
 extension GameLevelLoadingViewController {
     
     @IBAction func loadButtonClicked(sender: UIButton) {
-        let presentingVC = self.presentingViewController as GameViewController
         let mapContent = GameLevelStorage.loadGameLevelFromFile(GameLevelStorage.addXMLExtensionToFile(fileSelected!))
-        
-        presentingVC.setupSingleGame(fromMap: mapContent!)
-        
-        self.dismissViewControllerAnimated(true, completion: nil)
+        if let delegate = delegate {
+            delegate.didSelectedLevel(self, mapContent: mapContent!)
+        }
     }
 }

@@ -92,7 +92,8 @@ class GameViewController: UIViewController {
     
     override func viewDidAppear(animated: Bool) {
         if !isMultiplayerMode { // in single player mode, pop up the level selection window
-            let gameLevelSelection = self.storyboard!.instantiateViewControllerWithIdentifier("gameLevelSelection") as UIViewController
+            var gameLevelSelection = self.storyboard!.instantiateViewControllerWithIdentifier("gameLevelSelection") as GameLevelLoadingViewController
+            gameLevelSelection.delegate = self
             self.presentViewController(gameLevelSelection, animated: true, completion: nil)
         }
     }
@@ -284,8 +285,6 @@ extension GameViewController: MatchPeersDelegate {
     func session(player playername: String, didChangeState state: MCSessionState) {
         switch state {
         case .Connected:
-//            let gameLevelSelection = self.storyboard!.instantiateViewControllerWithIdentifier("gameLevelSelection") as UIViewController
-//            self.presentViewController(gameLevelSelection, animated: true, completion: nil)
             println("connected")
             break
         case .Connecting:
@@ -298,5 +297,12 @@ extension GameViewController: MatchPeersDelegate {
         default:
             break
         }
+    }
+}
+
+extension GameViewController: GameLevelLoadingDelegate {
+    func didSelectedLevel(sourceVC: UIViewController, mapContent: [Dictionary<String, String>]) {
+        setupSingleGame(fromMap: mapContent)
+        sourceVC.dismissViewControllerAnimated(true, completion: nil)
     }
 }
