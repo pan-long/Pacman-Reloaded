@@ -76,8 +76,8 @@ struct Constants {
     }
     
     struct GameScene {
-        static let PacdotWidth = 10
-        static let NormalWidth = 30
+        static let Width = 720
+        static let Height = 720
         
         static let NumberOfRows = 40
         static let NumberOfColumns = 40

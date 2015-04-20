@@ -85,7 +85,6 @@ class GameScene: SKScene {
         spotLightView = SpotLightUIView(
             spotLightCenter: spotLightCenter,
             frame: spotLightViewFrame)
-        
     }
     
     private func setupMovementControls() {
@@ -420,15 +419,13 @@ extension GameScene {
         for i in 0..<content.count {
             let gameObject = content[i]
             let type = gameObject["type"]!
-            
             let width = CGFloat(gameObject["width"]!.toInt()!)
             let height = CGFloat(gameObject["height"]!.toInt()!)
             var size = CGSize(width: width, height: height)
             
-            let xPos = CGFloat(gameObject["x"]!.toInt()!) // + width/2
-            let yPos = Constants.IPadHeight - CGFloat(gameObject["y"]!.toInt()!) // - height/2
+            let xPos = CGFloat(gameObject["x"]!.toInt()!)
+            let yPos = CGFloat(gameObject["y"]!.toInt()!)
             let origin = CGPoint(x: xPos, y: yPos)
-            println(origin)
             
             switch type {
             case "boundary":

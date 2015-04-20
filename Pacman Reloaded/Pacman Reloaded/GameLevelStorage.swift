@@ -48,22 +48,21 @@ extension GameLevelStorage { // For storing and loading new designs from/into di
             let column = Double(indexPath.row)
             let gridWidth = Constants.GameScene.GridWidth
             let gridHeight = Constants.GameScene.GridHeight
+            let gameSceneHeight = Double(Constants.GameScene.Height)
             
             var dic = Dictionary<String, String>()
             if let typeName = level[indexPath]!.name {
                 dic["type"] = typeName
                 dic["x"] = Int((column + 0.5) * Double(gridWidth)).description
-                dic["y"] = Int((row + 0.5) * Double(gridHeight)).description
-                dic["width"] = Constants.GameScene.PacdotWidth.description
-                dic["height"] = Constants.GameScene.PacdotWidth.description
+                dic["y"] = Int(gameSceneHeight - (row + 0.5) * Double(gridHeight)).description
+                dic["width"] = Int(gridWidth).description
+                dic["height"] = Int(gridHeight).description
                 
                 if level[indexPath]!.isPacman || level[indexPath]!.isGhost || typeName == "boundary" {
-                    dic["width"] = Constants.GameScene.NormalWidth.description
-                    dic["height"] = Constants.GameScene.NormalWidth.description
                     if level[indexPath]!.isPacman {
                         dic["id"] = pacmanID.description
                         pacmanID++
-                    } else {
+                    } else if level[indexPath]!.isGhost {
                         dic["id"] = ghostID.description
                         ghostID++
                     }

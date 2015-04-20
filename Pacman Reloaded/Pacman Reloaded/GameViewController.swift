@@ -132,11 +132,16 @@ class GameViewController: UIViewController {
     }
     
     private func getGameSceneFromFile() -> GameScene {
+        var resultScene: GameScene!
         if isMultiplayerMode {
-            return MultiplayerGameScene.unarchiveFromFile("MultiplayerGameScene") as MultiplayerGameScene
+            resultScene = MultiplayerGameScene.unarchiveFromFile("MultiplayerGameScene") as MultiplayerGameScene
         } else {
-            return GameScene.unarchiveFromFile("GameScene") as GameScene
+            resultScene = GameScene.unarchiveFromFile("GameScene") as GameScene
         }
+        
+        resultScene.size = CGSize(width: Constants.GameScene.Width,
+            height: Constants.GameScene.Height)
+        return resultScene
     }
     
     override func shouldAutorotate() -> Bool {
@@ -227,6 +232,8 @@ extension GameViewController: GameSceneDelegate {
     func updateScore(score: Int, dotsLeft: Int) {
         self.score.text = "Score: \(score)"
         self.remainingDots.text = "Remaining: \(dotsLeft)"
+        
+        
     }
 
     func gameDidEnd(scene: GameScene, didWin: Bool, score: Int) {
@@ -243,7 +250,7 @@ extension GameViewController: GameSceneDelegate {
 
         }))
         gameSceneView.scene?.view?.paused = true
-
+        
         self.presentViewController(alertVC, animated: true, completion: nil)
 
     }
