@@ -150,17 +150,17 @@ class AIMovementControlTests: XCTestCase {
         blinkyMovement2.chaseUpdate()
         XCTAssertEqual(blinky2.currentDir, Direction.Down, "Blinky chase mode incorrectly change Blinky's direction")
         
-        finishUpdateBuffer(blinkyMovement1, mode: GhostMovementMode.Scatter, buffer: 4)
+        finishUpdateBuffer(blinkyMovement2, mode: GhostMovementMode.Scatter, buffer: 4)
         blinky2.blocked.down = 1
         blinkyMovement2.chaseUpdate()
-        XCTAssertEqual(blinky2.currentDir, Direction.Down, "Blinky chase mode incorrectly chase nearest pacman")
+        XCTAssertEqual(blinky2.currentDir, Direction.Left, "Blinky chase mode incorrectly chase nearest pacman")
         
-        blinky2.blocked = (up: 0, down: 1, left: 1, right: 1)
+        blinky2.blocked = (up: 1, down: 1, left: 1, right: 0)
         blinkyMovement2.chaseUpdate()
-        XCTAssertEqual(blinky2.currentDir, Direction.Up, "Blinky chase mode incorrectly reverse direction in dead end")
+        XCTAssertEqual(blinky2.currentDir, Direction.Right, "Blinky chase mode incorrectly reverse direction in dead end")
     }
     
-    func testBlinkyFrightenedMode() {
+    func testFrightenedMode() {
         let blinkyMovement1 = BlinkyAIMovememntControl(movableObject: blinky1)
         blinkyMovement1.dataSource = self
         
@@ -218,6 +218,52 @@ class AIMovementControlTests: XCTestCase {
         XCTAssertEqual(pinky2.currentDir, Direction.Down, "Pinky scatter mode is affected by Pacman's position")
         
     }
+    
+    func testPinkyChaseMode() {
+        let pinkyMovement1 = PinkyAIMovementControl(movableObject: pinky1)
+        pinkyMovement1.dataSource = self
+        let pinkyMovement2 = PinkyAIMovementControl(movableObject: pinky2)
+        pinkyMovement2.dataSource = self
+
+        pinky1.position = CGPointMake(CGFloat(1300), CGFloat(500))
+        pinky2.position = CGPointMake(CGFloat(200), CGFloat(300))
+        
+        pacman1.position = CGPointMake(CGFloat(1308), CGFloat(500))
+        pacman1.currentDir = Direction.Right
+        pacman2.position = CGPointMake(CGFloat(1300), CGFloat(504))
+        pacman2.currentDir = Direction.Up
+
+        // Tests for blinky1 in chase mode
+        pinkyMovement1.chaseUpdate()
+        XCTAssertEqual(pinky1.currentDir, Direction.Up, "Pinky chase mode corrctly chase the nearest pacman")
+
+        pinky1.changeDirection(Direction.Down)
+        pinkyMovement1.chaseUpdate()
+        XCTAssertEqual(pinky1.currentDir, Direction.Down, "Pinky chase mode incorrectly check update frame")
+
+        finishUpdateBuffer(pinkyMovement1, mode: GhostMovementMode.Chase, buffer: 3)
+        
+        pinkyMovement1.chaseUpdate()
+        XCTAssertNotEqual(pinky1.currentDir, Direction.Down, "Pinky chase mode incorrectly resume update frame")
+
+        
+        // Tests for blinky2 in chase mode
+        pacman1.position = CGPointMake(CGFloat(212), CGFloat(290))
+        pacman1.currentDir = Direction.Left
+        
+        pinkyMovement2.chaseUpdate()
+        XCTAssertEqual(pinky2.currentDir, Direction.Down, "Pinky chase mode incorrectly change Blinky's direction")
+
+        finishUpdateBuffer(pinkyMovement2, mode: GhostMovementMode.Scatter, buffer: 4)
+        pinky2.blocked.down = 1
+        pinkyMovement2.chaseUpdate()
+        XCTAssertEqual(pinky2.currentDir, Direction.Left, "Pinky chase mode incorrectly chase nearest pacman")
+
+        pinky2.blocked = (up: 1, down: 1, left: 1, right: 0)
+        pinkyMovement2.chaseUpdate()
+        XCTAssertEqual(pinky2.currentDir, Direction.Right, "Pinky chase mode incorrectly reverse direction in dead end")
+    }
+
 }
 
 extension AIMovementControlTests: MovementDataSource {
