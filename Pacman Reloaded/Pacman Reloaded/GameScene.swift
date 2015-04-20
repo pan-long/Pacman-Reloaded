@@ -202,6 +202,7 @@ class GameScene: SKScene {
         initGameScene()
         
         sceneDelegate.updateScore(pacman.score, dotsLeft: totalPacDots)
+        sceneDelegate.iniatilizeMovableObjectPosition()
         
         println("START")
     }
@@ -227,8 +228,10 @@ class GameScene: SKScene {
             ghost.update()
         }
         
-        // keep pacman at the center of the screen
+        // Keep pacman at the center of the screen
         setPacmanAtCenter()
+        // Update positions of movable objects in mini game scene as well
+        sceneDelegate.updateMovableObjectPosition()
     }
     
     deinit {
@@ -498,5 +501,25 @@ extension GameScene {
 
     private func adjustOriginForMovableObject(origin: CGPoint) -> CGPoint {
         return CGPoint(x: origin.x - Constants.GameScene.MovableObjectAdjustment, y: origin.y)
+    }
+}
+
+extension GameScene {
+    // Return an array of movable objects currently in the game scene
+    func getMovableObjects() -> [MovableObject] {
+        var res: [MovableObject] = []
+        res.append(pacman)
+        res = res + ghosts
+        return res
+    }
+    
+    // Return mappings of movable objects with their positions
+    func getMovableObjectsWithPosition() -> Dictionary<MovableObject, CGPoint> {
+        let movableObjects = getMovableObjects()
+        var res = Dictionary<MovableObject, CGPoint>()
+        for movableObj in movableObjects {
+            res[movableObj] = movableObj.position
+        }
+        return res
     }
 }

@@ -11,10 +11,12 @@ import SpriteKit
 
 class GameObject: SKNode {
     let objectId: Int
+    let image: String
     var sprite: SKSpriteNode
 
     init(id: Int, image: String, sizeScale: CGFloat) {
         self.objectId = id
+        self.image = image
         
         self.sprite = SKSpriteNode(imageNamed: image)
         super.init()

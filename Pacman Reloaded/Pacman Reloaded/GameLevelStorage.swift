@@ -11,7 +11,6 @@ import SpriteKit
 class GameLevelStorage {
     
     class func getGameLevels() -> [String] {
-        println(getAllFiles())
         return getAllFiles().filter({ (str: String) -> Bool in
             return str.pathExtension == "xml"
         }).map({ (str: String) -> String in
