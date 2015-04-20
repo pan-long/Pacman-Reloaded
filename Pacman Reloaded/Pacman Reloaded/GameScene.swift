@@ -394,7 +394,7 @@ extension GameScene {
                 
                 let xPos = CGFloat(gameObject["x"]!.toInt()!) // + width/2
                 let yPos = Constants.IPadHeight - CGFloat(gameObject["y"]!.toInt()!) // - height/2
-                let origin = CGPoint(x: xPos, y: yPos)
+                var origin = CGPoint(x: xPos, y: yPos)
                 println(origin)
                 
                 switch type {
@@ -424,33 +424,33 @@ extension GameScene {
                     self.totalPacDots++
                     break
                 case "pacman":
-                    addPacmanFromTMXFile(i, position: origin)
+                    addPacmanFromTMXFile(i, position: adjustOriginForMovableObject(origin))
                     
                     break
                 case "blinky":
                     var blinky = Ghost(id: i, imageName: "ghost-red")
-                    blinky.position = origin
+                    blinky.position = adjustOriginForMovableObject(origin)
                     addChild(blinky)
                     blinkys.append(blinky)
                     
                     break
                 case "pinky":
                     var pinky = Ghost(id: i, imageName: "ghost-yellow")
-                    pinky.position = origin
+                    pinky.position = adjustOriginForMovableObject(origin)
                     addChild(pinky)
                     pinkys.append(pinky)
                     
                     break
                 case "inky":
                     var inky = Ghost(id: i, imageName: "ghost-blue")
-                    inky.position = origin
+                    inky.position = adjustOriginForMovableObject(origin)
                     addChild(inky)
                     inkys.append(inky)
                     
                     break
                 case "clyde":
                     var clyde = Ghost(id: i, imageName: "ghost-orange")
-                    clyde.position = origin
+                    clyde.position = adjustOriginForMovableObject(origin)
                     addChild(clyde)
                     clydes.append(clyde)
                     
@@ -466,5 +466,9 @@ extension GameScene {
         pacman.position = position
         removeChildrenInArray([pacman])
         addChild(pacman)
+    }
+
+    private func adjustOriginForMovableObject(origin: CGPoint) -> CGPoint {
+        return CGPoint(x: origin.x - Constants.GameScene.MovableObjectAdjustment, y: origin.y)
     }
 }

@@ -691,16 +691,16 @@
         <image name="button-multiplayer" width="397" height="57"/>
         <image name="button-single-player" width="426" height="42"/>
         <image name="eraser" width="200" height="169"/>
-        <image name="ghost-blue-left" width="33" height="33"/>
-        <image name="ghost-orange-left" width="33" height="33"/>
-        <image name="ghost-red-left" width="33" height="33"/>
-        <image name="ghost-yellow-left" width="33" height="33"/>
+        <image name="ghost-blue-left" width="30" height="30"/>
+        <image name="ghost-orange-left" width="30" height="30"/>
+        <image name="ghost-red-left" width="30" height="30"/>
+        <image name="ghost-yellow-left" width="30" height="30"/>
         <image name="landing-page" width="1024" height="768"/>
         <image name="minimap-rectangle" width="200" height="200"/>
         <image name="pacdot" width="10" height="10"/>
-        <image name="pacman-female" width="33" height="33"/>
+        <image name="pacman-female" width="30" height="30"/>
         <image name="pacman-logo" width="684" height="125"/>
-        <image name="pacman-male" width="33" height="33"/>
+        <image name="pacman-male" width="30" height="30"/>
         <image name="super-pacdot-design" width="100" height="100"/>
         <image name="wall" width="200" height="100"/>
     </resources>
