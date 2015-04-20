@@ -234,7 +234,7 @@ class PinkyAIMovementControl: AIMovementControl {
     }
 }
 
-class InkyAIMovememntControl: AIMovementControl {
+class InkyAIMovementControl: AIMovementControl {
     private let INKY_CHASE_OFFSET: CGFloat = 4
     
     override func getHome() -> CGPoint {
@@ -270,7 +270,7 @@ class InkyAIMovememntControl: AIMovementControl {
     }
 }
 
-class ClydeAIMovememntControl: AIMovementControl {
+class ClydeAIMovementControl: AIMovementControl {
     private let CLYDE_SAFETY_COEFFICIENT: Double = 8
     
     override func getHome() -> CGPoint {

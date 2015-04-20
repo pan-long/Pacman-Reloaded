@@ -263,6 +263,48 @@ class AIMovementControlTests: XCTestCase {
         pinkyMovement2.chaseUpdate()
         XCTAssertEqual(pinky2.currentDir, Direction.Right, "Pinky chase mode incorrectly reverse direction in dead end")
     }
+    
+    func testInkyScatterMode() {
+        let inkyMovement1 = InkyAIMovementControl(movableObject: inky1)
+        inkyMovement1.dataSource = self
+        let inkyMovement2 = InkyAIMovementControl(movableObject: inky2)
+        inkyMovement2.dataSource = self
+        
+        inky1.position = CGPointMake(CGFloat(1300), CGFloat(500))
+        inky2.position = CGPointMake(CGFloat(200), CGFloat(300))
+        
+        // Tests for blinky1 in scatter mode
+        inkyMovement1.scatterUpdate()
+        XCTAssertEqual(inky1.currentDir, Direction.Down, "Inky scatter mode incorrectly change Blinky's direction")
+
+        inky1.changeDirection(.Up)
+        inkyMovement1.scatterUpdate()
+        XCTAssertEqual(inky1.currentDir, Direction.Up, "Inky scatter mode incorrectly check update frame")
+
+        finishUpdateBuffer(inkyMovement1, mode: GhostMovementMode.Scatter, buffer: 3)
+        
+        inky1.changeDirection(.Left)
+        inkyMovement1.scatterUpdate()
+        XCTAssertEqual(inky1.currentDir, Direction.Down, "Inky scatter mode incorrectly resume update frame")
+
+        inky1.blocked = (up: 0, down: 1, left: 1, right: 1)
+        inkyMovement1.scatterUpdate()
+        XCTAssertEqual(inky1.currentDir, Direction.Up, "Inky scatter mode incorrectly reverse direction in dead end")
+
+        
+        // Tests for blinky2 in scatter mode
+        inkyMovement2.scatterUpdate()
+        XCTAssertEqual(inky2.currentDir, Direction.Right, "Inky scatter mode incorrectly change Blinky's direction")
+
+        inky2.changeDirection(.Down)
+        inkyMovement2.scatterUpdate()
+        XCTAssertEqual(inky2.currentDir, Direction.Right, "Inky scatter mode incorrectly check update frame")
+
+        pacman1.position = CGPointMake(CGFloat(200), CGFloat(304))
+        inkyMovement2.scatterUpdate()
+        XCTAssertEqual(inky2.currentDir, Direction.Right, "Inky scatter mode is affected by Pacman's position")
+        
+    }
 
 }
 
