@@ -181,7 +181,7 @@ class AIMovementControlTests: XCTestCase {
         pinky1.position = CGPointMake(CGFloat(1300), CGFloat(500))
         pinky2.position = CGPointMake(CGFloat(200), CGFloat(300))
         
-        // Tests for blinky1 in scatter mode
+        // Tests for pinky1 in scatter mode
         pinkyMovement1.scatterUpdate()
         XCTAssertEqual(pinky1.currentDir, Direction.Up, "Pinky scatter mode incorrectly change Blinky's direction")
         
@@ -205,7 +205,7 @@ class AIMovementControlTests: XCTestCase {
         XCTAssertEqual(pinky1.currentDir, Direction.Right, "Pinky scatter mode incorrectly reverse direction in dead end")
 
         
-        // Tests for blinky2 in scatter mode
+        // Tests for pinky2 in scatter mode
         pinkyMovement2.scatterUpdate()
         XCTAssertEqual(pinky2.currentDir, Direction.Up, "Pinky scatter mode incorrectly change Blinky's direction")
 
@@ -233,7 +233,7 @@ class AIMovementControlTests: XCTestCase {
         pacman2.position = CGPointMake(CGFloat(1300), CGFloat(504))
         pacman2.currentDir = Direction.Up
 
-        // Tests for blinky1 in chase mode
+        // Tests for pinky1 in chase mode
         pinkyMovement1.chaseUpdate()
         XCTAssertEqual(pinky1.currentDir, Direction.Up, "Pinky chase mode corrctly chase the nearest pacman")
 
@@ -247,7 +247,7 @@ class AIMovementControlTests: XCTestCase {
         XCTAssertNotEqual(pinky1.currentDir, Direction.Down, "Pinky chase mode incorrectly resume update frame")
 
         
-        // Tests for blinky2 in chase mode
+        // Tests for pinky2 in chase mode
         pacman1.position = CGPointMake(CGFloat(212), CGFloat(290))
         pacman1.currentDir = Direction.Left
         
@@ -273,7 +273,7 @@ class AIMovementControlTests: XCTestCase {
         inky1.position = CGPointMake(CGFloat(1300), CGFloat(500))
         inky2.position = CGPointMake(CGFloat(200), CGFloat(300))
         
-        // Tests for blinky1 in scatter mode
+        // Tests for inky1 in scatter mode
         inkyMovement1.scatterUpdate()
         XCTAssertEqual(inky1.currentDir, Direction.Down, "Inky scatter mode incorrectly change Blinky's direction")
 
@@ -292,7 +292,7 @@ class AIMovementControlTests: XCTestCase {
         XCTAssertEqual(inky1.currentDir, Direction.Up, "Inky scatter mode incorrectly reverse direction in dead end")
 
         
-        // Tests for blinky2 in scatter mode
+        // Tests for inky2 in scatter mode
         inkyMovement2.scatterUpdate()
         XCTAssertEqual(inky2.currentDir, Direction.Right, "Inky scatter mode incorrectly change Blinky's direction")
 
@@ -322,7 +322,7 @@ class AIMovementControlTests: XCTestCase {
         pacman2.currentDir = Direction.Left
         blinky1.position = CGPointMake(CGFloat(1308), CGFloat(400))
         
-        // Tests for blinky1 in chase mode
+        // Tests for inky1 in chase mode
         inkyMovement1.chaseUpdate()
         XCTAssertEqual(inky1.currentDir, Direction.Up, "Inky chase mode corrctly chase the nearest pacman")
         
@@ -336,7 +336,7 @@ class AIMovementControlTests: XCTestCase {
         XCTAssertNotEqual(inky1.currentDir, Direction.Down, "Inky chase mode incorrectly resume update frame")
 
         
-        // Tests for blinky2 in chase mode
+        // Tests for inky2 in chase mode
         pacman1.position = CGPointMake(CGFloat(250), CGFloat(272))
         pacman1.currentDir = Direction.Up
         blinky1.position = CGPointMake(CGFloat(300), CGFloat(280))
@@ -352,6 +352,47 @@ class AIMovementControlTests: XCTestCase {
         inky2.blocked = (up: 1, down: 1, left: 1, right: 0)
         inkyMovement2.chaseUpdate()
         XCTAssertEqual(inky2.currentDir, Direction.Right, "Inky chase mode incorrectly reverse direction in dead end")
+    }
+    
+    func testClydeScatterMode() {
+        let clydeMovement1 = ClydeAIMovementControl(movableObject: clyde1)
+        clydeMovement1.dataSource = self
+        let clydeMovement2 = ClydeAIMovementControl(movableObject: clyde2)
+        clydeMovement2.dataSource = self
+        
+        clyde1.position = CGPointMake(CGFloat(1300), CGFloat(500))
+        clyde2.position = CGPointMake(CGFloat(200), CGFloat(300))
+
+        // Tests for clyde1 in scatter mode
+        clydeMovement1.scatterUpdate()
+        XCTAssertEqual(clyde1.currentDir, Direction.Down, "Clyde scatter mode incorrectly change Blinky's direction")
+
+        clyde1.changeDirection(.Up)
+        clydeMovement1.scatterUpdate()
+        XCTAssertEqual(clyde1.currentDir, Direction.Up, "Clyde scatter mode incorrectly check update frame")
+
+        finishUpdateBuffer(clydeMovement1, mode: GhostMovementMode.Scatter, buffer: 3)
+        
+        clyde1.changeDirection(.Down)
+        clydeMovement1.scatterUpdate()
+        XCTAssertEqual(clyde1.currentDir, Direction.Left, "Clyde scatter mode incorrectly resume update frame")
+
+        clyde1.blocked = (up: 1, down: 1, left: 1, right: 0)
+        clydeMovement1.scatterUpdate()
+        XCTAssertEqual(clyde1.currentDir, Direction.Right, "Clyde scatter mode incorrectly reverse direction in dead end")
+
+        
+        // Tests for clyde2 in scatter mode
+        clydeMovement2.scatterUpdate()
+        XCTAssertEqual(clyde2.currentDir, Direction.Down, "Clyde scatter mode incorrectly change Blinky's direction")
+        
+        clyde2.changeDirection(.Up)
+        clydeMovement2.scatterUpdate()
+        XCTAssertEqual(clyde2.currentDir, Direction.Up, "Clyde scatter mode incorrectly check update frame")
+
+        pacman1.position = CGPointMake(CGFloat(204), CGFloat(300))
+        clydeMovement2.scatterUpdate()
+        XCTAssertEqual(clyde2.currentDir, Direction.Up, "Clyde scatter mode is affected by Pacman's position")
     }
 
 }
