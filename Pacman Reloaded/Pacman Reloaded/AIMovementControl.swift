@@ -101,7 +101,7 @@ class AIMovementControl: MovementControl {
         stepsSinceUpdate = UPDATE_BUFFER
     }
     
-    func changeDirection(newDirection: Direction) {
+    private func changeDirection(newDirection: Direction) {
         if newDirection != movableObject.currentDir &&
             (isUpdateFrame() || movableObject.currentDir == .None) {
                 movableObject.changeDirection(newDirection)
@@ -109,6 +109,12 @@ class AIMovementControl: MovementControl {
         } else {
             stepsSinceUpdate += 1
         }
+    }
+    
+    private func forceReverse() {
+        let direction = movableObject.currentDir != .None ? movableObject.currentDir : movableObject.previousDir
+        movableObject.changeDirection(direction.opposite)
+        stepsSinceUpdate = 0
     }
     
     // MARK: AI Frightened Mode
@@ -119,6 +125,8 @@ class AIMovementControl: MovementControl {
             let superDice = Int(arc4random_uniform(UInt32(availableDirections.count)))
             
             changeDirection(availableDirections[superDice])
+        } else {
+            forceReverse()
         }
     }
     
@@ -129,25 +137,25 @@ class AIMovementControl: MovementControl {
         var nextDirection: Direction
         
         if availableDirections.isEmpty {
-            nextDirection = .None
+            forceReverse()
         } else {
             nextDirection = availableDirections[0]
-        }
         
-        var minDistanceFromHome: Double = MAX_DISTANCE
-        
-        for direction in availableDirections {
-            let distance = calculateDistance(
-                movableObject.getNextPosition(direction, offset: 1),
-                secondPostion: getHome())
+            var minDistanceFromHome: Double = MAX_DISTANCE
             
-            if distance < minDistanceFromHome {
-                minDistanceFromHome = distance
-                nextDirection = direction
+            for direction in availableDirections {
+                let distance = calculateDistance(
+                    movableObject.getNextPosition(direction, offset: 1),
+                    secondPostion: getHome())
+                
+                if distance < minDistanceFromHome {
+                    minDistanceFromHome = distance
+                    nextDirection = direction
+                }
             }
+            
+            changeDirection(nextDirection)
         }
-        
-        changeDirection(nextDirection)
     }
 
     
@@ -162,27 +170,27 @@ class AIMovementControl: MovementControl {
         var nextDirection: Direction
         
         if availableDirections.isEmpty {
-            nextDirection = .None
+            forceReverse()
         } else {
             nextDirection = availableDirections[0]
-        }
-        
-        var minDistanceToPacman: Double = MAX_DISTANCE
-        
-        for direction in availableDirections {
-            for pacman in dataSource.getPacmans() {
-                let distance = calculateDistance(
-                    movableObject.getNextPosition(direction, offset: 1),
-                    secondPostion: getChaseTarget(pacman))
-                
-                if distance < minDistanceToPacman {
-                    minDistanceToPacman = distance
-                    nextDirection = direction
+            
+            var minDistanceToPacman: Double = MAX_DISTANCE
+            
+            for direction in availableDirections {
+                for pacman in dataSource.getPacmans() {
+                    let distance = calculateDistance(
+                        movableObject.getNextPosition(direction, offset: 1),
+                        secondPostion: getChaseTarget(pacman))
+                    
+                    if distance < minDistanceToPacman {
+                        minDistanceToPacman = distance
+                        nextDirection = direction
+                    }
                 }
             }
+            
+            changeDirection(nextDirection)
         }
-        
-        changeDirection(nextDirection)
     }
     
     func getChaseTarget(visibleObject: MovableObject) -> CGPoint {
