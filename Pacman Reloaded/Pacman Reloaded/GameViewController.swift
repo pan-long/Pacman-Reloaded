@@ -144,6 +144,12 @@ class GameViewController: UIViewController {
     func quit() {
         self.presentingViewController?.dismissViewControllerAnimated(true, completion: nil)
     }
+    
+    func restart() {
+        self.dismissViewControllerAnimated(true, completion: nil)        
+        self.scene!.restart()
+        self.gameSceneView.scene?.view?.paused = false
+    }
 
     // pause button action
     @IBAction private func pauseBtnClicked(button: UIButton) {

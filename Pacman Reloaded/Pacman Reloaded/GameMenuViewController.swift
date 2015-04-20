@@ -37,9 +37,14 @@ class GameMenuViewController: UIViewController {
         presentingVC?.unpause()
     }
 
-    @IBAction func quitBubbonPressed(sender: UIButton) {
+    @IBAction func quitButtonPressed(sender: UIButton) {
         let presentingVC = self.presentingViewController? as? GameViewController
         presentingVC?.quit()
 
+    }
+    
+    @IBAction func restartButtonPressed(sender: UIButton) {
+        let presentingVC = self.presentingViewController? as? GameViewController
+        presentingVC?.restart()
     }
 }

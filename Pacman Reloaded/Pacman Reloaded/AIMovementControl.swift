@@ -26,6 +26,7 @@ enum GhostMovementMode {
 
 class AIMovementControl: MovementControl {
     private let MAX_DISTANCE: Double = 10000
+    private let UPDATE_BUFFER: Int = 4
     
     weak var movableObject: MovableObject!
     weak var dataSource: MovementDataSource!
@@ -33,10 +34,11 @@ class AIMovementControl: MovementControl {
     private var counter = 0
     private var currentMode = GhostMovementMode.Scatter
     private var currentModeDuration = 0
-    private var shouldUpdate = true
+    private var stepsSinceUpdate: Int
     
     required init(movableObject: MovableObject) {
         self.movableObject = movableObject
+        self.stepsSinceUpdate = UPDATE_BUFFER
     }
     
     // MARK: Update for movement control
@@ -76,12 +78,18 @@ class AIMovementControl: MovementControl {
                 break
             }
             currentModeDuration += 1
+            
+            // Record steps since update to prevent chaging direction too frequently
+            if movableObject.previousDir != movableObject.currentDir {
+                stepsSinceUpdate = 0
+            } else {
+                stepsSinceUpdate += 1
+            }
         }
     }
     
     private func isUpdateFrame() -> Bool {
-        shouldUpdate = !shouldUpdate
-        return shouldUpdate
+        return stepsSinceUpdate >= UPDATE_BUFFER
     }
     
     private func reverseDirection() {
@@ -99,7 +107,7 @@ class AIMovementControl: MovementControl {
         counter = 0
         currentMode = GhostMovementMode.Scatter
         currentModeDuration = 0
-        shouldUpdate = true
+        stepsSinceUpdate = UPDATE_BUFFER
     }
     
     // MARK: AI Frightened Mode

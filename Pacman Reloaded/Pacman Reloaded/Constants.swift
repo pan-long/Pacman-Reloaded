@@ -35,9 +35,9 @@ struct Constants {
         static let frightenedImage = "ghost-frightened"
         static let eatedImage = "ghost-eyes"
         static let imageSeparator = "-"
-        static let FrightenModeDuration: NSTimeInterval = 10
+        static let FrightenModeDuration: NSTimeInterval = 8
         static let FrightenModeBlinkDuration: NSTimeInterval = 0.2
-        static let FrightenModeBlinkCount = 3
+        static let FrightenModeBlinkCount = 5
     }
     struct PacMan {
         static let Width = CGFloat(30)
