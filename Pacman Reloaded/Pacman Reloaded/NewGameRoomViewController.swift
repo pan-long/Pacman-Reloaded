@@ -102,9 +102,10 @@ extension NewGameRoomViewController: MatchPeersDelegate {
             break
         case .NotConnected:
             // there is a problem connecting with the host, show an alert message
-            let index = find(players, playername)!
-            players.removeAtIndex(index)
-            tableView.deleteRowsAtIndexPaths([NSIndexPath(forRow: index + 1, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Fade)
+            if let index = find(players, playername) {
+                players.removeAtIndex(index)
+                tableView.deleteRowsAtIndexPaths([NSIndexPath(forRow: index + 1, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Fade)
+            }
             break
         default:
             break
@@ -122,6 +123,7 @@ extension NewGameRoomViewController: SessionDataDelegate {
     // Received data from remote player
     func session(didReceiveData data: NSData, fromPlayer playerName: String) {
         let unarchivedData: AnyObject? = NSKeyedUnarchiver.unarchiveObjectWithData(data)
+        println("recieved data")
         if let gameInitData = unarchivedData as? GameNetworkInitData {
             if let delegate = gameStartDelegate {
                 delegate.joinNewGame(gameInitData.mapContent, pacmanId: gameInitData.pacmanId, selfName: UIDevice.currentDevice().name, hostName: gameInitData.hostName, otherPlayersName: gameInitData.allPlayersName)

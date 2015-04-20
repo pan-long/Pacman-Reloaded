@@ -52,7 +52,7 @@ class MultiplayerGameScene: GameScene {
     }
     
     override func setupGameObjects() {
-        super.setupObjectsMovementControl()
+        super.setupGameObjects()
         
         // setup network delegate for movable objects that are controlled locally
         // local pacman has network delegate

@@ -57,9 +57,7 @@ class MultiplayerConnectivity: NSObject {
         session.delegate = self
     }
     
-    func sendData(toPlayer players: [String], data: NSCoding, error: NSErrorPointer) {
-        let dataToSend = NSKeyedArchiver.archivedDataWithRootObject(data)
-        
+    func sendData(toPlayer players: [String], data: NSData, error: NSErrorPointer) {
         var peerIDs = [MCPeerID]()
         for name in players {
             if let id = nameToPeerIDDict[name] {
@@ -67,7 +65,7 @@ class MultiplayerConnectivity: NSObject {
             }
         }
         
-        session.sendData(dataToSend, toPeers: peerIDs, withMode: MCSessionSendDataMode.Reliable, error: error)
+        session.sendData(data, toPeers: peerIDs, withMode: MCSessionSendDataMode.Reliable, error: error)
     }
     
     // the serviceType should be in the same format as a Bonjour service type

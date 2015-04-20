@@ -58,7 +58,8 @@ extension GameCenter: SessionDataDelegate {
             if selfName == hostName { // if the player is the host, it will receive the movementdata of other pacmans
                 let object = networkMovementControl!.movableObject
                 let correctedNetworkMovementData = GameNetworkMovementData(objectId: objectId, position: object.position, direction: objectMovementData.direction)
-                connectivity.sendData(toPlayer: otherPlayersName, data: correctedNetworkMovementData, error: nil)
+                let archivedData = NSKeyedArchiver.archivedDataWithRootObject(correctedNetworkMovementData)
+                connectivity.sendData(toPlayer: otherPlayersName, data: archivedData, error: nil)
             } else { // correct the location from host first
                 networkMovementControl?.correctPosition(objectMovementData.position)
             }
@@ -74,7 +75,8 @@ extension GameCenter: SessionDataDelegate {
             if pacman.score != pacmanScoreData.pacmanScore {
                 if selfName == hostName {
                     let correctedPacmanScoreData = GameNetworkPacmanScoreData(pacmanId: pacmanScoreData.pacmanId, pacmanScore: pacman.score)
-                    connectivity.sendData(toPlayer: otherPlayersName, data: correctedPacmanScoreData, error: nil)
+                    let archivedData = NSKeyedArchiver.archivedDataWithRootObject(correctedPacmanScoreData)
+                    connectivity.sendData(toPlayer: otherPlayersName, data: archivedData, error: nil)
                 } else {
                     pacman.score = pacmanScoreData.pacmanScore
                 }
@@ -86,21 +88,23 @@ extension GameCenter: SessionDataDelegate {
 extension GameCenter: GameSceneNetworkDelegate {
     func updateObjectMovementData(objectId: Int, newDirection: Direction, position: CGPoint) {
         let objectMovementData = GameNetworkMovementData(objectId: objectId, position: position, direction: newDirection)
+        let archivedData = NSKeyedArchiver.archivedDataWithRootObject(objectMovementData)
         
         if selfName == hostName {
-            connectivity.sendData(toPlayer: otherPlayersName, data: objectMovementData, error: nil)
+            connectivity.sendData(toPlayer: otherPlayersName, data: archivedData, error: nil)
         } else {
-            connectivity.sendData(toPlayer: [hostName], data: objectMovementData, error: nil)
+            connectivity.sendData(toPlayer: [hostName], data: archivedData, error: nil)
         }
     }
     
     func updatePacmanScore(pacmanId: Int, newScore: Int) {
         let pacmanScoreData = GameNetworkPacmanScoreData(pacmanId: pacmanId, pacmanScore: newScore)
+        let archivedData = NSKeyedArchiver.archivedDataWithRootObject(pacmanScoreData)
         
         if selfName == hostName {
-            connectivity.sendData(toPlayer: otherPlayersName, data: pacmanScoreData, error: nil)
+            connectivity.sendData(toPlayer: otherPlayersName, data: archivedData, error: nil)
         } else {
-            connectivity.sendData(toPlayer: [hostName], data: pacmanScoreData, error: nil)
+            connectivity.sendData(toPlayer: [hostName], data: archivedData, error: nil)
         }
     }
     

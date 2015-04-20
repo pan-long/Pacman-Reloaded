@@ -99,6 +99,7 @@ extension MultiplayerManagementViewController: UITableViewDataSource {
 
 extension MultiplayerManagementViewController: MatchPeersDelegate {
     func didReceiveInvitationFromPlayer(playerName: String, invitationHandler: ((Bool) -> Void)) {}
+    
     func session(player playername: String, didChangeState state: MCSessionState) {
         switch state {
         case .Connected:
@@ -162,7 +163,8 @@ extension MultiplayerManagementViewController: NewGameStartDelegate {
             
             for i in 0..<allPlayers.count {
                 let gameInitData = GameNetworkInitData(hostName: hostName, allPlayersName: allPlayers, pacmanId: pacmanIds[i], mapContent: self.mapContent!)
-                connectivity.sendData(toPlayer: [allPlayers[i]], data: gameInitData, error: nil)
+                let archivedData = NSKeyedArchiver.archivedDataWithRootObject(gameInitData)
+                connectivity.sendData(toPlayer: [allPlayers[i]], data: archivedData, error: nil)
             }
             
             self.pacmanId = pacmanIds.last!
@@ -171,9 +173,9 @@ extension MultiplayerManagementViewController: NewGameStartDelegate {
             self.otherPlayersName = allPlayers
             self.gameCenter = GameCenter(selfName: hostName, hostName: hostName, otherPlayersName: allPlayers, pacmanId: pacmanIds.last!, mapContent: self.mapContent!, connectivity: connectivity)
             
-            sourceVC.dismissViewControllerAnimated(true, completion: nil)
-            
-            performSegueWithIdentifier(Constants.Identifiers.MultiplayerGameSegueIdentifier, sender: self)
+            sourceVC.dismissViewControllerAnimated(true, completion: {() -> Void in
+                self.performSegueWithIdentifier(Constants.Identifiers.MultiplayerGameSegueIdentifier, sender: nil)
+            })
         }
     }
     
