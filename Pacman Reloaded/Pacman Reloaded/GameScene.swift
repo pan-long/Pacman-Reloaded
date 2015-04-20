@@ -137,12 +137,14 @@ class GameScene: SKScene {
     }
 
     private func setupMisc() {
-        self.superDotEvents = [{() -> Void in
-            self.frightenGhost()
+        self.superDotEvents = [
+            {() -> Void in
+                self.frightenGhost()
             },
             {() -> Void in
                 self.spotLightMode()
-        }]
+            }
+        ]
     }
     private func setupGameObjects() {
         if let fileName = fileName {
