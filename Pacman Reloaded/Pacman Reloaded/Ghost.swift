@@ -36,9 +36,11 @@ class Ghost: MovableObject {
         set (newValue) {
             if newValue && _currentMode == .Normal {
                 _currentMode = .Frightened
+                self.currentSpeed = Constants.Ghost.FrightenSpeed
                 self.currentDir = self.currentDir.opposite
             } else if !newValue {
                 _currentMode = .Normal
+                self.currentSpeed = Constants.Ghost.speed
             }
         }
     }
@@ -50,6 +52,7 @@ class Ghost: MovableObject {
         set (newValue) {
             if newValue && _currentMode == .Frightened {
                 _currentMode = .Eaten
+                self.currentSpeed = Constants.Ghost.EatenSpeed
                 self.currentDir = self.currentDir.opposite
             } else if !newValue {
                 _currentMode = .Normal

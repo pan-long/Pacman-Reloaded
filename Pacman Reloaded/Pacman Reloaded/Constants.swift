@@ -31,6 +31,8 @@ struct Constants {
 
     struct Ghost {
         static let speed = CGFloat(4)
+        static let FrightenSpeed = CGFloat(2)
+        static let EatenSpeed = CGFloat(6)
         static let defaultImageSuffix = "-right"
         static let frightenedImage = "ghost-frightened"
         static let eatedImage = "ghost-eyes"
