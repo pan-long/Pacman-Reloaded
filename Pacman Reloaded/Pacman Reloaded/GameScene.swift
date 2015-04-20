@@ -26,6 +26,8 @@ class GameScene: SKScene {
     var totalPacDots:Int = 0
     var frightenTimer: NSTimer?
     var spotLightTimer: NSTimer?
+    
+    var spotLightView: SpotLightUIView!
 
     var pacmanMovement: GestureMovementControl!
 
@@ -42,8 +44,6 @@ class GameScene: SKScene {
     
     var fileName: String?
     
-    var spotLightView: SpotLightUIView!
-    
     override func didMoveToView(view: SKView) {
         physicsWorld.gravity = CGVectorMake(0, 0)
         physicsWorld.contactDelegate = self
@@ -58,7 +58,6 @@ class GameScene: SKScene {
         spotLightView = SpotLightUIView(
             spotLightCenter: spotLightCenter,
             frame: spotLightViewFrame)
-        
         initGameObjects()
         setupGameObjects()
         setupMovementControls()
@@ -160,6 +159,12 @@ class GameScene: SKScene {
         if frightenTimer != nil {
             self.frightenTimer!.invalidate()
             self.frightenTimer = nil
+        }
+        
+        if spotLightTimer != nil {
+            self.spotLightTimer!.invalidate()
+            self.spotLightTimer = nil
+            spotLightView.removeFromSuperview()
         }
 
         initGameObjects()
@@ -295,7 +300,6 @@ extension GameScene: SKPhysicsContactDelegate {
     
     func endSpotLightMode(timer: NSTimer) {
         spotLightView.removeFromSuperview()
-        spotLightTimer = nil
     }
 
     private func frightenGhost() {
