@@ -93,6 +93,15 @@ class AIMovementControlTests: XCTestCase {
         blinkyMovement1.scatterUpdate()
         XCTAssertEqual(blinky1.currentDir, Direction.Right, "Blinky scatter mode does not update when there are no paths")
         
+        finishUpdateBuffer(blinkyMovement1, mode: GhostMovementMode.Scatter, buffer: 4)
+        
+        blinkyMovement1.scatterUpdate()
+        XCTAssertEqual(blinky1.currentDir, Direction.Up, "Blinky scatter mode incorrectly resume update frame")
+        
+        blinky1.blocked = (up: 1, down: 0, left: 1, right: 1)
+        blinkyMovement1.scatterUpdate()
+        XCTAssertEqual(blinky1.currentDir, Direction.Down, "Blinky scatter mode incorrectly reverse direction in dead end")
+        
         blinkyMovement2.scatterUpdate()
         XCTAssertEqual(blinky2.currentDir, Direction.Right, "Blinky scatter mode incorrectly change Blinky's direction")
         
