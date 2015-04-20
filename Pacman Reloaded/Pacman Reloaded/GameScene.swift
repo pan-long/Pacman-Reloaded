@@ -399,7 +399,7 @@ extension GameScene {
                 
                 switch type {
                 case "boundary":
-                    size = CGSize(width: 35, height: 35)
+                    size = CGSize(width: 40, height: 40)
                     let boundary = Boundary(size: size, isExterior: false)
                     addChild(boundary)
                     boundary.position = origin
