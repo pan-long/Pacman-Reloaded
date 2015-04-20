@@ -46,7 +46,6 @@ class GameViewController: UIViewController {
     private var mapData: [Dictionary<String, String>]!
     
     private let newGameIdentifier = Constants.Identifiers.NewGameService
-    private var connectivity: MultiplayerConnectivity?
     private var gameCenter: GameCenter?
     
     override func viewDidLoad() {
@@ -68,10 +67,6 @@ class GameViewController: UIViewController {
     
     func setupMultiplayerGame(fromMap mapData: [Dictionary<String, String>], pacmanId: Int, isHost: Bool, gameCenter: GameCenter) {
         setupGameProperties(fromMap: mapData, pacmanId: pacmanId, isMultiplayerMode: true, isHost: isHost)
-        
-        connectivity = MultiplayerConnectivity(name: UIDevice.currentDevice().name)
-        connectivity!.stopServiceBrowsing()
-        connectivity!.startServiceAdvertising(Constants.Identifiers.NewGameService, discoveryInfo: [NSObject: AnyObject]())
         
         self.gameCenter = gameCenter
     }
@@ -220,11 +215,6 @@ class GameViewController: UIViewController {
     }
 
     deinit {
-        if isMultiplayerMode {
-            connectivity!.stopServiceAdvertising()
-            connectivity!.stopServiceBrowsing()
-        }
-        
         println("deinit Game")
     }
 }
@@ -254,49 +244,6 @@ extension GameViewController: GameSceneDelegate {
         
         self.presentViewController(alertVC, animated: true, completion: nil)
 
-    }
-}
-
-extension GameViewController: MatchPeersDelegate {
-    func browser(lostPlayer playerName: String) {}
-    func browser(foundPlayer playerName: String, withDiscoveryInfo info: [NSObject : AnyObject]?) {}
-    
-    func didReceiveInvitationFromPlayer(playerName: String, invitationHandler: ((Bool) -> Void)) {
-        var alert = UIAlertController(title: "Joining Game",
-            message: "\(playerName) is asking to join your game. Allow?",
-            preferredStyle: .Alert)
-        
-        let joinGameAction = UIAlertAction(title: "Yes", style: .Default,
-            handler: { (action) -> Void in
-                invitationHandler(true)
-        })
-        
-        let cancelAction = UIAlertAction(title: "No", style: .Cancel,
-            handler: { (action) -> Void in
-                invitationHandler(false)
-        })
-        
-        alert.addAction(cancelAction)
-        alert.addAction(joinGameAction)
-        
-        self.presentViewController(alert, animated: true, completion: nil)
-    }
-    
-    func session(player playername: String, didChangeState state: MCSessionState) {
-        switch state {
-        case .Connected:
-            println("connected")
-            break
-        case .Connecting:
-            println("connecting")
-            break
-        case .NotConnected:
-            // Player disconnected from game
-            println("not connected")
-            break
-        default:
-            break
-        }
     }
 }
 

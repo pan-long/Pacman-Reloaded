@@ -195,15 +195,6 @@
                                     <segue destination="7jJ-nl-2nd" kind="unwind" unwindAction="unwindToThisViewController:" id="SWI-jD-h78"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m6s-Ps-EOV">
-                                <rect key="frame" x="127" y="135" width="46" height="30"/>
-                                <state key="normal" title="Restart">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="restartButtonPressed:" destination="vz7-Ml-Qja" eventType="touchUpInside" id="1iF-5C-386"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GIg-RD-r2O">
                                 <rect key="frame" x="122" y="80" width="56" height="30"/>
                                 <state key="normal" title="Resume">
@@ -211,6 +202,18 @@
                                 </state>
                                 <connections>
                                     <action selector="cancelButtonPressed:" destination="vz7-Ml-Qja" eventType="touchUpInside" id="fad-aw-eWR"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m6s-Ps-EOV">
+                                <rect key="frame" x="118" y="135" width="65" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="65" id="AwL-NL-M7p"/>
+                                </constraints>
+                                <state key="normal" title="Restart">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="restartButtonPressed:" destination="vz7-Ml-Qja" eventType="touchUpInside" id="1iF-5C-386"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -308,6 +311,78 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="I1B-gd-fci" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="311" y="1150"/>
+        </scene>
+        <!--New Game Room View Controller-->
+        <scene sceneID="bvM-Tu-MJ1">
+            <objects>
+                <viewController storyboardIdentifier="gameRoomVC" modalPresentationStyle="formSheet" id="Kzh-3c-RYv" customClass="NewGameRoomViewController" customModule="Pacman_Reloaded" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="I8R-xL-lb8"/>
+                        <viewControllerLayoutGuide type="bottom" id="tqY-74-meu"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="tzf-vV-2q5">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="New Game" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W1r-pF-NWk">
+                                <rect key="frame" x="84" y="28" width="128" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="o26-IT-pMB"/>
+                                    <constraint firstAttribute="width" constant="128" id="qwO-XF-uQR"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qW6-Np-hy2">
+                                <rect key="frame" x="279" y="550" width="33" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="9L7-HK-Yta"/>
+                                    <constraint firstAttribute="width" constant="33" id="g9p-RF-paM"/>
+                                </constraints>
+                                <state key="normal" title="Start">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="startBtnPressed:" destination="Kzh-3c-RYv" eventType="touchUpInside" id="JXn-fo-b7Y"/>
+                                </connections>
+                            </button>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="z4S-eM-cKx">
+                                <rect key="frame" x="84" y="57" width="432" height="485"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="432" id="lAV-Fj-pzp"/>
+                                </constraints>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="gameRoomPlayerCell" id="V8k-Ot-Svp">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="V8k-Ot-Svp" id="8c0-fv-qIU">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="centerX" secondItem="qW6-Np-hy2" secondAttribute="centerX" constant="4.5" id="6sg-uZ-CFz"/>
+                            <constraint firstItem="z4S-eM-cKx" firstAttribute="top" secondItem="W1r-pF-NWk" secondAttribute="bottom" constant="8" id="GeJ-Ob-29S"/>
+                            <constraint firstItem="W1r-pF-NWk" firstAttribute="top" secondItem="I8R-xL-lb8" secondAttribute="bottom" constant="8" id="HIK-mm-uT6"/>
+                            <constraint firstAttribute="centerX" secondItem="z4S-eM-cKx" secondAttribute="centerX" id="ZPP-bF-Ucr"/>
+                            <constraint firstItem="W1r-pF-NWk" firstAttribute="leading" secondItem="tzf-vV-2q5" secondAttribute="leadingMargin" constant="68" id="wsx-xx-1s0"/>
+                            <constraint firstItem="qW6-Np-hy2" firstAttribute="top" secondItem="z4S-eM-cKx" secondAttribute="bottom" constant="8" id="xpu-aV-hmq"/>
+                            <constraint firstItem="tqY-74-meu" firstAttribute="top" secondItem="qW6-Np-hy2" secondAttribute="bottom" constant="20" id="y0e-oc-g1p"/>
+                        </constraints>
+                    </view>
+                    <value key="contentSizeForViewInPopover" type="size" width="600" height="600"/>
+                    <connections>
+                        <outlet property="startBtn" destination="qW6-Np-hy2" id="G5k-uc-JHM"/>
+                        <outlet property="tableView" destination="z4S-eM-cKx" id="Z11-w0-uLN"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="YZH-ki-RXb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1034" y="1138"/>
         </scene>
         <!--Game Level Design View Controller-->
         <scene sceneID="ytM-0y-frn">
@@ -641,16 +716,16 @@
         <image name="button-multiplayer" width="397" height="57"/>
         <image name="button-single-player" width="426" height="42"/>
         <image name="eraser" width="200" height="169"/>
-        <image name="ghost-blue-left" width="33" height="33"/>
-        <image name="ghost-orange-left" width="33" height="33"/>
-        <image name="ghost-red-left" width="33" height="33"/>
-        <image name="ghost-yellow-left" width="33" height="33"/>
+        <image name="ghost-blue-left" width="30" height="30"/>
+        <image name="ghost-orange-left" width="30" height="30"/>
+        <image name="ghost-red-left" width="30" height="30"/>
+        <image name="ghost-yellow-left" width="30" height="30"/>
         <image name="landing-page" width="1024" height="768"/>
         <image name="minimap-rectangle" width="200" height="200"/>
         <image name="pacdot" width="10" height="10"/>
-        <image name="pacman-female" width="33" height="33"/>
+        <image name="pacman-female" width="30" height="30"/>
         <image name="pacman-logo" width="684" height="125"/>
-        <image name="pacman-male" width="33" height="33"/>
+        <image name="pacman-male" width="30" height="30"/>
         <image name="super-pacdot-design" width="100" height="100"/>
         <image name="wall" width="200" height="100"/>
     </resources>

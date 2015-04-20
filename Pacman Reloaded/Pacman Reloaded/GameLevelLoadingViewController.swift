@@ -14,8 +14,8 @@ protocol GameLevelLoadingDelegate: class {
 
 class GameLevelLoadingViewController: UIViewController {
     
-    @IBOutlet var gameLevelsTable: UITableView!
-    @IBOutlet var gameLevelPreview: UIImageView!
+    @IBOutlet weak var gameLevelsTable: UITableView!
+    @IBOutlet weak var gameLevelPreview: UIImageView!
     let allFiles = GameLevelStorage.getGameLevels()
     
     var fileSelected: String?

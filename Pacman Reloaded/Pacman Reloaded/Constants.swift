@@ -69,6 +69,7 @@ struct Constants {
         
         // Cell reuse identifier
         static let NewGameTableCell = "newGame"
+        static let NewGameRoomPlayerCell = "gameRoomPlayerCell"
         static let GameLevelTableCell = "gameLevelTableCell"
         
         // Segue identifier

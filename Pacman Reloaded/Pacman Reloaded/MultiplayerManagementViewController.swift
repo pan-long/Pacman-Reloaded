@@ -19,6 +19,7 @@ class MultiplayerManagementViewController: UIViewController {
     private var connectivity = MultiplayerConnectivity(name: UIDevice.currentDevice().name) // Current iPad name
     
     private var pacmanId = 0
+    private var mapContent: [Dictionary<String, String>]?
     
     override func viewDidLoad() {
         view.backgroundColor = UIColor.blackColor()
@@ -36,8 +37,10 @@ class MultiplayerManagementViewController: UIViewController {
     }
     
     @IBAction func createNewGame(sender: AnyObject) {
-        pacmanId = 0
-        performSegueWithIdentifier(Constants.Identifiers.MultiplayerGameSegueIdentifier, sender: self)
+        var levelSelectionVC = self.storyboard?.instantiateViewControllerWithIdentifier("gameLevelSelection") as GameLevelLoadingViewController
+        
+        levelSelectionVC.delegate = self
+        self.presentViewController(levelSelectionVC, animated: true, completion: nil)
     }
     
     @IBAction func BackToHome(sender: AnyObject) {
@@ -93,10 +96,14 @@ extension MultiplayerManagementViewController: MatchPeersDelegate {
         switch state {
         case .Connected:
             // connected with host, enter game and set game scene
-            performSegueWithIdentifier(Constants.Identifiers.MultiplayerGameSegueIdentifier, sender: nil)
             break
         case .Connecting:
             // try connecting to the host, show an indicator with cancel button
+            var gameRoomVC = self.storyboard?.instantiateViewControllerWithIdentifier("gameRoomVC") as NewGameRoomViewController
+            connectivity.stopServiceBrowsing()
+            connectivity.matchDelegate = self
+            self.presentViewController(gameRoomVC, animated: true, completion: nil)
+            
             break
         case .NotConnected:
             // there is a problem connecting with the host, show an alert message
@@ -118,5 +125,22 @@ extension MultiplayerManagementViewController: MatchPeersDelegate {
             gameIndices.removeValueForKey(playerName)
             newGameTable.reloadData()
         }
+    }
+}
+
+extension MultiplayerManagementViewController: GameLevelLoadingDelegate {
+    func didSelectedLevel(sourceVC: UIViewController, mapContent: [Dictionary<String, String>]) {
+        self.mapContent = mapContent
+        sourceVC.dismissViewControllerAnimated(true, completion: {() -> Void in
+            self.presentGameRoomVC()
+        })
+    }
+    
+    private func presentGameRoomVC() {
+        var gameRoomVC = self.storyboard?.instantiateViewControllerWithIdentifier("gameRoomVC") as NewGameRoomViewController
+        connectivity.stopServiceBrowsing()
+        connectivity.matchDelegate = gameRoomVC
+        connectivity.startServiceAdvertising(Constants.Identifiers.NewGameService, discoveryInfo: [NSObject: AnyObject]())
+        self.presentViewController(gameRoomVC, animated: true, completion: nil)
     }
 }
