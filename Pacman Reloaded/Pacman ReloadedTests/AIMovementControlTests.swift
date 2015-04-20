@@ -394,6 +394,48 @@ class AIMovementControlTests: XCTestCase {
         clydeMovement2.scatterUpdate()
         XCTAssertEqual(clyde2.currentDir, Direction.Up, "Clyde scatter mode is affected by Pacman's position")
     }
+    
+    func testClydeChaseMode() {
+        let clydeMovement1 = ClydeAIMovementControl(movableObject: clyde1)
+        clydeMovement1.dataSource = self
+        let clydeMovement2 = ClydeAIMovementControl(movableObject: clyde2)
+        clydeMovement2.dataSource = self
+        
+        clyde1.position = CGPointMake(CGFloat(1300), CGFloat(500))
+        clyde2.position = CGPointMake(CGFloat(200), CGFloat(300))
+        
+        pacman1.position = CGPointMake(CGFloat(1300), CGFloat(600))
+        pacman2.position = CGPointMake(CGFloat(1700), CGFloat(500))
+        
+        // Tests for clyde1 in chase mode
+        clydeMovement1.chaseUpdate()
+        XCTAssertEqual(clyde1.currentDir, Direction.Up, "Clyde chase mode corrctly chase the nearest pacman")
+
+        clyde1.changeDirection(Direction.Right)
+        clydeMovement1.chaseUpdate()
+        XCTAssertEqual(clyde1.currentDir, Direction.Right, "Clyde chase mode incorrectly check update frame")
+
+        finishUpdateBuffer(clydeMovement1, mode: GhostMovementMode.Chase, buffer: 3)
+        
+        clydeMovement1.chaseUpdate()
+        XCTAssertNotEqual(clyde1.currentDir, Direction.Right, "Clyde chase mode incorrectly resume update frame")
+
+        
+        // Tests for iclyde2 in chase mode
+        pacman1.position = CGPointMake(CGFloat(200), CGFloat(305))
+
+        clydeMovement2.chaseUpdate()
+        XCTAssertEqual(clyde2.currentDir, Direction.Down, "Clyde chase mode incorrectly change Blinky's direction")
+
+        finishUpdateBuffer(clydeMovement2, mode: GhostMovementMode.Scatter, buffer: 4)
+        clyde2.blocked.down = 1
+        clydeMovement2.chaseUpdate()
+        XCTAssertEqual(clyde2.currentDir, Direction.Left, "Clyde chase mode incorrectly chase nearest pacman")
+
+        clyde2.blocked = (up: 1, down: 1, left: 1, right: 0)
+        clydeMovement2.chaseUpdate()
+        XCTAssertEqual(clyde2.currentDir, Direction.Right, "Clyde chase mode incorrectly reverse direction in dead end")
+    }
 
 }
 
