@@ -14,7 +14,7 @@ protocol NewGameStartDelegate: class {
     func joinNewGame(sourceVC: UIViewController, mapContent: [Dictionary<String, String>], pacmanId: Int, selfName: String, hostName: String, otherPlayersName: [String], miniMapImage: UIImage)
 }
 
-class NewGameRoomViewController: PopoverViewController {
+class NewGameRoomViewController: MenuController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var startBtn: UIButton!
     

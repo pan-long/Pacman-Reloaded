@@ -17,7 +17,7 @@ protocol GameLevelLoadingDelegate: class {
     func willCancel(sourceVC: UIViewController)
 }
 
-class GameLevelLoadingViewController: PopoverViewController {
+class GameLevelLoadingViewController: MenuController {
     @IBOutlet weak var loadButton: UIButton!
     @IBOutlet weak var gameLevelsTable: UITableView!
     @IBOutlet weak var gameLevelPreview: UIImageView!

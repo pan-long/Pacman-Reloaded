@@ -8,7 +8,7 @@
 
 import UIKit
 
-class GameMenuViewController: PopoverViewController {
+class GameMenuViewController: MenuController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

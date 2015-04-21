@@ -8,7 +8,7 @@
 
 import SpriteKit
 
-class GameLevelSaveFileViewController: PopoverViewController {
+class GameLevelSaveFileViewController: MenuController {
     
     @IBOutlet weak var fileNameTextField: UITextField!
     @IBOutlet weak var saveButton: UIButton!
