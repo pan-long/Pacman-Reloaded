@@ -70,6 +70,7 @@ class GameViewController: UIViewController {
         
         setupGameScene()
         addGameSceneToView()
+        setupMiniMap()
     }
     
     func setupMultiplayerGame(fromMap mapData: [Dictionary<String, String>], pacmanId: Int, isHost: Bool, gameCenter: GameCenter, miniMapImage: UIImage) {
@@ -92,9 +93,8 @@ class GameViewController: UIViewController {
         if isMultiplayerMode {
             setupGameScene()
             addGameSceneToView()
+            setupMiniMap()
         }
-        
-        setupMiniMap()
     }
     
     override func viewDidAppear(animated: Bool) {
