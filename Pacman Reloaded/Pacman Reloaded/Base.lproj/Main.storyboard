@@ -101,8 +101,9 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pyo-kd-IU5">
-                                <rect key="frame" x="122" y="259" width="322" height="250"/>
-                                <state key="normal" image="button-create-new-room">
+                                <rect key="frame" x="140" y="164" width="745" height="33"/>
+                                <fontDescription key="fontDescription" name="Copperplate" family="Copperplate" pointSize="40"/>
+                                <state key="normal" title="New Multiplayer Game">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -119,7 +120,7 @@
                                 </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="RJc-ZM-ZFI">
-                                <rect key="frame" x="484" y="53" width="510" height="621"/>
+                                <rect key="frame" x="257" y="388" width="510" height="312"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="newGame" id="nc4-op-Kzv">
@@ -131,6 +132,21 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="multiplayer" translatesAutoresizingMaskIntoConstraints="NO" id="ATE-Xw-Z9Z">
+                                <rect key="frame" x="212" y="50" width="600" height="60"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Join Existing Games" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Lq-fh-5Ja">
+                                <rect key="frame" x="140" y="298" width="745" height="41"/>
+                                <fontDescription key="fontDescription" name="Copperplate" family="Copperplate" pointSize="40"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="OR" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E0D-hm-FXw">
+                                <rect key="frame" x="140" y="239" width="745" height="33"/>
+                                <fontDescription key="fontDescription" name="Copperplate" family="Copperplate" pointSize="25"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -721,7 +737,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="6.4000000000000909" height="6.4000000000000909"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="6.5" height="6.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
@@ -865,7 +881,6 @@
         <image name="arrow-left" width="100" height="100"/>
         <image name="arrow-right" width="100" height="100"/>
         <image name="arrow-up" width="100" height="100"/>
-        <image name="button-create-new-room" width="267" height="250"/>
         <image name="eraser" width="200" height="169"/>
         <image name="ghost-blue-down" width="30" height="30"/>
         <image name="ghost-blue-left" width="30" height="30"/>
@@ -875,6 +890,7 @@
         <image name="landing-page" width="1120" height="838"/>
         <image name="logo" width="684" height="125"/>
         <image name="minimap-rectangle" width="200" height="200"/>
+        <image name="multiplayer" width="2000" height="200"/>
         <image name="pacdot-design" width="100" height="100"/>
         <image name="pacman-female" width="30" height="30"/>
         <image name="pacman-logo" width="684" height="125"/>
