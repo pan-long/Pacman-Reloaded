@@ -248,7 +248,9 @@ extension GameViewController: GameSceneDelegate {
     }
     
     func stopLightView() {
-        miniMapLightView.hidden = true
+        if miniMapLightView != nil {
+            miniMapLightView.hidden = true            
+        }
     }
 }
 

@@ -53,7 +53,7 @@ class AIMovementControl: MovementControl {
         }
         
         // If counter exceed indefinite chase -> chase update
-        if counter > Constants.AIMovementControl.INDEFINITE_CHASE {
+        if counter > Constants.AIMovementControl.IndefiniteChase {
             println("Indefinite chase")
             chaseUpdate()
         }
@@ -62,13 +62,13 @@ class AIMovementControl: MovementControl {
         // Update movable object's direction
         switch currentMode {
         case .Scatter:
-            if currentModeDuration > Constants.AIMovementControl.SCATTER_MODE_DURATION {
+            if currentModeDuration > Constants.AIMovementControl.ScatterModeDuration {
                 changeMode(.Chase)
             } else {
                 scatterUpdate()
             }
         case .Chase:
-            if currentModeDuration > Constants.AIMovementControl.CHASE_MODE_DURATION {
+            if currentModeDuration > Constants.AIMovementControl.ChaseModeDuration {
                 changeMode(.Scatter)
             } else {
                 chaseUpdate()

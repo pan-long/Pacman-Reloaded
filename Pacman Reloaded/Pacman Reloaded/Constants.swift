@@ -10,8 +10,6 @@ import SpriteKit
 import Foundation
 
 struct Constants {
-    static let gameResumeCountDownNumber = 3
-    
     static let IPadWidth = CGFloat(1024)
     static let IPadHeight = CGFloat(768)
     static let FrameInterval = 2
@@ -140,9 +138,9 @@ struct Constants {
         static let GameSceneMaxX = Constants.GameScene.GridWidth  * CGFloat(Constants.GameScene.NumberOfColumns)
         static let GameSceneMaxY = Constants.GameScene.GridHeight * CGFloat(Constants.GameScene.NumberOfRows)
         
-        static let INDEFINITE_CHASE = 2100
-        static let CHASE_MODE_DURATION = 400
-        static let SCATTER_MODE_DURATION = 100
+        static let IndefiniteChase = 2100
+        static let ChaseModeDuration = 400
+        static let ScatterModeDuration = 100
     }
 
     struct MainMenu {
