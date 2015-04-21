@@ -34,7 +34,6 @@ class GameViewController: GameBackgroundViewController, GameEndDelegate {
     @IBOutlet weak var remainingDots: UILabel!
     @IBOutlet weak var miniMap: UIImageView!
     
-    
     var scene: GameScene?
     
     // Single player mode is the default and the play self hosts the game
@@ -51,6 +50,7 @@ class GameViewController: GameBackgroundViewController, GameEndDelegate {
     
     private var miniMapMovableObjects = Dictionary<MovableObject, UIImageView>()
     private var miniMapImage: UIImage?
+    private var miniMapLightView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -236,8 +236,19 @@ extension GameViewController: GameSceneDelegate {
         updateMiniMap()
     }
     
-    func setupLightViewOnMiniMap() {
-        println("light view!")
+    func startLightView() {
+        if miniMapLightView == nil {
+            miniMapLightView = UIView()
+            miniMapLightView.frame.origin = miniMap.frame.origin
+            miniMapLightView.frame.size = miniMap.frame.size
+            miniMapLightView.backgroundColor = UIColor.blackColor()
+            view.addSubview(miniMapLightView)
+        }
+        miniMapLightView.hidden = false
+    }
+    
+    func stopLightView() {
+        miniMapLightView.hidden = true
     }
 }
 

@@ -106,8 +106,8 @@ class GameLevelDesignViewController: GameBackgroundViewController {
         // Disable changing the outmost rectangular bound
         let numOfRows = Constants.GameScene.NumberOfRows
         let numOfColumns = Constants.GameScene.NumberOfColumns
-        if indexPath.section > 0 && indexPath.section < numOfRows &&
-            indexPath.row > 0 && indexPath.section < numOfColumns {
+        if indexPath.section > 0 && indexPath.section < numOfRows - 1 &&
+            indexPath.row > 0 && indexPath.row < numOfColumns - 1 {
                 setCellToSelected(indexPath)
         }
     }

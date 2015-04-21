@@ -20,5 +20,6 @@ protocol GameSceneDelegate: class {
     func iniatilizeMovableObjectPosition()
     
     // When the light view is in effect on the main scene, the miniMap also needs special effect
-    func setupLightViewOnMiniMap()
+    func startLightView()
+    func stopLightView()
 }
