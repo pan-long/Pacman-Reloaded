@@ -207,6 +207,10 @@ class GameLevelDesignViewController: GameBackgroundViewController {
         return CGPoint(x: Constants.GameScene.DesignAreaMinX + designArea.contentOffset.x,
             y: Constants.GameScene.DesignAreaMinY + designArea.contentOffset.y)
     }
+    
+    func getNumberOfPacmans() -> Int {
+        return numberOfPacmans
+    }
 }
 
 extension GameLevelDesignViewController {
