@@ -168,7 +168,6 @@ extension MultiplayerManagementViewController: NewGameStartDelegate {
     func startNewGame(sourceVC: UIViewController, hostName: String, allPlayers: [String]) {
         if let mapContent = mapContent {
             let pacmanIds = extractPacmanIdsFromMap(mapContent)
-            println(pacmanIds)
             self.mapContent = removeExtraPacmans(mapContent, pacmanIds: pacmanIds, count: allPlayers.count + 1)
             
             println(allPlayers)
@@ -179,11 +178,11 @@ extension MultiplayerManagementViewController: NewGameStartDelegate {
                 println("sent data")
             }
             
-            self.pacmanId = pacmanIds.last!
+            self.pacmanId = pacmanIds[allPlayers.count]
             self.selfName = hostName
             self.hostName = hostName
             self.otherPlayersName = allPlayers
-            self.gameCenter = GameCenter(selfName: hostName, hostName: hostName, otherPlayersName: allPlayers, pacmanId: pacmanIds.last!, mapContent: self.mapContent!, connectivity: connectivity)
+            self.gameCenter = GameCenter(selfName: hostName, hostName: hostName, otherPlayersName: allPlayers, pacmanId: pacmanId, mapContent: self.mapContent!, connectivity: connectivity)
             
             sourceVC.dismissViewControllerAnimated(true, completion: {() -> Void in
                 self.performSegueWithIdentifier(Constants.Identifiers.MultiplayerGameSegueIdentifier, sender: nil)
@@ -191,7 +190,7 @@ extension MultiplayerManagementViewController: NewGameStartDelegate {
         }
     }
     
-    func joinNewGame(mapContent: [Dictionary<String, String>], pacmanId: Int, selfName: String, hostName: String, otherPlayersName: [String], miniMapImage: UIImage) {
+    func joinNewGame(sourceVC: UIViewController, mapContent: [Dictionary<String, String>], pacmanId: Int, selfName: String, hostName: String, otherPlayersName: [String], miniMapImage: UIImage) {
         self.mapContent = mapContent
         self.miniMapImage = miniMapImage
         self.pacmanId = pacmanId
@@ -200,7 +199,9 @@ extension MultiplayerManagementViewController: NewGameStartDelegate {
         self.otherPlayersName = otherPlayersName
         self.gameCenter = GameCenter(selfName: selfName, hostName: hostName, otherPlayersName: otherPlayersName, pacmanId: pacmanId, mapContent: mapContent, connectivity: connectivity)
         
-        performSegueWithIdentifier(Constants.Identifiers.MultiplayerGameSegueIdentifier, sender: self)
+        sourceVC.dismissViewControllerAnimated(true, completion: {() -> Void in
+            self.performSegueWithIdentifier(Constants.Identifiers.MultiplayerGameSegueIdentifier, sender: self)
+        })
     }
     
     private func removeExtraPacmans(mapContent: [Dictionary<String, String>], pacmanIds: [Int], count: Int) -> [Dictionary<String, String>] {
