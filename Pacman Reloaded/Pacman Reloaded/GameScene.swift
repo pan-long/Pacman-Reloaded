@@ -217,6 +217,7 @@ class GameScene: SKScene {
     }
     
     private func stopSpotLight() {
+        sceneDelegate.stopLightView()
         if spotLightTimer != nil {
             self.spotLightTimer!.invalidate()
             self.spotLightTimer = nil
@@ -362,9 +363,8 @@ extension GameScene: SKPhysicsContactDelegate {
         if spotLightTimer != nil {
             // if there is an existing spotlight effect, stop that first
             stopSpotLight()
-        } else {
-            view!.addSubview(spotLightView)
         }
+        view!.addSubview(spotLightView)
         
         self.spotLightTimer = NSTimer.scheduledTimerWithTimeInterval(
             Constants.GameScene.SpotLightDuration,
@@ -372,6 +372,7 @@ extension GameScene: SKPhysicsContactDelegate {
             selector: "endSpotLightMode:",
             userInfo: nil,
             repeats: false)
+        sceneDelegate.startLightView()
     }
     
     func endSpotLightMode(timer: NSTimer) {
