@@ -217,7 +217,7 @@ class GameScene: SKScene {
     }
     
     private func stopSpotLight() {
-        sceneDelegate.stopLightView()
+        sceneDelegate?.stopLightView()
         if spotLightTimer != nil {
             self.spotLightTimer!.invalidate()
             self.spotLightTimer = nil

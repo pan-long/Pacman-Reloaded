@@ -113,8 +113,8 @@ struct Constants {
         
         static let MiniGridWidth = CGFloat(6.4)
         static let MiniGridHeight = MiniGridWidth
-        static let RecCenterMinX = MiniGridWidth * CGFloat(NumberOfColumnsPerScreen / 2)
-        static let RecCenterMinY = MiniGridHeight * CGFloat(NumberOfRowsPerScreen / 2)
+        static let RecCenterMinX = MiniGridWidth * CGFloat(Double(NumberOfColumnsPerScreen / 2) - 0.5)
+        static let RecCenterMinY = MiniGridHeight * CGFloat(Double(NumberOfRowsPerScreen / 2) - 0.5)
         static let RecCenterMaxX = MiniGridWidth * CGFloat(NumberOfRows) - RecCenterMinX
         static let RecCenterMaxY = MiniGridHeight * CGFloat(NumberOfColumns) - RecCenterMinY
         

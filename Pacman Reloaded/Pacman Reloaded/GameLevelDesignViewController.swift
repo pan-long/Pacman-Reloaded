@@ -380,7 +380,7 @@ extension GameLevelDesignViewController {
                 break
             } else {
                 nextItem = firstItem.previousRow
-                designArea.scrollToItemAtIndexPath(nextItem, atScrollPosition: .Top, animated: true)
+                designArea.scrollToItemAtIndexPath(nextItem, atScrollPosition: .Top, animated: false)
             }
             break
         case arrowDown:
@@ -388,7 +388,7 @@ extension GameLevelDesignViewController {
                 break
             } else {
                 nextItem = lastItem.nextRow
-                designArea.scrollToItemAtIndexPath(nextItem, atScrollPosition: .Bottom, animated: true)
+                designArea.scrollToItemAtIndexPath(nextItem, atScrollPosition: .Bottom, animated: false)
             }
             break
         case arrowLeft:
@@ -396,7 +396,7 @@ extension GameLevelDesignViewController {
                 break
             } else {
                 nextItem = firstItem.previousColumn
-                designArea.scrollToItemAtIndexPath(nextItem, atScrollPosition: .Left, animated: true)
+                designArea.scrollToItemAtIndexPath(nextItem, atScrollPosition: .Left, animated: false)
             }
             break
         case arrowRight:
@@ -404,7 +404,7 @@ extension GameLevelDesignViewController {
                 break
             } else {
                 nextItem = lastItem.nextColumn
-                designArea.scrollToItemAtIndexPath(nextItem, atScrollPosition: .Right, animated: true)
+                designArea.scrollToItemAtIndexPath(nextItem, atScrollPosition: .Right, animated: false)
             }
             break
         default:
