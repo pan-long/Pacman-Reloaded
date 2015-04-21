@@ -185,7 +185,9 @@ class MovableObject: GameObject {
             requestedDir = newDirection
         }
         
+        println("changing direction!")
         if let networkDelegate = networkDelegate { // update network that the direction has been changed
+            println("calling delegate!")
             networkDelegate.objectDirectionChanged(objectId, newDirection: newDirection, position: position)
         }
     }

@@ -28,9 +28,6 @@ protocol MatchPeersDelegate {
 protocol SessionDataDelegate {
     // Received data from remote player
     func session(didReceiveData data: NSData, fromPlayer playerName: String)
-    
-    // The connection status has been changed on the other end
-    func session(player playerName: String, didChangeState state: MCSessionState)
 }
 
 // This is the main class in Network component, it handles network traffic and is also responsible for communication with local game engine
@@ -51,6 +48,7 @@ class MultiplayerConnectivity: NSObject {
     init(name: String) {
         playerName = name
         peerID = MCPeerID(displayName: playerName)
+        println(peerID)
 
         session = MCSession(peer: peerID)
         
@@ -68,6 +66,8 @@ class MultiplayerConnectivity: NSObject {
             }
         }
         
+        println("Sending Data")
+        println(peerIDs)
         session.sendData(data, toPeers: peerIDs, withMode: MCSessionSendDataMode.Reliable, error: error)
     }
     
@@ -121,6 +121,8 @@ extension MultiplayerConnectivity: MCNearbyServiceAdvertiserDelegate {
     // MARK: methods required in MCNearbyServiceAdvertiserDelegate
     // Incoming invitation request.  Call the invitationHandler block with YES and a valid session to connect the inviting peer to the session.
     func advertiser(advertiser: MCNearbyServiceAdvertiser!, didReceiveInvitationFromPeer peerID: MCPeerID!, withContext context: NSData!, invitationHandler: ((Bool, MCSession!) -> Void)!) {
+        nameToPeerIDDict[peerID.displayName] = peerID
+        
         let handler: ((Bool) -> Void) = {shouldConnect in
             invitationHandler(shouldConnect, self.session)
         }
@@ -157,14 +159,11 @@ extension MultiplayerConnectivity: MCSessionDelegate {
         if let validDelegate = matchDelegate {
             validDelegate.session(player: peerID.displayName, didChangeState: state)
         }
-        
-        if let validDelegate = sessionDelegate {
-            validDelegate.session(player: peerID.displayName, didChangeState: state)
-        }
     }
     
     // Received data from remote peer
     func session(session: MCSession!, didReceiveData data: NSData!, fromPeer peerID: MCPeerID!) {
+        println("received data")
         if let validDelegate = sessionDelegate {
             validDelegate.session(didReceiveData: data, fromPlayer: peerID.displayName)
         }

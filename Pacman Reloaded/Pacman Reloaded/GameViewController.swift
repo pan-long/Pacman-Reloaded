@@ -47,10 +47,10 @@ class GameViewController: UIViewController {
     private var mapData: [Dictionary<String, String>]!
     
     private let newGameIdentifier = Constants.Identifiers.NewGameService
-    private var connectivity: MultiplayerConnectivity?
     private var gameCenter: GameCenter?
     
     private var miniMapMovableObjects = Dictionary<MovableObject, UIImageView>()
+    private var miniMapImage: UIImage?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,28 +62,27 @@ class GameViewController: UIViewController {
         view.sendSubviewToBack(background)
     }
 
-    func setupSingleGame(fromMap mapData: [Dictionary<String, String>]) {
-        setupGameProperties(fromMap: mapData, pacmanId: 0, isMultiplayerMode: false, isHost: true)
+    func setupSingleGame(fromMap mapData: [Dictionary<String, String>], miniMapImage: UIImage) {
+        setupGameProperties(fromMap: mapData, pacmanId: 0, isMultiplayerMode: false, isHost: true, miniMapImage: miniMapImage)
         
         setupGameScene()
         addGameSceneToView()
     }
     
-    func setupMultiplayerGame(fromMap mapData: [Dictionary<String, String>], pacmanId: Int, isHost: Bool, gameCenter: GameCenter) {
-        setupGameProperties(fromMap: mapData, pacmanId: pacmanId, isMultiplayerMode: true, isHost: isHost)
-        
-        connectivity = MultiplayerConnectivity(name: UIDevice.currentDevice().name)
-        connectivity!.stopServiceBrowsing()
-        connectivity!.startServiceAdvertising(Constants.Identifiers.NewGameService, discoveryInfo: [NSObject: AnyObject]())
+    func setupMultiplayerGame(fromMap mapData: [Dictionary<String, String>], pacmanId: Int, isHost: Bool, gameCenter: GameCenter, miniMapImage: UIImage) {
+        setupGameProperties(fromMap: mapData, pacmanId: pacmanId, isMultiplayerMode: true, isHost: isHost, miniMapImage: miniMapImage)
         
         self.gameCenter = gameCenter
+        
+        println("pacman id: \(pacmanId)")
     }
     
-    private func setupGameProperties(fromMap mapData: [Dictionary<String, String>], pacmanId: Int, isMultiplayerMode: Bool, isHost: Bool) {
+    private func setupGameProperties(fromMap mapData: [Dictionary<String, String>], pacmanId: Int, isMultiplayerMode: Bool, isHost: Bool, miniMapImage: UIImage) {
         self.mapData = mapData
         self.pacmanId = pacmanId
         self.isMultiplayerMode = isMultiplayerMode
         self.isHost = isHost
+        self.miniMapImage = miniMapImage
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -91,11 +90,14 @@ class GameViewController: UIViewController {
             setupGameScene()
             addGameSceneToView()
         }
+        
+        setupMiniMap()
     }
     
     override func viewDidAppear(animated: Bool) {
         if !isMultiplayerMode { // in single player mode, pop up the level selection window
-            let gameLevelSelection = self.storyboard!.instantiateViewControllerWithIdentifier("gameLevelSelection") as UIViewController
+            var gameLevelSelection = self.storyboard!.instantiateViewControllerWithIdentifier("gameLevelSelection") as GameLevelLoadingViewController
+            gameLevelSelection.delegate = self
             self.presentViewController(gameLevelSelection, animated: true, completion: nil)
         }
     }
@@ -206,11 +208,6 @@ class GameViewController: UIViewController {
     }
 
     deinit {
-        if isMultiplayerMode {
-            connectivity!.stopServiceAdvertising()
-            connectivity!.stopServiceBrowsing()
-        }
-        
         println("deinit Game")
     }
 }
@@ -253,29 +250,10 @@ extension GameViewController: GameSceneDelegate {
     }
 }
 
-extension GameViewController: MatchPeersDelegate {
-    func browser(lostPlayer playerName: String) {}
-    func browser(foundPlayer playerName: String, withDiscoveryInfo info: [NSObject : AnyObject]?) {}
-    
-    func didReceiveInvitationFromPlayer(playerName: String, invitationHandler: ((Bool) -> Void)) {
-        var alert = UIAlertController(title: "Joining Game",
-            message: "\(playerName) is asking to join your game. Allow?",
-            preferredStyle: .Alert)
-        
-        let joinGameAction = UIAlertAction(title: "Yes", style: .Default,
-            handler: { (action) -> Void in
-                invitationHandler(true)
-        })
-        
-        let cancelAction = UIAlertAction(title: "No", style: .Cancel,
-            handler: { (action) -> Void in
-                invitationHandler(false)
-        })
-        
-        alert.addAction(cancelAction)
-        alert.addAction(joinGameAction)
-        
-        self.presentViewController(alert, animated: true, completion: nil)
+extension GameViewController: GameLevelLoadingDelegate {
+    func didSelectedLevel(sourceVC: UIViewController, mapContent: [Dictionary<String, String>], miniMapImage: UIImage) {
+        setupSingleGame(fromMap: mapContent, miniMapImage: miniMapImage)
+        sourceVC.dismissViewControllerAnimated(true, completion: nil)
     }
     
     func session(player playername: String, didChangeState state: MCSessionState) {
@@ -310,10 +288,12 @@ extension GameViewController {
             y: yRatio * CGFloat(Constants.GameScene.MiniMapHeight))
     }
     
-    func setupMiniMap(image: UIImage) {
-        miniMap.image = image
-        initializeMiniMap()
-        updateMiniMap()
+    func setupMiniMap() {
+        if let miniMapImage = miniMapImage {
+            miniMap.image = miniMapImage
+            initializeMiniMap()
+            updateMiniMap()
+        }
     }
     
     func initializeMiniMap() {

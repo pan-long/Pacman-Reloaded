@@ -93,7 +93,7 @@ class GameScene: SKScene {
         setGhostMovementDatasource()
     }
     
-    private func initGameObjects() {
+    func initGameObjects() {
         pacman = PacMan(id: 0)
         
         blinkys = [Ghost]()

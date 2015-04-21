@@ -8,47 +8,44 @@
 
 import UIKit
 
-enum GameNetworkDataType: Int {
-    case TYPE_OBJECT_MOVEMENT = 0,
-    TYPE_PACMAN_SCORE = 1,
-    TYPE_INIT = 2
-}
-
-class GameNetworkData: NSData {
-    let dataType: GameNetworkDataType
+class GameNetworkInitData: NSObject, NSCoding {
+    let hostName: String
+    let allPlayersName: [String]
+    let pacmanId: Int
+    let mapContent: [Dictionary<String, String>]
+    let miniMapImage: UIImage
     
-    init(type: GameNetworkDataType) {
-        dataType = type
+    
+    init(hostName: String, allPlayersName: [String], pacmanId: Int, mapContent: [Dictionary<String, String>], miniMapImage: UIImage) {
+        self.hostName = hostName
+        self.allPlayersName = allPlayersName
+        self.pacmanId = pacmanId
+        self.mapContent = mapContent
+        self.miniMapImage = miniMapImage
         
         super.init()
     }
 
     required init(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        self.hostName = aDecoder.decodeObjectForKey("hostName") as String
+        self.allPlayersName = aDecoder.decodeObjectForKey("allPlayersName") as [String]
+        self.pacmanId = aDecoder.decodeIntegerForKey("pacmanId")
+        self.mapContent = aDecoder.decodeObjectForKey("mapContent") as [Dictionary<String, String>]
+        self.miniMapImage = aDecoder.decodeObjectForKey("miniMapImage") as UIImage
+        
+        super.init()
+    }
+    
+    func encodeWithCoder(aCoder: NSCoder) {
+        aCoder.encodeObject(hostName, forKey: "hostName")
+        aCoder.encodeObject(allPlayersName, forKey: "allPlayersName")
+        aCoder.encodeInteger(pacmanId, forKey: "pacmanId")
+        aCoder.encodeObject(mapContent, forKey: "mapContent")
+        aCoder.encodeObject(miniMapImage, forKey: "miniMapImage")
     }
 }
 
-class GameNetworkInitData: GameNetworkData {
-    let hostName: String
-    let allPlayersName: [String]
-    let pacmanId: Int
-    let mapContent: [Dictionary<String, String>]
-    
-    
-    init(hostName: String, allPlayersName: [String], pacmanId: Int, mapContent: [Dictionary<String, String>]) {
-        self.hostName = hostName
-        self.allPlayersName = allPlayersName
-        self.pacmanId = pacmanId
-        self.mapContent = mapContent
-        super.init(type: GameNetworkDataType.TYPE_INIT)
-    }
-
-    required init(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-class GameNetworkMovementData: GameNetworkData {
+class GameNetworkMovementData: NSObject, NSCoding {
     let objectId: Int
     let position: CGPoint
     let direction: Direction
@@ -58,15 +55,25 @@ class GameNetworkMovementData: GameNetworkData {
         self.position = position
         self.direction = direction
         
-        super.init(type: GameNetworkDataType.TYPE_OBJECT_MOVEMENT)
+        super.init()
     }
 
     required init(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        self.objectId = aDecoder.decodeIntegerForKey("objectId")
+        self.position = (aDecoder.decodeObjectForKey("position") as NSValue).CGPointValue()
+        self.direction = Direction(rawValue: aDecoder.decodeObjectForKey("direction") as String)!
+        
+        super.init()
+    }
+    
+    func encodeWithCoder(aCoder: NSCoder) {
+        aCoder.encodeInteger(objectId, forKey: "objectId")
+        aCoder.encodeObject(NSValue(CGPoint: position), forKey: "position")
+        aCoder.encodeObject(direction.rawValue, forKey: "direction")
     }
 }
 
-class GameNetworkPacmanScoreData: GameNetworkData {
+class GameNetworkPacmanScoreData: NSObject, NSCoding {
     let pacmanId: Int
     let pacmanScore: Int
     
@@ -74,10 +81,18 @@ class GameNetworkPacmanScoreData: GameNetworkData {
         self.pacmanId = pacmanId
         self.pacmanScore = pacmanScore
         
-        super.init(type: GameNetworkDataType.TYPE_PACMAN_SCORE)
+        super.init()
     }
 
     required init(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        self.pacmanId = aDecoder.decodeIntegerForKey("pacmanId")
+        self.pacmanScore = aDecoder.decodeIntegerForKey("pacmanScore")
+        
+        super.init()
+    }
+    
+    func encodeWithCoder(aCoder: NSCoder) {
+        aCoder.encodeInteger(pacmanId, forKey: "pacmanId")
+        aCoder.encodeInteger(pacmanScore, forKey: "pacmanScore")
     }
 }

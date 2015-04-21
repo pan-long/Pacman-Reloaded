@@ -22,29 +22,42 @@ class MultiplayerGameScene: GameScene {
     private var otherPacmans = [PacMan]()
     
     var networkDelegate: GameSceneNetworkDelegate?
-    var multiplayerDelegate: MultiplayerGameSceneDelegate?
     
     func setupPacman(fromMapContent content: [Dictionary<String, String>], pacmanId: Int, isHost: Bool) {
-        super.setup(fromMapContent: content)
-        
         self.pacmanId = pacmanId
         self.isHost = isHost
+        
+        super.setup(fromMapContent: content)
+    }
+    
+    override func initGameObjects() {
+        super.initGameObjects()
+        pacman = PacMan(id: pacmanId)
     }
     
     override func setupObjectsMovementControl() {
         if isHost { // do the same thing as single player
             super.setupObjectsMovementControl()
+           
         } else { // the movement of ghosts should only be controlled by the host
             setGhostNetworkMovementControl(blinkys)
             setGhostNetworkMovementControl(pinkys)
             setGhostNetworkMovementControl(inkys)
             setGhostNetworkMovementControl(clydes)
         }
+        
+        // extra: add other pacmans network movement control
+        for pacman in otherPacmans {
+            let pacmanMovement = NetworkMovementControl(movableObject: pacman)
+            if let networkDelegate = networkDelegate {
+                networkDelegate.setObjectMovementControl(pacman.objectId, movementControl: pacmanMovement)
+            }
+        }
     }
     
     private func setGhostNetworkMovementControl(ghosts: [Ghost]) {
         for ghost in ghosts {
-            var ghostMovement = NetworkMovementControl(movableObject: ghost)
+            let ghostMovement = NetworkMovementControl(movableObject: ghost)
             ghostMovements.append(ghostMovement)
             if let networkDelegate = networkDelegate {
                 networkDelegate.setObjectMovementControl(ghost.objectId, movementControl: ghostMovement)
@@ -53,12 +66,12 @@ class MultiplayerGameScene: GameScene {
     }
     
     override func setupGameObjects() {
-        super.setupObjectsMovementControl()
-        
         // setup network delegate for movable objects that are controlled locally
         // local pacman has network delegate
         pacman.networkDelegate = self
-        pacman.scoreNetworkDelegate = self
+//        pacman.scoreNetworkDelegate = self
+        
+        super.setupGameObjects()
         
         // if I am the host, then all ghost has network delegate also
         if isHost {
@@ -82,7 +95,7 @@ class MultiplayerGameScene: GameScene {
     
     override func addPacmanFromMapData(id: Int, position: CGPoint) {
         var newPacman: PacMan!
-    
+        
         if id == pacmanId { // this is your own ghost
             newPacman = pacman
         } else {
@@ -102,6 +115,7 @@ class MultiplayerGameScene: GameScene {
 
 extension MultiplayerGameScene: MovementNetworkDelegate {
     func objectDirectionChanged(objectId: Int, newDirection: Direction, position: CGPoint) {
+        println("in delegate")
         if let networkDelegate = networkDelegate {
             networkDelegate.updateObjectMovementData(objectId, newDirection: newDirection, position: position)
         }
