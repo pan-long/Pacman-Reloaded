@@ -78,13 +78,16 @@ class GameScene: SKScene {
     }
     
     private func setupLightView(inParentView view: SKView) {
-        let spotLightCenter = CGPoint(
-            x: 0.5 + view.bounds.size.width / 2,
-            y: 0.5 + view.bounds.size.height / 2)
         let spotLightViewFrame = CGRectMake(0, 0, view.frame.width, view.frame.height)
         spotLightView = SpotLightUIView(
-            spotLightCenter: spotLightCenter,
+            spotLightCenter: getGameSceneCenter(),
             frame: spotLightViewFrame)
+    }
+    
+    private func getGameSceneCenter() -> CGPoint {
+        return CGPoint(
+            x: 0.5 + view!.bounds.size.width / 2,
+            y: 0.5 + view!.bounds.size.height / 2)
     }
     
     private func setupMovementControls() {
@@ -326,7 +329,28 @@ extension GameScene: SKPhysicsContactDelegate {
         //self.runAction(AudioManager.pacdotSoundEffectAction())
     }
     
+    private func displayExtraPoint(point: Int) {
+        let gameSceneCenter = getGameSceneCenter()
+        let pointViewX = gameSceneCenter.x - pacman.sprite.size.width / 2
+        let pointViewY = gameSceneCenter.y - pacman.sprite.size.height * 3/2
+        let pointView = UILabel(frame:
+            CGRectMake(pointViewX, pointViewY, pacman.sprite.size.width, pacman.sprite.size.height))
+        pointView.backgroundColor = UIColor.clearColor()
+        pointView.textColor = UIColor.whiteColor()
+        pointView.text = String(point)
+
+        self.view!.addSubview(pointView)
+        UIView.animateWithDuration(Constants.GameScene.ExtraPointDuration,
+            delay: NSTimeInterval(0),
+            options: UIViewAnimationOptions.CurveLinear,
+            animations: {
+                pointView.alpha = 0
+            }, completion: {complete in
+                pointView.removeFromSuperview()})
+    }
+    
     private func earnExtraPoints() {
+        displayExtraPoint(Constants.Score.ExtraPointDot)
         pacman.score += Constants.Score.ExtraPointDot
         sceneDelegate.updateScore(pacman.score, dotsLeft: totalPacDots)
     }

@@ -25,9 +25,9 @@ struct Constants {
     }
 
     struct Score {
-        static let PacDot = 1
-        static let Ghost = 5
-        static let ExtraPointDot = 10
+        static let PacDot = 10
+        static let Ghost = 100
+        static let ExtraPointDot = 200
     }
 
     struct Ghost {
@@ -126,6 +126,7 @@ struct Constants {
         static let MaxNumberOfGhosts = 16
         
         static let SpotLightDuration: NSTimeInterval = 15
+        static let ExtraPointDuration: NSTimeInterval = 1.0
     }
     
     struct AIMovementControl {
