@@ -56,6 +56,15 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="reloaded" translatesAutoresizingMaskIntoConstraints="NO" id="CNf-Jg-ijp">
                                 <rect key="frame" x="246" y="225" width="532" height="72"/>
                             </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="pacman-male" translatesAutoresizingMaskIntoConstraints="NO" id="akC-dW-XIK">
+                                <rect key="frame" x="262" y="396" width="50" height="50"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="pacman-female" translatesAutoresizingMaskIntoConstraints="NO" id="hHf-Vp-zUt">
+                                <rect key="frame" x="255" y="546" width="50" height="50"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="ghost-blue-down" translatesAutoresizingMaskIntoConstraints="NO" id="pCe-35-zUH">
+                                <rect key="frame" x="293" y="467" width="50" height="50"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -739,6 +748,7 @@
         <image name="arrow-up" width="100" height="100"/>
         <image name="button-create-new-room" width="267" height="250"/>
         <image name="eraser" width="200" height="169"/>
+        <image name="ghost-blue-down" width="30" height="30"/>
         <image name="ghost-blue-left" width="30" height="30"/>
         <image name="ghost-orange-left" width="30" height="30"/>
         <image name="ghost-red-left" width="30" height="30"/>
