@@ -181,10 +181,6 @@ class GameViewController: UIViewController {
             return
         })
     }
-
-    func quit() {
-        self.presentingViewController?.dismissViewControllerAnimated(true, completion: nil)
-    }
     
     func restart() {
         self.scene!.restart()
