@@ -84,6 +84,7 @@ struct Constants {
 
         static let ImageWithoutBoundaryPrefix = "__boundary__"
         
+        static let PacdotRatio: Double = 4
         static let Width = 720
         static let Height = 720
         static let TotalWidth = 1600

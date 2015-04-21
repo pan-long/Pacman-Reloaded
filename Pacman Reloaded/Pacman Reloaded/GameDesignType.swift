@@ -27,7 +27,7 @@ enum GameDesignType: Int {
         case .Clyde:
             return "ghost-orange-left"
         case .Pacdot:
-            return "pacdot"
+            return "pacdot-design"
         case .SuperPacdot:
             return "super-pacdot-design"
         default:
@@ -80,6 +80,17 @@ enum GameDesignType: Int {
         case .Pinky:
             return true
         case .Clyde:
+            return true
+        default:
+            return false
+        }
+    }
+    
+    var isPacdot: Bool {
+        switch self {
+        case .Pacdot:
+            return true
+        case .SuperPacdot:
             return true
         default:
             return false

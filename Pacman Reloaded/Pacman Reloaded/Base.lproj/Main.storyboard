@@ -517,7 +517,7 @@
                                     </button>
                                     <button opaque="NO" tag="80" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3tq-c1-sBe">
                                         <rect key="frame" x="128" y="150" width="64" height="64"/>
-                                        <state key="normal" backgroundImage="pacdot">
+                                        <state key="normal" backgroundImage="pacdot-design">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
@@ -615,7 +615,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="6.4000000000000909" height="6.4000000000000909"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="6.5" height="6.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
@@ -712,7 +712,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Score: 0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UXo-LU-VLV" userLabel="Score">
-                                <rect key="frame" x="755" y="348" width="250" height="21"/>
+                                <rect key="frame" x="752" y="348" width="256" height="21"/>
                                 <fontDescription key="fontDescription" name="Copperplate" family="Copperplate" pointSize="30"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -727,7 +727,7 @@
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Remaining: 0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZR0-J9-uuM" userLabel="remaining">
-                                <rect key="frame" x="755" y="377" width="250" height="21"/>
+                                <rect key="frame" x="752" y="377" width="256" height="21"/>
                                 <fontDescription key="fontDescription" name="Copperplate" family="Copperplate" pointSize="30"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -769,7 +769,7 @@
         <image name="landing-page" width="1120" height="838"/>
         <image name="logo" width="684" height="125"/>
         <image name="minimap-rectangle" width="200" height="200"/>
-        <image name="pacdot" width="10" height="10"/>
+        <image name="pacdot-design" width="100" height="100"/>
         <image name="pacman-female" width="30" height="30"/>
         <image name="pacman-logo" width="684" height="125"/>
         <image name="pacman-male" width="30" height="30"/>
