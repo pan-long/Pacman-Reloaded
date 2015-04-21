@@ -20,8 +20,8 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="landing-page" translatesAutoresizingMaskIntoConstraints="NO" id="3L8-eC-oYo">
                                 <rect key="frame" x="-50" y="-50" width="1150" height="860"/>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TKP-98-ewe">
-                                <rect key="frame" x="272" y="400" width="481" height="42"/>
+                            <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TKP-98-ewe">
+                                <rect key="frame" x="272" y="-50" width="481" height="42"/>
                                 <fontDescription key="fontDescription" name="Copperplate-Bold" family="Copperplate" pointSize="50"/>
                                 <size key="titleShadowOffset" width="2" height="2"/>
                                 <state key="normal" title="Single Player">
@@ -32,7 +32,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l1E-lm-h3j">
-                                <rect key="frame" x="272" y="475" width="481" height="42"/>
+                                <rect key="frame" x="272" y="-50" width="481" height="42"/>
                                 <fontDescription key="fontDescription" name="Copperplate-Bold" family="Copperplate" pointSize="50"/>
                                 <size key="titleShadowOffset" width="2" height="2"/>
                                 <state key="normal" title="Multiplayer">
@@ -43,7 +43,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dLe-dP-rPq">
-                                <rect key="frame" x="272" y="550" width="481" height="42"/>
+                                <rect key="frame" x="272" y="-50" width="481" height="42"/>
                                 <fontDescription key="fontDescription" name="Copperplate-Bold" family="Copperplate" pointSize="50"/>
                                 <size key="titleShadowOffset" width="2" height="2"/>
                                 <state key="normal" title="Level Designer">
@@ -60,13 +60,13 @@
                                 <rect key="frame" x="246" y="225" width="532" height="72"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="pacman-male" translatesAutoresizingMaskIntoConstraints="NO" id="akC-dW-XIK">
-                                <rect key="frame" x="262" y="396" width="50" height="50"/>
+                                <rect key="frame" x="262" y="-60" width="50" height="50"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="pacman-female" translatesAutoresizingMaskIntoConstraints="NO" id="hHf-Vp-zUt">
-                                <rect key="frame" x="255" y="546" width="50" height="50"/>
+                                <rect key="frame" x="255" y="-60" width="50" height="50"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="ghost-blue-down" translatesAutoresizingMaskIntoConstraints="NO" id="pCe-35-zUH">
-                                <rect key="frame" x="293" y="467" width="50" height="50"/>
+                                <rect key="frame" x="293" y="-60" width="50" height="50"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -75,6 +75,12 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="iPad"/>
                     <connections>
                         <outlet property="background" destination="3L8-eC-oYo" id="F2V-wh-Quh"/>
+                        <outlet property="levelDesigner" destination="dLe-dP-rPq" id="Sbo-XG-9s9"/>
+                        <outlet property="levelDesignerIcon" destination="hHf-Vp-zUt" id="GPH-7i-IsC"/>
+                        <outlet property="multiPlayerButton" destination="l1E-lm-h3j" id="dJT-GV-5SX"/>
+                        <outlet property="multiPlayerIcon" destination="pCe-35-zUH" id="9XF-b1-kfM"/>
+                        <outlet property="singlePlayerButton" destination="TKP-98-ewe" id="xqW-A8-Ko0"/>
+                        <outlet property="singlePlayerIcon" destination="akC-dW-XIK" id="m7f-1q-Qb6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="l99-ve-j4h" userLabel="First Responder" sceneMemberID="firstResponder"/>

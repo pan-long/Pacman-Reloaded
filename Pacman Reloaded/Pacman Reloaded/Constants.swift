@@ -142,6 +142,9 @@ struct Constants {
     }
 
     struct MainMenu {
+        static let OffscreenYPosition = CGFloat(-60)
+        static let ItemDamping = CGFloat(0.3)
+
         static let ParallaxLeftRightMin = CGFloat(-50)
         static let ParallaxLeftRightMax = -1 * ParallaxLeftRightMin
         static let ParallaxLeftRightKeyPath = "center.x"
@@ -149,5 +152,13 @@ struct Constants {
         static let ParallaxUpDownMin = CGFloat(-50)
         static let ParallaxUpDownMax = -1 * ParallaxUpDownMin
         static let ParallaxUpDownKeyPath = "center.y"
+
+        static let SinglePlayerCenter = CGPoint(x: 512.5, y: 421.0)
+        static let MultiPlayerCenter = CGPoint(x: 512.5, y: 496.0)
+        static let LevelDesignerCenter = CGPoint(x: 512.5, y: 571.0)
+
+        static let SinglePlayerIconCenter = CGPoint(x: 287.0, y: 421.0)
+        static let MultiPlayerIconCenter = CGPoint(x: 318.0, y: 492.0)
+        static let LevelDesignerIconCenter = CGPoint(x: 280.0, y: 571.0)
     }
 }
