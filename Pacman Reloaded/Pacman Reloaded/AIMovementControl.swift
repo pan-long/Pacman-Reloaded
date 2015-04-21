@@ -205,8 +205,8 @@ class AIMovementControl: MovementControl {
 class BlinkyAIMovememntControl: AIMovementControl {
     override func getHome() -> CGPoint {
         return CGPoint(
-            x: Constants.AIMovementControl.GAME_SCENE_MAX_X,
-            y: Constants.AIMovementControl.GAME_SCENE_MAX_Y)
+            x: Constants.AIMovementControl.GameSceneMaxX,
+            y: Constants.AIMovementControl.GameSceneMaxY)
     }
     
     override func getChaseTarget(visibleObject: MovableObject) -> CGPoint {
@@ -219,8 +219,8 @@ class PinkyAIMovementControl: AIMovementControl {
     
     override func getHome() -> CGPoint {
         return CGPoint(
-            x: Constants.AIMovementControl.GAME_SCENE_MIN_X,
-            y: Constants.AIMovementControl.GAME_SCENE_MAX_Y)
+            x: Constants.AIMovementControl.GameSceneMinX,
+            y: Constants.AIMovementControl.GameSceneMaxY)
     }
     
     override func getChaseTarget(visibleObject: MovableObject) -> CGPoint {
@@ -237,8 +237,8 @@ class InkyAIMovementControl: AIMovementControl {
     
     override func getHome() -> CGPoint {
         return CGPoint(
-            x: Constants.AIMovementControl.GAME_SCENE_MAX_X,
-            y: Constants.AIMovementControl.GAME_SCENE_MIN_Y)
+            x: Constants.AIMovementControl.GameSceneMaxX,
+            y: Constants.AIMovementControl.GameSceneMinY)
     }
     
     override func getChaseTarget(visibleObject: MovableObject) -> CGPoint {
@@ -273,8 +273,8 @@ class ClydeAIMovementControl: AIMovementControl {
     
     override func getHome() -> CGPoint {
         return CGPoint(
-            x: Constants.AIMovementControl.GAME_SCENE_MIN_X,
-            y: Constants.AIMovementControl.GAME_SCENE_MIN_Y)
+            x: Constants.AIMovementControl.GameSceneMinX,
+            y: Constants.AIMovementControl.GameSceneMinY)
     }
     
     override func chaseUpdate() {

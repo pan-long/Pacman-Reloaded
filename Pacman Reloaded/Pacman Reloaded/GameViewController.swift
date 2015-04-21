@@ -220,9 +220,9 @@ extension GameViewController: GameSceneDelegate {
     func gameDidEnd(scene: GameScene, didWin: Bool, score: Int) {
         var title: String
         if didWin {
-            title = Constants.Locale.gameWin
+            title = Constants.Locale.GameWin
         } else {
-            title = Constants.Locale.gameOver
+            title = Constants.Locale.GameOver
         }
         let alertVC = UIAlertController(title: title, message: nil, preferredStyle: UIAlertControllerStyle.Alert)
         alertVC.addAction(UIAlertAction(title: "Restart", style: UIAlertActionStyle.Default, handler: {action in

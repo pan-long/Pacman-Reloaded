@@ -19,7 +19,7 @@ class PacDot: Item {
     init(id: Int, size: CGSize) {
         let location = CGPoint(x: -1 * size.width / 2, y: -1 * size.height / 2 )
         let newRect = CGRect(origin: location, size: size)
-        super.init(id: id, image: Constants.PacDot.normalPacDotImage)
+        super.init(id: id, image: Constants.PacDot.NormalPacDotImage)
         self.sprite.size = size
         setup(newRect)
     }
@@ -27,7 +27,7 @@ class PacDot: Item {
     init(id: Int, superSize size: CGSize) {
         let location = CGPoint(x: -1 * size.width / 2, y: -1 * size.height / 2 )
         let newRect = CGRect(origin: location, size: size)
-        super.init(id: id, image: Constants.PacDot.superPacDotImage)
+        super.init(id: id, image: Constants.PacDot.SuperPacDotImage)
         self.sprite.size = size
         setup(newRect)
         isSuper = true
@@ -45,6 +45,6 @@ class PacDot: Item {
         self.physicsBody?.collisionBitMask = 0
         self.physicsBody?.contactTestBitMask = GameObjectType.PacMan
 
-        self.zPosition = Constants.PacDot.zPosition
+        self.zPosition = Constants.PacDot.ZPosition
     }
 }

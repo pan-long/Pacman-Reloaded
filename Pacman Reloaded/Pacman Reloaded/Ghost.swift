@@ -40,7 +40,7 @@ class Ghost: MovableObject {
                 self.currentDir = self.currentDir.opposite
             } else if !newValue {
                 _currentMode = .Normal
-                self.currentSpeed = Constants.Ghost.speed
+                self.currentSpeed = Constants.Ghost.Speed
             }
         }
     }
@@ -61,7 +61,7 @@ class Ghost: MovableObject {
     }
     
     init(id: Int, imageName: String) {
-        super.init(id: id, image: imageName + Constants.Ghost.defaultImageSuffix)
+        super.init(id: id, image: imageName + Constants.Ghost.DefaultImageSuffix)
         self.imageName = imageName
         self.physicsBody?.categoryBitMask = GameObjectType.Ghost
         self.physicsBody?.contactTestBitMask = GameObjectType.PacMan | GameObjectType.Boundary
@@ -71,7 +71,7 @@ class Ghost: MovableObject {
         self.physicsBody!.restitution = 0 //bouncy
         self.physicsBody!.allowsRotation = false
         
-        self.currentSpeed = Constants.Ghost.speed
+        self.currentSpeed = Constants.Ghost.Speed
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -85,16 +85,16 @@ class Ghost: MovableObject {
     
     private func updateTexture() {
         if self.frightened && !self.eaten {
-            self.sprite.texture = SKTexture(imageNamed: Constants.Ghost.frightenedImage)
+            self.sprite.texture = SKTexture(imageNamed: Constants.Ghost.FrightenedImage)
         } else if self.eaten {
-            self.sprite.texture = SKTexture(imageNamed: Constants.Ghost.eatedImage)
+            self.sprite.texture = SKTexture(imageNamed: Constants.Ghost.EatedImage)
         } else if self.currentDir != .None {
             self.sprite.texture = SKTexture(imageNamed: self.imageName +
-                Constants.Ghost.imageSeparator +
+                Constants.Ghost.ImageSeparator +
                 self.currentDir.str.lowercaseString)
         } else {
             self.sprite.texture = SKTexture(imageNamed: self.imageName +
-                Constants.Ghost.imageSeparator +
+                Constants.Ghost.ImageSeparator +
                 Direction.Default.str.lowercaseString)
             
         }

@@ -33,7 +33,7 @@ class MovableObject: GameObject {
     weak var networkDelegate: MovementNetworkDelegate?
 
     init(id: Int, image: String) {
-        super.init(id: id, image: image, sizeScale: Constants.MovableObject.sizeScale)
+        super.init(id: id, image: image, sizeScale: Constants.MovableObject.SizeScale)
         
         sensorBuffer = self.sprite.size.width * 0.5
 
