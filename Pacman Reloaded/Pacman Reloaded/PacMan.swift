@@ -14,6 +14,7 @@ protocol PacmanScoreNetworkDelegate: class {
 }
 
 class PacMan: MovableObject {
+    let pacmanDice = Int(arc4random_uniform(UInt32(Constants.PacMan.ImageCount)))
     var score: Int = 0 {
         didSet {
             if let scoreNetworkDelegate = scoreNetworkDelegate {
@@ -25,7 +26,8 @@ class PacMan: MovableObject {
     weak var scoreNetworkDelegate: PacmanScoreNetworkDelegate?
     
     init(id: Int) {
-        super.init(id: id, image: "pacman-female")
+         println("\(pacmanDice)")
+        super.init(id: id, image: Constants.PacMan.Images[pacmanDice])
         self.physicsBody?.categoryBitMask = GameObjectType.PacMan
         self.physicsBody?.contactTestBitMask = GameObjectType.Ghost | GameObjectType.Boundary | GameObjectType.PacDot
         self.physicsBody!.collisionBitMask = 0
@@ -58,9 +60,9 @@ class PacMan: MovableObject {
     }
 
     func setupAnimationSequence() {
-        var atlas = SKTextureAtlas(named: "pacman-female")
+        var atlas = SKTextureAtlas(named: Constants.PacMan.Images[pacmanDice])
         var textures: [SKTexture] = []
-        var filenames = ["pacman-female00", "pacman-female01"]
+        var filenames = Constants.PacMan.Filenames[pacmanDice]
         for name in filenames {
             textures.append(atlas.textureNamed(name))
         }

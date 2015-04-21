@@ -40,10 +40,17 @@ struct Constants {
         static let FrightenModeBlinkDuration: NSTimeInterval = 0.2
         static let FrightenModeBlinkCount = 5
     }
+    
     struct PacMan {
         static let Width = CGFloat(30)
         static let Height = CGFloat(30)
         static let speed = CGFloat(4)
+        
+        static let ImageCount = 2
+        static let Images = ["pacman-female", "pacman-male"]
+        static let Filenames = [
+            ["pacman-female00", "pacman-female01"],
+            ["pacman-male00", "pacman-male01"]]
     }
 
     struct PacDot {

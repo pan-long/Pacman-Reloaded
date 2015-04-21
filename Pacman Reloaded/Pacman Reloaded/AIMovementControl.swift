@@ -79,16 +79,11 @@ class AIMovementControl: MovementControl {
         currentModeDuration += 1
     }
     
-    private func isUpdateFrame() -> Bool {
-        return stepsSinceUpdate >= UPDATE_BUFFER
-    }
-    
     private func reverseDirection() {
         movableObject.changeDirection(movableObject.currentDir.opposite)
     }
     
     private func changeMode(nextMode: GhostMovementMode) {
-        println("\(nextMode.str)")
         reverseDirection()
         currentMode = nextMode
         currentModeDuration = 0
@@ -99,22 +94,6 @@ class AIMovementControl: MovementControl {
         currentMode = GhostMovementMode.Scatter
         currentModeDuration = 0
         stepsSinceUpdate = UPDATE_BUFFER
-    }
-    
-    private func changeDirection(newDirection: Direction) {
-        if newDirection != movableObject.currentDir &&
-            (isUpdateFrame() || movableObject.currentDir == .None) {
-                movableObject.changeDirection(newDirection)
-                stepsSinceUpdate = 0
-        } else {
-            stepsSinceUpdate += 1
-        }
-    }
-    
-    private func forceReverse() {
-        let direction = movableObject.currentDir != .None ? movableObject.currentDir : movableObject.previousDir
-        movableObject.changeDirection(direction.opposite)
-        stepsSinceUpdate = 0
     }
     
     // MARK: AI Frightened Mode
@@ -195,10 +174,32 @@ class AIMovementControl: MovementControl {
         return CGPoint(x: 0, y: 0)
     }
     
+    // MARK: Update utility
+    
     private func calculateDistance(firstPostion: CGPoint, secondPostion: CGPoint) -> Double  {
         let distanceX = Double(firstPostion.x) - Double(secondPostion.x)
         let distanceY = Double(firstPostion.y) - Double(secondPostion.y)
         return sqrt(distanceX * distanceX + distanceY * distanceY)
+    }
+    
+    private func isUpdateFrame() -> Bool {
+        return stepsSinceUpdate >= UPDATE_BUFFER
+    }
+    
+    private func changeDirection(newDirection: Direction) {
+        if newDirection != movableObject.currentDir &&
+            (isUpdateFrame() || movableObject.currentDir == .None) {
+                movableObject.changeDirection(newDirection)
+                stepsSinceUpdate = 0
+        } else {
+            stepsSinceUpdate += 1
+        }
+    }
+    
+    private func forceReverse() {
+        let direction = movableObject.currentDir != .None ? movableObject.currentDir : movableObject.previousDir
+        movableObject.changeDirection(direction.opposite)
+        stepsSinceUpdate = 0
     }
 }
 
