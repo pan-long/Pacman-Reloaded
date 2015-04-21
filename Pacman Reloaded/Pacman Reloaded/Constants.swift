@@ -141,6 +141,7 @@ struct Constants {
 
     struct MainMenu {
         static let OffscreenYPosition = CGFloat(-60)
+        static let ItemDamping = CGFloat(0.3)
 
         static let ParallaxLeftRightMin = CGFloat(-50)
         static let ParallaxLeftRightMax = -1 * ParallaxLeftRightMin

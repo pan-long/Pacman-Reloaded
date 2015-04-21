@@ -69,7 +69,7 @@ class MainMenuViewController: UIViewController {
 
         for i in 0..<buttons.count {
             let snapBehavior = UISnapBehavior(item: buttons[i], snapToPoint: points[i])
-            snapBehavior.damping = 0.3
+            snapBehavior.damping = Constants.MainMenu.ItemDamping
             animator.addBehavior(snapBehavior)
         }
     }
