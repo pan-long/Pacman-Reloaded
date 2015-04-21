@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="13F1066" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="CsF-LZ-baB">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="CsF-LZ-baB">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -297,6 +297,15 @@
                                     <action selector="loadButtonClicked:" destination="u77-Yq-CF0" eventType="touchUpInside" id="8hX-03-OAc"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NAU-cv-Kaw">
+                                <rect key="frame" x="16" y="600" width="48" height="30"/>
+                                <state key="normal" title="Cancel">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="cancelButtonClicked:" destination="u77-Yq-CF0" eventType="touchUpInside" id="pST-J3-StE"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -307,9 +316,11 @@
                         <outlet property="gameLevelPreview" destination="5bJ-1c-AB7" id="Sg9-pC-BxL"/>
                         <outlet property="gameLevelsTable" destination="jK0-qN-qtx" id="pVD-bF-EU2"/>
                         <outlet property="loadButton" destination="ddk-md-cce" id="sdR-ed-Xg8"/>
+                        <segue destination="jHI-CZ-eKc" kind="unwind" identifier="unwindToMenuFromLevelLoading" unwindAction="unwindToThisViewController:" id="iYw-ZO-eIv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="I1B-gd-fci" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="jHI-CZ-eKc" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="311" y="1150"/>
         </scene>
@@ -574,7 +585,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="6.4000000000000909" height="6.4000000000000909"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="6" height="6"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>

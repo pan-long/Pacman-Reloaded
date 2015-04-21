@@ -74,6 +74,7 @@ struct Constants {
         
         // Segue identifier
         static let ShowPopover = "showPopover"
+        static let QuitLevelSelection = "unwindToMenuFromLevelLoading"
     }
     
     struct GameScene {

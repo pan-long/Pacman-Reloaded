@@ -251,6 +251,10 @@ extension GameViewController: GameSceneDelegate {
 }
 
 extension GameViewController: GameLevelLoadingDelegate {
+    func willCancel(sourceVC: UIViewController) {
+
+    }
+
     func didSelectedLevel(sourceVC: UIViewController, mapContent: [Dictionary<String, String>], miniMapImage: UIImage) {
         setupSingleGame(fromMap: mapContent, miniMapImage: miniMapImage)
         sourceVC.dismissViewControllerAnimated(true, completion: nil)
