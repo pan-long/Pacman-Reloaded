@@ -26,7 +26,7 @@ extension SKNode {
     }
 }
 
-class GameViewController: UIViewController {
+class GameViewController: GameBackgroundViewController {
 
     @IBOutlet weak var gameSceneView: SKView!
     
@@ -51,17 +51,8 @@ class GameViewController: UIViewController {
     private var miniMapMovableObjects = Dictionary<MovableObject, UIImageView>()
     private var miniMapImage: UIImage?
     
-    private var background: UIImageView!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        let backgroundImage = UIImage(named: "landing-page")
-        let background = UIImageView(image: backgroundImage!)
-        background.frame = self.view.frame
-        view.addSubview(background)
-        view.sendSubviewToBack(background)
-        self.background = background
     }
 
     func setupSingleGame(fromMap mapData: [Dictionary<String, String>], miniMapImage: UIImage) {
@@ -294,6 +285,7 @@ extension GameViewController {
     func setupMiniMap() {
         if let miniMapImage = miniMapImage {
             miniMap.image = miniMapImage
+            miniMap.alpha = 0.5
             initializeMiniMap()
             updateMiniMap()
         }

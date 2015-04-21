@@ -14,7 +14,7 @@ class GameLevelDesignGridCell: UICollectionViewCell {
     var type = GameDesignType.None
     
     func setType(type: GameDesignType) {
-        self.layer.backgroundColor = UIColor.blackColor().CGColor
+        self.layer.backgroundColor = UIColor.clearColor().CGColor
         self.type = type
         for subview in contentView.subviews {
             subview.removeFromSuperview()
@@ -25,7 +25,7 @@ class GameLevelDesignGridCell: UICollectionViewCell {
             imageView.frame = CGRectMake(0, 0, width, height)
             contentView.addSubview(imageView)
         } else if type == .Boundary {
-            self.layer.backgroundColor = UIColor.yellowColor().CGColor
+            self.layer.backgroundColor = UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 0.8).CGColor
         }
     }
 }

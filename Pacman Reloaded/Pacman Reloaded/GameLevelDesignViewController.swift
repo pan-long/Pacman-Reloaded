@@ -8,7 +8,7 @@
 
 import SpriteKit
 
-class GameLevelDesignViewController: UIViewController {
+class GameLevelDesignViewController: GameBackgroundViewController {
     
     @IBOutlet weak var buttons: UIView!
     @IBOutlet weak var designArea: UICollectionView!
@@ -46,6 +46,7 @@ class GameLevelDesignViewController: UIViewController {
         miniMap.registerClass(GameLevelDesignGridCell.self,
             forCellWithReuseIdentifier: miniMapCellIdentifier)
         miniMap.backgroundColor = UIColor.blackColor()
+        miniMap.alpha = 0.5
         miniMap.delegate = self
         miniMap.dataSource = self
         miniMap.scrollEnabled = false
@@ -287,7 +288,7 @@ extension GameLevelDesignViewController {
     
     @IBAction func handlePanGesture(sender: UIPanGestureRecognizer) {
         // Pan gesture is only applicable to these three types
-        if selected == .Boundary || selected == .Pacdot || selected == .None {
+        if selected == .Boundary || selected == .Pacdot || selected == .SuperPacdot || selected == .None {
             let currentPosition = sender.locationInView(designArea)
             if let indexPath = designArea.indexPathForItemAtPoint(currentPosition) {
                 setCellToSelected(indexPath)

@@ -9,7 +9,7 @@
 import SpriteKit
 import MultipeerConnectivity
 
-class MultiplayerManagementViewController: UIViewController {
+class MultiplayerManagementViewController: GameBackgroundViewController {
     
     @IBOutlet weak var newGameTable: UITableView!
     
@@ -27,12 +27,12 @@ class MultiplayerManagementViewController: UIViewController {
     private var miniMapImage: UIImage?
     
     override func viewDidLoad() {
-        view.backgroundColor = UIColor.blackColor()
         newGameTable.layer.cornerRadius = CGFloat(19) // TODO Magic number
         newGameTable.delegate = self
         newGameTable.dataSource = self
         connectivity.matchDelegate = self
         connectivity.startServiceBrowsing(newGameIdentifier)
+        super.viewDidLoad()
     }
     
     deinit {
