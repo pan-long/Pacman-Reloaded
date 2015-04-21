@@ -330,6 +330,14 @@ extension GameLevelDesignViewController {
         // Pan gesture is only applicable to these three types
         if selected == .Boundary || selected == .Pacdot || selected == .SuperPacdot || selected == .None {
             let currentPosition = sender.locationInView(designArea)
+            let maxX = designArea.frame.size.width
+            let maxY = designArea.frame.size.height
+            let curX = currentPosition.x
+            let curY = currentPosition.y
+            if curX <= 0 || curX >= maxX || curY <= 0 || curY >= maxY {
+                return
+            }
+            
             if let indexPath = designArea.indexPathForItemAtPoint(currentPosition) {
                 setCellToSelectedWithConstraints(indexPath)
             }
