@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6F0B31701AE69E6D00EACDF2 /* UICountingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F0B316F1AE69E6D00EACDF2 /* UICountingLabel.swift */; };
 		6F2F0AD11ABEA53A00B9DB78 /* Boundary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F2F0AD01ABEA53A00B9DB78 /* Boundary.swift */; };
 		6F6D62F21ABC500400AF2E2A /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F6D62F11ABC500400AF2E2A /* Utilities.swift */; };
 		6F8AEFB21AC7DB2F00C8BEA8 /* GameSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8AEFB11AC7DB2F00C8BEA8 /* GameSceneDelegate.swift */; };
@@ -86,6 +87,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6F0B316F1AE69E6D00EACDF2 /* UICountingLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UICountingLabel.swift; sourceTree = "<group>"; };
 		6F2F0AD01ABEA53A00B9DB78 /* Boundary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Boundary.swift; sourceTree = "<group>"; };
 		6F6D62F11ABC500400AF2E2A /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		6F8AEFB11AC7DB2F00C8BEA8 /* GameSceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameSceneDelegate.swift; sourceTree = "<group>"; };
@@ -225,7 +227,6 @@
 			isa = PBXGroup;
 			children = (
 				6FD827C51AB8511B0079147F /* Direction.swift */,
-				6F6D62F11ABC500400AF2E2A /* Utilities.swift */,
 				DC45121D1AB863DA00FF37BA /* GameObjectType.swift */,
 				DCCF5D1F1AD90E9A00C1FA68 /* GameDesignType.swift */,
 				DC9F87531ADA87040055AA3D /* GameLevelStorage.swift */,
@@ -271,6 +272,7 @@
 				DC3C36E61AC69E0100298612 /* Config */,
 				6FD827BA1AB84B200079147F /* GameObjects */,
 				6F8AEFB61AC7E24900C8BEA8 /* AudioManager.swift */,
+				6F6D62F11ABC500400AF2E2A /* Utilities.swift */,
 				C5C8D71D1AB847E5005ACB47 /* AppDelegate.swift */,
 				DC86076C1AC714F700472BCD /* GameScene.sks */,
 				C5776FFD1AE2994D0049A869 /* MultiplayerGameScene.sks */,
@@ -281,6 +283,7 @@
 				6FD17C541AD17B89001891F6 /* MainMenuViewController.swift */,
 				6FD17C521AD16D8C001891F6 /* GameMenuViewController.swift */,
 				C5C8D7231AB847E5005ACB47 /* GameViewController.swift */,
+				6F0B316F1AE69E6D00EACDF2 /* UICountingLabel.swift */,
 				FFD39C4D1AE3D30E00591FD7 /* SpotLightUIView.swift */,
 				DCA852B31AE2CFB3006A04C4 /* GameLevelLoadingViewController.swift */,
 				DC3E42BA1AD12B7C0083609C /* MultiplayerManagementViewController.swift */,
@@ -496,6 +499,7 @@
 				6FD827C21AB84BAD0079147F /* Item.swift in Sources */,
 				FFD7AD471AD166E500EAB0FA /* GestureMovementControl.swift in Sources */,
 				DC11D63E1ADAE63C003836FF /* GameLevelDesignGridNormalCell.swift in Sources */,
+				6F0B31701AE69E6D00EACDF2 /* UICountingLabel.swift in Sources */,
 				FF7F83851AC7E32400018CD2 /* MovementControl.swift in Sources */,
 				DC3C36E51AC69DFC00298612 /* Constants.swift in Sources */,
 				C5C8D71E1AB847E5005ACB47 /* AppDelegate.swift in Sources */,
