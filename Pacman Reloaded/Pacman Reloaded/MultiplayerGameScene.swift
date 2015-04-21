@@ -20,6 +20,7 @@ class MultiplayerGameScene: GameScene {
     
     private var pacmanId = 0
     private var otherPacmans = [PacMan]()
+    private var otherPacmansNetworkControls = [NetworkMovementControl]()
     
     var networkDelegate: GameSceneNetworkDelegate?
     
@@ -52,6 +53,8 @@ class MultiplayerGameScene: GameScene {
             if let networkDelegate = networkDelegate {
                 networkDelegate.setObjectMovementControl(pacman.objectId, movementControl: pacmanMovement)
             }
+            
+            otherPacmansNetworkControls.append(pacmanMovement)
         }
     }
     
@@ -82,6 +85,10 @@ class MultiplayerGameScene: GameScene {
     }
     
     override func update(currentTime: CFTimeInterval) {
+        for networkControl in otherPacmansNetworkControls {
+            networkControl.update()
+        }
+        
         for pacman in otherPacmans {
             pacman.update()
         }

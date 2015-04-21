@@ -57,16 +57,15 @@ extension GameCenter: SessionDataDelegate {
             let networkMovementControl = objectMovementControl[objectId]
             
             if selfName == hostName { // if the player is the host, it will receive the movementdata of other pacmans
-                let object = networkMovementControl!.movableObject
-                let correctedNetworkMovementData = GameNetworkMovementData(objectId: objectId, position: object.position, direction: objectMovementData.direction)
-                let archivedData = NSKeyedArchiver.archivedDataWithRootObject(correctedNetworkMovementData)
-                connectivity.sendData(toPlayer: otherPlayersName, data: archivedData, error: nil)
-            } else { // correct the location from host first
-                networkMovementControl?.correctPosition(objectMovementData.position)
+                connectivity.sendData(toPlayer: otherPlayersName, data: data, error: nil)
             }
             
-            // don't change the direction twice
-            if self.pacmanId != objectId {
+            // do not change twice
+            if pacmanId != objectId {
+                // correct the location first
+                networkMovementControl?.correctPosition(objectMovementData.position)
+                
+                // then change direction
                 networkMovementControl?.changeDirection(objectMovementData.direction)
             }
         } else if let pacmanScoreData = unarchivedData as? GameNetworkPacmanScoreData {

@@ -11,7 +11,7 @@ import MultipeerConnectivity
 
 protocol NewGameStartDelegate: class {
     func startNewGame(sourceVC: UIViewController, hostName: String, allPlayers: [String])
-    func joinNewGame(mapContent: [Dictionary<String, String>], pacmanId: Int, selfName: String, hostName: String, otherPlayersName: [String], miniMapImage: UIImage)
+    func joinNewGame(sourceVC: UIViewController, mapContent: [Dictionary<String, String>], pacmanId: Int, selfName: String, hostName: String, otherPlayersName: [String], miniMapImage: UIImage)
 }
 
 class NewGameRoomViewController: UIViewController {
@@ -126,7 +126,7 @@ extension NewGameRoomViewController: SessionDataDelegate {
         println("Received data")
         if let gameInitData = unarchivedData as? GameNetworkInitData {
             if let delegate = gameStartDelegate {
-                delegate.joinNewGame(gameInitData.mapContent, pacmanId: gameInitData.pacmanId, selfName: UIDevice.currentDevice().name, hostName: gameInitData.hostName, otherPlayersName: gameInitData.allPlayersName, miniMapImage: gameInitData.miniMapImage)
+                delegate.joinNewGame(self, mapContent: gameInitData.mapContent, pacmanId: gameInitData.pacmanId, selfName: UIDevice.currentDevice().name, hostName: gameInitData.hostName, otherPlayersName: gameInitData.allPlayersName, miniMapImage: gameInitData.miniMapImage)
             }
         }
     }
