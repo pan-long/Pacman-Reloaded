@@ -167,6 +167,9 @@ class GameScene: SKScene {
             },
             {() -> Void in
                 self.spotLightMode()
+            },
+            {() -> Void in
+                self.earnExtraPoints()
             }
         ]
     }
@@ -321,6 +324,11 @@ extension GameScene: SKPhysicsContactDelegate {
             self.sceneDelegate.gameDidEnd(self, didWin: true, score: pacman.score)
         }
         //self.runAction(AudioManager.pacdotSoundEffectAction())
+    }
+    
+    private func earnExtraPoints() {
+        pacman.score += Constants.Score.ExtraPointDot
+        sceneDelegate.updateScore(pacman.score, dotsLeft: totalPacDots)
     }
     
     private func spotLightMode() {
