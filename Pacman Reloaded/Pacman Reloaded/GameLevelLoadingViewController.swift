@@ -60,6 +60,18 @@ class GameLevelLoadingViewController: MenuController {
         return image
     }
     
+    private func getSelectedFileImageWithoutPacdots() -> UIImage {
+        var image: UIImage
+        let prefix = Constants.GameScene.ImageWithoutBoundaryPrefix
+        let fileName = getSelectedFileName()
+        if fileSelected < allPredefinedFiles.count {
+            image = GameLevelStorage.getPredefinedGameLevelImage(prefix + fileName)!
+        } else {
+            image = GameLevelStorage.getGameLevelImage(prefix + fileName)!
+        }
+        return image
+    }
+    
     private func getSelectedFileContent() -> [Dictionary<String, String>] {
         var content: [Dictionary<String, String>]
         if fileSelected < allPredefinedFiles.count {
@@ -111,10 +123,8 @@ extension GameLevelLoadingViewController {
 
     @IBAction func loadButtonClicked(sender: UIButton) {
         if let fileSelected = fileSelected {
-            println("loading")
             let mapContent = getSelectedFileContent()
-            let miniMapImage = getSelectedFileImage()
-            println("loaded")
+            let miniMapImage = getSelectedFileImageWithoutPacdots()
             
             if let delegate = delegate {
                 delegate.didSelectedLevel(self, mapContent: mapContent, miniMapImage: miniMapImage)

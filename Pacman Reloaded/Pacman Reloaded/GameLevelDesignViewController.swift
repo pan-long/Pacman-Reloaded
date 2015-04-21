@@ -326,6 +326,32 @@ extension GameLevelDesignViewController {
         }
     }
     
+    @IBAction func resetPressed(sender: AnyObject) {
+        let prevSelected = selected
+        selected = .None
+        for row in 1..<Constants.GameScene.NumberOfRows-1 {
+            for column in 1..<Constants.GameScene.NumberOfColumns-1 {
+                let indexPath = NSIndexPath(forRow: column, inSection: row)
+                setCellToSelected(indexPath)
+            }
+        }
+        selected = prevSelected
+    }
+    
+    @IBAction func fillInPacdotsPressed(sender: AnyObject) {
+        let prevSelected = selected
+        selected = .Pacdot
+        for row in 1..<Constants.GameScene.NumberOfRows-1 {
+            for column in 1..<Constants.GameScene.NumberOfColumns-1 {
+                let indexPath = NSIndexPath(forRow: column, inSection: row)
+                if cellMappings[indexPath] == .None {
+                    setCellToSelected(indexPath)
+                }
+            }
+        }
+        selected = prevSelected
+    }
+    
     @IBAction func handlePanGesture(sender: UIPanGestureRecognizer) {
         // Pan gesture is only applicable to these three types
         if selected == .Boundary || selected == .Pacdot || selected == .SuperPacdot || selected == .None {
