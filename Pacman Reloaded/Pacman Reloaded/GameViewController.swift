@@ -33,7 +33,8 @@ class GameViewController: UIViewController {
     @IBOutlet weak var score: UILabel!
     @IBOutlet weak var pauseBtn: UIButton!
     @IBOutlet weak var remainingDots: UILabel!
-
+    @IBOutlet weak var miniMap: UIImageView!
+    
     var scene: GameScene?
     
     // Single player mode is the default and the play self hosts the game
@@ -48,6 +49,9 @@ class GameViewController: UIViewController {
     private let newGameIdentifier = Constants.Identifiers.NewGameService
     private var gameCenter: GameCenter?
     
+    private var miniMapMovableObjects = Dictionary<MovableObject, UIImageView>()
+    private var miniMapImage: UIImage?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -58,26 +62,27 @@ class GameViewController: UIViewController {
         view.sendSubviewToBack(background)
     }
 
-    func setupSingleGame(fromMap mapData: [Dictionary<String, String>]) {
-        setupGameProperties(fromMap: mapData, pacmanId: 0, isMultiplayerMode: false, isHost: true)
+    func setupSingleGame(fromMap mapData: [Dictionary<String, String>], miniMapImage: UIImage) {
+        setupGameProperties(fromMap: mapData, pacmanId: 0, isMultiplayerMode: false, isHost: true, miniMapImage: miniMapImage)
         
         setupGameScene()
         addGameSceneToView()
     }
     
-    func setupMultiplayerGame(fromMap mapData: [Dictionary<String, String>], pacmanId: Int, isHost: Bool, gameCenter: GameCenter) {
-        setupGameProperties(fromMap: mapData, pacmanId: pacmanId, isMultiplayerMode: true, isHost: isHost)
+    func setupMultiplayerGame(fromMap mapData: [Dictionary<String, String>], pacmanId: Int, isHost: Bool, gameCenter: GameCenter, miniMapImage: UIImage) {
+        setupGameProperties(fromMap: mapData, pacmanId: pacmanId, isMultiplayerMode: true, isHost: isHost, miniMapImage: miniMapImage)
         
         self.gameCenter = gameCenter
         
         println("pacman id: \(pacmanId)")
     }
     
-    private func setupGameProperties(fromMap mapData: [Dictionary<String, String>], pacmanId: Int, isMultiplayerMode: Bool, isHost: Bool) {
+    private func setupGameProperties(fromMap mapData: [Dictionary<String, String>], pacmanId: Int, isMultiplayerMode: Bool, isHost: Bool, miniMapImage: UIImage) {
         self.mapData = mapData
         self.pacmanId = pacmanId
         self.isMultiplayerMode = isMultiplayerMode
         self.isHost = isHost
+        self.miniMapImage = miniMapImage
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -85,6 +90,8 @@ class GameViewController: UIViewController {
             setupGameScene()
             addGameSceneToView()
         }
+        
+        setupMiniMap()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -245,11 +252,90 @@ extension GameViewController: GameSceneDelegate {
         self.presentViewController(alertVC, animated: true, completion: nil)
 
     }
+    
+    func iniatilizeMovableObjectPosition() {
+        initializeMiniMap()
+    }
+    
+    func updateMovableObjectPosition() {
+        updateMiniMap()
+    }
+    
+    func setupLightViewOnMiniMap() {
+        println("light view!")
+    }
 }
 
 extension GameViewController: GameLevelLoadingDelegate {
-    func didSelectedLevel(sourceVC: UIViewController, mapContent: [Dictionary<String, String>]) {
-        setupSingleGame(fromMap: mapContent)
+    func didSelectedLevel(sourceVC: UIViewController, mapContent: [Dictionary<String, String>], miniMapImage: UIImage) {
+        setupSingleGame(fromMap: mapContent, miniMapImage: miniMapImage)
         sourceVC.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func session(player playername: String, didChangeState state: MCSessionState) {
+        switch state {
+        case .Connected:
+//            let gameLevelSelection = self.storyboard!.instantiateViewControllerWithIdentifier("gameLevelSelection") as UIViewController
+//            self.presentViewController(gameLevelSelection, animated: true, completion: nil)
+            println("connected")
+            break
+        case .Connecting:
+            println("connecting")
+            break
+        case .NotConnected:
+            // Player disconnected from game
+            println("not connected")
+            break
+        default:
+            break
+        }
+    }
+}
+
+// This extension deals with miniMap
+extension GameViewController {
+    
+    private func gameScenePosToMiniMapPos(position: CGPoint) -> CGPoint {
+        let xRatio = position.x / CGFloat(Constants.GameScene.TotalWidth)
+        let yRatio = (CGFloat(Constants.GameScene.Height) - position.y) /
+            CGFloat(Constants.GameScene.TotalHeight)
+        
+        return CGPoint(x: xRatio * CGFloat(Constants.GameScene.MiniMapWidth),
+            y: yRatio * CGFloat(Constants.GameScene.MiniMapHeight))
+    }
+    
+    func setupMiniMap() {
+        if let miniMapImage = miniMapImage {
+            miniMap.image = miniMapImage
+            initializeMiniMap()
+            updateMiniMap()
+        }
+    }
+    
+    func initializeMiniMap() {
+        for subview in miniMap.subviews {
+            subview.removeFromSuperview()
+        }
+        
+        miniMapMovableObjects = Dictionary<MovableObject, UIImageView>()
+        let movableObjs = scene!.getMovableObjectsWithPosition()
+        for obj in movableObjs.keys {
+            let image = UIImage(named: obj.image)
+            let imageView = UIImageView(image: image)
+            imageView.frame.size = CGSize(width: Constants.GameScene.MiniGridWidth,
+                height: Constants.GameScene.MiniGridHeight)
+            miniMap.addSubview(imageView)
+            miniMap.bringSubviewToFront(imageView)
+            miniMapMovableObjects[obj] = imageView
+        }
+    }
+    
+    func updateMiniMap() {
+        let movableObjs = scene!.getMovableObjectsWithPosition()
+        for obj in movableObjs.keys {
+            if let imageView = miniMapMovableObjects[obj] {
+                imageView.center = gameScenePosToMiniMapPos(movableObjs[obj]!)
+            }
+        }
     }
 }

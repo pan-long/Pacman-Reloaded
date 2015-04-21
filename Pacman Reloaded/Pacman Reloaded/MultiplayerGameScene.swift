@@ -129,3 +129,11 @@ extension MultiplayerGameScene: PacmanScoreNetworkDelegate {
         }
     }
 }
+
+extension MultiplayerGameScene {
+    override func getMovableObjects() -> [MovableObject] {
+        var res = super.getMovableObjects()
+        res = res + otherPacmans
+        return res
+    }
+}

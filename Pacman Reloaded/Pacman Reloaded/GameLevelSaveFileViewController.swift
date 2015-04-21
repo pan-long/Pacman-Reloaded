@@ -16,7 +16,11 @@ class GameLevelSaveFileViewController: UIViewController {
     @IBAction func saveFile(sender: UIButton) {
         let presentingVC = self.presentingViewController as GameLevelDesignViewController
         presentingVC.saveFileWithName(fileNameTextField.text)
-        presentingVC.dismissViewControllerAnimated(true, completion: nil)
+        presentingVC.dismissViewControllerAnimated(true, completion: { () -> Void in
+            presentingVC.releaseMemory()
+            let mainPageVC = presentingVC.presentingViewController!
+            mainPageVC.dismissViewControllerAnimated(true, completion: nil)
+        })
     }
     
     @IBAction func cancel(sender: UIButton) {

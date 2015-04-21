@@ -24,6 +24,7 @@ class MultiplayerManagementViewController: UIViewController {
     private var otherPlayersName: [String]?
     private var gameCenter: GameCenter?
     private var mapContent: [Dictionary<String, String>]?
+    private var miniMapImage: UIImage?
     
     override func viewDidLoad() {
         view.backgroundColor = UIColor.blackColor()
@@ -40,7 +41,8 @@ class MultiplayerManagementViewController: UIViewController {
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         let gameVC = segue.destinationViewController as GameViewController
-        gameVC.setupMultiplayerGame(fromMap: mapContent!, pacmanId: pacmanId, isHost: (selfName! == hostName!), gameCenter: self.gameCenter!)
+        
+        gameVC.setupMultiplayerGame(fromMap: mapContent!, pacmanId: pacmanId, isHost: (selfName! == hostName!), gameCenter: self.gameCenter!, miniMapImage: miniMapImage!)
     }
     
     @IBAction func createNewGame(sender: AnyObject) {
@@ -139,8 +141,10 @@ extension MultiplayerManagementViewController: MatchPeersDelegate {
 }
 
 extension MultiplayerManagementViewController: GameLevelLoadingDelegate {
-    func didSelectedLevel(sourceVC: UIViewController, mapContent: [Dictionary<String, String>]) {
+    func didSelectedLevel(sourceVC: UIViewController, mapContent: [Dictionary<String, String>], miniMapImage: UIImage) {
         self.mapContent = mapContent
+        self.miniMapImage = miniMapImage
+        
         sourceVC.dismissViewControllerAnimated(true, completion: {() -> Void in
             self.hostNewRoom()
         })
@@ -166,7 +170,7 @@ extension MultiplayerManagementViewController: NewGameStartDelegate {
             
             println(allPlayers)
             for i in 0..<allPlayers.count {
-                let gameInitData = GameNetworkInitData(hostName: hostName, allPlayersName: allPlayers, pacmanId: pacmanIds[i], mapContent: self.mapContent!)
+                let gameInitData = GameNetworkInitData(hostName: hostName, allPlayersName: allPlayers, pacmanId: pacmanIds[i], mapContent: self.mapContent!, miniMapImage: self.miniMapImage!)
                 let archivedData = NSKeyedArchiver.archivedDataWithRootObject(gameInitData)
                 connectivity.sendData(toPlayer: [allPlayers[i]], data: archivedData, error: nil)
                 println("sent data")
@@ -184,8 +188,9 @@ extension MultiplayerManagementViewController: NewGameStartDelegate {
         }
     }
     
-    func joinNewGame(mapContent: [Dictionary<String, String>], pacmanId: Int, selfName: String, hostName: String, otherPlayersName: [String]) {
+    func joinNewGame(mapContent: [Dictionary<String, String>], pacmanId: Int, selfName: String, hostName: String, otherPlayersName: [String], miniMapImage: UIImage) {
         self.mapContent = mapContent
+        self.miniMapImage = miniMapImage
         self.pacmanId = pacmanId
         self.selfName = selfName
         self.hostName = hostName

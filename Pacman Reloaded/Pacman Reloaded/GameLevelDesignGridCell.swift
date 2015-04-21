@@ -11,9 +11,11 @@ import SpriteKit
 class GameLevelDesignGridCell: UICollectionViewCell {
     var width = Constants.GameScene.MiniGridWidth
     var height = Constants.GameScene.MiniGridHeight
+    var type = GameDesignType.None
     
     func setType(type: GameDesignType) {
         self.layer.backgroundColor = UIColor.blackColor().CGColor
+        self.type = type
         for subview in contentView.subviews {
             subview.removeFromSuperview()
         }

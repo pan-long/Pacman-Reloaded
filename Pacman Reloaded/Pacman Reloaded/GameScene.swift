@@ -73,8 +73,8 @@ class GameScene: SKScene {
     
     private func setPacmanAtCenter() {
         // keep the pacman to be at the center of the game scene
-        self.anchorPoint = CGPoint(x: 0.5 - pacman.position.x / Constants.IPadWidth,
-            y: 0.5 - pacman.position.y / Constants.IPadHeight)
+        self.anchorPoint = CGPoint(x: 0.5 - pacman.position.x / CGFloat(Constants.GameScene.Width),
+            y: 0.5 - pacman.position.y / CGFloat(Constants.GameScene.Height))
     }
     
     private func setupLightView(inParentView view: SKView) {
@@ -143,12 +143,12 @@ class GameScene: SKScene {
         }
         
         for inky in inkys {
-            var inkyMovement = InkyAIMovememntControl(movableObject: inky)
+            var inkyMovement = InkyAIMovementControl(movableObject: inky)
             ghostMovements.append(inkyMovement)
         }
         
         for clyde in clydes {
-            var clydeMovement = ClydeAIMovememntControl(movableObject: clyde)
+            var clydeMovement = ClydeAIMovementControl(movableObject: clyde)
             ghostMovements.append(clydeMovement)
         }
     }
@@ -202,6 +202,7 @@ class GameScene: SKScene {
         initGameScene()
         
         sceneDelegate.updateScore(pacman.score, dotsLeft: totalPacDots)
+        sceneDelegate.iniatilizeMovableObjectPosition()
         
         println("START")
     }
@@ -227,8 +228,10 @@ class GameScene: SKScene {
             ghost.update()
         }
         
-        // keep pacman at the center of the screen
+        // Keep pacman at the center of the screen
         setPacmanAtCenter()
+        // Update positions of movable objects in mini game scene as well
+        sceneDelegate.updateMovableObjectPosition()
     }
     
     deinit {
@@ -454,33 +457,32 @@ extension GameScene {
                 self.totalPacDots++
                 break
             case "pacman":
-                addPacmanFromMapData(i, position: origin)
+                addPacmanFromMapData(i, position: adjustOriginForMovableObject(origin))
                 
                 break
             case "blinky":
                 var blinky = Ghost(id: i, imageName: "ghost-red")
-                blinky.position = origin
+                blinky.position = adjustOriginForMovableObject(origin)
                 addChild(blinky)
                 blinkys.append(blinky)
                 
                 break
             case "pinky":
                 var pinky = Ghost(id: i, imageName: "ghost-yellow")
-                pinky.position = origin
+                pinky.position = adjustOriginForMovableObject(origin)
                 addChild(pinky)
                 pinkys.append(pinky)
                 
                 break
             case "inky":
                 var inky = Ghost(id: i, imageName: "ghost-blue")
-                inky.position = origin
+                inky.position = adjustOriginForMovableObject(origin)
                 addChild(inky)
                 inkys.append(inky)
-                
                 break
             case "clyde":
                 var clyde = Ghost(id: i, imageName: "ghost-orange")
-                clyde.position = origin
+                clyde.position = adjustOriginForMovableObject(origin)
                 addChild(clyde)
                 clydes.append(clyde)
                 
@@ -495,5 +497,29 @@ extension GameScene {
         pacman.position = position
         removeChildrenInArray([pacman])
         addChild(pacman)
+    }
+
+    private func adjustOriginForMovableObject(origin: CGPoint) -> CGPoint {
+        return CGPoint(x: origin.x - Constants.GameScene.MovableObjectAdjustment, y: origin.y)
+    }
+}
+
+extension GameScene {
+    // Return an array of movable objects currently in the game scene
+    func getMovableObjects() -> [MovableObject] {
+        var res: [MovableObject] = []
+        res.append(pacman)
+        res = res + ghosts
+        return res
+    }
+    
+    // Return mappings of movable objects with their positions
+    func getMovableObjectsWithPosition() -> Dictionary<MovableObject, CGPoint> {
+        let movableObjects = getMovableObjects()
+        var res = Dictionary<MovableObject, CGPoint>()
+        for movableObj in movableObjects {
+            res[movableObj] = movableObj.position
+        }
+        return res
     }
 }

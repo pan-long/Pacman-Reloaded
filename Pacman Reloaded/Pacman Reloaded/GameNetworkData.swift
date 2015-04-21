@@ -13,13 +13,15 @@ class GameNetworkInitData: NSObject, NSCoding {
     let allPlayersName: [String]
     let pacmanId: Int
     let mapContent: [Dictionary<String, String>]
+    let miniMapImage: UIImage
     
     
-    init(hostName: String, allPlayersName: [String], pacmanId: Int, mapContent: [Dictionary<String, String>]) {
+    init(hostName: String, allPlayersName: [String], pacmanId: Int, mapContent: [Dictionary<String, String>], miniMapImage: UIImage) {
         self.hostName = hostName
         self.allPlayersName = allPlayersName
         self.pacmanId = pacmanId
         self.mapContent = mapContent
+        self.miniMapImage = miniMapImage
         
         super.init()
     }
@@ -29,6 +31,7 @@ class GameNetworkInitData: NSObject, NSCoding {
         self.allPlayersName = aDecoder.decodeObjectForKey("allPlayersName") as [String]
         self.pacmanId = aDecoder.decodeIntegerForKey("pacmanId")
         self.mapContent = aDecoder.decodeObjectForKey("mapContent") as [Dictionary<String, String>]
+        self.miniMapImage = aDecoder.decodeObjectForKey("miniMapImage") as UIImage
         
         super.init()
     }
@@ -38,6 +41,7 @@ class GameNetworkInitData: NSObject, NSCoding {
         aCoder.encodeObject(allPlayersName, forKey: "allPlayersName")
         aCoder.encodeInteger(pacmanId, forKey: "pacmanId")
         aCoder.encodeObject(mapContent, forKey: "mapContent")
+        aCoder.encodeObject(miniMapImage, forKey: "miniMapImage")
     }
 }
 

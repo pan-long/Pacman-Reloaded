@@ -77,8 +77,17 @@ struct Constants {
     }
     
     struct GameScene {
+        // amount needed to shift the location of movable objects along x axis
+        static let MovableObjectAdjustment = CGFloat(4)
+
+        static let ImageWithoutBoundaryPrefix = "__boundary__"
+        
         static let Width = 720
         static let Height = 720
+        static let TotalWidth = 1600
+        static let TotalHeight = 1600
+        static let MiniMapWidth = 256
+        static let MiniMapHeight = 256
         
         static let NumberOfRows = 40
         static let NumberOfColumns = 40

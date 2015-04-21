@@ -9,13 +9,14 @@
 import SpriteKit
 
 protocol GameLevelLoadingDelegate: class {
-    func didSelectedLevel(sourceVC:UIViewController, mapContent: [Dictionary<String, String>])
+    func didSelectedLevel(sourceVC:UIViewController, mapContent: [Dictionary<String, String>], miniMapImage: UIImage)
 }
 
 class GameLevelLoadingViewController: UIViewController {
-    
+    @IBOutlet weak var loadButton: UIButton!
     @IBOutlet weak var gameLevelsTable: UITableView!
     @IBOutlet weak var gameLevelPreview: UIImageView!
+    
     let allFiles = GameLevelStorage.getGameLevels()
     
     var fileSelected: String?
@@ -25,12 +26,14 @@ class GameLevelLoadingViewController: UIViewController {
     override func viewDidLoad() {
         gameLevelsTable.delegate = self
         gameLevelsTable.dataSource = self
+        loadButton.enabled = false
     }
 }
 
 extension GameLevelLoadingViewController: UITableViewDelegate {
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         fileSelected = allFiles[indexPath.row]
+        loadButton.enabled = true
         if let image = GameLevelStorage.getGameLevelImage(fileSelected!) {
             gameLevelPreview.image = image
         }
@@ -57,9 +60,13 @@ extension GameLevelLoadingViewController: UITableViewDataSource {
 extension GameLevelLoadingViewController {
     
     @IBAction func loadButtonClicked(sender: UIButton) {
-        let mapContent = GameLevelStorage.loadGameLevelFromFile(GameLevelStorage.addXMLExtensionToFile(fileSelected!))
-        if let delegate = delegate {
-            delegate.didSelectedLevel(self, mapContent: mapContent!)
+        if let fileSelected = fileSelected {
+            let mapContent = GameLevelStorage.loadGameLevelFromFile(GameLevelStorage.addXMLExtensionToFile(fileSelected))!
+            let miniMapImage = GameLevelStorage.getGameLevelImage(Constants.GameScene.ImageWithoutBoundaryPrefix + fileSelected)!
+            
+            if let delegate = delegate {
+                delegate.didSelectedLevel(self, mapContent: mapContent, miniMapImage: miniMapImage)
+            }
         }
     }
 }

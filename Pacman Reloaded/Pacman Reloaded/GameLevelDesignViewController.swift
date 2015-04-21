@@ -178,6 +178,8 @@ extension GameLevelDesignViewController {
     func saveFileWithName(fileName: String) {
         GameLevelStorage.storeGameLevelToFile(cellMappings, fileName: fileName)
         GameLevelStorage.storeGameLevelImageToFile(getMiniMapImage(), fileName: fileName)
+        GameLevelStorage.storeGameLevelImageToFile(getMiniMapBoundaryImage(),
+            fileName: Constants.GameScene.ImageWithoutBoundaryPrefix + fileName)
     }
     
     private func getMiniMapImage() -> UIImage {
@@ -188,6 +190,17 @@ extension GameLevelDesignViewController {
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         return image
+    }
+    
+    private func getMiniMapBoundaryImage() -> UIImage {
+        for indexPath in cellMappings.keys {
+            let cell = miniMap.cellForItemAtIndexPath(indexPath) as GameLevelDesignGridCell
+            if cell.type != .Boundary {
+                cell.setType(.None)
+            }
+        }
+        miniMap.reloadInputViews()
+        return getMiniMapImage()
     }
 }
 
