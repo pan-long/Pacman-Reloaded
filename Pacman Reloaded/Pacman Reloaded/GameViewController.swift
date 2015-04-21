@@ -26,13 +26,14 @@ extension SKNode {
     }
 }
 
-class GameViewController: GameBackgroundViewController {
+class GameViewController: GameBackgroundViewController, GameEndDelegate {
 
     @IBOutlet weak var gameSceneView: SKView!
     
     @IBOutlet weak var score: UICountingLabel!
     @IBOutlet weak var remainingDots: UILabel!
     @IBOutlet weak var miniMap: UIImageView!
+    
     
     var scene: GameScene?
     
@@ -214,15 +215,11 @@ extension GameViewController: GameSceneDelegate {
         } else {
             title = Constants.Locale.GameOver
         }
-        let alertVC = UIAlertController(title: title, message: nil, preferredStyle: UIAlertControllerStyle.Alert)
-        alertVC.addAction(UIAlertAction(title: "Restart", style: UIAlertActionStyle.Default, handler: {action in
-            scene.restart()
-            self.gameSceneView.scene?.view?.paused = false
-
-        }))
         gameSceneView.scene?.view?.paused = true
         
-        self.presentViewController(alertVC, animated: true, completion: nil)
+        var gameEnd = self.storyboard!.instantiateViewControllerWithIdentifier("gameEnd") as GameEndViewController
+        gameEnd.delegate = self
+        self.presentViewController(gameEnd, animated: true, completion: nil)
 
     }
     
