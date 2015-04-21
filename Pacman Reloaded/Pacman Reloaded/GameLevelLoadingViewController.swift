@@ -17,7 +17,7 @@ protocol GameLevelLoadingDelegate: class {
     func willCancel(sourceVC: UIViewController)
 }
 
-class GameLevelLoadingViewController: UIViewController {
+class GameLevelLoadingViewController: PopoverViewController {
     @IBOutlet weak var loadButton: UIButton!
     @IBOutlet weak var gameLevelsTable: UITableView!
     @IBOutlet weak var gameLevelPreview: UIImageView!
@@ -29,8 +29,11 @@ class GameLevelLoadingViewController: UIViewController {
     weak var delegate: GameLevelLoadingDelegate?
     
     override func viewDidLoad() {
+        super.viewDidLoad()
         gameLevelsTable.delegate = self
         gameLevelsTable.dataSource = self
+        gameLevelsTable.layer.cornerRadius = 15
+        gameLevelsTable.alpha = 0.7
         loadButton.enabled = false
     }
 }

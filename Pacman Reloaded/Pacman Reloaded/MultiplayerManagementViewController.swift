@@ -30,6 +30,7 @@ class MultiplayerManagementViewController: GameBackgroundViewController {
         newGameTable.layer.cornerRadius = CGFloat(19) // TODO Magic number
         newGameTable.delegate = self
         newGameTable.dataSource = self
+        newGameTable.alpha = 0.7
         connectivity.matchDelegate = self
         connectivity.startServiceBrowsing(newGameIdentifier)
         super.viewDidLoad()

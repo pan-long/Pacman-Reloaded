@@ -10,8 +10,6 @@ import SpriteKit
 
 class GameBackgroundViewController: UIViewController {
     
-    private var background: UIImageView!
-    
     override func viewDidLoad() {
         let backgroundImage = UIImage(named: "landing-page")
         let background = UIImageView(image: backgroundImage!)

@@ -46,6 +46,7 @@
 		DC3C36E51AC69DFC00298612 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3C36E41AC69DFC00298612 /* Constants.swift */; };
 		DC3E42BB1AD12B7C0083609C /* MultiplayerManagementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3E42BA1AD12B7C0083609C /* MultiplayerManagementViewController.swift */; };
 		DC45121E1AB863DA00FF37BA /* GameObjectType.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC45121D1AB863DA00FF37BA /* GameObjectType.swift */; };
+		DC6C05741AE6BFEB00FB0808 /* PopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6C05731AE6BFEB00FB0808 /* PopoverViewController.swift */; };
 		DC766FA01AC5D24500FB18F9 /* PacmanMapOne.tmx in Resources */ = {isa = PBXBuildFile; fileRef = DC766F9F1AC5D24500FB18F9 /* PacmanMapOne.tmx */; };
 		DC7B1D3A1AC6B334008DEA0F /* pacman-female.atlas in Resources */ = {isa = PBXBuildFile; fileRef = DC7B1D391AC6B334008DEA0F /* pacman-female.atlas */; };
 		DC7B1D3C1AC6B65F008DEA0F /* pacman-male.atlas in Resources */ = {isa = PBXBuildFile; fileRef = DC7B1D3B1AC6B65F008DEA0F /* pacman-male.atlas */; };
@@ -132,6 +133,7 @@
 		DC3C36E41AC69DFC00298612 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		DC3E42BA1AD12B7C0083609C /* MultiplayerManagementViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiplayerManagementViewController.swift; sourceTree = "<group>"; };
 		DC45121D1AB863DA00FF37BA /* GameObjectType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameObjectType.swift; sourceTree = "<group>"; };
+		DC6C05731AE6BFEB00FB0808 /* PopoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopoverViewController.swift; sourceTree = "<group>"; };
 		DC766F9F1AC5D24500FB18F9 /* PacmanMapOne.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = PacmanMapOne.tmx; sourceTree = "<group>"; };
 		DC7B1D391AC6B334008DEA0F /* pacman-female.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = "pacman-female.atlas"; sourceTree = "<group>"; };
 		DC7B1D3B1AC6B65F008DEA0F /* pacman-male.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = "pacman-male.atlas"; sourceTree = "<group>"; };
@@ -286,6 +288,7 @@
 				C59CB9511AD16C3B00E41CAE /* MultiplayerGameScene.swift */,
 				6F8AEFB11AC7DB2F00C8BEA8 /* GameSceneDelegate.swift */,
 				DCEFC6CA1AE69EC100A96A20 /* GameBackgroundViewController.swift */,
+				DC6C05731AE6BFEB00FB0808 /* PopoverViewController.swift */,
 				C553BEA51AE567670073B216 /* NewGameRoomViewController.swift */,
 				6FD17C541AD17B89001891F6 /* MainMenuViewController.swift */,
 				6FD17C521AD16D8C001891F6 /* GameMenuViewController.swift */,
@@ -478,6 +481,7 @@
 			files = (
 				6FECFC1B1AE5729400A80920 /* MenuController.swift in Sources */,
 				6FD827BE1AB84B4D0079147F /* MovableObject.swift in Sources */,
+				DC6C05741AE6BFEB00FB0808 /* PopoverViewController.swift in Sources */,
 				6FD827BC1AB84B390079147F /* GameObject.swift in Sources */,
 				DCCF5D1E1AD8F76D00C1FA68 /* GameLevelDesignGridCell.swift in Sources */,
 				6FD17C551AD17B89001891F6 /* MainMenuViewController.swift in Sources */,

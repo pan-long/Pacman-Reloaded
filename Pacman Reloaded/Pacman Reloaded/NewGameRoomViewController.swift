@@ -14,7 +14,7 @@ protocol NewGameStartDelegate: class {
     func joinNewGame(sourceVC: UIViewController, mapContent: [Dictionary<String, String>], pacmanId: Int, selfName: String, hostName: String, otherPlayersName: [String], miniMapImage: UIImage)
 }
 
-class NewGameRoomViewController: UIViewController {
+class NewGameRoomViewController: PopoverViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var startBtn: UIButton!
     
@@ -27,6 +27,8 @@ class NewGameRoomViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         tableView.dataSource = self
+        tableView.layer.cornerRadius = 15
+        tableView.alpha = 0.7
     }
 
     override func didReceiveMemoryWarning() {
