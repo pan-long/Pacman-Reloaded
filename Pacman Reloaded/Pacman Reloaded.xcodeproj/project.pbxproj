@@ -76,6 +76,18 @@
 		FFD7AD491AD1671F00EAB0FA /* AIMovementControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD7AD481AD1671F00EAB0FA /* AIMovementControl.swift */; };
 		FFF036F11AE6BBD1002335B9 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFF036F01AE6BBD1002335B9 /* GameViewController.swift */; };
 		FFF036F31AE6BBE4002335B9 /* GameEndViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFF036F21AE6BBE4002335B9 /* GameEndViewController.swift */; };
+		FFF037011AE6F09A002335B9 /* __boundary__CS3217.png in Resources */ = {isa = PBXBuildFile; fileRef = FFF036F51AE6F09A002335B9 /* __boundary__CS3217.png */; };
+		FFF037021AE6F09A002335B9 /* __boundary__level 0.png in Resources */ = {isa = PBXBuildFile; fileRef = FFF036F61AE6F09A002335B9 /* __boundary__level 0.png */; };
+		FFF037031AE6F09A002335B9 /* __boundary__level 1.png in Resources */ = {isa = PBXBuildFile; fileRef = FFF036F71AE6F09A002335B9 /* __boundary__level 1.png */; };
+		FFF037041AE6F09A002335B9 /* __boundary__level 2.png in Resources */ = {isa = PBXBuildFile; fileRef = FFF036F81AE6F09A002335B9 /* __boundary__level 2.png */; };
+		FFF037051AE6F09A002335B9 /* CS3217.png in Resources */ = {isa = PBXBuildFile; fileRef = FFF036F91AE6F09A002335B9 /* CS3217.png */; };
+		FFF037061AE6F09A002335B9 /* CS3217.xml in Resources */ = {isa = PBXBuildFile; fileRef = FFF036FA1AE6F09A002335B9 /* CS3217.xml */; };
+		FFF037071AE6F09A002335B9 /* level 0.png in Resources */ = {isa = PBXBuildFile; fileRef = FFF036FB1AE6F09A002335B9 /* level 0.png */; };
+		FFF037081AE6F09A002335B9 /* level 0.xml in Resources */ = {isa = PBXBuildFile; fileRef = FFF036FC1AE6F09A002335B9 /* level 0.xml */; };
+		FFF037091AE6F09A002335B9 /* level 1.png in Resources */ = {isa = PBXBuildFile; fileRef = FFF036FD1AE6F09A002335B9 /* level 1.png */; };
+		FFF0370A1AE6F09A002335B9 /* level 1.xml in Resources */ = {isa = PBXBuildFile; fileRef = FFF036FE1AE6F09A002335B9 /* level 1.xml */; };
+		FFF0370B1AE6F09A002335B9 /* level 2.png in Resources */ = {isa = PBXBuildFile; fileRef = FFF036FF1AE6F09A002335B9 /* level 2.png */; };
+		FFF0370C1AE6F09A002335B9 /* level 2.xml in Resources */ = {isa = PBXBuildFile; fileRef = FFF037001AE6F09A002335B9 /* level 2.xml */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -153,6 +165,18 @@
 		FFD7AD481AD1671F00EAB0FA /* AIMovementControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AIMovementControl.swift; sourceTree = "<group>"; };
 		FFF036F01AE6BBD1002335B9 /* GameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		FFF036F21AE6BBE4002335B9 /* GameEndViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameEndViewController.swift; sourceTree = "<group>"; };
+		FFF036F51AE6F09A002335B9 /* __boundary__CS3217.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = __boundary__CS3217.png; sourceTree = "<group>"; };
+		FFF036F61AE6F09A002335B9 /* __boundary__level 0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "__boundary__level 0.png"; sourceTree = "<group>"; };
+		FFF036F71AE6F09A002335B9 /* __boundary__level 1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "__boundary__level 1.png"; sourceTree = "<group>"; };
+		FFF036F81AE6F09A002335B9 /* __boundary__level 2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "__boundary__level 2.png"; sourceTree = "<group>"; };
+		FFF036F91AE6F09A002335B9 /* CS3217.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CS3217.png; sourceTree = "<group>"; };
+		FFF036FA1AE6F09A002335B9 /* CS3217.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = CS3217.xml; sourceTree = "<group>"; };
+		FFF036FB1AE6F09A002335B9 /* level 0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "level 0.png"; sourceTree = "<group>"; };
+		FFF036FC1AE6F09A002335B9 /* level 0.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "level 0.xml"; sourceTree = "<group>"; };
+		FFF036FD1AE6F09A002335B9 /* level 1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "level 1.png"; sourceTree = "<group>"; };
+		FFF036FE1AE6F09A002335B9 /* level 1.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "level 1.xml"; sourceTree = "<group>"; };
+		FFF036FF1AE6F09A002335B9 /* level 2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "level 2.png"; sourceTree = "<group>"; };
+		FFF037001AE6F09A002335B9 /* level 2.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "level 2.xml"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -270,6 +294,7 @@
 		C5C8D71A1AB847E5005ACB47 /* Pacman Reloaded */ = {
 			isa = PBXGroup;
 			children = (
+				FFF036F41AE6F082002335B9 /* PredefinedLevels */,
 				DC3C36E61AC69E0100298612 /* Config */,
 				6FD827BA1AB84B200079147F /* GameObjects */,
 				FFD7AD451AD166AD00EAB0FA /* MovementControl */,
@@ -278,12 +303,10 @@
 				6F8AEFB61AC7E24900C8BEA8 /* AudioManager.swift */,
 				C5C8D71D1AB847E5005ACB47 /* AppDelegate.swift */,
 				DCEFC6CA1AE69EC100A96A20 /* GameBackgroundViewController.swift */,
-				FFF036F21AE6BBE4002335B9 /* GameEndViewController.swift */,
 				DCA852B31AE2CFB3006A04C4 /* GameLevelLoadingViewController.swift */,
 				6FD17C521AD16D8C001891F6 /* GameMenuViewController.swift */,
 				DC86076C1AC714F700472BCD /* GameScene.sks */,
 				C5C8D7211AB847E5005ACB47 /* GameScene.swift */,
-				C59CB9511AD16C3B00E41CAE /* MultiplayerGameScene.swift */,
 				FFF036F21AE6BBE4002335B9 /* GameEndViewController.swift */,
 				6F8AEFB11AC7DB2F00C8BEA8 /* GameSceneDelegate.swift */,
 				FFF036F01AE6BBD1002335B9 /* GameViewController.swift */,
@@ -364,6 +387,25 @@
 				C540CFD01AD93306008C3D35 /* NetworkMovementControl.swift */,
 			);
 			name = MovementControl;
+			sourceTree = "<group>";
+		};
+		FFF036F41AE6F082002335B9 /* PredefinedLevels */ = {
+			isa = PBXGroup;
+			children = (
+				FFF036F51AE6F09A002335B9 /* __boundary__CS3217.png */,
+				FFF036F61AE6F09A002335B9 /* __boundary__level 0.png */,
+				FFF036F71AE6F09A002335B9 /* __boundary__level 1.png */,
+				FFF036F81AE6F09A002335B9 /* __boundary__level 2.png */,
+				FFF036F91AE6F09A002335B9 /* CS3217.png */,
+				FFF036FA1AE6F09A002335B9 /* CS3217.xml */,
+				FFF036FB1AE6F09A002335B9 /* level 0.png */,
+				FFF036FC1AE6F09A002335B9 /* level 0.xml */,
+				FFF036FD1AE6F09A002335B9 /* level 1.png */,
+				FFF036FE1AE6F09A002335B9 /* level 1.xml */,
+				FFF036FF1AE6F09A002335B9 /* level 2.png */,
+				FFF037001AE6F09A002335B9 /* level 2.xml */,
+			);
+			name = PredefinedLevels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -447,17 +489,29 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FFF037061AE6F09A002335B9 /* CS3217.xml in Resources */,
 				C5776FFE1AE2994D0049A869 /* MultiplayerGameScene.sks in Resources */,
+				FFF037031AE6F09A002335B9 /* __boundary__level 1.png in Resources */,
 				6FECFC231AE592C000A80920 /* coin.wav in Resources */,
+				FFF037071AE6F09A002335B9 /* level 0.png in Resources */,
+				FFF037021AE6F09A002335B9 /* __boundary__level 0.png in Resources */,
 				DC17F32B1AE2AFCD00452018 /* myFirstFile.xml in Resources */,
 				DC7B1D3C1AC6B65F008DEA0F /* pacman-male.atlas in Resources */,
 				6FECFC211AE5879C00A80920 /* menu.wav in Resources */,
+				FFF0370B1AE6F09A002335B9 /* level 2.png in Resources */,
+				FFF0370C1AE6F09A002335B9 /* level 2.xml in Resources */,
 				DCADC4861AD92E3800835A22 /* Images.xcassets in Resources */,
+				FFF037041AE6F09A002335B9 /* __boundary__level 2.png in Resources */,
 				6FD17C4A1AD14334001891F6 /* crackman.ttf in Resources */,
+				FFF037011AE6F09A002335B9 /* __boundary__CS3217.png in Resources */,
 				DC7B1D3A1AC6B334008DEA0F /* pacman-female.atlas in Resources */,
 				6F8AEFB51AC7E19700C8BEA8 /* pacman_chomp.wav in Resources */,
 				6FD17C4C1AD14334001891F6 /* crackman back.ttf in Resources */,
 				C5C8D72C1AB847E5005ACB47 /* LaunchScreen.xib in Resources */,
+				FFF037051AE6F09A002335B9 /* CS3217.png in Resources */,
+				FFF037081AE6F09A002335B9 /* level 0.xml in Resources */,
+				FFF0370A1AE6F09A002335B9 /* level 1.xml in Resources */,
+				FFF037091AE6F09A002335B9 /* level 1.png in Resources */,
 				DC86076D1AC714F700472BCD /* GameScene.sks in Resources */,
 				C5C8D7271AB847E5005ACB47 /* Main.storyboard in Resources */,
 				DC766FA01AC5D24500FB18F9 /* PacmanMapOne.tmx in Resources */,
