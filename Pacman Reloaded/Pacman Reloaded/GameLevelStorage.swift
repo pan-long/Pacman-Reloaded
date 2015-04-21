@@ -65,6 +65,10 @@ extension GameLevelStorage { // For storing and loading new designs from/into di
                         dic["id"] = ghostID.description
                         ghostID++
                     }
+                } else if level[indexPath]!.isPacdot {
+                    let ratio = CGFloat(Constants.GameScene.PacdotRatio)
+                    dic["width"] = Int(gridWidth / ratio).description
+                    dic["height"] = Int(gridHeight / ratio).description
                 }
             }
             
