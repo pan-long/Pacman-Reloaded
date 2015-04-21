@@ -73,8 +73,8 @@ class GameScene: SKScene {
     
     private func setPacmanAtCenter() {
         // keep the pacman to be at the center of the game scene
-        self.anchorPoint = CGPoint(x: 0.5 - pacman.position.x / Constants.IPadWidth,
-            y: 0.5 - pacman.position.y / Constants.IPadHeight)
+        self.anchorPoint = CGPoint(x: 0.5 - pacman.position.x / CGFloat(Constants.GameScene.Width),
+            y: 0.5 - pacman.position.y / CGFloat(Constants.GameScene.Height))
     }
     
     private func setupLightView(inParentView view: SKView) {
@@ -143,12 +143,12 @@ class GameScene: SKScene {
         }
         
         for inky in inkys {
-            var inkyMovement = InkyAIMovememntControl(movableObject: inky)
+            var inkyMovement = InkyAIMovementControl(movableObject: inky)
             ghostMovements.append(inkyMovement)
         }
         
         for clyde in clydes {
-            var clydeMovement = ClydeAIMovememntControl(movableObject: clyde)
+            var clydeMovement = ClydeAIMovementControl(movableObject: clyde)
             ghostMovements.append(clydeMovement)
         }
     }

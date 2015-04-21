@@ -134,13 +134,11 @@ class AIMovementControl: MovementControl {
     
     func scatterUpdate() {
         let availableDirections = movableObject.getAvailableDirections()
-        var nextDirection: Direction
+        var nextDirection: Direction!
         
         if availableDirections.isEmpty {
             forceReverse()
         } else {
-            nextDirection = availableDirections[0]
-        
             var minDistanceFromHome: Double = MAX_DISTANCE
             
             for direction in availableDirections {
@@ -234,7 +232,7 @@ class PinkyAIMovementControl: AIMovementControl {
     }
 }
 
-class InkyAIMovememntControl: AIMovementControl {
+class InkyAIMovementControl: AIMovementControl {
     private let INKY_CHASE_OFFSET: CGFloat = 4
     
     override func getHome() -> CGPoint {
@@ -270,7 +268,7 @@ class InkyAIMovememntControl: AIMovementControl {
     }
 }
 
-class ClydeAIMovememntControl: AIMovementControl {
+class ClydeAIMovementControl: AIMovementControl {
     private let CLYDE_SAFETY_COEFFICIENT: Double = 8
     
     override func getHome() -> CGPoint {
@@ -281,36 +279,34 @@ class ClydeAIMovememntControl: AIMovementControl {
     
     override func chaseUpdate() {
         let availableDirections = movableObject.getAvailableDirections()
-        var nextDirection: Direction
+        var nextDirection: Direction!
         
         if availableDirections.isEmpty {
-            nextDirection = .None
+            forceReverse()
         } else {
-            nextDirection = availableDirections[0]
-        }
-        
-        var minDistanceToPacman: Double = 100000
-        
-        for direction in availableDirections {
-            for pacman in dataSource.getPacmans() {
-                let distance = calculateDistance(
-                    movableObject.getNextPosition(direction, offset: 1),
-                    secondPostion: getChaseTarget(pacman))
-                
-                // Clyde turns into scatter mode when it is close to pacman
-                if distance < CLYDE_SAFETY_COEFFICIENT * Double(movableObject.speed) {
-                    scatterUpdate()
-                    return
-                }
-                
-                if distance < minDistanceToPacman {
-                    minDistanceToPacman = distance
-                    nextDirection = direction
+            var minDistanceToPacman: Double = 100000
+            
+            for direction in availableDirections {
+                for pacman in dataSource.getPacmans() {
+                    let distance = calculateDistance(
+                        movableObject.getNextPosition(direction, offset: 1),
+                        secondPostion: getChaseTarget(pacman))
+                    
+                    // Clyde turns into scatter mode when it is close to pacman
+                    if distance < CLYDE_SAFETY_COEFFICIENT * Double(movableObject.speed) {
+                        scatterUpdate()
+                        return
+                    }
+                    
+                    if distance < minDistanceToPacman {
+                        minDistanceToPacman = distance
+                        nextDirection = direction
+                    }
                 }
             }
+            
+            changeDirection(nextDirection)
         }
-        
-        movableObject.changeDirection(nextDirection)
     }
     
     override func getChaseTarget(visibleObject: MovableObject) -> CGPoint {
