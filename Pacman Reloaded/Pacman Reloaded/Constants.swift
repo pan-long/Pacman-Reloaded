@@ -129,6 +129,9 @@ struct Constants {
         
         static let SpotLightDuration: NSTimeInterval = 15
         static let ExtraPointDuration: NSTimeInterval = 1.0
+        
+        static let GameSceneViewAlphaStart: CGFloat = 0
+        static let GameSceneViewAlphaEnd: CGFloat = 1
     }
     
     struct AIMovementControl {
