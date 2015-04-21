@@ -46,8 +46,9 @@ class GameScene: SKScene {
     var mapContent: [Dictionary<String, String>]?
 
     override func didMoveToView(view: SKView) {
-        backgroundColor = SKColor.blackColor()
+        backgroundColor = SKColor.clearColor()
         self.presentingView = view
+        view.allowsTransparency = true
         
         // set up the lightspot view for blind special effects
         setupLightView(inParentView: view)
