@@ -10,12 +10,22 @@ import SpriteKit
 
 class GameLevelStorage {
     
+    class func getPredefinedGameLevels() -> [String] {
+        return ["CS3217", "level 0", "level 1", "level 2"]
+    }
+    
     class func getGameLevels() -> [String] {
         return getAllFiles().filter({ (str: String) -> Bool in
             return str.pathExtension == "xml"
         }).map({ (str: String) -> String in
             return str.stringByDeletingPathExtension
         })
+    }
+    
+    class func getPredefinedGameLevelImage(fileName: String) -> UIImage? {
+        let path = NSBundle.mainBundle().pathForResource(fileName, ofType: "png")!
+        let data = NSData(contentsOfFile: path)!
+        return UIImage(data: data)
     }
     
     class func getGameLevelImage(fileName: String) -> UIImage? {
@@ -29,6 +39,20 @@ class GameLevelStorage {
         return image
     }
     
+    class func loadGameLevelFromPredefinedFile(fileName: String) -> [Dictionary<String, String>]? {
+        let path = NSBundle.mainBundle().pathForResource(fileName, ofType: "xml")!
+        let data = NSArray(contentsOfFile: path)! as [Dictionary<String, String>]
+        return data
+    }
+    
+    class func loadGameLevelFromFile(fileName: String) -> [Dictionary<String, String>]? {
+        if let data = loadFile(addXMLExtensionToFile(fileName)) {
+            return (data as [Dictionary<String, String>])
+        } else {
+            return nil
+        }
+    }
+
 }
 
 extension GameLevelStorage { // For storing and loading new designs from/into dictionary
@@ -93,14 +117,6 @@ extension GameLevelStorage { // For storing and loading new designs from/into di
         let path = getFilePath(name)
         let fileSaved = imageData.writeToFile(path, atomically: true)
         return fileSaved ? .Success : .Failure
-    }
-    
-    class func loadGameLevelFromFile(fileName: String) -> [Dictionary<String, String>]? {
-        if let data = loadFile(fileName) {
-            return (data as [Dictionary<String, String>])
-        } else {
-            return nil
-        }
     }
 }
 
