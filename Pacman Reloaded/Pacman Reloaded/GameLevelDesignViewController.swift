@@ -56,6 +56,11 @@ class GameLevelDesignViewController: GameBackgroundViewController {
         changeArrowVisibility()
     }
     
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        setupLevelDesigner()
+    }
+    
     deinit {
         println("Deinit level designer")
     }
@@ -69,10 +74,41 @@ class GameLevelDesignViewController: GameBackgroundViewController {
         arrowTimer = nil
     }
     
+    private func setupLevelDesigner() {
+        selected = .Boundary
+        let numOfRows = Constants.GameScene.NumberOfRows
+        let numOfColumns = Constants.GameScene.NumberOfColumns
+        
+        for row in 0..<numOfRows {
+            if row == 0 || row == numOfRows - 1 {
+                for column in 0..<numOfColumns {
+                    let indexPath = NSIndexPath(forRow: column, inSection: row)
+                    setCellToSelected(indexPath)
+                }
+            } else {
+                let indexPathFirst = NSIndexPath(forRow: 0, inSection: row)
+                let indexPathLast = NSIndexPath(forRow: numOfColumns - 1, inSection: row)
+                setCellToSelected(indexPathFirst)
+                setCellToSelected(indexPathLast)
+            }
+        }
+        selected = .None
+    }
+    
     private func unselectAllButtons() {
         let allButtons = buttons.subviews as [UIView]
         for i in 0..<allButtons.count {
             allButtons[i].alpha = 0.5
+        }
+    }
+    
+    private func setCellToSelectedWithConstraints(indexPath: NSIndexPath) {
+        // Disable changing the outmost rectangular bound
+        let numOfRows = Constants.GameScene.NumberOfRows
+        let numOfColumns = Constants.GameScene.NumberOfColumns
+        if indexPath.section > 0 && indexPath.section < numOfRows &&
+            indexPath.row > 0 && indexPath.section < numOfColumns {
+                setCellToSelected(indexPath)
         }
     }
     
@@ -209,7 +245,7 @@ extension GameLevelDesignViewController {
 extension GameLevelDesignViewController: UICollectionViewDelegate {
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         if collectionView == designArea {
-            setCellToSelected(indexPath)
+            setCellToSelectedWithConstraints(indexPath)
         } else if collectionView == miniMap {
             moveDesignAreaToIndexPath(indexPath)
             moveMiniMapRec()
@@ -291,7 +327,7 @@ extension GameLevelDesignViewController {
         if selected == .Boundary || selected == .Pacdot || selected == .SuperPacdot || selected == .None {
             let currentPosition = sender.locationInView(designArea)
             if let indexPath = designArea.indexPathForItemAtPoint(currentPosition) {
-                setCellToSelected(indexPath)
+                setCellToSelectedWithConstraints(indexPath)
             }
         }
     }
