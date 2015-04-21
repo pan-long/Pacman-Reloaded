@@ -48,6 +48,7 @@ class MultiplayerConnectivity: NSObject {
     init(name: String) {
         playerName = name
         peerID = MCPeerID(displayName: playerName)
+        println(peerID)
 
         session = MCSession(peer: peerID)
         
@@ -65,6 +66,8 @@ class MultiplayerConnectivity: NSObject {
             }
         }
         
+        println("Sending Data")
+        println(peerIDs)
         session.sendData(data, toPeers: peerIDs, withMode: MCSessionSendDataMode.Reliable, error: error)
     }
     
@@ -118,6 +121,8 @@ extension MultiplayerConnectivity: MCNearbyServiceAdvertiserDelegate {
     // MARK: methods required in MCNearbyServiceAdvertiserDelegate
     // Incoming invitation request.  Call the invitationHandler block with YES and a valid session to connect the inviting peer to the session.
     func advertiser(advertiser: MCNearbyServiceAdvertiser!, didReceiveInvitationFromPeer peerID: MCPeerID!, withContext context: NSData!, invitationHandler: ((Bool, MCSession!) -> Void)!) {
+        nameToPeerIDDict[peerID.displayName] = peerID
+        
         let handler: ((Bool) -> Void) = {shouldConnect in
             invitationHandler(shouldConnect, self.session)
         }
@@ -158,6 +163,7 @@ extension MultiplayerConnectivity: MCSessionDelegate {
     
     // Received data from remote peer
     func session(session: MCSession!, didReceiveData data: NSData!, fromPeer peerID: MCPeerID!) {
+        println("received data")
         if let validDelegate = sessionDelegate {
             validDelegate.session(didReceiveData: data, fromPlayer: peerID.displayName)
         }

@@ -70,6 +70,14 @@ extension MultiplayerManagementViewController: UITableViewDelegate {
         let joinGameAction = UIAlertAction(title: "Yes", style: .Default,
             handler: { (action) -> Void in
                 self.connectivity.sendInvitation(toPlayer: self.newGames[indexPath.row])
+                
+                // try connecting to the host, show an indicator with cancel button
+                var gameRoomVC = self.storyboard?.instantiateViewControllerWithIdentifier("gameRoomVC") as NewGameRoomViewController
+                
+                gameRoomVC.gameStartDelegate = self
+                self.connectivity.matchDelegate = gameRoomVC
+                self.connectivity.sessionDelegate = gameRoomVC
+                self.presentViewController(gameRoomVC, animated: true, completion: nil)
         })
         
         let cancelAction = UIAlertAction(title: "No", style: .Cancel,handler: nil)
@@ -106,12 +114,6 @@ extension MultiplayerManagementViewController: MatchPeersDelegate {
             // connected with host, enter game and set game scene
             break
         case .Connecting:
-            // try connecting to the host, show an indicator with cancel button
-            var gameRoomVC = self.storyboard?.instantiateViewControllerWithIdentifier("gameRoomVC") as NewGameRoomViewController
-            connectivity.matchDelegate = gameRoomVC
-            connectivity.sessionDelegate = gameRoomVC
-            self.presentViewController(gameRoomVC, animated: true, completion: nil)
-            
             break
         case .NotConnected:
             // there is a problem connecting with the host, show an alert message
@@ -140,11 +142,11 @@ extension MultiplayerManagementViewController: GameLevelLoadingDelegate {
     func didSelectedLevel(sourceVC: UIViewController, mapContent: [Dictionary<String, String>]) {
         self.mapContent = mapContent
         sourceVC.dismissViewControllerAnimated(true, completion: {() -> Void in
-            self.presentGameRoomVC()
+            self.hostNewRoom()
         })
     }
     
-    private func presentGameRoomVC() {
+    private func hostNewRoom() {
         var gameRoomVC = self.storyboard?.instantiateViewControllerWithIdentifier("gameRoomVC") as NewGameRoomViewController
         gameRoomVC.gameStartDelegate = self
         
@@ -159,12 +161,15 @@ extension MultiplayerManagementViewController: NewGameStartDelegate {
     func startNewGame(sourceVC: UIViewController, hostName: String, allPlayers: [String]) {
         if let mapContent = mapContent {
             let pacmanIds = extractPacmanIdsFromMap(mapContent)
+            println(pacmanIds)
             self.mapContent = removeExtraPacmans(mapContent, pacmanIds: pacmanIds, count: allPlayers.count + 1)
             
+            println(allPlayers)
             for i in 0..<allPlayers.count {
                 let gameInitData = GameNetworkInitData(hostName: hostName, allPlayersName: allPlayers, pacmanId: pacmanIds[i], mapContent: self.mapContent!)
                 let archivedData = NSKeyedArchiver.archivedDataWithRootObject(gameInitData)
                 connectivity.sendData(toPlayer: [allPlayers[i]], data: archivedData, error: nil)
+                println("sent data")
             }
             
             self.pacmanId = pacmanIds.last!

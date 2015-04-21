@@ -33,6 +33,7 @@ class GameCenter {
         self.mapContent = mapContent
         
         self.connectivity = connectivity
+        connectivity.sessionDelegate = self
     }
 }
 
@@ -87,6 +88,7 @@ extension GameCenter: SessionDataDelegate {
 
 extension GameCenter: GameSceneNetworkDelegate {
     func updateObjectMovementData(objectId: Int, newDirection: Direction, position: CGPoint) {
+        println("updating network data!")
         let objectMovementData = GameNetworkMovementData(objectId: objectId, position: position, direction: newDirection)
         let archivedData = NSKeyedArchiver.archivedDataWithRootObject(objectMovementData)
         

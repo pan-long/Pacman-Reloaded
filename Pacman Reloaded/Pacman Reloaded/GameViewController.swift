@@ -69,6 +69,8 @@ class GameViewController: UIViewController {
         setupGameProperties(fromMap: mapData, pacmanId: pacmanId, isMultiplayerMode: true, isHost: isHost)
         
         self.gameCenter = gameCenter
+        
+        println("pacman id: \(pacmanId)")
     }
     
     private func setupGameProperties(fromMap mapData: [Dictionary<String, String>], pacmanId: Int, isMultiplayerMode: Bool, isHost: Bool) {
@@ -223,8 +225,6 @@ extension GameViewController: GameSceneDelegate {
     func updateScore(score: Int, dotsLeft: Int) {
         self.score.text = "Score: \(score)"
         self.remainingDots.text = "Remaining: \(dotsLeft)"
-        
-        
     }
 
     func gameDidEnd(scene: GameScene, didWin: Bool, score: Int) {

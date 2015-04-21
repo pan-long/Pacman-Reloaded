@@ -123,7 +123,7 @@ extension NewGameRoomViewController: SessionDataDelegate {
     // Received data from remote player
     func session(didReceiveData data: NSData, fromPlayer playerName: String) {
         let unarchivedData: AnyObject? = NSKeyedUnarchiver.unarchiveObjectWithData(data)
-        println("recieved data")
+        println("Received data")
         if let gameInitData = unarchivedData as? GameNetworkInitData {
             if let delegate = gameStartDelegate {
                 delegate.joinNewGame(gameInitData.mapContent, pacmanId: gameInitData.pacmanId, selfName: UIDevice.currentDevice().name, hostName: gameInitData.hostName, otherPlayersName: gameInitData.allPlayersName)
