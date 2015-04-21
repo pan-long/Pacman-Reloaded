@@ -52,14 +52,17 @@ class GameViewController: UIViewController {
     private var miniMapMovableObjects = Dictionary<MovableObject, UIImageView>()
     private var miniMapImage: UIImage?
     
+    private var background: UIImageView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let background = UIView()
+        let backgroundImage = UIImage(named: "landing-page")
+        let background = UIImageView(image: backgroundImage!)
         background.frame = self.view.frame
-        background.backgroundColor = UIColor.darkGrayColor()
         view.addSubview(background)
         view.sendSubviewToBack(background)
+        self.background = background
     }
 
     func setupSingleGame(fromMap mapData: [Dictionary<String, String>], miniMapImage: UIImage) {
