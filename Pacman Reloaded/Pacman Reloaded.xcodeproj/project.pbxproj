@@ -25,6 +25,7 @@
 		6FD827CF1AB854EA0079147F /* Ghost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FD827CE1AB854EA0079147F /* Ghost.swift */; };
 		6FECFC1B1AE5729400A80920 /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FECFC1A1AE5729400A80920 /* MenuController.swift */; };
 		6FECFC211AE5879C00A80920 /* menu.wav in Resources */ = {isa = PBXBuildFile; fileRef = 6FECFC201AE5879C00A80920 /* menu.wav */; };
+		6FECFC231AE592C000A80920 /* coin.wav in Resources */ = {isa = PBXBuildFile; fileRef = 6FECFC221AE592C000A80920 /* coin.wav */; };
 		C540CFD11AD93306008C3D35 /* NetworkMovementControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = C540CFD01AD93306008C3D35 /* NetworkMovementControl.swift */; };
 		C553BEA61AE567670073B216 /* NewGameRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C553BEA51AE567670073B216 /* NewGameRoomViewController.swift */; };
 		C5776FFE1AE2994D0049A869 /* MultiplayerGameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = C5776FFD1AE2994D0049A869 /* MultiplayerGameScene.sks */; };
@@ -103,6 +104,7 @@
 		6FD827CE1AB854EA0079147F /* Ghost.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ghost.swift; sourceTree = "<group>"; };
 		6FECFC1A1AE5729400A80920 /* MenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
 		6FECFC201AE5879C00A80920 /* menu.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = menu.wav; sourceTree = "<group>"; };
+		6FECFC221AE592C000A80920 /* coin.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = coin.wav; sourceTree = "<group>"; };
 		C540CFD01AD93306008C3D35 /* NetworkMovementControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkMovementControl.swift; sourceTree = "<group>"; };
 		C553BEA51AE567670073B216 /* NewGameRoomViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewGameRoomViewController.swift; sourceTree = "<group>"; };
 		C5776FFD1AE2994D0049A869 /* MultiplayerGameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MultiplayerGameScene.sks; sourceTree = "<group>"; };
@@ -198,6 +200,7 @@
 			isa = PBXGroup;
 			children = (
 				6F8AEFB41AC7E19700C8BEA8 /* pacman_chomp.wav */,
+				6FECFC221AE592C000A80920 /* coin.wav */,
 				6FECFC201AE5879C00A80920 /* menu.wav */,
 			);
 			name = Audio;
@@ -434,6 +437,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C5776FFE1AE2994D0049A869 /* MultiplayerGameScene.sks in Resources */,
+				6FECFC231AE592C000A80920 /* coin.wav in Resources */,
 				DC17F32B1AE2AFCD00452018 /* myFirstFile.xml in Resources */,
 				DC7B1D3C1AC6B65F008DEA0F /* pacman-male.atlas in Resources */,
 				6FECFC211AE5879C00A80920 /* menu.wav in Resources */,

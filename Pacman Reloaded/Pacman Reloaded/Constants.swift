@@ -74,6 +74,7 @@ struct Constants {
         
         // Segue identifier
         static let ShowPopover = "showPopover"
+        static let QuitLevelSelection = "unwindToMenuFromLevelLoading"
     }
     
     struct GameScene {
@@ -136,5 +137,15 @@ struct Constants {
         static let INDEFINITE_CHASE = 2100
         static let CHASE_MODE_DURATION = 400
         static let SCATTER_MODE_DURATION = 100
+    }
+
+    struct MainMenu {
+        static let ParallaxLeftRightMin = CGFloat(-50)
+        static let ParallaxLeftRightMax = -1 * ParallaxLeftRightMin
+        static let ParallaxLeftRightKeyPath = "center.x"
+
+        static let ParallaxUpDownMin = CGFloat(-50)
+        static let ParallaxUpDownMax = -1 * ParallaxUpDownMin
+        static let ParallaxUpDownKeyPath = "center.y"
     }
 }

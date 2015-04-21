@@ -52,14 +52,17 @@ class GameViewController: UIViewController {
     private var miniMapMovableObjects = Dictionary<MovableObject, UIImageView>()
     private var miniMapImage: UIImage?
     
+    private var background: UIImageView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let background = UIView()
+        let backgroundImage = UIImage(named: "landing-page")
+        let background = UIImageView(image: backgroundImage!)
         background.frame = self.view.frame
-        background.backgroundColor = UIColor.darkGrayColor()
         view.addSubview(background)
         view.sendSubviewToBack(background)
+        self.background = background
     }
 
     func setupSingleGame(fromMap mapData: [Dictionary<String, String>], miniMapImage: UIImage) {
@@ -67,6 +70,7 @@ class GameViewController: UIViewController {
         
         setupGameScene()
         addGameSceneToView()
+        setupMiniMap()
     }
     
     func setupMultiplayerGame(fromMap mapData: [Dictionary<String, String>], pacmanId: Int, isHost: Bool, gameCenter: GameCenter, miniMapImage: UIImage) {
@@ -89,9 +93,8 @@ class GameViewController: UIViewController {
         if isMultiplayerMode {
             setupGameScene()
             addGameSceneToView()
+            setupMiniMap()
         }
-        
-        setupMiniMap()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -181,10 +184,6 @@ class GameViewController: UIViewController {
             return
         })
     }
-
-    func quit() {
-        self.presentingViewController?.dismissViewControllerAnimated(true, completion: nil)
-    }
     
     func restart() {
         self.scene!.restart()
@@ -205,22 +204,6 @@ class GameViewController: UIViewController {
         }))
 
         self.presentViewController(alertVC, animated: true, completion: nil)
-    }
-    
-    func countDown(timer: NSTimer) {
-        if let number = pauseBtn.titleLabel?.text?.toInt() {
-            if number > 0 {
-                pauseBtn.setTitle(String(number - 1), forState: UIControlState.Normal)
-            } else {
-                pauseBtn.setTitle("Pause", forState: UIControlState.Normal)
-                timer.invalidate()
-                gameSceneView.scene?.view?.paused = false
-                pauseBtn.enabled = true
-            }
-        } else {
-            pauseBtn.setTitle(String(Constants.gameResumeCountDownNumber), forState: UIControlState.Normal)
-            pauseBtn.enabled = false
-        }
     }
 
     deinit {
@@ -267,6 +250,10 @@ extension GameViewController: GameSceneDelegate {
 }
 
 extension GameViewController: GameLevelLoadingDelegate {
+    func willCancel(sourceVC: UIViewController) {
+
+    }
+
     func didSelectedLevel(sourceVC: UIViewController, mapContent: [Dictionary<String, String>], miniMapImage: UIImage) {
         setupSingleGame(fromMap: mapContent, miniMapImage: miniMapImage)
         sourceVC.dismissViewControllerAnimated(true, completion: nil)

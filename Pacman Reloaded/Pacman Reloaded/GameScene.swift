@@ -46,8 +46,9 @@ class GameScene: SKScene {
     var mapContent: [Dictionary<String, String>]?
 
     override func didMoveToView(view: SKView) {
-        backgroundColor = SKColor.blackColor()
+        backgroundColor = SKColor.clearColor()
         self.presentingView = view
+        view.allowsTransparency = true
         
         // set up the lightspot view for blind special effects
         setupLightView(inParentView: view)
@@ -320,7 +321,7 @@ extension GameScene: SKPhysicsContactDelegate {
         if totalPacDots == 0 {
             self.sceneDelegate.gameDidEnd(self, didWin: true, score: pacman.score)
         }
-        //self.runAction(AudioManager.pacdotSoundEffectAction())
+        self.runAction(AudioManager.pacdotSoundEffectAction())
     }
     
     private func spotLightMode() {

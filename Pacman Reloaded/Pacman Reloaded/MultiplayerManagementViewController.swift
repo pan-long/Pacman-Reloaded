@@ -141,6 +141,9 @@ extension MultiplayerManagementViewController: MatchPeersDelegate {
 }
 
 extension MultiplayerManagementViewController: GameLevelLoadingDelegate {
+    func willCancel(sourceVC: UIViewController) {
+        
+    }
     func didSelectedLevel(sourceVC: UIViewController, mapContent: [Dictionary<String, String>], miniMapImage: UIImage) {
         self.mapContent = mapContent
         self.miniMapImage = miniMapImage

@@ -9,7 +9,12 @@
 import SpriteKit
 
 protocol GameLevelLoadingDelegate: class {
+
     func didSelectedLevel(sourceVC:UIViewController, mapContent: [Dictionary<String, String>], miniMapImage: UIImage)
+
+    // Called before it is rewind to main menu,
+    // give the presenting view controller a chance to clean up
+    func willCancel(sourceVC: UIViewController)
 }
 
 class GameLevelLoadingViewController: UIViewController {
@@ -58,7 +63,13 @@ extension GameLevelLoadingViewController: UITableViewDataSource {
 }
 
 extension GameLevelLoadingViewController {
-    
+    @IBAction func cancelButtonClicked(sender: UIButton) {
+        if let delegate = delegate {
+            delegate.willCancel(self)
+        }
+        self.performSegueWithIdentifier(Constants.Identifiers.QuitLevelSelection, sender: self)
+    }
+
     @IBAction func loadButtonClicked(sender: UIButton) {
         if let fileSelected = fileSelected {
             let mapContent = GameLevelStorage.loadGameLevelFromFile(GameLevelStorage.addXMLExtensionToFile(fileSelected))!
