@@ -22,9 +22,10 @@ class GameLevelLoadingViewController: MenuController {
     @IBOutlet weak var gameLevelsTable: UITableView!
     @IBOutlet weak var gameLevelPreview: UIImageView!
     
-    let allFiles = GameLevelStorage.getGameLevels()
+    private let allPredefinedFiles = GameLevelStorage.getPredefinedGameLevels()
+    private let allFiles = GameLevelStorage.getGameLevels()
     
-    var fileSelected: String?
+    private var fileSelected: Int?
     
     weak var delegate: GameLevelLoadingDelegate?
     
@@ -35,22 +36,57 @@ class GameLevelLoadingViewController: MenuController {
         gameLevelsTable.layer.cornerRadius = 15
         gameLevelsTable.alpha = 0.7
         loadButton.enabled = false
+        fileSelected = 0
+    }
+    
+    private func getSelectedFileName() -> String {
+        var fileName: String
+        if fileSelected < allPredefinedFiles.count {
+            fileName = allPredefinedFiles[fileSelected!]
+        } else {
+            fileName = allFiles[fileSelected! - allPredefinedFiles.count]
+        }
+        return fileName
+    }
+    
+    private func getSelectedFileImage() -> UIImage {
+        var image: UIImage
+        let fileName = getSelectedFileName()
+        if fileSelected < allPredefinedFiles.count {
+            image = GameLevelStorage.getPredefinedGameLevelImage(fileName)!
+        } else {
+            image = GameLevelStorage.getGameLevelImage(fileName)!
+        }
+        return image
+    }
+    
+    private func getSelectedFileContent() -> [Dictionary<String, String>] {
+        var content: [Dictionary<String, String>]
+        if fileSelected < allPredefinedFiles.count {
+            content = GameLevelStorage.loadGameLevelFromPredefinedFile(allPredefinedFiles[fileSelected!])!
+        } else {
+            content = GameLevelStorage.loadGameLevelFromFile(allFiles[fileSelected! - allPredefinedFiles.count])!
+        }
+        return content
     }
 }
 
 extension GameLevelLoadingViewController: UITableViewDelegate {
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        fileSelected = allFiles[indexPath.row]
+        fileSelected = indexPath.row
         loadButton.enabled = true
-        if let image = GameLevelStorage.getGameLevelImage(fileSelected!) {
-            gameLevelPreview.image = image
-        }
+        gameLevelPreview.image = getSelectedFileImage()
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let tableCellIdentifier = Constants.Identifiers.GameLevelTableCell
         var cell = tableView.dequeueReusableCellWithIdentifier(tableCellIdentifier) as UITableViewCell
-        cell.textLabel!.text = allFiles[indexPath.row]
+        if indexPath.row < allPredefinedFiles.count {
+            cell.textLabel!.text = allPredefinedFiles[indexPath.row]
+        } else {
+            cell.textLabel!.text = allFiles[indexPath.row - allPredefinedFiles.count]
+        }
+
         return cell
     }
 }
@@ -61,7 +97,7 @@ extension GameLevelLoadingViewController: UITableViewDataSource {
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return allFiles.count
+        return allPredefinedFiles.count + allFiles.count
     }
 }
 
@@ -75,8 +111,10 @@ extension GameLevelLoadingViewController {
 
     @IBAction func loadButtonClicked(sender: UIButton) {
         if let fileSelected = fileSelected {
-            let mapContent = GameLevelStorage.loadGameLevelFromFile(GameLevelStorage.addXMLExtensionToFile(fileSelected))!
-            let miniMapImage = GameLevelStorage.getGameLevelImage(Constants.GameScene.ImageWithoutBoundaryPrefix + fileSelected)!
+            println("loading")
+            let mapContent = getSelectedFileContent()
+            let miniMapImage = getSelectedFileImage()
+            println("loaded")
             
             if let delegate = delegate {
                 delegate.didSelectedLevel(self, mapContent: mapContent, miniMapImage: miniMapImage)
