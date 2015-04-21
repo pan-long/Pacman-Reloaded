@@ -54,6 +54,8 @@ class GameViewController: GameBackgroundViewController, GameEndDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        gameSceneView.backgroundColor = UIColor.clearColor()
+        gameSceneView.alpha = Constants.GameScene.GameSceneViewAlphaStart
     }
 
     func setupSingleGame(fromMap mapData: [Dictionary<String, String>], miniMapImage: UIImage) {
@@ -99,6 +101,7 @@ class GameViewController: GameBackgroundViewController, GameEndDelegate {
     private func setupGameScene() {
         // initialize game scene from spritkit resource file
         scene = getGameSceneFromFile()
+        gameSceneView.alpha = Constants.GameScene.GameSceneViewAlphaEnd
         
         setupGameSKView()
         
