@@ -30,8 +30,7 @@ class GameViewController: UIViewController {
 
     @IBOutlet weak var gameSceneView: SKView!
     
-    @IBOutlet weak var score: UILabel!
-    @IBOutlet weak var pauseBtn: UIButton!
+    @IBOutlet weak var score: UICountingLabel!
     @IBOutlet weak var remainingDots: UILabel!
     @IBOutlet weak var miniMap: UIImageView!
     
@@ -213,16 +212,16 @@ class GameViewController: UIViewController {
 
 extension GameViewController: GameSceneDelegate {
     func updateScore(score: Int, dotsLeft: Int) {
-        self.score.text = "Score: \(score)"
+        self.score.updateTo(score)
         self.remainingDots.text = "Remaining: \(dotsLeft)"
     }
 
     func gameDidEnd(scene: GameScene, didWin: Bool, score: Int) {
         var title: String
         if didWin {
-            title = Constants.Locale.gameWin
+            title = Constants.Locale.GameWin
         } else {
-            title = Constants.Locale.gameOver
+            title = Constants.Locale.GameOver
         }
         let alertVC = UIAlertController(title: title, message: nil, preferredStyle: UIAlertControllerStyle.Alert)
         alertVC.addAction(UIAlertAction(title: "Restart", style: UIAlertActionStyle.Default, handler: {action in
@@ -249,6 +248,7 @@ extension GameViewController: GameSceneDelegate {
     }
 }
 
+// MARK: - GameLevelLoadingDelegate
 extension GameViewController: GameLevelLoadingDelegate {
     func willCancel(sourceVC: UIViewController) {
 
@@ -279,7 +279,7 @@ extension GameViewController: GameLevelLoadingDelegate {
     }
 }
 
-// This extension deals with miniMap
+// MARK: - MiniMap
 extension GameViewController {
     
     private func gameScenePosToMiniMapPos(position: CGPoint) -> CGPoint {

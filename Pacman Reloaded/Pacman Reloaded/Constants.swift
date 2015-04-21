@@ -17,11 +17,11 @@ struct Constants {
     static let FrameInterval = 2
     
     struct Item {
-        static let sizeScale = CGFloat(1)
+        static let SizeScale = CGFloat(1)
     }
     
     struct MovableObject {
-        static let sizeScale = CGFloat(0.5)
+        static let SizeScale = CGFloat(0.5)
     }
 
     struct Score {
@@ -31,13 +31,13 @@ struct Constants {
     }
 
     struct Ghost {
-        static let speed = CGFloat(4)
+        static let Speed = CGFloat(4)
         static let FrightenSpeed = CGFloat(2)
         static let EatenSpeed = CGFloat(6)
-        static let defaultImageSuffix = "-right"
-        static let frightenedImage = "ghost-frightened"
-        static let eatedImage = "ghost-eyes"
-        static let imageSeparator = "-"
+        static let DefaultImageSuffix = "-right"
+        static let FrightenedImage = "ghost-frightened"
+        static let EatedImage = "ghost-eyes"
+        static let ImageSeparator = "-"
         static let FrightenModeDuration: NSTimeInterval = 8
         static let FrightenModeBlinkDuration: NSTimeInterval = 0.2
         static let FrightenModeBlinkCount = 5
@@ -49,17 +49,17 @@ struct Constants {
     }
 
     struct PacDot {
-        static let normalPacDotImage = "pacdot"
-        static let superPacDotImage = "super-pacdot"
-        static let zPosition = CGFloat(-90)
+        static let NormalPacDotImage = "pacdot"
+        static let SuperPacDotImage = "super-pacdot"
+        static let ZPosition = CGFloat(-90)
     }
 
     struct Locale {
-        static let gameOver = "Game Over"
-        static let gameWin = "You win!"
+        static let GameOver = "Game Over"
+        static let GameWin = "You win!"
     }
 
-    static let invitePlayerTimeout: NSTimeInterval = 20
+    static let InvitePlayerTimeout: NSTimeInterval = 20
     struct Identifiers {
         // Single player segue identifier
         static let SinglePlayerGameSegueIdentifier = "SinglePlayerGameSeuge"
@@ -132,10 +132,10 @@ struct Constants {
     }
     
     struct AIMovementControl {
-        static let GAME_SCENE_MIN_X: CGFloat = 0
-        static let GAME_SCENE_MIN_Y: CGFloat = 0
-        static let GAME_SCENE_MAX_X = Constants.GameScene.GridWidth  * CGFloat(Constants.GameScene.NumberOfColumns)
-        static let GAME_SCENE_MAX_Y = Constants.GameScene.GridHeight * CGFloat(Constants.GameScene.NumberOfRows)
+        static let GameSceneMinX: CGFloat = 0
+        static let GameSceneMinY: CGFloat = 0
+        static let GameSceneMaxX = Constants.GameScene.GridWidth  * CGFloat(Constants.GameScene.NumberOfColumns)
+        static let GameSceneMaxY = Constants.GameScene.GridHeight * CGFloat(Constants.GameScene.NumberOfRows)
         
         static let INDEFINITE_CHASE = 2100
         static let CHASE_MODE_DURATION = 400

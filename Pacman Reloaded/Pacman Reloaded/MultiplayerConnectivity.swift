@@ -111,7 +111,7 @@ class MultiplayerConnectivity: NSObject {
     func sendInvitation(toPlayer playerName: String) {
         if let peerID = nameToPeerIDDict[playerName] {
             if let browser = serviceBrowser {
-                browser.invitePeer(peerID, toSession: session, withContext: nil, timeout: Constants.invitePlayerTimeout)
+                browser.invitePeer(peerID, toSession: session, withContext: nil, timeout: Constants.InvitePlayerTimeout)
             }
         }
     }

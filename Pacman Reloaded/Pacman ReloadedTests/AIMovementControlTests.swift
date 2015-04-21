@@ -16,8 +16,8 @@ class AIMovementControlTests: XCTestCase {
     private let MAX_DISTANCE: Double = 10000
     
     private let blinkyHome = CGPoint(
-        x: Constants.AIMovementControl.GAME_SCENE_MIN_X,
-        y: Constants.AIMovementControl.GAME_SCENE_MAX_Y)
+        x: Constants.AIMovementControl.GameSceneMinX,
+        y: Constants.AIMovementControl.GameSceneMaxY)
     
     private var blinky1 = Ghost(id: 0, imageName: "ghost-red")
     private var blinky2 = Ghost(id: 1, imageName: "ghost-red")
