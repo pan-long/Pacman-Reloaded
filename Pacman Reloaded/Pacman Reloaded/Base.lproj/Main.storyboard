@@ -366,6 +366,16 @@
                         <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tqI-js-zse">
+                                <rect key="frame" x="50" y="54" width="200" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="DYO-vg-Vgz"/>
+                                    <constraint firstAttribute="width" constant="200" id="USw-le-hhx"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ahL-Ux-dvO">
                                 <rect key="frame" x="125" y="135" width="50" height="30"/>
                                 <constraints>
@@ -392,12 +402,13 @@
                                     <segue destination="dfT-IM-jk9" kind="unwind" unwindAction="unwindToThisViewController:" id="TCG-h8-byI"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tqI-js-zse">
-                                <rect key="frame" x="50" y="54" width="200" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I0e-xP-FMy">
+                                <rect key="frame" x="129" y="83" width="42" height="21"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="200" id="USw-le-hhx"/>
+                                    <constraint firstAttribute="height" constant="21" id="lj9-N6-3Ue"/>
+                                    <constraint firstAttribute="width" constant="200" id="xhh-P0-Nb4"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -405,10 +416,12 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="55L-cj-6Nv" firstAttribute="top" secondItem="ahL-Ux-dvO" secondAttribute="bottom" constant="20" id="FeH-qk-o6p"/>
+                            <constraint firstItem="I0e-xP-FMy" firstAttribute="top" secondItem="tqI-js-zse" secondAttribute="bottom" constant="8" id="KYC-Tv-ET7"/>
                             <constraint firstAttribute="centerX" secondItem="tqI-js-zse" secondAttribute="centerX" id="Yib-hZ-S3K"/>
                             <constraint firstAttribute="centerX" secondItem="55L-cj-6Nv" secondAttribute="centerX" id="hQL-XY-lWg"/>
                             <constraint firstAttribute="centerX" secondItem="ahL-Ux-dvO" secondAttribute="centerX" id="oGQ-N0-U1y"/>
                             <constraint firstItem="ahL-Ux-dvO" firstAttribute="top" secondItem="tqI-js-zse" secondAttribute="bottom" constant="60" id="pST-Vz-2UE"/>
+                            <constraint firstAttribute="centerX" secondItem="I0e-xP-FMy" secondAttribute="centerX" id="wZh-2x-5lV"/>
                             <constraint firstAttribute="centerY" secondItem="ahL-Ux-dvO" secondAttribute="centerY" id="z2a-Jy-qVb"/>
                         </constraints>
                     </view>
@@ -416,6 +429,7 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="300" height="300"/>
                     <connections>
+                        <outlet property="gameScore" destination="I0e-xP-FMy" id="Nvk-L1-q69"/>
                         <outlet property="gameStatus" destination="tqI-js-zse" id="wqk-iY-Hnp"/>
                     </connections>
                 </viewController>
