@@ -179,8 +179,10 @@ class GameScene: SKScene {
         // read from map data
         if let map = mapContent {
             parseMapWithData(map)
+
         }
         
+        sceneDelegate.updateScore(pacman.score, dotsLeft: totalPacDots)
         // for convenience, combine all ghosts in one array
         ghosts = blinkys + pinkys + inkys + clydes
     }
