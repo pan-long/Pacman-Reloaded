@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="CsF-LZ-baB">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="CsF-LZ-baB">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -20,18 +20,20 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="landing-page" translatesAutoresizingMaskIntoConstraints="NO" id="3L8-eC-oYo">
                                 <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TKP-98-ewe">
-                                <rect key="frame" x="144" y="441" width="481" height="42"/>
-                                <state key="normal" image="button-single-player">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TKP-98-ewe">
+                                <rect key="frame" x="272" y="400" width="481" height="42"/>
+                                <fontDescription key="fontDescription" name="Copperplate-Bold" family="Copperplate" pointSize="50"/>
+                                <state key="normal" title="Single Player">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <segue destination="BV1-FR-VrT" kind="show" identifier="SinglePlayerGameSeuge" id="rCU-rN-mAP"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l1E-lm-h3j">
-                                <rect key="frame" x="158" y="517" width="452" height="57"/>
-                                <state key="normal" image="button-multiplayer">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l1E-lm-h3j">
+                                <rect key="frame" x="272" y="475" width="481" height="42"/>
+                                <fontDescription key="fontDescription" name="Copperplate-Bold" family="Copperplate" pointSize="50"/>
+                                <state key="normal" title="Multiplayer">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -39,14 +41,21 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dLe-dP-rPq">
-                                <rect key="frame" x="158" y="596" width="521" height="60"/>
-                                <state key="normal" title="Button" image="button-level-designer">
+                                <rect key="frame" x="272" y="550" width="481" height="42"/>
+                                <fontDescription key="fontDescription" name="Copperplate-Bold" family="Copperplate" pointSize="50"/>
+                                <state key="normal" title="Level Designer">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <segue destination="q9R-B0-rYt" kind="presentation" id="clm-tr-xj0"/>
                                 </connections>
                             </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="QPl-ev-AZo">
+                                <rect key="frame" x="227" y="83" width="570" height="105"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="reloaded" translatesAutoresizingMaskIntoConstraints="NO" id="CNf-Jg-ijp">
+                                <rect key="frame" x="246" y="225" width="532" height="72"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -585,7 +594,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="6" height="6"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="6.5" height="6.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
@@ -729,20 +738,19 @@
         <image name="arrow-right" width="100" height="100"/>
         <image name="arrow-up" width="100" height="100"/>
         <image name="button-create-new-room" width="267" height="250"/>
-        <image name="button-level-designer" width="1650" height="202"/>
-        <image name="button-multiplayer" width="397" height="57"/>
-        <image name="button-single-player" width="426" height="42"/>
         <image name="eraser" width="200" height="169"/>
         <image name="ghost-blue-left" width="30" height="30"/>
         <image name="ghost-orange-left" width="30" height="30"/>
         <image name="ghost-red-left" width="30" height="30"/>
         <image name="ghost-yellow-left" width="30" height="30"/>
-        <image name="landing-page" width="1024" height="768"/>
+        <image name="landing-page" width="1120" height="838"/>
+        <image name="logo" width="684" height="125"/>
         <image name="minimap-rectangle" width="200" height="200"/>
         <image name="pacdot" width="10" height="10"/>
         <image name="pacman-female" width="30" height="30"/>
         <image name="pacman-logo" width="684" height="125"/>
         <image name="pacman-male" width="30" height="30"/>
+        <image name="reloaded" width="974" height="132"/>
         <image name="super-pacdot-design" width="100" height="100"/>
         <image name="wall" width="200" height="100"/>
     </resources>
