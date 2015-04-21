@@ -138,4 +138,14 @@ struct Constants {
         static let CHASE_MODE_DURATION = 400
         static let SCATTER_MODE_DURATION = 100
     }
+
+    struct MainMenu {
+        static let ParallaxLeftRightMin = CGFloat(-50)
+        static let ParallaxLeftRightMax = -1 * ParallaxLeftRightMin
+        static let ParallaxLeftRightKeyPath = "center.x"
+
+        static let ParallaxUpDownMin = CGFloat(-50)
+        static let ParallaxUpDownMax = -1 * ParallaxUpDownMin
+        static let ParallaxUpDownKeyPath = "center.y"
+    }
 }

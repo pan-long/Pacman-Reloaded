@@ -10,9 +10,23 @@ import UIKit
 
 class MainMenuViewController: UIViewController {
 
+    @IBOutlet weak var background: UIImageView!
     override func viewDidLoad() {
         super.viewDidLoad()
+        let leftRightEffect = UIInterpolatingMotionEffect(keyPath: Constants.MainMenu.ParallaxLeftRightKeyPath,
+            type: UIInterpolatingMotionEffectType.TiltAlongHorizontalAxis)
+        let upDownEffect = UIInterpolatingMotionEffect(keyPath: Constants.MainMenu.ParallaxUpDownKeyPath,
+            type: UIInterpolatingMotionEffectType.TiltAlongVerticalAxis)
 
+        leftRightEffect.minimumRelativeValue = Constants.MainMenu.ParallaxLeftRightMin
+        leftRightEffect.maximumRelativeValue = Constants.MainMenu.ParallaxLeftRightMax
+        upDownEffect.minimumRelativeValue = Constants.MainMenu.ParallaxUpDownMin
+        upDownEffect.maximumRelativeValue = Constants.MainMenu.ParallaxUpDownMax
+
+        let motionGroup = UIMotionEffectGroup()
+        motionGroup.motionEffects = [leftRightEffect, upDownEffect]
+
+        background.addMotionEffect(motionGroup)
         // Do any additional setup after loading the view.
     }
 
