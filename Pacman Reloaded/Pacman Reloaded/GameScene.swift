@@ -79,13 +79,16 @@ class GameScene: SKScene {
     }
     
     private func setupLightView(inParentView view: SKView) {
-        let spotLightCenter = CGPoint(
-            x: 0.5 + view.bounds.size.width / 2,
-            y: 0.5 + view.bounds.size.height / 2)
         let spotLightViewFrame = CGRectMake(0, 0, view.frame.width, view.frame.height)
         spotLightView = SpotLightUIView(
-            spotLightCenter: spotLightCenter,
+            spotLightCenter: getGameSceneCenter(),
             frame: spotLightViewFrame)
+    }
+    
+    private func getGameSceneCenter() -> CGPoint {
+        return CGPoint(
+            x: 0.5 + view!.bounds.size.width / 2,
+            y: 0.5 + view!.bounds.size.height / 2)
     }
     
     private func setupMovementControls() {
@@ -168,6 +171,9 @@ class GameScene: SKScene {
             },
             {() -> Void in
                 self.spotLightMode()
+            },
+            {() -> Void in
+                self.earnExtraPoints()
             }
         ]
     }
@@ -179,8 +185,10 @@ class GameScene: SKScene {
         // read from map data
         if let map = mapContent {
             parseMapWithData(map)
+
         }
         
+        sceneDelegate.updateScore(pacman.score, dotsLeft: totalPacDots)
         // for convenience, combine all ghosts in one array
         ghosts = blinkys + pinkys + inkys + clydes
     }
@@ -322,6 +330,32 @@ extension GameScene: SKPhysicsContactDelegate {
             self.sceneDelegate.gameDidEnd(self, didWin: true, score: pacman.score)
         }
         self.runAction(AudioManager.pacdotSoundEffectAction())
+    }
+    
+    private func displayExtraPoint(point: Int) {
+        let gameSceneCenter = getGameSceneCenter()
+        let pointViewX = gameSceneCenter.x - pacman.sprite.size.width / 2
+        let pointViewY = gameSceneCenter.y - pacman.sprite.size.height * 3/2
+        let pointView = UILabel(frame:
+            CGRectMake(pointViewX, pointViewY, pacman.sprite.size.width, pacman.sprite.size.height))
+        pointView.backgroundColor = UIColor.clearColor()
+        pointView.textColor = UIColor.whiteColor()
+        pointView.text = String(point)
+
+        self.view!.addSubview(pointView)
+        UIView.animateWithDuration(Constants.GameScene.ExtraPointDuration,
+            delay: NSTimeInterval(0),
+            options: UIViewAnimationOptions.CurveLinear,
+            animations: {
+                pointView.alpha = 0
+            }, completion: {complete in
+                pointView.removeFromSuperview()})
+    }
+    
+    private func earnExtraPoints() {
+        displayExtraPoint(Constants.Score.ExtraPointDot)
+        pacman.score += Constants.Score.ExtraPointDot
+        sceneDelegate.updateScore(pacman.score, dotsLeft: totalPacDots)
     }
     
     private func spotLightMode() {
