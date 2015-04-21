@@ -37,7 +37,7 @@ class PacMan: MovableObject {
         self.physicsBody!.allowsRotation = false
         setupAnimationSequence()
 
-        self.currentSpeed = Constants.PacMan.speed
+        self.currentSpeed = Constants.PacMan.Speed
     }
 
     required init?(coder aDecoder: NSCoder) {

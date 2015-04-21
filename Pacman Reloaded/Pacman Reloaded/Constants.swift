@@ -44,7 +44,7 @@ struct Constants {
     struct PacMan {
         static let Width = CGFloat(30)
         static let Height = CGFloat(30)
-        static let speed = CGFloat(4)
+        static let Speed = CGFloat(4)
         
         static let ImageCount = 2
         static let Images = ["pacman-female", "pacman-male"]
