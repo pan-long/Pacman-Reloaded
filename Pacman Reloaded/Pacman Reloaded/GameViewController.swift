@@ -219,6 +219,7 @@ extension GameViewController: GameSceneDelegate {
         
         var gameEnd = self.storyboard!.instantiateViewControllerWithIdentifier("gameEnd") as GameEndViewController
         gameEnd.delegate = self
+        gameEnd.viewTitle = title
         self.presentViewController(gameEnd, animated: true, completion: nil)
 
     }

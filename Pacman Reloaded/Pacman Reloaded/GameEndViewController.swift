@@ -15,12 +15,15 @@ protocol GameEndDelegate: class {
 class GameEndViewController: MenuController {
     
     @IBOutlet weak var gameStatus: UILabel!
+    
     var delegate: GameEndDelegate!
+    var viewTitle: String!
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        gameStatus.text = viewTitle
     }
 
     override func didReceiveMemoryWarning() {
