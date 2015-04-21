@@ -10,9 +10,23 @@ import UIKit
 
 class MainMenuViewController: UIViewController {
 
+    @IBOutlet weak var singlePlayerButton: UIButton!
+    @IBOutlet weak var multiPlayerButton: UIButton!
+    @IBOutlet weak var levelDesigner: UIButton!
+
+    @IBOutlet weak var singlePlayerIcon: UIImageView!
+    @IBOutlet weak var multiPlayerIcon: UIImageView!
+    @IBOutlet weak var levelDesignerIcon: UIImageView!
+
     @IBOutlet weak var background: UIImageView!
+
+    var animator: UIDynamicAnimator!
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.animator = UIDynamicAnimator(referenceView: self.view)
+
+        // Add parallax effect to background
         let leftRightEffect = UIInterpolatingMotionEffect(keyPath: Constants.MainMenu.ParallaxLeftRightKeyPath,
             type: UIInterpolatingMotionEffectType.TiltAlongHorizontalAxis)
         let upDownEffect = UIInterpolatingMotionEffect(keyPath: Constants.MainMenu.ParallaxUpDownKeyPath,
@@ -27,7 +41,37 @@ class MainMenuViewController: UIViewController {
         motionGroup.motionEffects = [leftRightEffect, upDownEffect]
 
         background.addMotionEffect(motionGroup)
-        // Do any additional setup after loading the view.
+
+        delay(1) {
+            self.animateItems()
+        }
+    }
+
+    func animateItems() {
+
+        let buttons = [
+            singlePlayerButton,
+            multiPlayerButton,
+            levelDesigner,
+            singlePlayerIcon,
+            multiPlayerIcon,
+            levelDesignerIcon
+        ]
+        let points = [
+            Constants.MainMenu.SinglePlayerCenter,
+            Constants.MainMenu.MultiPlayerCenter,
+            Constants.MainMenu.LevelDesignerCenter,
+            Constants.MainMenu.SinglePlayerIconCenter,
+            Constants.MainMenu.MultiPlayerIconCenter,
+            Constants.MainMenu.LevelDesignerIconCenter
+        ]
+        animator.removeAllBehaviors()
+
+        for i in 0..<buttons.count {
+            let snapBehavior = UISnapBehavior(item: buttons[i], snapToPoint: points[i])
+            snapBehavior.damping = 0.3
+            animator.addBehavior(snapBehavior)
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -47,7 +91,21 @@ class MainMenuViewController: UIViewController {
     */
 
     @IBAction func unwindToThisViewController(segue: UIStoryboardSegue) {
+        let buttons = [
+            singlePlayerButton,
+            multiPlayerButton,
+            levelDesigner,
+            singlePlayerIcon,
+            multiPlayerIcon,
+            levelDesignerIcon
+        ]
+        for i in 0..<buttons.count {
+            buttons[i].frame.origin.y = Constants.MainMenu.OffscreenYPosition
+        }
 
+        delay(1) {
+            self.animateItems()
+        }
     }
 
 
