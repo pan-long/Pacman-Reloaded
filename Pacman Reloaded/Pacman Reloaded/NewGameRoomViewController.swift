@@ -10,8 +10,8 @@ import UIKit
 import MultipeerConnectivity
 
 protocol NewGameStartDelegate: class {
-    func startNewGame(sourceVC: UIViewController, hostName: String, allPlayers: [String])
-    func joinNewGame(sourceVC: UIViewController, mapContent: [Dictionary<String, String>], pacmanId: Int, selfName: String, hostName: String, otherPlayersName: [String], miniMapImage: UIImage)
+    func startNewGame(sourceVC: UIViewController, allPlayers: [String])
+    func joinNewGame(sourceVC: UIViewController, pacmanId: Int, mapContent: [Dictionary<String, String>], miniMapImage: UIImage)
 }
 
 class NewGameRoomViewController: MenuController {
@@ -38,9 +38,10 @@ class NewGameRoomViewController: MenuController {
     
     @IBAction func startBtnPressed(sender: AnyObject) {
         if let delegate = gameStartDelegate {
-            delegate.startNewGame(self, hostName: UIDevice.currentDevice().name, allPlayers: players)
+            delegate.startNewGame(self, allPlayers: players)
         }
     }
+    
     /*
     // MARK: - Navigation
 
@@ -78,7 +79,13 @@ extension NewGameRoomViewController: MatchPeersDelegate {
         
         let joinGameAction = UIAlertAction(title: "Yes", style: .Default,
             handler: { (action) -> Void in
-                invitationHandler(true)
+            // connected with host, enter game and set game scene
+            if find(self.players, playerName) == nil {
+                self.players.append(playerName)
+                self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: self.players.count, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Automatic)
+            }
+                
+            invitationHandler(true)
         })
         
         let cancelAction = UIAlertAction(title: "No", style: .Cancel,
@@ -103,9 +110,6 @@ extension NewGameRoomViewController: SessionDataDelegate {
     func session(player playername: String, didChangeState state: MCSessionState) {
         switch state {
         case .Connected:
-            // connected with host, enter game and set game scene
-            players.append(playername)
-            tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: players.count, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Automatic)
             break
         case .Connecting:
             // try connecting to the host, show an indicator with cancel button
@@ -128,7 +132,7 @@ extension NewGameRoomViewController: SessionDataDelegate {
         println("Received data")
         if let gameInitData = unarchivedData as? GameNetworkInitData {
             if let delegate = gameStartDelegate {
-                delegate.joinNewGame(self, mapContent: gameInitData.mapContent, pacmanId: gameInitData.pacmanId, selfName: UIDevice.currentDevice().name, hostName: gameInitData.hostName, otherPlayersName: gameInitData.allPlayersName, miniMapImage: gameInitData.miniMapImage)
+                delegate.joinNewGame(self, pacmanId: gameInitData.pacmanId, mapContent: gameInitData.mapContent, miniMapImage: gameInitData.miniMapImage)
             }
         }
     }

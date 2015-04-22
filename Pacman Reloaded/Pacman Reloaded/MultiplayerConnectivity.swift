@@ -138,6 +138,7 @@ extension MultiplayerConnectivity: MCNearbyServiceBrowserDelegate {
     // Found a nearby advertising peer
     func browser(browser: MCNearbyServiceBrowser!, foundPeer peerID: MCPeerID!, withDiscoveryInfo info: [NSObject : AnyObject]!) {
         if let validDelegate = matchDelegate {
+            println("setting peerID for \(peerID.displayName)")
             nameToPeerIDDict[peerID.displayName] = peerID
             validDelegate.browser(foundPlayer: peerID.displayName, withDiscoveryInfo: info)
         }
@@ -146,7 +147,6 @@ extension MultiplayerConnectivity: MCNearbyServiceBrowserDelegate {
     // A nearby peer has stopped advertising
     func browser(browser: MCNearbyServiceBrowser!, lostPeer peerID: MCPeerID!) {
         if let validDelegate = matchDelegate {
-            nameToPeerIDDict[peerID.displayName] = nil
             validDelegate.browser(lostPlayer: peerID.displayName)
         }
     }
@@ -163,7 +163,6 @@ extension MultiplayerConnectivity: MCSessionDelegate {
     
     // Received data from remote peer
     func session(session: MCSession!, didReceiveData data: NSData!, fromPeer peerID: MCPeerID!) {
-        println("received data")
         if let validDelegate = sessionDelegate {
             validDelegate.session(didReceiveData: data, fromPlayer: peerID.displayName)
         }

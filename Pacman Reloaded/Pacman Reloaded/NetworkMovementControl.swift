@@ -29,7 +29,7 @@ class NetworkMovementControl: MovementControl {
         
         if let direction = direction {
             movableObject.changeDirection(direction)
-            self.position = nil
+            self.direction = nil
         }
     }
     
