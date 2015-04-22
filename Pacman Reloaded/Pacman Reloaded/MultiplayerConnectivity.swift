@@ -19,13 +19,13 @@ protocol MatchPeersDelegate {
     
     // A nearby player has stopped advertising
     func browser(lostPlayer playerName: String)
-
-    // The connection status has been changed on the other end
-    func session(player playerName: String, didChangeState state: MCSessionState)
 }
 
 // This delegate handles the data receive events
 protocol SessionDataDelegate {
+    // The connection status has been changed on the other end
+    func session(player playerName: String, didChangeState state: MCSessionState)
+    
     // Received data from remote player
     func session(didReceiveData data: NSData, fromPlayer playerName: String)
 }
@@ -156,7 +156,7 @@ extension MultiplayerConnectivity: MCSessionDelegate {
     // MARK: methods required in MCSessionDelegate
     // Remote peer changed state
     func session(session: MCSession!, peer peerID: MCPeerID!, didChangeState state: MCSessionState) {
-        if let validDelegate = matchDelegate {
+        if let validDelegate = sessionDelegate {
             validDelegate.session(player: peerID.displayName, didChangeState: state)
         }
     }

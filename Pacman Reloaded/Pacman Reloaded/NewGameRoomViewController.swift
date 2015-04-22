@@ -91,7 +91,15 @@ extension NewGameRoomViewController: MatchPeersDelegate {
         
         self.presentViewController(alert, animated: true, completion: nil)
     }
+   
+    func browser(foundPlayer playerName: String, withDiscoveryInfo info: [NSObject : AnyObject]?) {
+    }
     
+    func browser(lostPlayer playerName: String) {
+    }
+}
+
+extension NewGameRoomViewController: SessionDataDelegate {
     func session(player playername: String, didChangeState state: MCSessionState) {
         switch state {
         case .Connected:
@@ -114,14 +122,6 @@ extension NewGameRoomViewController: MatchPeersDelegate {
         }
     }
     
-    func browser(foundPlayer playerName: String, withDiscoveryInfo info: [NSObject : AnyObject]?) {
-    }
-    
-    func browser(lostPlayer playerName: String) {
-    }
-}
-
-extension NewGameRoomViewController: SessionDataDelegate {
     // Received data from remote player
     func session(didReceiveData data: NSData, fromPlayer playerName: String) {
         let unarchivedData: AnyObject? = NSKeyedUnarchiver.unarchiveObjectWithData(data)
