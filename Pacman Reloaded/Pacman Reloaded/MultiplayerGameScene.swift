@@ -21,7 +21,7 @@ class MultiplayerGameScene: GameScene {
     private var pacmanId = 0
     private var otherPacmans = [PacMan]()
     private var otherPacmansNetworkControls = [NetworkMovementControl]()
-    
+
     var networkDelegate: GameSceneNetworkDelegate?
     
     func setupPacman(fromMapContent content: [Dictionary<String, String>], pacmanId: Int, isHost: Bool) {
@@ -84,7 +84,18 @@ class MultiplayerGameScene: GameScene {
             }
         }
     }
-    
+    override func earnExtraPoints(pacman: PacMan) {
+        if pacman.objectId == self.pacman.objectId {
+            super.earnExtraPoints(pacman)
+        }
+    }
+
+    override func spotLightMode(pacman: PacMan) {
+        if pacman.objectId == self.pacman.objectId {
+            super.spotLightMode(pacman)
+        }
+    }
+
     override func update(currentTime: CFTimeInterval) {
         for networkControl in otherPacmansNetworkControls {
             networkControl.update()

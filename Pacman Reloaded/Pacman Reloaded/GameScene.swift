@@ -41,7 +41,7 @@ class GameScene: SKScene {
     var ghosts: [Ghost]!
     var ghostMovements: [MovementControl]!
 
-    var superDotEvents: [() -> Void] = []
+    var superDotEvents: [(pacman: PacMan) -> Void] = []
     
     var mapContent: [Dictionary<String, String>]?
 
@@ -166,16 +166,16 @@ class GameScene: SKScene {
     private func setupMisc() {
         // every super dot has special effect, listed as different events
         self.superDotEvents = [
-            { [weak self] () -> Void in
+            { [weak self] (pacman: PacMan) -> Void in
                 self?.frightenGhost()
                 return
             },
-            { [weak self] () -> Void in
-                self?.spotLightMode()
+            { [weak self] (pacman: PacMan) -> Void in
+                self?.spotLightMode(pacman)
                 return
             },
-            { [weak self] () -> Void in
-                self?.earnExtraPoints()
+            { [weak self] (pacman: PacMan) -> Void in
+                self?.earnExtraPoints(pacman)
                 return
             }
         ]
@@ -330,12 +330,12 @@ extension GameScene: SKPhysicsContactDelegate {
         pacman.score += Constants.Score.PacDot
         totalPacDots--
         if pacdot.isSuper {
-            let roll = Int(arc4random_uniform(UInt32(self.superDotEvents.count)))
-            self.superDotEvents[roll]()
+            let roll = (pacdot.objectId % self.superDotEvents.count)
+            self.superDotEvents[roll](pacman: pacman)
         }
-        sceneDelegate.updateScore(pacman.score, dotsLeft: totalPacDots)
+        sceneDelegate.updateScore(self.pacman.score, dotsLeft: totalPacDots)
         if totalPacDots == 0 {
-            self.sceneDelegate.gameDidEnd(self, didWin: true, score: pacman.score)
+            self.sceneDelegate.gameDidEnd(self, didWin: true, score: self.pacman.score)
         }
         self.runAction(AudioManager.pacdotSoundEffectAction())
     }
@@ -360,13 +360,13 @@ extension GameScene: SKPhysicsContactDelegate {
                 pointView.removeFromSuperview()})
     }
     
-    private func earnExtraPoints() {
+    func earnExtraPoints(pacman: PacMan) {
         displayExtraPoint(Constants.Score.ExtraPointDot)
         pacman.score += Constants.Score.ExtraPointDot
         sceneDelegate.updateScore(pacman.score, dotsLeft: totalPacDots)
     }
     
-    private func spotLightMode() {
+    func spotLightMode(pacman: PacMan) {
         if spotLightTimer != nil {
             // if there is an existing spotlight effect, stop that first
             stopSpotLight()
@@ -389,7 +389,7 @@ extension GameScene: SKPhysicsContactDelegate {
         stopSpotLight()
     }
     
-    private func frightenGhost() {
+    func frightenGhost() {
         for ghost in ghosts {
             ghost.frightened = true
             let wait = SKAction.waitForDuration(Constants.Ghost.FrightenModeDuration)
