@@ -47,7 +47,9 @@ class UICountingLabel: UILabel {
     }
 
     deinit {
-        timer?.invalidate()
+        if timer != nil {
+            timer?.invalidate()
+        }
         timer = nil
     }
 
