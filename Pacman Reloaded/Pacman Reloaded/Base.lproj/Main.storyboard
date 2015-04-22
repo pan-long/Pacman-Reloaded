@@ -552,8 +552,8 @@
                                 </state>
                                 <variation key="default">
                                     <mask key="constraints">
-                                        <exclude reference="YNd-JL-vyl"/>
                                         <exclude reference="Kgb-oM-s8u"/>
+                                        <exclude reference="YNd-JL-vyl"/>
                                     </mask>
                                 </variation>
                                 <connections>

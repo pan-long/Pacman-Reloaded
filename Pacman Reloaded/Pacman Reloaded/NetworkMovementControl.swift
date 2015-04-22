@@ -30,8 +30,8 @@ class NetworkMovementControl: MovementControl {
         if let direction = direction {
             movableObject.changeDirection(direction)
             if (movableObject.currentDir != direction) {
-                movableObject.backwards()
-                movableObject.backwards()
+                movableObject.currentDir = direction
+                movableObject.requestedDir = .None
                 movableObject.changeDirection(direction)
             }
             self.direction = nil
