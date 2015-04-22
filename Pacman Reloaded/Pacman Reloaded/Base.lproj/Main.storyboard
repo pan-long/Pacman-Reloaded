@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="CsF-LZ-baB">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="13F1066" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="CsF-LZ-baB">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -517,20 +517,59 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qW6-Np-hy2">
-                                <rect key="frame" x="196" y="550" width="200" height="30"/>
+                                <rect key="frame" x="316" y="550" width="200" height="35"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="9L7-HK-Yta"/>
+                                    <constraint firstAttribute="width" constant="200" id="bKU-Kl-6OH"/>
                                     <constraint firstAttribute="width" constant="200" id="g9p-RF-paM"/>
+                                    <constraint firstAttribute="height" constant="35" id="lod-iw-3yY"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="Copperplate" family="Copperplate" pointSize="15"/>
+                                <fontDescription key="fontDescription" name="Copperplate" family="Copperplate" pointSize="24"/>
                                 <state key="normal" title="Start">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="9L7-HK-Yta"/>
+                                        <exclude reference="g9p-RF-paM"/>
+                                    </mask>
+                                </variation>
                                 <connections>
                                     <action selector="startBtnPressed:" destination="Kzh-3c-RYv" eventType="touchUpInside" id="JXn-fo-b7Y"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W83-7t-QNV">
+                                <rect key="frame" x="84" y="550" width="200" height="35"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="Kgb-oM-s8u"/>
+                                    <constraint firstAttribute="height" constant="30" id="YNd-JL-vyl"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Copperplate" family="Copperplate" pointSize="24"/>
+                                <state key="normal" title="Quit">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="YNd-JL-vyl"/>
+                                        <exclude reference="Kgb-oM-s8u"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <action selector="quitBtnPressed:" destination="Kzh-3c-RYv" eventType="touchUpInside" id="O0p-lh-Jtm"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="New Game" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W1r-pF-NWk">
+                                <rect key="frame" x="84" y="28" width="200" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="o26-IT-pMB"/>
+                                    <constraint firstAttribute="width" constant="200" id="qwO-XF-uQR"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Copperplate" family="Copperplate" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="z4S-eM-cKx">
                                 <rect key="frame" x="84" y="57" width="432" height="485"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -546,27 +585,31 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="New Game" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W1r-pF-NWk">
-                                <rect key="frame" x="84" y="28" width="200" height="21"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="o26-IT-pMB"/>
-                                    <constraint firstAttribute="width" constant="200" id="qwO-XF-uQR"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="Copperplate" family="Copperplate" pointSize="17"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="centerX" secondItem="qW6-Np-hy2" secondAttribute="centerX" constant="4.5" id="6sg-uZ-CFz"/>
                             <constraint firstItem="z4S-eM-cKx" firstAttribute="top" secondItem="W1r-pF-NWk" secondAttribute="bottom" constant="8" id="GeJ-Ob-29S"/>
                             <constraint firstItem="W1r-pF-NWk" firstAttribute="top" secondItem="I8R-xL-lb8" secondAttribute="bottom" constant="8" id="HIK-mm-uT6"/>
+                            <constraint firstItem="qW6-Np-hy2" firstAttribute="top" secondItem="z4S-eM-cKx" secondAttribute="bottom" constant="8" id="Izg-gf-Fqo"/>
+                            <constraint firstItem="qW6-Np-hy2" firstAttribute="top" secondItem="W83-7t-QNV" secondAttribute="top" id="RZF-Yo-yYl"/>
+                            <constraint firstItem="qW6-Np-hy2" firstAttribute="width" secondItem="W83-7t-QNV" secondAttribute="width" id="Ri7-6Y-ZTj"/>
+                            <constraint firstItem="qW6-Np-hy2" firstAttribute="height" secondItem="W83-7t-QNV" secondAttribute="height" id="YmC-C9-ugY"/>
                             <constraint firstAttribute="centerX" secondItem="z4S-eM-cKx" secondAttribute="centerX" id="ZPP-bF-Ucr"/>
+                            <constraint firstAttribute="centerX" secondItem="W83-7t-QNV" secondAttribute="centerX" constant="116" id="eKR-AL-zIu"/>
+                            <constraint firstAttribute="centerX" secondItem="qW6-Np-hy2" secondAttribute="centerX" constant="-116" id="trf-r2-rVj"/>
                             <constraint firstItem="W1r-pF-NWk" firstAttribute="leading" secondItem="tzf-vV-2q5" secondAttribute="leadingMargin" constant="68" id="wsx-xx-1s0"/>
                             <constraint firstItem="qW6-Np-hy2" firstAttribute="top" secondItem="z4S-eM-cKx" secondAttribute="bottom" constant="8" id="xpu-aV-hmq"/>
+                            <constraint firstItem="tqY-74-meu" firstAttribute="top" secondItem="qW6-Np-hy2" secondAttribute="bottom" constant="15" id="xwt-t2-xqV"/>
                             <constraint firstItem="tqY-74-meu" firstAttribute="top" secondItem="qW6-Np-hy2" secondAttribute="bottom" constant="20" id="y0e-oc-g1p"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="y0e-oc-g1p"/>
+                                <exclude reference="6sg-uZ-CFz"/>
+                                <exclude reference="xpu-aV-hmq"/>
+                            </mask>
+                        </variation>
                     </view>
                     <value key="contentSizeForViewInPopover" type="size" width="600" height="600"/>
                     <connections>

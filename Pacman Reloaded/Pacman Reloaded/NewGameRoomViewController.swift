@@ -9,9 +9,10 @@
 import UIKit
 import MultipeerConnectivity
 
-protocol NewGameStartDelegate: class {
+protocol GameRoomDelegate: class {
     func startNewGame(sourceVC: UIViewController, allPlayers: [String])
     func joinNewGame(sourceVC: UIViewController, pacmanId: Int, mapContent: [Dictionary<String, String>], miniMapImage: UIImage)
+    func quitGameRoom(sourceVC: UIViewController)
 }
 
 class NewGameRoomViewController: MenuController {
@@ -20,7 +21,7 @@ class NewGameRoomViewController: MenuController {
     
     private var players = [String]()
     
-    weak var gameStartDelegate: NewGameStartDelegate?
+    weak var gameRoomDelegate: GameRoomDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,8 +38,14 @@ class NewGameRoomViewController: MenuController {
     }
     
     @IBAction func startBtnPressed(sender: AnyObject) {
-        if let delegate = gameStartDelegate {
+        if let delegate = gameRoomDelegate {
             delegate.startNewGame(self, allPlayers: players)
+        }
+    }
+    
+    @IBAction func quitBtnPressed(sender: AnyObject) {
+        if let delegate = gameRoomDelegate {
+            delegate.quitGameRoom(self)
         }
     }
     /*
@@ -137,7 +144,7 @@ extension NewGameRoomViewController: SessionDataDelegate {
         let unarchivedData: AnyObject? = NSKeyedUnarchiver.unarchiveObjectWithData(data)
         println("Received data")
         if let gameInitData = unarchivedData as? GameNetworkInitData {
-            if let delegate = gameStartDelegate {
+            if let delegate = gameRoomDelegate {
                 delegate.joinNewGame(self, pacmanId: gameInitData.pacmanId, mapContent: gameInitData.mapContent, miniMapImage: gameInitData.miniMapImage)
             }
         }

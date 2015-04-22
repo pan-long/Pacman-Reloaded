@@ -35,6 +35,10 @@ class GameCenter {
         self.connectivity = connectivity
         connectivity.sessionDelegate = self
     }
+    
+    func disconnect() {
+        connectivity.disconnect()
+    }
 }
 
 extension GameCenter: SessionDataDelegate {

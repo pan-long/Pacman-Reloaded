@@ -115,6 +115,10 @@ class MultiplayerConnectivity: NSObject {
             }
         }
     }
+    
+    func disconnect() {
+        session.disconnect()
+    }
 }
 
 extension MultiplayerConnectivity: MCNearbyServiceAdvertiserDelegate {

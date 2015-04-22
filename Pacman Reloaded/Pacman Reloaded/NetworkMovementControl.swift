@@ -28,8 +28,12 @@ class NetworkMovementControl: MovementControl {
         }
         
         if let direction = direction {
-            movableObject.backwards()
             movableObject.changeDirection(direction)
+            if (movableObject.currentDir != direction) {
+                movableObject.backwards()
+                movableObject.backwards()
+                movableObject.changeDirection(direction)
+            }
             self.direction = nil
         }
     }

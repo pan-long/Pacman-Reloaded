@@ -91,7 +91,7 @@ extension MultiplayerManagementViewController: UITableViewDelegate {
                 // try connecting to the host, show an indicator with cancel button
                 var gameRoomVC = self.storyboard?.instantiateViewControllerWithIdentifier("gameRoomVC") as NewGameRoomViewController
                 
-                gameRoomVC.gameStartDelegate = self
+                gameRoomVC.gameRoomDelegate = self
                 self.connectivity.matchDelegate = gameRoomVC
                 self.connectivity.sessionDelegate = gameRoomVC
                 self.presentViewController(gameRoomVC, animated: true, completion: nil)
@@ -198,17 +198,18 @@ extension MultiplayerManagementViewController: GameLevelLoadingDelegate {
     
     private func hostNewRoom() {
         var gameRoomVC = self.storyboard?.instantiateViewControllerWithIdentifier("gameRoomVC") as NewGameRoomViewController
-        gameRoomVC.gameStartDelegate = self
+        gameRoomVC.gameRoomDelegate = self
         
         connectivity.stopServiceBrowsing()
         connectivity.matchDelegate = gameRoomVC
         connectivity.sessionDelegate = gameRoomVC
+        
         connectivity.startServiceAdvertising(Constants.Identifiers.NewGameService, discoveryInfo: [NSObject: AnyObject]())
         self.presentViewController(gameRoomVC, animated: true, completion: nil)
     }
 }
 
-extension MultiplayerManagementViewController: NewGameStartDelegate {
+extension MultiplayerManagementViewController: GameRoomDelegate {
     func startNewGame(sourceVC: UIViewController, allPlayers: [String]) {
         if let mapContent = mapContent {
             let pacmanIds = self.extractPacmanIdsFromMap(mapContent)
@@ -265,6 +266,17 @@ extension MultiplayerManagementViewController: NewGameStartDelegate {
             if let alertVC = self.waitingAlertVC {
                 self.presentViewController(alertVC, animated: true, completion: nil)
             }
+        })
+    }
+    
+    func quitGameRoom(sourceVC: UIViewController) {
+        sourceVC.dismissViewControllerAnimated(true, completion: {() -> Void in
+            self.connectivity.disconnect()
+            self.connectivity.matchDelegate = self
+            self.connectivity.sessionDelegate = self
+            
+            self.connectivity.stopServiceAdvertising()
+            self.connectivity.startServiceBrowsing(Constants.Identifiers.NewGameService)
         })
     }
     
