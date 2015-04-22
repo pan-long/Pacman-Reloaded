@@ -211,32 +211,37 @@ extension MultiplayerManagementViewController: GameLevelLoadingDelegate {
 extension MultiplayerManagementViewController: NewGameStartDelegate {
     func startNewGame(sourceVC: UIViewController, allPlayers: [String]) {
         if let mapContent = mapContent {
+            let pacmanIds = self.extractPacmanIdsFromMap(mapContent)
+            self.mapContent = self.removeExtraPacmans(mapContent, pacmanIds: pacmanIds, count: allPlayers.count + 1)
+            
+            for i in 0..<allPlayers.count {
+                let gameInitData = GameNetworkInitData(pacmanId: pacmanIds[i], mapContent: self.mapContent!, miniMapImage: self.miniMapImage!)
+                let archivedData = NSKeyedArchiver.archivedDataWithRootObject(gameInitData)
+                
+                var error: NSError?
+                do {
+                    error = nil
+                    self.connectivity.sendData(toPlayer: [allPlayers[i]], data: archivedData, error: &error)
+                } while (error != nil)
+            }
+            
+            self.pacmanId = pacmanIds[allPlayers.count]
+            self.selfName = UIDevice.currentDevice().name
+            self.hostName = self.selfName
+            self.otherPlayersName = allPlayers
+            
             sourceVC.dismissViewControllerAnimated(true, completion: {() -> Void in
-                let pacmanIds = self.extractPacmanIdsFromMap(mapContent)
-                self.mapContent = self.removeExtraPacmans(mapContent, pacmanIds: pacmanIds, count: allPlayers.count + 1)
-                
-                for i in 0..<allPlayers.count {
-                    let gameInitData = GameNetworkInitData(pacmanId: pacmanIds[i], mapContent: self.mapContent!, miniMapImage: self.miniMapImage!)
-                    let archivedData = NSKeyedArchiver.archivedDataWithRootObject(gameInitData)
-                    
-                    var error: NSError?
-                    do {
-                        error = nil
-                        self.connectivity.sendData(toPlayer: [allPlayers[i]], data: archivedData, error: &error)
-                    } while (error != nil)
-                }
-                
-                self.pacmanId = pacmanIds[allPlayers.count]
-                self.selfName = UIDevice.currentDevice().name
-                self.hostName = self.selfName
-                self.otherPlayersName = allPlayers
-                
                 if let alertVC = self.waitingAlertVC {
                     self.connectivity.stopServiceAdvertising()
                     self.connectivity.stopServiceBrowsing()
                     self.connectivity.matchDelegate = self
                     self.connectivity.sessionDelegate = self
-                    self.presentViewController(alertVC, animated: true, completion: nil)
+                    
+                    if self.otherPlayersName.count > 0 {
+                        self.presentViewController(alertVC, animated: true, completion: nil)
+                    } else {
+                        self.performSegueWithIdentifier(Constants.Identifiers.MultiplayerGameSegueIdentifier, sender: nil)
+                    }
                 }
             })
         }

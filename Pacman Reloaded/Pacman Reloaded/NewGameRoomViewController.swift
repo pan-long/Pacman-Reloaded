@@ -109,6 +109,10 @@ extension NewGameRoomViewController: SessionDataDelegate {
     func session(player playername: String, didChangeState state: MCSessionState) {
         switch state {
         case .Connected:
+            if find(players, playername) == nil {
+                players.append(playername)
+                tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: players.count, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Automatic)
+            }
             break
         case .Connecting:
             // try connecting to the host, show an indicator with cancel button
