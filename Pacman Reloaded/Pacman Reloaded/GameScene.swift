@@ -166,14 +166,17 @@ class GameScene: SKScene {
     private func setupMisc() {
         // every super dot has special effect, listed as different events
         self.superDotEvents = [
-            {() -> Void in
-                self.frightenGhost()
+            { [weak self] () -> Void in
+                self?.frightenGhost()
+                return
             },
-            {() -> Void in
-                self.spotLightMode()
+            { [weak self] () -> Void in
+                self?.spotLightMode()
+                return
             },
-            {() -> Void in
-                self.earnExtraPoints()
+            { [weak self] () -> Void in
+                self?.earnExtraPoints()
+                return
             }
         ]
     }
