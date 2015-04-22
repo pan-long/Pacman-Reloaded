@@ -226,6 +226,10 @@ class MovableObject: GameObject {
         self.position = getNextPosition(currentDir, offset: 1)
     }
     
+    func backwards() {
+        self.position = getNextPosition(currentDir, offset: -1)
+    }
+    
     // MARK: - SENSORS
     
     private func getForwardSensorLongEdge() -> CGFloat {
