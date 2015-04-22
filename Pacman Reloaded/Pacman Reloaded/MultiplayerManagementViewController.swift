@@ -148,6 +148,7 @@ extension MultiplayerManagementViewController: SessionDataDelegate {
         }
         
         if let alertVC = disconnectedVC {
+            alertVC.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Destructive, handler: nil))
             self.presentViewController(alertVC, animated: true, completion: {
                 self.connectedCount = 0
                 self.connectivity.startServiceBrowsing(Constants.Identifiers.NewGameService)
@@ -210,23 +211,26 @@ extension MultiplayerManagementViewController: GameLevelLoadingDelegate {
 extension MultiplayerManagementViewController: NewGameStartDelegate {
     func startNewGame(sourceVC: UIViewController, allPlayers: [String]) {
         if let mapContent = mapContent {
-            let pacmanIds = extractPacmanIdsFromMap(mapContent)
-            self.mapContent = removeExtraPacmans(mapContent, pacmanIds: pacmanIds, count: allPlayers.count + 1)
-            
-            println(allPlayers)
-            for i in 0..<allPlayers.count {
-                let gameInitData = GameNetworkInitData(pacmanId: pacmanIds[i], mapContent: self.mapContent!, miniMapImage: self.miniMapImage!)
-                let archivedData = NSKeyedArchiver.archivedDataWithRootObject(gameInitData)
-                connectivity.sendData(toPlayer: [allPlayers[i]], data: archivedData, error: nil)
-                println("sent data")
-            }
-            
-            self.pacmanId = pacmanIds[allPlayers.count]
-            self.selfName = UIDevice.currentDevice().name
-            self.hostName = selfName
-            self.otherPlayersName = allPlayers
-            
             sourceVC.dismissViewControllerAnimated(true, completion: {() -> Void in
+                let pacmanIds = self.extractPacmanIdsFromMap(mapContent)
+                self.mapContent = self.removeExtraPacmans(mapContent, pacmanIds: pacmanIds, count: allPlayers.count + 1)
+                
+                for i in 0..<allPlayers.count {
+                    let gameInitData = GameNetworkInitData(pacmanId: pacmanIds[i], mapContent: self.mapContent!, miniMapImage: self.miniMapImage!)
+                    let archivedData = NSKeyedArchiver.archivedDataWithRootObject(gameInitData)
+                    
+                    var error: NSError?
+                    do {
+                        error = nil
+                        self.connectivity.sendData(toPlayer: [allPlayers[i]], data: archivedData, error: &error)
+                    } while (error != nil)
+                }
+                
+                self.pacmanId = pacmanIds[allPlayers.count]
+                self.selfName = UIDevice.currentDevice().name
+                self.hostName = self.selfName
+                self.otherPlayersName = allPlayers
+                
                 if let alertVC = self.waitingAlertVC {
                     self.connectivity.stopServiceAdvertising()
                     self.connectivity.stopServiceBrowsing()
