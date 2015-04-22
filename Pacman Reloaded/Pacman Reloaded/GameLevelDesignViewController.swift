@@ -353,17 +353,17 @@ extension GameLevelDesignViewController {
     }
     
     @IBAction func handlePanGesture(sender: UIPanGestureRecognizer) {
-        // Pan gesture is only applicable to these three types
+        // Pan gesture is only applicable to these types
         if selected == .Boundary || selected == .Pacdot || selected == .SuperPacdot || selected == .None {
-            let currentPosition = sender.locationInView(designArea)
-            let maxX = designArea.frame.size.width
-            let maxY = designArea.frame.size.height
+            var currentPosition = sender.locationInView(designArea)
+
+            let maxX = designArea.contentSize.width
+            let maxY = designArea.contentSize.height
             let curX = currentPosition.x
             let curY = currentPosition.y
             if curX <= 0 || curX >= maxX || curY <= 0 || curY >= maxY {
                 return
             }
-            
             if let indexPath = designArea.indexPathForItemAtPoint(currentPosition) {
                 setCellToSelectedWithConstraints(indexPath)
             }
