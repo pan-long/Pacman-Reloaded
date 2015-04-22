@@ -300,7 +300,7 @@ extension GameViewController {
     func setupMiniMap() {
         if let miniMapImage = miniMapImage {
             miniMap.image = miniMapImage
-            miniMap.alpha = 0.5
+            miniMap.alpha = Constants.GameScene.MiniMapAlpha
             initializeMiniMap()
             updateMiniMap()
         }

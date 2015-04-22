@@ -12,7 +12,7 @@ import Foundation
 struct Constants {
     static let IPadWidth = CGFloat(1024)
     static let IPadHeight = CGFloat(768)
-    static let FrameInterval = 2
+    static let FrameInterval = 3
     
     struct Item {
         static let SizeScale = CGFloat(1)
@@ -104,6 +104,7 @@ struct Constants {
         static let TotalHeight = 1600
         static let MiniMapWidth = 256
         static let MiniMapHeight = 256
+        static let MiniMapAlpha: CGFloat = 0.5
         
         static let NumberOfRows = 40
         static let NumberOfColumns = 40
