@@ -41,6 +41,7 @@ class MultiplayerGameScene: GameScene {
             super.setupObjectsMovementControl()
            
         } else { // the movement of ghosts should only be controlled by the host
+            ghostMovements.removeAll(keepCapacity: false)
             setGhostNetworkMovementControl(blinkys)
             setGhostNetworkMovementControl(pinkys)
             setGhostNetworkMovementControl(inkys)

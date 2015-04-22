@@ -23,46 +23,46 @@ class MovableObject: GameObject {
     
     dynamic var currentDirRaw = Direction.Right.rawValue
     var requestedDir = Direction.None
-
+    
     var blocked = (up: 0, down: 0, left: 0, right: 0)
     var sensors: (up: SKNode?, down: SKNode?, left: SKNode?, right: SKNode?)
-
+    
     var currentSpeed: CGFloat = 5.0
     var sensorBuffer: CGFloat = 0
     
     weak var networkDelegate: MovementNetworkDelegate?
-
+    
     init(id: Int, image: String) {
         super.init(id: id, image: image, sizeScale: Constants.MovableObject.SizeScale)
         
         sensorBuffer = self.sprite.size.width * 0.5
-
+        
         sensors.up = SKNode()
         addChild(sensors.up!)
         sensors.up!.position = CGPoint(x:0, y:sensorBuffer)
         createUpSensorPhysicsBody( whileTravellingUpOrDown: false )
-
+        
         sensors.down = SKNode()
         addChild(sensors.down!)
         sensors.down!.position = CGPoint(x:0, y: -sensorBuffer )
         createDownSensorPhysicsBody( whileTravellingUpOrDown: false)
-
+        
         sensors.right = SKNode()
         addChild(sensors.right!)
         sensors.right!.position = CGPoint(x: sensorBuffer, y:0 )
         createRightSensorPhysicsBody( whileTravellingLeftOrRight: true)
-
+        
         sensors.left = SKNode()
         addChild(sensors.left!)
         sensors.left!.position = CGPoint(x: -sensorBuffer, y:0 )
         createLeftSensorPhysicsBody( whileTravellingLeftOrRight: true)
-
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     override func reset() {
         blocked = (up: 0, down: 0, left: 0, right: 0)
         currentSpeed = 5.0
@@ -170,25 +170,24 @@ class MovableObject: GameObject {
             previousDir = currentDir
             currentDir = newDirection
             requestedDir = .None
-
+            
             blocked.up = 0
             blocked.down = 0
             blocked.left = 0
             blocked.right = 0
-
+            
             createUpSensorPhysicsBody(whileTravellingUpOrDown: upDown)
             createDownSensorPhysicsBody(whileTravellingUpOrDown: upDown )
             createLeftSensorPhysicsBody(whileTravellingLeftOrRight: !upDown )
             createRightSensorPhysicsBody(whileTravellingLeftOrRight: !upDown )
-
+            
+            println("changing direction!")
+            if let networkDelegate = networkDelegate { // update network that the direction has been changed
+                println("calling delegate!")
+                networkDelegate.objectDirectionChanged(objectId, newDirection: newDirection, position: position)
+            }
         } else {
             requestedDir = newDirection
-        }
-        
-        println("changing direction!")
-        if let networkDelegate = networkDelegate { // update network that the direction has been changed
-            println("calling delegate!")
-            networkDelegate.objectDirectionChanged(objectId, newDirection: newDirection, position: position)
         }
     }
     
@@ -222,31 +221,31 @@ class MovableObject: GameObject {
         
         return nextPosition
     }
-
+    
     func update() {
         self.position = getNextPosition(currentDir, offset: 1)
     }
-
+    
     // MARK: - SENSORS
-
+    
     private func getForwardSensorLongEdge() -> CGFloat {
         return self.sprite.size.width * 0.8
     }
-
+    
     private func getForwardSensorShortEdge() -> CGFloat {
         return Constants.GameScene.GridWidth - self.sprite.size.width + 2 * (self.currentSpeed - 1)
     }
-
+    
     private func getSideSensorLongEdge() -> CGFloat {
         return Constants.GameScene.GridWidth - 2 * (self.currentSpeed - 1)
     }
-
+    
     private func getSideSensorShortEdge() -> CGFloat {
         return self.sprite.size.height * 0.8
     }
-
+    
     private func createUpSensorPhysicsBody(#whileTravellingUpOrDown:Bool) {
-
+        
         var size:CGSize
         if (whileTravellingUpOrDown == true) {
             size = CGSize(width: getForwardSensorLongEdge(), height: getForwardSensorShortEdge())
@@ -262,7 +261,7 @@ class MovableObject: GameObject {
         sensors.up!.physicsBody?.pinned = true
         sensors.up!.physicsBody?.allowsRotation = false
     }
-
+    
     private func createDownSensorPhysicsBody(#whileTravellingUpOrDown:Bool){
         var size:CGSize
         if (whileTravellingUpOrDown == true) {
@@ -278,12 +277,12 @@ class MovableObject: GameObject {
         sensors.down!.physicsBody?.contactTestBitMask = GameObjectType.Boundary
         sensors.down!.physicsBody!.pinned = true
         sensors.down!.physicsBody!.allowsRotation = false
-
-
+        
+        
     }
-
+    
     private func createLeftSensorPhysicsBody( #whileTravellingLeftOrRight:Bool){
-
+        
         var size:CGSize
         if (whileTravellingLeftOrRight == true) {
             size = CGSize(width: getForwardSensorShortEdge(), height: getForwardSensorLongEdge())
@@ -299,7 +298,7 @@ class MovableObject: GameObject {
         sensors.left!.physicsBody!.pinned = true
         sensors.left!.physicsBody!.allowsRotation = false
     }
-
+    
     private func createRightSensorPhysicsBody( #whileTravellingLeftOrRight:Bool){
         var size:CGSize
         if (whileTravellingLeftOrRight == true) {
@@ -316,7 +315,7 @@ class MovableObject: GameObject {
         sensors.right!.physicsBody!.pinned = true
         sensors.right!.physicsBody!.allowsRotation = false
     }
-
+    
     func sensorContactStart(direction: Direction) {
         switch direction {
         case .Up:
@@ -331,7 +330,7 @@ class MovableObject: GameObject {
             break
         }
         //println("left: \(blocked.left), right: \(blocked.right), up: \(blocked.up), down: \(blocked.down)")
-
+        
         if currentDir == direction {
             //println("blocking")
             previousDir = currentDir
@@ -339,7 +338,7 @@ class MovableObject: GameObject {
             self.physicsBody?.dynamic = false
         }
     }
-
+    
     func sensorContactEnd(direction: Direction) {
         switch direction {
         case .Up:
@@ -354,7 +353,7 @@ class MovableObject: GameObject {
             break
         }
         //println("left: \(blocked.left), right: \(blocked.right), up: \(blocked.up), down: \(blocked.down)")
-
+        
         if requestedDir == direction {
             //println("unblocking")
             changeDirection(direction)
