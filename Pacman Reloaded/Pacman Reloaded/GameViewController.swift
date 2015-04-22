@@ -180,9 +180,14 @@ class GameViewController: GameBackgroundViewController, GameEndDelegate {
     }
     
     func restart() {
-        self.scene!.restart()
-        
-        resume()
+        if isMultiplayerMode {
+            self.dismissViewControllerAnimated(true, completion: {
+                self.dismissViewControllerAnimated(true, completion: nil)
+            })
+        } else {
+            self.scene!.restart()
+            resume()
+        }
     }
 
     // pause button action

@@ -84,6 +84,7 @@ class MultiplayerGameScene: GameScene {
             }
         }
     }
+    
     override func earnExtraPoints(pacman: PacMan) {
         if pacman.objectId == self.pacman.objectId {
             super.earnExtraPoints(pacman)
@@ -106,10 +107,6 @@ class MultiplayerGameScene: GameScene {
         }
         
         super.update(currentTime)
-    }
-    
-    override func restart() {
-        fatalError("restart is not supperted in multiplayer mode!")
     }
     
     override func addPacmanFromMapData(id: Int, position: CGPoint) {
