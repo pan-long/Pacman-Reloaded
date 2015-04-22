@@ -20,7 +20,7 @@ class MultiplayerManagementViewController: GameBackgroundViewController {
     
     private var pacmanId = 0
     private var hostName: String?
-    private var selfName: String?
+    private var selfName = UIDevice.currentDevice().name
     private var otherPlayersName: [String]?
     private var gameCenter: GameCenter?
     private var mapContent: [Dictionary<String, String>]?
@@ -37,13 +37,14 @@ class MultiplayerManagementViewController: GameBackgroundViewController {
     }
     
     deinit {
+        connectivity.stopServiceBrowsing()
         println("multi management deinited")
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         let gameVC = segue.destinationViewController as GameViewController
         
-        gameVC.setupMultiplayerGame(fromMap: mapContent!, pacmanId: pacmanId, isHost: (selfName! == hostName!), gameCenter: self.gameCenter!, miniMapImage: miniMapImage!)
+        gameVC.setupMultiplayerGame(fromMap: mapContent!, pacmanId: pacmanId, isHost: (selfName == hostName!), gameCenter: self.gameCenter!, miniMapImage: miniMapImage!)
     }
     
     @IBAction func createNewGame(sender: AnyObject) {
@@ -72,7 +73,8 @@ extension MultiplayerManagementViewController: UITableViewDelegate {
         // If confirmed, send invitation
         let joinGameAction = UIAlertAction(title: "Yes", style: .Default,
             handler: { (action) -> Void in
-                self.connectivity.sendInvitation(toPlayer: self.newGames[indexPath.row])
+                self.hostName = self.newGames[indexPath.row]
+                self.connectivity.sendInvitation(toPlayer: self.hostName!)
                 
                 // try connecting to the host, show an indicator with cancel button
                 var gameRoomVC = self.storyboard?.instantiateViewControllerWithIdentifier("gameRoomVC") as NewGameRoomViewController
@@ -111,21 +113,6 @@ extension MultiplayerManagementViewController: UITableViewDataSource {
 extension MultiplayerManagementViewController: MatchPeersDelegate {
     func didReceiveInvitationFromPlayer(playerName: String, invitationHandler: ((Bool) -> Void)) {}
     
-    func session(player playername: String, didChangeState state: MCSessionState) {
-        switch state {
-        case .Connected:
-            // connected with host, enter game and set game scene
-            break
-        case .Connecting:
-            break
-        case .NotConnected:
-            // there is a problem connecting with the host, show an alert message
-            break
-        default:
-            break
-        }
-    }
-    
     func browser(foundPlayer playerName: String, withDiscoveryInfo info: [NSObject : AnyObject]?) {
         newGames.append(playerName)
         gameIndices[playerName] = newGames.count - 1
@@ -145,6 +132,7 @@ extension MultiplayerManagementViewController: GameLevelLoadingDelegate {
     func willCancel(sourceVC: UIViewController) {
         
     }
+    
     func didSelectedLevel(sourceVC: UIViewController, mapContent: [Dictionary<String, String>], miniMapImage: UIImage) {
         self.mapContent = mapContent
         self.miniMapImage = miniMapImage
@@ -160,45 +148,44 @@ extension MultiplayerManagementViewController: GameLevelLoadingDelegate {
         
         connectivity.stopServiceBrowsing()
         connectivity.matchDelegate = gameRoomVC
+        connectivity.sessionDelegate = gameRoomVC
         connectivity.startServiceAdvertising(Constants.Identifiers.NewGameService, discoveryInfo: [NSObject: AnyObject]())
         self.presentViewController(gameRoomVC, animated: true, completion: nil)
     }
 }
 
 extension MultiplayerManagementViewController: NewGameStartDelegate {
-    func startNewGame(sourceVC: UIViewController, hostName: String, allPlayers: [String]) {
+    func startNewGame(sourceVC: UIViewController, allPlayers: [String]) {
         if let mapContent = mapContent {
             let pacmanIds = extractPacmanIdsFromMap(mapContent)
             self.mapContent = removeExtraPacmans(mapContent, pacmanIds: pacmanIds, count: allPlayers.count + 1)
             
             println(allPlayers)
             for i in 0..<allPlayers.count {
-                let gameInitData = GameNetworkInitData(hostName: hostName, allPlayersName: allPlayers, pacmanId: pacmanIds[i], mapContent: self.mapContent!, miniMapImage: self.miniMapImage!)
+                let gameInitData = GameNetworkInitData(pacmanId: pacmanIds[i], mapContent: self.mapContent!, miniMapImage: self.miniMapImage!)
                 let archivedData = NSKeyedArchiver.archivedDataWithRootObject(gameInitData)
                 connectivity.sendData(toPlayer: [allPlayers[i]], data: archivedData, error: nil)
                 println("sent data")
             }
             
             self.pacmanId = pacmanIds[allPlayers.count]
-            self.selfName = hostName
-            self.hostName = hostName
+            self.selfName = UIDevice.currentDevice().name
+            self.hostName = selfName
             self.otherPlayersName = allPlayers
-            self.gameCenter = GameCenter(selfName: hostName, hostName: hostName, otherPlayersName: allPlayers, pacmanId: pacmanId, mapContent: self.mapContent!, connectivity: connectivity)
+            self.gameCenter = GameCenter(selfName: hostName!, hostName: hostName!, otherPlayersName: allPlayers, pacmanId: pacmanId, mapContent: self.mapContent!, connectivity: connectivity)
             
+            connectivity.stopServiceAdvertising()
             sourceVC.dismissViewControllerAnimated(true, completion: {() -> Void in
                 self.performSegueWithIdentifier(Constants.Identifiers.MultiplayerGameSegueIdentifier, sender: nil)
             })
         }
     }
     
-    func joinNewGame(sourceVC: UIViewController, mapContent: [Dictionary<String, String>], pacmanId: Int, selfName: String, hostName: String, otherPlayersName: [String], miniMapImage: UIImage) {
+    func joinNewGame(sourceVC: UIViewController, pacmanId: Int, mapContent: [Dictionary<String, String>], miniMapImage: UIImage) {
         self.mapContent = mapContent
         self.miniMapImage = miniMapImage
         self.pacmanId = pacmanId
-        self.selfName = selfName
-        self.hostName = hostName
-        self.otherPlayersName = otherPlayersName
-        self.gameCenter = GameCenter(selfName: selfName, hostName: hostName, otherPlayersName: otherPlayersName, pacmanId: pacmanId, mapContent: mapContent, connectivity: connectivity)
+        self.gameCenter = GameCenter(selfName: selfName, hostName: hostName!, otherPlayersName: [String](), pacmanId: pacmanId, mapContent: mapContent, connectivity: connectivity)
         
         sourceVC.dismissViewControllerAnimated(true, completion: {() -> Void in
             self.performSegueWithIdentifier(Constants.Identifiers.MultiplayerGameSegueIdentifier, sender: self)

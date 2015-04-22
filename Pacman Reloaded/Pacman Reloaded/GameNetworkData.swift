@@ -9,16 +9,12 @@
 import UIKit
 
 class GameNetworkInitData: NSObject, NSCoding {
-    let hostName: String
-    let allPlayersName: [String]
     let pacmanId: Int
     let mapContent: [Dictionary<String, String>]
     let miniMapImage: UIImage
     
     
-    init(hostName: String, allPlayersName: [String], pacmanId: Int, mapContent: [Dictionary<String, String>], miniMapImage: UIImage) {
-        self.hostName = hostName
-        self.allPlayersName = allPlayersName
+    init(pacmanId: Int, mapContent: [Dictionary<String, String>], miniMapImage: UIImage) {
         self.pacmanId = pacmanId
         self.mapContent = mapContent
         self.miniMapImage = miniMapImage
@@ -27,8 +23,6 @@ class GameNetworkInitData: NSObject, NSCoding {
     }
 
     required init(coder aDecoder: NSCoder) {
-        self.hostName = aDecoder.decodeObjectForKey("hostName") as String
-        self.allPlayersName = aDecoder.decodeObjectForKey("allPlayersName") as [String]
         self.pacmanId = aDecoder.decodeIntegerForKey("pacmanId")
         self.mapContent = aDecoder.decodeObjectForKey("mapContent") as [Dictionary<String, String>]
         self.miniMapImage = aDecoder.decodeObjectForKey("miniMapImage") as UIImage
@@ -37,8 +31,6 @@ class GameNetworkInitData: NSObject, NSCoding {
     }
     
     func encodeWithCoder(aCoder: NSCoder) {
-        aCoder.encodeObject(hostName, forKey: "hostName")
-        aCoder.encodeObject(allPlayersName, forKey: "allPlayersName")
         aCoder.encodeInteger(pacmanId, forKey: "pacmanId")
         aCoder.encodeObject(mapContent, forKey: "mapContent")
         aCoder.encodeObject(miniMapImage, forKey: "miniMapImage")

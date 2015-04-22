@@ -46,7 +46,6 @@ extension GameCenter: SessionDataDelegate {
     
     // The connection status has been changed on the other end
     func session(player playerName: String, didChangeState state: MCSessionState) {
-        println("Peers status change not implemented in GameCenter")
     }
     
     private func processPackage(data: NSData) {
