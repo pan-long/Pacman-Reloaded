@@ -41,7 +41,6 @@ class NewGameRoomViewController: MenuController {
             delegate.startNewGame(self, allPlayers: players)
         }
     }
-    
     /*
     // MARK: - Navigation
 
@@ -119,6 +118,9 @@ extension NewGameRoomViewController: SessionDataDelegate {
             if let index = find(players, playername) {
                 players.removeAtIndex(index)
                 tableView.deleteRowsAtIndexPaths([NSIndexPath(forRow: index + 1, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Fade)
+                if players.isEmpty {
+                    self.dismissViewControllerAnimated(true, completion: nil)
+                }
             }
             break
         default:

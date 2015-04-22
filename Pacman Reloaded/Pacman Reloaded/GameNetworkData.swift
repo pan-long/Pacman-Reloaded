@@ -37,6 +37,18 @@ class GameNetworkInitData: NSObject, NSCoding {
     }
 }
 
+class GameNetworkInitACKData: NSObject, NSCoding {
+    override init(){super.init()}
+    required init(coder aDecoder: NSCoder) {super.init()}
+    func encodeWithCoder(aCoder: NSCoder) {}
+}
+
+class GameNetworkStartData: NSObject, NSCoding {
+    override init(){super.init()}
+    required init(coder aDecoder: NSCoder) {super.init()}
+    func encodeWithCoder(aCoder: NSCoder) {}
+}
+
 class GameNetworkMovementData: NSObject, NSCoding {
     let objectId: Int
     let position: CGPoint

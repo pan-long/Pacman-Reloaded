@@ -21,10 +21,14 @@ class MultiplayerManagementViewController: GameBackgroundViewController {
     private var pacmanId = 0
     private var hostName: String?
     private var selfName = UIDevice.currentDevice().name
-    private var otherPlayersName: [String]?
+    private var otherPlayersName = [String]()
     private var gameCenter: GameCenter?
     private var mapContent: [Dictionary<String, String>]?
     private var miniMapImage: UIImage?
+    
+    private var connectedCount = 0
+    private var waitingAlertVC: UIAlertController?
+    private var disconnectedVC: UIAlertController?
     
     override func viewDidLoad() {
         newGameTable.layer.cornerRadius = CGFloat(19) // TODO Magic number
@@ -32,17 +36,25 @@ class MultiplayerManagementViewController: GameBackgroundViewController {
         newGameTable.dataSource = self
         newGameTable.alpha = 0.7
         connectivity.matchDelegate = self
+        connectivity.sessionDelegate = self
         connectivity.startServiceBrowsing(newGameIdentifier)
+        
+        waitingAlertVC = UIAlertController(title: "Waiting Game to Start!", message: "Be Ready!", preferredStyle: UIAlertControllerStyle.Alert)
+        disconnectedVC = UIAlertController(title: "Disconncted!", message: "Some Player Disconnected!", preferredStyle: UIAlertControllerStyle.Alert)
+        
         super.viewDidLoad()
     }
     
     deinit {
+        connectivity.stopServiceAdvertising()
         connectivity.stopServiceBrowsing()
         println("multi management deinited")
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         let gameVC = segue.destinationViewController as GameViewController
+        
+        gameCenter = GameCenter(selfName: selfName, hostName: hostName!, otherPlayersName: otherPlayersName, pacmanId: pacmanId, mapContent: self.mapContent!, connectivity: connectivity)
         
         gameVC.setupMultiplayerGame(fromMap: mapContent!, pacmanId: pacmanId, isHost: (selfName == hostName!), gameCenter: self.gameCenter!, miniMapImage: miniMapImage!)
     }
@@ -128,6 +140,47 @@ extension MultiplayerManagementViewController: MatchPeersDelegate {
     }
 }
 
+extension MultiplayerManagementViewController: SessionDataDelegate {
+    // The connection status has been changed on the other end
+    func session(player playerName: String, didChangeState state: MCSessionState) {
+        if let alertVC = waitingAlertVC {
+            alertVC.dismissViewControllerAnimated(true, completion: nil)
+        }
+        
+        if let alertVC = disconnectedVC {
+            self.presentViewController(alertVC, animated: true, completion: {
+                self.connectedCount = 0
+                self.connectivity.startServiceBrowsing(Constants.Identifiers.NewGameService)
+            })
+        }
+    }
+    
+    // Received data from remote player
+    func session(didReceiveData data: NSData, fromPlayer playerName: String) {
+        let unarchivedData: AnyObject? = NSKeyedUnarchiver.unarchiveObjectWithData(data)
+        if let gameStartData = unarchivedData as? GameNetworkStartData {
+            if let alertVC = waitingAlertVC {
+                alertVC.dismissViewControllerAnimated(true, completion: {() -> Void in
+                    self.performSegueWithIdentifier(Constants.Identifiers.MultiplayerGameSegueIdentifier, sender: nil)
+                })
+            }
+        } else if let gameInitACKData = unarchivedData as? GameNetworkInitACKData {
+            connectedCount = connectedCount + 1
+            if connectedCount == otherPlayersName.count {
+                if let alertVC = waitingAlertVC {
+                    alertVC.dismissViewControllerAnimated(true, completion: {() -> Void in
+                        let gameStartData = GameNetworkStartData()
+                        let archivedData = NSKeyedArchiver.archivedDataWithRootObject(gameStartData)
+                        self.connectivity.sendData(toPlayer: self.otherPlayersName, data: archivedData, error: nil)
+                        self.performSegueWithIdentifier(Constants.Identifiers.MultiplayerGameSegueIdentifier, sender: nil)
+                        self.connectedCount = 0
+                    })
+                }
+            }
+        }
+    }
+}
+
 extension MultiplayerManagementViewController: GameLevelLoadingDelegate {
     func willCancel(sourceVC: UIViewController) {
         
@@ -172,11 +225,15 @@ extension MultiplayerManagementViewController: NewGameStartDelegate {
             self.selfName = UIDevice.currentDevice().name
             self.hostName = selfName
             self.otherPlayersName = allPlayers
-            self.gameCenter = GameCenter(selfName: hostName!, hostName: hostName!, otherPlayersName: allPlayers, pacmanId: pacmanId, mapContent: self.mapContent!, connectivity: connectivity)
             
-            connectivity.stopServiceAdvertising()
             sourceVC.dismissViewControllerAnimated(true, completion: {() -> Void in
-                self.performSegueWithIdentifier(Constants.Identifiers.MultiplayerGameSegueIdentifier, sender: nil)
+                if let alertVC = self.waitingAlertVC {
+                    self.connectivity.stopServiceAdvertising()
+                    self.connectivity.stopServiceBrowsing()
+                    self.connectivity.matchDelegate = self
+                    self.connectivity.sessionDelegate = self
+                    self.presentViewController(alertVC, animated: true, completion: nil)
+                }
             })
         }
     }
@@ -185,10 +242,20 @@ extension MultiplayerManagementViewController: NewGameStartDelegate {
         self.mapContent = mapContent
         self.miniMapImage = miniMapImage
         self.pacmanId = pacmanId
-        self.gameCenter = GameCenter(selfName: selfName, hostName: hostName!, otherPlayersName: [String](), pacmanId: pacmanId, mapContent: mapContent, connectivity: connectivity)
         
         sourceVC.dismissViewControllerAnimated(true, completion: {() -> Void in
-            self.performSegueWithIdentifier(Constants.Identifiers.MultiplayerGameSegueIdentifier, sender: self)
+            self.connectivity.stopServiceAdvertising()
+            self.connectivity.stopServiceBrowsing()
+            self.connectivity.matchDelegate = self
+            self.connectivity.sessionDelegate = self
+            
+            let gameInitACKData = GameNetworkInitACKData()
+            let archivedData = NSKeyedArchiver.archivedDataWithRootObject(gameInitACKData)
+            self.connectivity.sendData(toPlayer: [self.hostName!], data: archivedData, error: nil)
+            
+            if let alertVC = self.waitingAlertVC {
+                self.presentViewController(alertVC, animated: true, completion: nil)
+            }
         })
     }
     
