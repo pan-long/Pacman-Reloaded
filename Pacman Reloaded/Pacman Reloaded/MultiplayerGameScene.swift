@@ -182,4 +182,14 @@ extension MultiplayerGameScene {
         res = res + otherPacmans
         return res
     }
+
+    override func getPacmans() -> [MovableObject] {
+        var pacmans = [MovableObject]()
+        pacmans.append(pacman)
+        for pac in self.otherPacmans {
+            pacmans.append(pac)
+        }
+        return pacmans
+    }
+
 }
