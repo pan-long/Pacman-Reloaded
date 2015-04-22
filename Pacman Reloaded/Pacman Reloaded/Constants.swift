@@ -45,7 +45,13 @@ struct Constants {
         static let Width = CGFloat(30)
         static let Height = CGFloat(30)
         static let Speed = CGFloat(4)
-        
+
+        static let InvincibleDuration: NSTimeInterval = 4
+        static let InvincibleBlinkDuration: NSTimeInterval = 0.2
+        static let InvincibleBlinkCount = 5
+
+        static let MultiplayerDeathPenalty = -100
+
         static let ImageCount = 2
         static let Images = ["pacman-female", "pacman-male"]
         static let Filenames = [

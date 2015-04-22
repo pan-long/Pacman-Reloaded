@@ -14,6 +14,7 @@ protocol PacmanScoreNetworkDelegate: class {
 }
 
 class PacMan: MovableObject {
+    var invincible = false
     let pacmanDice = Int(arc4random_uniform(UInt32(Constants.PacMan.ImageCount)))
     var score: Int = 0 {
         didSet {

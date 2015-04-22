@@ -118,6 +118,33 @@ class MultiplayerGameScene: GameScene {
         newPacman.position = position
         addChild(newPacman)
     }
+
+    override func handlePacmanCaught(pacman: PacMan) {
+        if !pacman.invincible {
+            if pacman.objectId == self.pacmanId {
+                pacman.score += Constants.PacMan.MultiplayerDeathPenalty
+                sceneDelegate.updateScore(pacman.score, dotsLeft: totalPacDots)
+            }
+            makeInvincible(pacman)
+        }
+    }
+
+    private func makeInvincible(pacman: PacMan) {
+        pacman.invincible = true
+        let wait = SKAction.waitForDuration(Constants.PacMan.InvincibleDuration)
+        let resetInvincible = SKAction.runBlock {
+            pacman.invincible = false
+        }
+        let invincible = SKAction.sequence([wait, resetInvincible])
+
+        let blinkOnce = SKAction.sequence([
+            SKAction.fadeOutWithDuration(Constants.PacMan.InvincibleBlinkDuration),
+            SKAction.fadeInWithDuration(Constants.PacMan.InvincibleBlinkDuration)
+            ])
+        let blink = SKAction.repeatAction(blinkOnce, count: Constants.PacMan.InvincibleBlinkCount)
+
+        pacman.runAction(SKAction.group([invincible, blink]), withKey: "respawn")
+    }
 }
 
 extension MultiplayerGameScene: MovementNetworkDelegate {

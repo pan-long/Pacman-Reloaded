@@ -313,12 +313,16 @@ extension GameScene: SKPhysicsContactDelegate {
         }
         
         if !ghost.frightened {
-            gameOver(false)
+            handlePacmanCaught(pacman)
         } else if !ghost.eaten {
             pacman.score += Constants.Score.Ghost
             ghost.eaten = true
             sceneDelegate.updateScore(pacman.score, dotsLeft: totalPacDots)
         }
+    }
+
+    func handlePacmanCaught(pacman: PacMan) {
+        gameOver(false)
     }
     
     private func handlePacDotEvent(pacdot: PacDot, pacman: PacMan) {
