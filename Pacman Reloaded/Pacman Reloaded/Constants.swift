@@ -88,7 +88,9 @@ struct Constants {
         static let MovableObjectAdjustment = CGFloat(4)
 
         static let ImageWithoutBoundaryPrefix = "__boundary__"
-        
+
+        static let BoundaryImage = "boundary"
+
         static let PacdotRatio: Double = 4
         static let Width = 720
         static let Height = 720
