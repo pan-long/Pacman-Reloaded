@@ -219,11 +219,7 @@ extension MultiplayerManagementViewController: GameRoomDelegate {
                 let gameInitData = GameNetworkInitData(pacmanId: pacmanIds[i], mapContent: self.mapContent!, miniMapImage: self.miniMapImage!)
                 let archivedData = NSKeyedArchiver.archivedDataWithRootObject(gameInitData)
                 
-                var error: NSError?
-                do {
-                    error = nil
-                    self.connectivity.sendData(toPlayer: [allPlayers[i]], data: archivedData, error: &error)
-                } while (error != nil)
+                self.connectivity.sendData(toPlayer: [allPlayers[i]], data: archivedData, error: nil)
             }
             
             self.pacmanId = pacmanIds[allPlayers.count]
