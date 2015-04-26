@@ -69,8 +69,8 @@ extension GameLevelStorage { // For storing and loading new designs from/into di
             let indexPath = indexPaths[i]
             let row = Double(indexPath.section)
             let column = Double(indexPath.row)
-            let gridWidth = Constants.GameScene.GridWidth
-            let gridHeight = Constants.GameScene.GridHeight
+            let gridWidth = Constants.LevelDesign.DesignArea.GridWidth
+            let gridHeight = Constants.LevelDesign.DesignArea.GridHeight
             let gameSceneHeight = Double(Constants.GameScene.Height)
             
             var dic = Dictionary<String, String>()

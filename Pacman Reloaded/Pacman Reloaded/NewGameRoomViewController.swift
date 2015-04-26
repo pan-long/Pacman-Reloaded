@@ -28,8 +28,8 @@ class NewGameRoomViewController: MenuController {
 
         // Do any additional setup after loading the view.
         tableView.dataSource = self
-        tableView.layer.cornerRadius = 15
-        tableView.alpha = 0.7
+        tableView.layer.cornerRadius = Constants.Table.CornerRadius
+        tableView.alpha = Constants.Table.Alpha
     }
 
     override func didReceiveMemoryWarning() {

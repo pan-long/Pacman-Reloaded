@@ -11,10 +11,10 @@ import SpriteKit
 class GameLevelDesignGridNormalCell: GameLevelDesignGridCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
-        width = Constants.GameScene.GridWidth
-        height = Constants.GameScene.GridHeight
+        width = Constants.LevelDesign.DesignArea.GridWidth
+        height = Constants.LevelDesign.DesignArea.GridHeight
         self.layer.borderColor = UIColor.grayColor().CGColor
-        self.layer.borderWidth = 0.3
+        self.layer.borderWidth = Constants.LevelDesign.DesignArea.GridBorderWidth
     }
 
     required override init(coder aDecoder: NSCoder) {

@@ -12,9 +12,7 @@ class GameLevelDesignerNormalCollectionViewLayout: GameLevelDesignerCollectionVi
     
     override func prepareLayout() {
         super.prepareLayout()
-        width = Double(Constants.GameScene.GridWidth)
-        height = Double(Constants.GameScene.GridHeight)
-        rows = Double(Constants.GameScene.NumberOfRows)
-        columns = Double(Constants.GameScene.NumberOfColumns)
+        width = Double(Constants.LevelDesign.DesignArea.GridWidth)
+        height = Double(Constants.LevelDesign.DesignArea.GridHeight)
     }
 }

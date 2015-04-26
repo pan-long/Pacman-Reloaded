@@ -9,6 +9,7 @@
 import UIKit
 import Foundation
 
+// Subclassed by all popover menus to add background and pacman logo.
 class MenuController: UIViewController {
 
     override func viewDidLoad() {
@@ -18,18 +19,19 @@ class MenuController: UIViewController {
         let backgroundImage = UIImage(named: "popover-background")
         let background = UIImageView(image: backgroundImage!)
         background.frame = self.view.frame
-        background.alpha = 0.7
+        background.alpha = Constants.PopoverMenu.BackgroundAlpha
         
         let logoImage = UIImage(named: "logo")
         let logo = UIImageView(image: logoImage!)
-        logo.alpha = 0.6
-        logo.frame.size = CGSize(width: 82.1, height: 15.0)
-        logo.frame.origin = CGPoint(x: 5.0, y: 5.0)
+        logo.alpha = Constants.PopoverMenu.LogoAlpha
+        logo.frame.size = CGSize(width: Constants.PopoverMenu.LogoWidth,
+            height: Constants.PopoverMenu.LogoHeight)
+        logo.frame.origin = CGPoint(x: Constants.PopoverMenu.LogoOriginX,
+            y: Constants.PopoverMenu.LogoOriginY)
         background.addSubview(logo)
         
         view.addSubview(background)
         view.sendSubviewToBack(background)
-
     }
 
     deinit {

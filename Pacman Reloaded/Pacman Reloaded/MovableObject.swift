@@ -245,11 +245,11 @@ class MovableObject: GameObject {
     }
     
     private func getForwardSensorShortEdge() -> CGFloat {
-        return Constants.GameScene.GridWidth - self.sprite.size.width + 2 * (self.currentSpeed - 1)
+        return Constants.LevelDesign.DesignArea.GridWidth - self.sprite.size.width + 2 * (self.currentSpeed - 1)
     }
     
     private func getSideSensorLongEdge() -> CGFloat {
-        return Constants.GameScene.GridWidth - 2 * (self.currentSpeed - 1)
+        return Constants.LevelDesign.DesignArea.GridWidth - 2 * (self.currentSpeed - 1)
     }
     
     private func getSideSensorShortEdge() -> CGFloat {

@@ -91,45 +91,87 @@ struct Constants {
         // Segue identifier
         static let ShowPopover = "showPopover"
         static let QuitLevelSelection = "unwindToMenuFromLevelLoading"
+        
+        struct LevelDesign {
+            static let GridIdentifier = "levelDesignGrid"
+            static let MiniMapIdentifier = "levelDesignMinimapGrid"
+        }
     }
     
-    struct GameScene {
-        // amount needed to shift the location of movable objects along x axis
-        static let MovableObjectAdjustment = CGFloat(4)
-
-        static let ImageWithoutBoundaryPrefix = "__boundary__"
-
-        static let BoundaryImage = "boundary"
-
-        static let PacdotRatio: Double = 4
-        static let Width = 720
-        static let Height = 720
-        static let TotalWidth = 1600
-        static let TotalHeight = 1600
-        static let MiniMapWidth = 256
-        static let MiniMapHeight = 256
-        static let MiniMapAlpha: CGFloat = 0.5
+    struct PopoverMenu {
+        static let BackgroundAlpha = CGFloat(0.7)
+        static let LogoAlpha = CGFloat(0.6)
+        static let LogoWidth = CGFloat(82.1)
+        static let LogoHeight = CGFloat(15)
+        static let LogoOriginX = CGFloat(5)
+        static let LogoOriginY = CGFloat(5)
+    }
+    
+    struct Table {
+        static let CornerRadius = CGFloat(15)
+        static let Alpha = CGFloat(0.7)
+    }
+    
+    struct LevelDesign {
+        struct DesignArea {
+            static let GridWidth = CGFloat(40)
+            static let GridHeight = GridWidth
+            static let GridBorderWidth = CGFloat(0.3)
+            
+            static let ArrowTimerInterval = 0.2
+            static let CornerRadius = CGFloat(20)
+            static let BoundaryColor = UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 0.8)
+            
+            static let MinX = GridWidth * CGFloat(NumberOfColumnsPerScreen / 2)
+            static let MinY = GridHeight * CGFloat(NumberOfRowsPerScreen / 2)
+            static let MaxX = GridWidth * CGFloat(NumberOfColumns) - MinX
+            static let MaxY = GridHeight * CGFloat(NumberOfRows) - MinY
+            static let Width = GridWidth * CGFloat(NumberOfColumns)
+            static let Height = GridHeight * CGFloat(NumberOfRows)
+        }
+        
+        struct MiniMap {
+            static let GridWidth = CGFloat(6.4)
+            static let GridHeight = GridWidth
+            
+            static let Alpha = CGFloat(0.5)
+            
+            static let RecCenterMinX = GridWidth * CGFloat(Double(NumberOfColumnsPerScreen / 2) - 0.5)
+            static let RecCenterMinY = GridHeight * CGFloat(Double(NumberOfRowsPerScreen / 2) - 0.5)
+            static let RecCenterMaxX = GridWidth * CGFloat(NumberOfRows) - RecCenterMinX
+            static let RecCenterMaxY = GridHeight * CGFloat(NumberOfColumns) - RecCenterMinY
+        }
+        
+        struct Palette {
+            static let UnselectedAlpha = CGFloat(0.5)
+            static let SelectedAlpha = CGFloat(1)
+        }
         
         static let NumberOfRows = 40
         static let NumberOfColumns = 40
         static let NumberOfRowsPerScreen = 18
         static let NumberOfColumnsPerScreen = 18
         
-        static let GridWidth = CGFloat(40)
-        static let GridHeight = GridWidth
-        static let DesignAreaMinX = GridWidth * CGFloat(NumberOfColumnsPerScreen / 2)
-        static let DesignAreaMinY = GridHeight * CGFloat(NumberOfRowsPerScreen / 2)
-        static let DesignAreaMaxX = GridWidth * CGFloat(NumberOfColumns) - DesignAreaMinX
-        static let DesignAreaMaxY = GridHeight * CGFloat(NumberOfRows) - DesignAreaMinY
-        static let DesignAreaWidth = GridWidth * CGFloat(NumberOfColumns)
-        static let DesignAreaHeight = GridHeight * CGFloat(NumberOfRows)
+        static let ImageWithoutBoundaryPrefix = "__boundary__"
+    }
+    
+    struct GameScene {
+        // amount needed to shift the location of movable objects along x axis
+        static let MovableObjectAdjustment = CGFloat(4)
+
+        static let BoundaryImage = "boundary"
         
+        static let PacdotRatio: Double = 4
+        static let Width = 720
+        static let Height = 720
+        static let TotalWidth = 1600
+        static let TotalHeight = 1600
+        
+        static let MiniMapWidth = 256
+        static let MiniMapHeight = 256
+        static let MiniMapAlpha = CGFloat(0.5)
         static let MiniGridWidth = CGFloat(6.4)
         static let MiniGridHeight = MiniGridWidth
-        static let RecCenterMinX = MiniGridWidth * CGFloat(Double(NumberOfColumnsPerScreen / 2) - 0.5)
-        static let RecCenterMinY = MiniGridHeight * CGFloat(Double(NumberOfRowsPerScreen / 2) - 0.5)
-        static let RecCenterMaxX = MiniGridWidth * CGFloat(NumberOfRows) - RecCenterMinX
-        static let RecCenterMaxY = MiniGridHeight * CGFloat(NumberOfColumns) - RecCenterMinY
         
         static let PacmanMaleTag = 10
         static let PacmanFemaleTag = 20
@@ -155,8 +197,8 @@ struct Constants {
     struct AIMovementControl {
         static let GameSceneMinX: CGFloat = 0
         static let GameSceneMinY: CGFloat = 0
-        static let GameSceneMaxX = Constants.GameScene.GridWidth  * CGFloat(Constants.GameScene.NumberOfColumns)
-        static let GameSceneMaxY = Constants.GameScene.GridHeight * CGFloat(Constants.GameScene.NumberOfRows)
+        static let GameSceneMaxX = Constants.LevelDesign.DesignArea.GridWidth * CGFloat(Constants.LevelDesign.NumberOfColumns)
+        static let GameSceneMaxY = Constants.LevelDesign.DesignArea.GridHeight * CGFloat(Constants.LevelDesign.NumberOfRows)
         
         static let IndefiniteChase = 2100
         static let ChaseModeDuration = 400

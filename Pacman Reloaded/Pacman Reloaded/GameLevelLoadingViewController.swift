@@ -33,8 +33,8 @@ class GameLevelLoadingViewController: MenuController {
         super.viewDidLoad()
         gameLevelsTable.delegate = self
         gameLevelsTable.dataSource = self
-        gameLevelsTable.layer.cornerRadius = 15
-        gameLevelsTable.alpha = 0.7
+        gameLevelsTable.layer.cornerRadius = Constants.Table.CornerRadius
+        gameLevelsTable.alpha = Constants.Table.Alpha
         loadButton.enabled = false
         fileSelected = 0
     }
@@ -62,7 +62,7 @@ class GameLevelLoadingViewController: MenuController {
     
     private func getSelectedFileImageWithoutPacdots() -> UIImage {
         var image: UIImage
-        let prefix = Constants.GameScene.ImageWithoutBoundaryPrefix
+        let prefix = Constants.LevelDesign.ImageWithoutBoundaryPrefix
         let fileName = getSelectedFileName()
         if fileSelected < allPredefinedFiles.count {
             image = GameLevelStorage.getPredefinedGameLevelImage(prefix + fileName)!

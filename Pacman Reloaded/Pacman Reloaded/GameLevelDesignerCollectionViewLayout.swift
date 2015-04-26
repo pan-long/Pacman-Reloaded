@@ -10,10 +10,11 @@ import SpriteKit
 
 class GameLevelDesignerCollectionViewLayout: UICollectionViewLayout {
     
-    var width = Double(Constants.GameScene.MiniGridWidth)
-    var height = Double(Constants.GameScene.MiniGridWidth)
-    var rows = Double(Constants.GameScene.NumberOfRows)
-    var columns = Double(Constants.GameScene.NumberOfColumns)
+    let half = 0.5
+    var width = Double(Constants.LevelDesign.MiniMap.GridWidth)
+    var height = Double(Constants.LevelDesign.MiniMap.GridHeight)
+    var rows = Double(Constants.LevelDesign.NumberOfRows)
+    var columns = Double(Constants.LevelDesign.NumberOfColumns)
     
     override func prepareLayout() {
         super.prepareLayout()
@@ -27,8 +28,8 @@ class GameLevelDesignerCollectionViewLayout: UICollectionViewLayout {
         var attr = UICollectionViewLayoutAttributes(forCellWithIndexPath: indexPath)
         let row: Int = indexPath.section
         let column: Int = indexPath.row
-        attr.center = CGPoint(x: width * (Double(column) + 0.5),
-            y: height * (Double(row) + 0.5))
+        attr.center = CGPoint(x: width * (Double(column) + half),
+            y: height * (Double(row) + half))
         attr.size = CGSize(width: width, height: height)
         return attr
     }

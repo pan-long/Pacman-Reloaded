@@ -15,7 +15,7 @@ class AudioManager {
     struct config {
         static let PacdotSoundEffect = "coin.wav"
         static let MenuSoundEffect = "menu"
-
+        static let Volume: Float = 1.0
     }
 
     private init() {
@@ -40,7 +40,7 @@ class AudioManager {
             AudioPlayer = AVAudioPlayer(contentsOfURL: sound, error: &error)
         }
         AudioPlayer?.prepareToPlay()
-        AudioPlayer?.volume = 1.0
+        AudioPlayer?.volume = config.Volume
         AudioPlayer?.play()
     }
 }

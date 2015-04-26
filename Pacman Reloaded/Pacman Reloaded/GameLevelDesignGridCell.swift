@@ -9,8 +9,8 @@
 import SpriteKit
 
 class GameLevelDesignGridCell: UICollectionViewCell {
-    var width = Constants.GameScene.MiniGridWidth
-    var height = Constants.GameScene.MiniGridHeight
+    var width = Constants.LevelDesign.MiniMap.GridWidth
+    var height = Constants.LevelDesign.MiniMap.GridHeight
     var type = GameDesignType.None
     
     func setType(type: GameDesignType) {
@@ -25,7 +25,7 @@ class GameLevelDesignGridCell: UICollectionViewCell {
             imageView.frame = CGRectMake(0, 0, width, height)
             contentView.addSubview(imageView)
         } else if type == .Boundary {
-            self.layer.backgroundColor = UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 0.8).CGColor
+            self.layer.backgroundColor = Constants.LevelDesign.DesignArea.BoundaryColor.CGColor
         }
     }
 }

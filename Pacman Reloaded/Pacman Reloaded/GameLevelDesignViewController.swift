@@ -22,8 +22,8 @@ class GameLevelDesignViewController: GameBackgroundViewController {
     private var arrowHolding: UIButton?
     private var arrowTimer: NSTimer?
     
-    private let designAreaCellIdentifier = "levelDesignGrid"
-    private let miniMapCellIdentifier = "levelDesignMinimapGrid"
+    private let designAreaCellIdentifier = Constants.Identifiers.LevelDesign.GridIdentifier
+    private let miniMapCellIdentifier = Constants.Identifiers.LevelDesign.MiniMapIdentifier
     
     private var selected = GameDesignType.None
     private var cellMappings = Dictionary<NSIndexPath, GameDesignType>()
@@ -41,18 +41,18 @@ class GameLevelDesignViewController: GameBackgroundViewController {
         designArea.dataSource = self
         designArea.delegate = self
         designArea.scrollEnabled = false
-        designArea.layer.cornerRadius = CGFloat(20)
-
+        designArea.layer.cornerRadius = Constants.LevelDesign.DesignArea.CornerRadius
+        
         miniMap.registerClass(GameLevelDesignGridCell.self,
             forCellWithReuseIdentifier: miniMapCellIdentifier)
         miniMap.backgroundColor = UIColor.blackColor()
-        miniMap.alpha = 0.5
+        miniMap.alpha = Constants.LevelDesign.MiniMap.Alpha
         miniMap.delegate = self
         miniMap.dataSource = self
         miniMap.scrollEnabled = false
         
-        arrowTimer = NSTimer.scheduledTimerWithTimeInterval(0.2, target: self,
-                selector: "handleArrowLongPressing:", userInfo: nil, repeats: true)
+        arrowTimer = NSTimer.scheduledTimerWithTimeInterval(Constants.LevelDesign.DesignArea.ArrowTimerInterval,
+            target: self, selector: "handleArrowLongPressing:", userInfo: nil, repeats: true)
         changeArrowVisibility()
     }
     
@@ -75,8 +75,8 @@ class GameLevelDesignViewController: GameBackgroundViewController {
     
     private func setupLevelDesigner() {
         selected = .Boundary
-        let numOfRows = Constants.GameScene.NumberOfRows
-        let numOfColumns = Constants.GameScene.NumberOfColumns
+        let numOfRows = Constants.LevelDesign.NumberOfRows
+        let numOfColumns = Constants.LevelDesign.NumberOfColumns
         
         for row in 0..<numOfRows {
             if row == 0 || row == numOfRows - 1 {
@@ -97,14 +97,14 @@ class GameLevelDesignViewController: GameBackgroundViewController {
     private func unselectAllButtons() {
         let allButtons = buttons.subviews as [UIView]
         for i in 0..<allButtons.count {
-            allButtons[i].alpha = 0.5
+            allButtons[i].alpha = Constants.LevelDesign.Palette.UnselectedAlpha
         }
     }
     
     private func setCellToSelectedWithConstraints(indexPath: NSIndexPath) {
         // Disable changing the outmost rectangular bound
-        let numOfRows = Constants.GameScene.NumberOfRows
-        let numOfColumns = Constants.GameScene.NumberOfColumns
+        let numOfRows = Constants.LevelDesign.NumberOfRows
+        let numOfColumns = Constants.LevelDesign.NumberOfColumns
         if indexPath.section > 0 && indexPath.section < numOfRows - 1 &&
             indexPath.row > 0 && indexPath.row < numOfColumns - 1 {
                 setCellToSelected(indexPath)
@@ -158,13 +158,13 @@ class GameLevelDesignViewController: GameBackgroundViewController {
     
     private func changeArrowVisibility() {
         // Min and max x, y values for the design area
-        let minX = Constants.GameScene.DesignAreaMinX
-        let minY = Constants.GameScene.DesignAreaMinY
-        let maxX = Constants.GameScene.DesignAreaMaxX
-        let maxY = Constants.GameScene.DesignAreaMaxY
+        let minX = Constants.LevelDesign.DesignArea.MinX
+        let minY = Constants.LevelDesign.DesignArea.MinY
+        let maxX = Constants.LevelDesign.DesignArea.MaxX
+        let maxY = Constants.LevelDesign.DesignArea.MaxY
         let curX = designAreaCenter().x
         let curY = designAreaCenter().y
-
+        
         arrowLeft.hidden = false
         arrowRight.hidden = false
         if curX <= minX {
@@ -185,8 +185,8 @@ class GameLevelDesignViewController: GameBackgroundViewController {
     // Move the red rectangle in the minimap to an appropriate place
     // according to the current design area
     private func moveMiniMapRec() {
-        let xRatio = designAreaCenter().x / Constants.GameScene.DesignAreaWidth
-        let yRatio = designAreaCenter().y / Constants.GameScene.DesignAreaHeight
+        let xRatio = designAreaCenter().x / Constants.LevelDesign.DesignArea.Width
+        let yRatio = designAreaCenter().y / Constants.LevelDesign.DesignArea.Height
         let miniMapOrig = miniMap.frame.origin
         miniMapRec.center.x = miniMapOrig.x + miniMap.frame.width * xRatio
         miniMapRec.center.y = miniMapOrig.y + miniMap.frame.height * yRatio
@@ -203,8 +203,8 @@ class GameLevelDesignViewController: GameBackgroundViewController {
     }
     
     private func designAreaCenter() -> CGPoint {
-        return CGPoint(x: Constants.GameScene.DesignAreaMinX + designArea.contentOffset.x,
-            y: Constants.GameScene.DesignAreaMinY + designArea.contentOffset.y)
+        return CGPoint(x: Constants.LevelDesign.DesignArea.MinX + designArea.contentOffset.x,
+            y: Constants.LevelDesign.DesignArea.MinY + designArea.contentOffset.y)
     }
     
     func getNumberOfPacmans() -> Int {
@@ -219,7 +219,7 @@ extension GameLevelDesignViewController {
         GameLevelStorage.storeGameLevelToFile(cellMappings, fileName: fileName)
         GameLevelStorage.storeGameLevelImageToFile(getMiniMapImage(), fileName: fileName)
         GameLevelStorage.storeGameLevelImageToFile(getMiniMapBoundaryImage(),
-            fileName: Constants.GameScene.ImageWithoutBoundaryPrefix + fileName)
+            fileName: Constants.LevelDesign.ImageWithoutBoundaryPrefix + fileName)
     }
     
     private func getMiniMapImage() -> UIImage {
@@ -259,11 +259,11 @@ extension GameLevelDesignViewController: UICollectionViewDelegate {
 
 extension GameLevelDesignViewController: UICollectionViewDataSource {
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        return Constants.GameScene.NumberOfRows
+        return Constants.LevelDesign.NumberOfRows
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return Constants.GameScene.NumberOfColumns
+        return Constants.LevelDesign.NumberOfColumns
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
@@ -328,8 +328,8 @@ extension GameLevelDesignViewController {
     @IBAction func resetPressed(sender: AnyObject) {
         let prevSelected = selected
         selected = .None
-        for row in 1..<Constants.GameScene.NumberOfRows-1 {
-            for column in 1..<Constants.GameScene.NumberOfColumns-1 {
+        for row in 1..<Constants.LevelDesign.NumberOfRows - 1 {
+            for column in 1..<Constants.LevelDesign.NumberOfColumns - 1 {
                 let indexPath = NSIndexPath(forRow: column, inSection: row)
                 setCellToSelected(indexPath)
             }
@@ -340,8 +340,8 @@ extension GameLevelDesignViewController {
     @IBAction func fillInPacdotsPressed(sender: AnyObject) {
         let prevSelected = selected
         selected = .Pacdot
-        for row in 1..<Constants.GameScene.NumberOfRows-1 {
-            for column in 1..<Constants.GameScene.NumberOfColumns-1 {
+        for row in 1..<Constants.LevelDesign.NumberOfRows - 1 {
+            for column in 1..<Constants.LevelDesign.NumberOfColumns - 1 {
                 let indexPath = NSIndexPath(forRow: column, inSection: row)
                 if cellMappings[indexPath] == .None {
                     setCellToSelected(indexPath)
@@ -355,7 +355,7 @@ extension GameLevelDesignViewController {
         // Pan gesture is only applicable to these types
         if selected == .Boundary || selected == .Pacdot || selected == .SuperPacdot || selected == .None {
             var currentPosition = sender.locationInView(designArea)
-
+            
             let maxX = designArea.contentSize.width
             let maxY = designArea.contentSize.height
             let curX = currentPosition.x
@@ -372,12 +372,12 @@ extension GameLevelDesignViewController {
     @IBAction func handlePanGestureInMiniMap(sender: UIPanGestureRecognizer) {
         var currentPosition = sender.locationInView(miniMap)
         
-        let minX = Constants.GameScene.RecCenterMinX
-        let minY = Constants.GameScene.RecCenterMinY
-        let maxX = Constants.GameScene.RecCenterMaxX
-        let maxY = Constants.GameScene.RecCenterMaxY
+        let minX = Constants.LevelDesign.MiniMap.RecCenterMinX
+        let minY = Constants.LevelDesign.MiniMap.RecCenterMinY
+        let maxX = Constants.LevelDesign.MiniMap.RecCenterMaxX
+        let maxY = Constants.LevelDesign.MiniMap.RecCenterMaxY
         if currentPosition.x <= minX {
-           currentPosition.x = minX
+            currentPosition.x = minX
         }
         if currentPosition.y <= minY {
             currentPosition.y = minY
@@ -417,7 +417,7 @@ extension GameLevelDesignViewController {
             }
             break
         case arrowDown:
-            if lastItem.section == Constants.GameScene.NumberOfRows - 1 {
+            if lastItem.section == Constants.LevelDesign.NumberOfRows - 1 {
                 break
             } else {
                 nextItem = lastItem.nextRow
@@ -433,7 +433,7 @@ extension GameLevelDesignViewController {
             }
             break
         case arrowRight:
-            if lastItem.row == Constants.GameScene.NumberOfColumns - 1 {
+            if lastItem.row == Constants.LevelDesign.NumberOfColumns - 1 {
                 break
             } else {
                 nextItem = lastItem.nextColumn
