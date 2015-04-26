@@ -161,6 +161,10 @@ struct Constants {
         static let IndefiniteChase = 2100
         static let ChaseModeDuration = 400
         static let ScatterModeDuration = 100
+        
+        
+        static let MaxDistance: Double = 10000
+        static let UpdateBuffer: Int = 4
     }
 
     struct MainMenu {
