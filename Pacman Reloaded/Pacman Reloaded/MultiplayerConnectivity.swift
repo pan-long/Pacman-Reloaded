@@ -10,7 +10,7 @@ import Foundation
 import MultipeerConnectivity
 
 // This delegate handles advertising and browsing peers events
-protocol MatchPeersDelegate {
+protocol MatchPeersDelegate: class {
     // Call the invitaionHandler block with true to connect the inviting player
     func didReceiveInvitationFromPlayer(playerName: String, invitationHandler: ((Bool) -> Void))
     
@@ -22,7 +22,7 @@ protocol MatchPeersDelegate {
 }
 
 // This delegate handles the data receive events
-protocol SessionDataDelegate {
+protocol SessionDataDelegate: class {
     // The connection status has been changed on the other end
     func session(player playerName: String, didChangeState state: MCSessionState)
     
@@ -32,8 +32,8 @@ protocol SessionDataDelegate {
 
 // This is the main class in Network component, it handles network traffic and is also responsible for communication with local game engine
 class MultiplayerConnectivity: NSObject {
-    var matchDelegate: MatchPeersDelegate?
-    var sessionDelegate: SessionDataDelegate?
+    weak var matchDelegate: MatchPeersDelegate?
+    weak var sessionDelegate: SessionDataDelegate?
     
     // self name and peerID
     private let playerName: String
