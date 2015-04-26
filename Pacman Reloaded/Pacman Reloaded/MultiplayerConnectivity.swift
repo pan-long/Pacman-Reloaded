@@ -35,12 +35,15 @@ class MultiplayerConnectivity: NSObject {
     var matchDelegate: MatchPeersDelegate?
     var sessionDelegate: SessionDataDelegate?
     
+    // self name and peerID
     private let playerName: String
     private let peerID: MCPeerID
 
+    // maintain a mapping from name to peerID
     private var nameToPeerIDDict = [String: MCPeerID]()
+    private var nameToSessionIndexDict = [String: Int]()
     
-    private let session: MCSession
+    private var sessions = [MCSession]()
     
     private var serviceAdvertiser: MCNearbyServiceAdvertiser?
     private var serviceBrowser: MCNearbyServiceBrowser?
@@ -48,9 +51,10 @@ class MultiplayerConnectivity: NSObject {
     init(name: String) {
         playerName = name
         peerID = MCPeerID(displayName: playerName)
-        println(peerID)
 
-        session = MCSession(peer: peerID)
+        // we need at least one session
+        var session = MCSession(peer: peerID)
+        sessions.append(session)
         
         // finish properties initialization and now call super.init()
         super.init()
@@ -59,16 +63,26 @@ class MultiplayerConnectivity: NSObject {
     }
     
     func sendData(toPlayer players: [String], data: NSData, error: NSErrorPointer) {
-        var peerIDs = [MCPeerID]()
-        for name in players {
-            if let id = nameToPeerIDDict[name] {
-                peerIDs.append(id)
-            }
+        var peerIDs = [[MCPeerID]]()
+        for i in 0..<sessions.count {
+            peerIDs.append([MCPeerID]())
         }
         
-        println("Sending Data")
-        println(peerIDs)
-        session.sendData(data, toPeers: peerIDs, withMode: MCSessionSendDataMode.Reliable, error: error)
+        // map the players to the connected sessions
+        for name in players {
+            if let id = nameToPeerIDDict[name] {
+                if let index = nameToSessionIndexDict[name] {
+                    peerIDs[index].append(id)
+                }
+            }
+        }
+
+        // in gaming, we want the data sent reliably
+        for i in 0..<sessions.count {
+            if !peerIDs[i].isEmpty {
+                sessions[i].sendData(data, toPeers: peerIDs[i], withMode: MCSessionSendDataMode.Reliable, error: error)
+            }
+        }
     }
     
     // the serviceType should be in the same format as a Bonjour service type
@@ -111,13 +125,49 @@ class MultiplayerConnectivity: NSObject {
     func sendInvitation(toPlayer playerName: String) {
         if let peerID = nameToPeerIDDict[playerName] {
             if let browser = serviceBrowser {
-                browser.invitePeer(peerID, toSession: session, withContext: nil, timeout: Constants.InvitePlayerTimeout)
+                let index = findAvaliableSessionIndex()
+                let session = sessions[index]
+                browser.invitePeer(peerID, toSession: session, withContext: nil, timeout: Constants.Network.InvitePlayerTimeout)
+                nameToSessionIndexDict[playerName] = index
             }
         }
     }
     
     func disconnect() {
-        session.disconnect()
+        // disconnect from all sessions
+        for session in sessions {
+            session.disconnect()
+        }
+        
+        // reinitialize sessions and mappings
+        sessions.removeAll(keepCapacity: false)
+        var session = MCSession(peer: peerID)
+        session.delegate = self
+        sessions.append(session)
+        
+        nameToPeerIDDict.removeAll(keepCapacity: false)
+        nameToSessionIndexDict.removeAll(keepCapacity: false)
+    }
+    
+    private func findAvaliableSessionIndex() -> Int {
+        // find an avaliable session for the new player
+        var index = -1;
+        for i in 0..<sessions.count {
+            if sessions[i].connectedPeers.count < Constants.Network.MaxNumberOfPeersInOneSession {
+                index = i
+                break
+            }
+        }
+        
+        if index == -1 { // if no avaliable session, we need to create a new one
+            var session = MCSession(peer: peerID)
+            session.delegate = self
+            
+            sessions.append(session)
+            index = sessions.count
+        }
+        
+        return index
     }
 }
 
@@ -128,7 +178,11 @@ extension MultiplayerConnectivity: MCNearbyServiceAdvertiserDelegate {
         nameToPeerIDDict[peerID.displayName] = peerID
         
         let handler: ((Bool) -> Void) = {shouldConnect in
-            invitationHandler(shouldConnect, self.session)
+            let index = self.findAvaliableSessionIndex()
+            self.nameToSessionIndexDict[peerID.displayName] = index
+            
+            let session = self.sessions[index]
+            invitationHandler(shouldConnect, session)
         }
 
         if let validDelegate = matchDelegate {
@@ -142,7 +196,7 @@ extension MultiplayerConnectivity: MCNearbyServiceBrowserDelegate {
     // Found a nearby advertising peer
     func browser(browser: MCNearbyServiceBrowser!, foundPeer peerID: MCPeerID!, withDiscoveryInfo info: [NSObject : AnyObject]!) {
         if let validDelegate = matchDelegate {
-            println("setting peerID for \(peerID.displayName)")
+            // store that mapping
             nameToPeerIDDict[peerID.displayName] = peerID
             validDelegate.browser(foundPlayer: peerID.displayName, withDiscoveryInfo: info)
         }
@@ -172,6 +226,8 @@ extension MultiplayerConnectivity: MCSessionDelegate {
         }
     }
     
+    // We don't support passing stream data or file
+    // but it can be implemented easily if needed: add the corresponding methods in the delegate and call the function in delegate
     // Received a byte stream from remote peer
     func session(session: MCSession!, didReceiveStream stream: NSInputStream!, withName streamName: String!, fromPeer peerID: MCPeerID!) {
         

@@ -70,7 +70,11 @@ struct Constants {
         static let GameWin = "You win!"
     }
 
-    static let InvitePlayerTimeout: NSTimeInterval = 20
+    struct Network {
+        static let MaxNumberOfPeersInOneSession = 8
+        static let InvitePlayerTimeout: NSTimeInterval = 20
+    }
+
     struct Identifiers {
         // Single player segue identifier
         static let SinglePlayerGameSegueIdentifier = "SinglePlayerGameSeuge"
