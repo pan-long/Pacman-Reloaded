@@ -9,11 +9,16 @@
 import Foundation
 import SpriteKit
 
+/**
+  * This class controls the movement of movable objects using the data passed from network
+**/
 class NetworkMovementControl: MovementControl {
     weak var movableObject: MovableObject!
     
     weak var dataSource: MovementDataSource!
     
+    // use two local variables to store the changes from network
+    // to avoid modifying the properties of movable objects from another thread
     var position: CGPoint?
     var direction: Direction?
     
@@ -30,8 +35,12 @@ class NetworkMovementControl: MovementControl {
         if let direction = direction {
             movableObject.changeDirection(direction)
             if (movableObject.currentDir != direction) {
+                // there might be a problem in sensor causing the object unable to change the direction
+                // in this case, we will force set the direction
                 movableObject.currentDir = direction
                 movableObject.requestedDir = .None
+                
+                // finish other setups of changing direction
                 movableObject.changeDirection(direction)
             }
             self.direction = nil

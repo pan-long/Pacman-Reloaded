@@ -8,7 +8,11 @@
 
 import UIKit
 
+// This file defines various formats of game network data
+// It has to comform to NSCoding such that it can be encoded into NSData and sent using MultipeerConnectivity framework
 class GameNetworkInitData: NSObject, NSCoding {
+    // during the game init, this data will be sent by the host to all clients.
+    // including the allocated pacmanId for client, map data including minimap background image
     let pacmanId: Int
     let mapContent: [Dictionary<String, String>]
     let miniMapImage: UIImage
@@ -38,18 +42,26 @@ class GameNetworkInitData: NSObject, NSCoding {
 }
 
 class GameNetworkInitACKData: NSObject, NSCoding {
+    // This is simply a ACK package to notify the host that the client has received game init data
+    // and the game can be started
     override init(){super.init()}
     required init(coder aDecoder: NSCoder) {super.init()}
     func encodeWithCoder(aCoder: NSCoder) {}
 }
 
 class GameNetworkStartData: NSObject, NSCoding {
+    // Sent by the host at start of the game to notify all the clients
     override init(){super.init()}
     required init(coder aDecoder: NSCoder) {super.init()}
     func encodeWithCoder(aCoder: NSCoder) {}
 }
 
 class GameNetworkMovementData: NSObject, NSCoding {
+    // This package includes the movement data for a movable objects,
+    // including the objectId, direction and position
+    
+    // We will frequently synchronize the positons of movable objects among all
+    // devices to achieve seamless gaming experience
     let objectId: Int
     let position: CGPoint
     let direction: Direction
@@ -78,6 +90,7 @@ class GameNetworkMovementData: NSObject, NSCoding {
 }
 
 class GameNetworkPacmanScoreData: NSObject, NSCoding {
+    // update about the score of a certain pacman identified by its id
     let pacmanId: Int
     let pacmanScore: Int
     
