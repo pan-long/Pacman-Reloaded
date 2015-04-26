@@ -42,11 +42,9 @@
 		C5C8D7381AB847E5005ACB47 /* Pacman_ReloadedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5C8D7371AB847E5005ACB47 /* Pacman_ReloadedTests.swift */; };
 		DC11D63E1ADAE63C003836FF /* GameLevelDesignGridNormalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC11D63D1ADAE63C003836FF /* GameLevelDesignGridNormalCell.swift */; };
 		DC17F3291AE25C8700452018 /* GameLevelDesignerNormalCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC17F3281AE25C8700452018 /* GameLevelDesignerNormalCollectionViewLayout.swift */; };
-		DC17F32B1AE2AFCD00452018 /* myFirstFile.xml in Resources */ = {isa = PBXBuildFile; fileRef = DC11D63B1ADAB898003836FF /* myFirstFile.xml */; };
 		DC3C36E51AC69DFC00298612 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3C36E41AC69DFC00298612 /* Constants.swift */; };
 		DC3E42BB1AD12B7C0083609C /* MultiplayerManagementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3E42BA1AD12B7C0083609C /* MultiplayerManagementViewController.swift */; };
 		DC45121E1AB863DA00FF37BA /* GameObjectType.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC45121D1AB863DA00FF37BA /* GameObjectType.swift */; };
-		DC766FA01AC5D24500FB18F9 /* PacmanMapOne.tmx in Resources */ = {isa = PBXBuildFile; fileRef = DC766F9F1AC5D24500FB18F9 /* PacmanMapOne.tmx */; };
 		DC7B1D3A1AC6B334008DEA0F /* pacman-female.atlas in Resources */ = {isa = PBXBuildFile; fileRef = DC7B1D391AC6B334008DEA0F /* pacman-female.atlas */; };
 		DC7B1D3C1AC6B65F008DEA0F /* pacman-male.atlas in Resources */ = {isa = PBXBuildFile; fileRef = DC7B1D3B1AC6B65F008DEA0F /* pacman-male.atlas */; };
 		DC86076D1AC714F700472BCD /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = DC86076C1AC714F700472BCD /* GameScene.sks */; };
@@ -138,13 +136,11 @@
 		C5C8D7311AB847E5005ACB47 /* Pacman ReloadedTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Pacman ReloadedTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5C8D7361AB847E5005ACB47 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C5C8D7371AB847E5005ACB47 /* Pacman_ReloadedTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pacman_ReloadedTests.swift; sourceTree = "<group>"; };
-		DC11D63B1ADAB898003836FF /* myFirstFile.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = myFirstFile.xml; sourceTree = "<group>"; };
 		DC11D63D1ADAE63C003836FF /* GameLevelDesignGridNormalCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameLevelDesignGridNormalCell.swift; sourceTree = "<group>"; };
 		DC17F3281AE25C8700452018 /* GameLevelDesignerNormalCollectionViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameLevelDesignerNormalCollectionViewLayout.swift; sourceTree = "<group>"; };
 		DC3C36E41AC69DFC00298612 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		DC3E42BA1AD12B7C0083609C /* MultiplayerManagementViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiplayerManagementViewController.swift; sourceTree = "<group>"; };
 		DC45121D1AB863DA00FF37BA /* GameObjectType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameObjectType.swift; sourceTree = "<group>"; };
-		DC766F9F1AC5D24500FB18F9 /* PacmanMapOne.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = PacmanMapOne.tmx; sourceTree = "<group>"; };
 		DC7B1D391AC6B334008DEA0F /* pacman-female.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = "pacman-female.atlas"; sourceTree = "<group>"; };
 		DC7B1D3B1AC6B65F008DEA0F /* pacman-male.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = "pacman-male.atlas"; sourceTree = "<group>"; };
 		DC86076C1AC714F700472BCD /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -358,8 +354,6 @@
 		DC3C36E61AC69E0100298612 /* Config */ = {
 			isa = PBXGroup;
 			children = (
-				DC11D63B1ADAB898003836FF /* myFirstFile.xml */,
-				DC766F9F1AC5D24500FB18F9 /* PacmanMapOne.tmx */,
 				DC3C36E41AC69DFC00298612 /* Constants.swift */,
 			);
 			name = Config;
@@ -495,7 +489,6 @@
 				6FECFC231AE592C000A80920 /* coin.wav in Resources */,
 				FFF037071AE6F09A002335B9 /* level 0.png in Resources */,
 				FFF037021AE6F09A002335B9 /* __boundary__level 0.png in Resources */,
-				DC17F32B1AE2AFCD00452018 /* myFirstFile.xml in Resources */,
 				DC7B1D3C1AC6B65F008DEA0F /* pacman-male.atlas in Resources */,
 				6FECFC211AE5879C00A80920 /* menu.wav in Resources */,
 				FFF0370B1AE6F09A002335B9 /* level 2.png in Resources */,
@@ -514,7 +507,6 @@
 				FFF037091AE6F09A002335B9 /* level 1.png in Resources */,
 				DC86076D1AC714F700472BCD /* GameScene.sks in Resources */,
 				C5C8D7271AB847E5005ACB47 /* Main.storyboard in Resources */,
-				DC766FA01AC5D24500FB18F9 /* PacmanMapOne.tmx in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
