@@ -18,6 +18,7 @@ class MultiplayerManagementViewController: GameBackgroundViewController {
     private var gameIndices = Dictionary<String, Int>()
     private var connectivity = MultiplayerConnectivity(name: UIDevice.currentDevice().name) // Current iPad name
     
+    // information needed to start a new game
     private var pacmanId = 0
     private var hostName: String?
     private var selfName = UIDevice.currentDevice().name
@@ -37,6 +38,8 @@ class MultiplayerManagementViewController: GameBackgroundViewController {
         newGameTable.alpha = 0.7
         connectivity.matchDelegate = self
         connectivity.sessionDelegate = self
+        
+        // start browsing for nearby players at start
         connectivity.startServiceBrowsing(newGameIdentifier)
         
         waitingAlertVC = UIAlertController(title: "Waiting Game to Start!", message: "Be Ready!", preferredStyle: UIAlertControllerStyle.Alert)
@@ -46,16 +49,15 @@ class MultiplayerManagementViewController: GameBackgroundViewController {
     }
     
     deinit {
+        // stop advertising and browsing for services when deinit
         connectivity.stopServiceAdvertising()
         connectivity.stopServiceBrowsing()
-        println("multi management deinited")
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         let gameVC = segue.destinationViewController as GameViewController
         
         gameCenter = GameCenter(selfName: selfName, hostName: hostName!, otherPlayersName: otherPlayersName, pacmanId: pacmanId, mapContent: self.mapContent!, connectivity: connectivity)
-        
         gameVC.setupMultiplayerGame(fromMap: mapContent!, pacmanId: pacmanId, isHost: (selfName == hostName!), gameCenter: self.gameCenter!, miniMapImage: miniMapImage!)
     }
     
@@ -70,6 +72,7 @@ class MultiplayerManagementViewController: GameBackgroundViewController {
         newGameTable.delegate = nil
         newGameTable.dataSource = nil
         connectivity.matchDelegate = nil
+        connectivity.sessionDelegate = nil
         
         self.dismissViewControllerAnimated(true, completion: nil)
     }
@@ -92,8 +95,11 @@ extension MultiplayerManagementViewController: UITableViewDelegate {
                 var gameRoomVC = self.storyboard?.instantiateViewControllerWithIdentifier("gameRoomVC") as NewGameRoomViewController
                 
                 gameRoomVC.gameRoomDelegate = self
+                
+                // now the game room viewController will received the information from network
                 self.connectivity.matchDelegate = gameRoomVC
                 self.connectivity.sessionDelegate = gameRoomVC
+                
                 self.presentViewController(gameRoomVC, animated: true, completion: nil)
         })
         
@@ -166,14 +172,18 @@ extension MultiplayerManagementViewController: SessionDataDelegate {
                 })
             }
         } else if let gameInitACKData = unarchivedData as? GameNetworkInitACKData {
+            // counts the connected peers
             connectedCount = connectedCount + 1
-            if connectedCount == otherPlayersName.count {
+            
+            if connectedCount == otherPlayersName.count { // if all clients have received the game init data, we can start the game
                 if let alertVC = waitingAlertVC {
                     alertVC.dismissViewControllerAnimated(true, completion: {() -> Void in
                         let gameStartData = GameNetworkStartData()
                         let archivedData = NSKeyedArchiver.archivedDataWithRootObject(gameStartData)
                         self.connectivity.sendData(toPlayer: self.otherPlayersName, data: archivedData, error: nil)
                         self.performSegueWithIdentifier(Constants.Identifiers.MultiplayerGameSegueIdentifier, sender: nil)
+                        
+                        // reset counter
                         self.connectedCount = 0
                     })
                 }
@@ -184,7 +194,6 @@ extension MultiplayerManagementViewController: SessionDataDelegate {
 
 extension MultiplayerManagementViewController: GameLevelLoadingDelegate {
     func willCancel(sourceVC: UIViewController) {
-        
     }
     
     func didSelectedLevel(sourceVC: UIViewController, mapContent: [Dictionary<String, String>], miniMapImage: UIImage) {
@@ -215,6 +224,7 @@ extension MultiplayerManagementViewController: GameRoomDelegate {
             let pacmanIds = self.extractPacmanIdsFromMap(mapContent)
             self.mapContent = self.removeExtraPacmans(mapContent, pacmanIds: pacmanIds, count: allPlayers.count + 1)
             
+            // send game init data to all clients
             for i in 0..<allPlayers.count {
                 let gameInitData = GameNetworkInitData(pacmanId: pacmanIds[i], mapContent: self.mapContent!, miniMapImage: self.miniMapImage!)
                 let archivedData = NSKeyedArchiver.archivedDataWithRootObject(gameInitData)
@@ -222,6 +232,7 @@ extension MultiplayerManagementViewController: GameRoomDelegate {
                 self.connectivity.sendData(toPlayer: [allPlayers[i]], data: archivedData, error: nil)
             }
             
+            // init information for self to start the game
             self.pacmanId = pacmanIds[allPlayers.count]
             self.selfName = UIDevice.currentDevice().name
             self.hostName = self.selfName
@@ -229,6 +240,7 @@ extension MultiplayerManagementViewController: GameRoomDelegate {
             
             sourceVC.dismissViewControllerAnimated(true, completion: {() -> Void in
                 if let alertVC = self.waitingAlertVC {
+                    // do not browse or advertise services during the game
                     self.connectivity.stopServiceAdvertising()
                     self.connectivity.stopServiceBrowsing()
                     self.connectivity.matchDelegate = self
@@ -277,6 +289,7 @@ extension MultiplayerManagementViewController: GameRoomDelegate {
     }
     
     private func removeExtraPacmans(mapContent: [Dictionary<String, String>], pacmanIds: [Int], count: Int) -> [Dictionary<String, String>] {
+        // if there are more pacmans in the map than players, we need to remove those from the map
         var newMap = [Dictionary<String, String>]()
         let stayingPacmanIds = pacmanIds[0..<count]
         for i in 0..<mapContent.count {
@@ -289,6 +302,7 @@ extension MultiplayerManagementViewController: GameRoomDelegate {
         return newMap
     }
     
+    // returns the ids for unneeded pacmans
     private func extractPacmanIdsFromMap(mapContent: [Dictionary<String, String>]) -> [Int]{
         var pacmanIds = [Int]()
         for i in 0..<mapContent.count {
