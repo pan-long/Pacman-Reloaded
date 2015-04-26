@@ -25,20 +25,19 @@ enum GhostMovementMode {
 }
 
 class AIMovementControl: MovementControl {
-    private let MAX_DISTANCE: Double = 10000
-    private let UPDATE_BUFFER: Int = 4
-    
     weak var movableObject: MovableObject!
     weak var dataSource: MovementDataSource!
     
+    // counts the number of frames
     private var counter = 0
+    
     private var currentMode = GhostMovementMode.Scatter
     private var currentModeDuration = 0
     private var stepsSinceUpdate: Int
     
     required init(movableObject: MovableObject) {
         self.movableObject = movableObject
-        self.stepsSinceUpdate = UPDATE_BUFFER
+        self.stepsSinceUpdate = Constants.AIMovementControl.UpdateBuffer
     }
     
     // MARK: Update for movement control
@@ -54,10 +53,10 @@ class AIMovementControl: MovementControl {
         
         // If counter exceed indefinite chase -> chase update
         if counter > Constants.AIMovementControl.IndefiniteChase {
-            println("Indefinite chase")
             chaseUpdate()
+        } else {
+            counter += 1
         }
-        counter += 1
         
         // Update movable object's direction
         switch currentMode {
@@ -89,15 +88,17 @@ class AIMovementControl: MovementControl {
         currentModeDuration = 0
     }
     
+    // Reset movement configurations when game restarts
     func reset() {
         counter = 0
         currentMode = GhostMovementMode.Scatter
         currentModeDuration = 0
-        stepsSinceUpdate = UPDATE_BUFFER
+        stepsSinceUpdate = Constants.AIMovementControl.UpdateBuffer
     }
     
     // MARK: AI Frightened Mode
     
+    // Movement update for ghosts in frighened mode
     func frightenUpdate() {
         let availableDirections = movableObject.getAvailableDirections()
         if availableDirections.count > 0 {
@@ -111,6 +112,7 @@ class AIMovementControl: MovementControl {
     
     // MARK: AI Scatter Mode
     
+    // Movement update for ghosts in scatter mode
     func scatterUpdate() {
         let availableDirections = movableObject.getAvailableDirections()
         var nextDirection: Direction!
@@ -118,7 +120,7 @@ class AIMovementControl: MovementControl {
         if availableDirections.isEmpty {
             forceReverse()
         } else {
-            var minDistanceFromHome: Double = MAX_DISTANCE
+            var minDistanceFromHome: Double = Constants.AIMovementControl.MaxDistance
             
             for direction in availableDirections {
                 let distance = calculateDistance(
@@ -135,13 +137,15 @@ class AIMovementControl: MovementControl {
         }
     }
 
-    
+    // Return home for ghosts in scatter mode
+    // Return dummy data for abstract class
     func getHome() -> CGPoint {
         return CGPoint(x: 0, y: 0)
     }
     
     // MARK: AI Chase Mode
     
+    // Movement update for ghosts in chase mode
     func chaseUpdate() {
         let availableDirections = movableObject.getAvailableDirections()
         var nextDirection: Direction
@@ -151,7 +155,7 @@ class AIMovementControl: MovementControl {
         } else {
             nextDirection = availableDirections[0]
             
-            var minDistanceToPacman: Double = MAX_DISTANCE
+            var minDistanceToPacman: Double = Constants.AIMovementControl.MaxDistance
             
             for direction in availableDirections {
                 for pacman in dataSource.getPacmans() {
@@ -170,6 +174,7 @@ class AIMovementControl: MovementControl {
         }
     }
     
+    // Return dummy data for abstract class
     func getChaseTarget(visibleObject: MovableObject) -> CGPoint {
         return CGPoint(x: 0, y: 0)
     }
@@ -183,14 +188,16 @@ class AIMovementControl: MovementControl {
     }
     
     private func isUpdateFrame() -> Bool {
-        return stepsSinceUpdate >= UPDATE_BUFFER
+        return stepsSinceUpdate >= Constants.AIMovementControl.UpdateBuffer
     }
     
     private func changeDirection(newDirection: Direction) {
-        if newDirection != movableObject.currentDir &&
-            (isUpdateFrame() || movableObject.currentDir == .None) {
-                movableObject.changeDirection(newDirection)
-                stepsSinceUpdate = 0
+        // only update direction when the ghost is blocked
+        // or when there are available directions that can be updated
+        if movableObject.currentDir == .None ||
+            (isUpdateFrame() && newDirection != movableObject.currentDir) {
+            movableObject.changeDirection(newDirection)
+            stepsSinceUpdate = 0
         } else {
             stepsSinceUpdate += 1
         }
@@ -216,7 +223,7 @@ class BlinkyAIMovememntControl: AIMovementControl {
 }
 
 class PinkyAIMovementControl: AIMovementControl {
-    private let PINKY_CHASE_OFFSET: CGFloat = 4
+    private let PinkyChaseOffset: CGFloat = 4
     
     override func getHome() -> CGPoint {
         return CGPoint(
@@ -227,14 +234,14 @@ class PinkyAIMovementControl: AIMovementControl {
     override func getChaseTarget(visibleObject: MovableObject) -> CGPoint {
         let chaseTarget = visibleObject.getNextPosition(
             visibleObject.currentDir,
-            offset: PINKY_CHASE_OFFSET )
+            offset: PinkyChaseOffset )
         
         return chaseTarget
     }
 }
 
 class InkyAIMovementControl: AIMovementControl {
-    private let INKY_CHASE_OFFSET: CGFloat = 4
+    private let InkyChaseOffset: CGFloat = 4
     
     override func getHome() -> CGPoint {
         return CGPoint(
@@ -245,11 +252,11 @@ class InkyAIMovementControl: AIMovementControl {
     override func getChaseTarget(visibleObject: MovableObject) -> CGPoint {
         let offsetPosition = visibleObject.getNextPosition(
             visibleObject.currentDir,
-            offset: INKY_CHASE_OFFSET)
+            offset: InkyChaseOffset)
         let blinkys = dataSource.getBlinkys()
         
         var chaseTarget = visibleObject.position
-        var minDistance = MAX_DISTANCE
+        var minDistance = Constants.AIMovementControl.MaxDistance
         for blinky in blinkys {
             var blinkyPosition = blinky.position
             let blinkyTarget = CGPoint(
@@ -270,7 +277,7 @@ class InkyAIMovementControl: AIMovementControl {
 }
 
 class ClydeAIMovementControl: AIMovementControl {
-    private let CLYDE_SAFETY_COEFFICIENT: Double = 8
+    private let ClydeSafetyCoefficient: Double = 8
     
     override func getHome() -> CGPoint {
         return CGPoint(
@@ -285,7 +292,7 @@ class ClydeAIMovementControl: AIMovementControl {
         if availableDirections.isEmpty {
             forceReverse()
         } else {
-            var minDistanceToPacman: Double = 100000
+            var minDistanceToPacman = Constants.AIMovementControl.MaxDistance
             
             for direction in availableDirections {
                 for pacman in dataSource.getPacmans() {
@@ -294,7 +301,7 @@ class ClydeAIMovementControl: AIMovementControl {
                         secondPostion: getChaseTarget(pacman))
                     
                     // Clyde turns into scatter mode when it is close to pacman
-                    if distance < CLYDE_SAFETY_COEFFICIENT * Double(movableObject.speed) {
+                    if distance < ClydeSafetyCoefficient * Double(movableObject.speed) {
                         scatterUpdate()
                         return
                     }
