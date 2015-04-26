@@ -158,7 +158,6 @@ class MultiplayerGameScene: GameScene {
 
 extension MultiplayerGameScene: MovementNetworkDelegate {
     func objectDirectionChanged(objectId: Int, newDirection: Direction, position: CGPoint) {
-        println("in delegate")
         if let networkDelegate = networkDelegate {
             networkDelegate.updateObjectMovementData(objectId, newDirection: newDirection, position: position)
         }

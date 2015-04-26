@@ -61,7 +61,6 @@ extension GameCenter: SessionDataDelegate {
     }
     
     private func processPackage(data: NSData) {
-        println("processing network data")
         let unarchivedData: AnyObject? = NSKeyedUnarchiver.unarchiveObjectWithData(data)
         if let objectMovementData = unarchivedData as? GameNetworkMovementData {
             let objectId = objectMovementData.objectId
@@ -100,7 +99,6 @@ extension GameCenter: SessionDataDelegate {
 
 extension GameCenter: GameSceneNetworkDelegate {
     func updateObjectMovementData(objectId: Int, newDirection: Direction, position: CGPoint) {
-        println("updating network data!")
         let objectMovementData = GameNetworkMovementData(objectId: objectId, position: position, direction: newDirection)
         let archivedData = NSKeyedArchiver.archivedDataWithRootObject(objectMovementData)
         

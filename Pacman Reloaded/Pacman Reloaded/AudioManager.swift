@@ -30,7 +30,6 @@ class AudioManager {
     // play the menu sound directly
     class func playMenuSound() {
         var sound = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource(config.MenuSoundEffect, ofType: "wav")!)
-        println(sound)
 
         // Removed deprecated use of AVAudioSessionDelegate protocol
         AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback, error: nil)

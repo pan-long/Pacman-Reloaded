@@ -228,8 +228,6 @@ class GameScene: SKScene {
         
         sceneDelegate.updateScore(pacman.score, dotsLeft: totalPacDots)
         sceneDelegate.iniatilizeMovableObjectPosition()
-        
-        println("START")
     }
 
     private func stopSpotLight() {
@@ -261,8 +259,6 @@ class GameScene: SKScene {
     }
     
     deinit {
-        // debug use, check if game scene is released on exiting
-        // println("deinit Scene")
     }
 }
 

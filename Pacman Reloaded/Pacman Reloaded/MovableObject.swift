@@ -190,9 +190,7 @@ class MovableObject: GameObject {
             createLeftSensorPhysicsBody(whileTravellingLeftOrRight: !upDown )
             createRightSensorPhysicsBody(whileTravellingLeftOrRight: !upDown )
             
-            println("changing direction!")
             if let networkDelegate = networkDelegate { // update network that the direction has been changed
-                println("calling delegate!")
                 networkDelegate.objectDirectionChanged(objectId, newDirection: newDirection, position: position)
             }
         } else {
@@ -338,7 +336,6 @@ class MovableObject: GameObject {
         }
         
         if currentDir == direction {
-            //println("blocking")
             previousDir = currentDir
             currentDir = .None
             self.physicsBody?.dynamic = false
@@ -359,10 +356,8 @@ class MovableObject: GameObject {
         default:
             break
         }
-        //println("left: \(blocked.left), right: \(blocked.right), up: \(blocked.up), down: \(blocked.down)")
         
         if requestedDir == direction {
-            //println("unblocking")
             changeDirection(direction)
         }
     }

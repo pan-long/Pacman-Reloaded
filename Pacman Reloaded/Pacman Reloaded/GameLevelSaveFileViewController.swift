@@ -58,6 +58,5 @@ class GameLevelSaveFileViewController: MenuController {
     }
     
     deinit {
-        println("Game level save file deinited")
     }
 }

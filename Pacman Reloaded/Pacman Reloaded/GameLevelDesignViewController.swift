@@ -62,7 +62,6 @@ class GameLevelDesignViewController: GameBackgroundViewController {
     }
     
     deinit {
-        println("Deinit level designer")
     }
     
     func releaseMemory() {

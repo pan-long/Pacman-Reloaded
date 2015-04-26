@@ -70,8 +70,6 @@ class GameViewController: GameBackgroundViewController, GameEndDelegate {
         setupGameProperties(fromMap: mapData, pacmanId: pacmanId, isMultiplayerMode: true, isHost: isHost, miniMapImage: miniMapImage)
         
         self.gameCenter = gameCenter
-        
-        println("pacman id: \(pacmanId)")
     }
     
     private func setupGameProperties(fromMap mapData: [Dictionary<String, String>], pacmanId: Int, isMultiplayerMode: Bool, isHost: Bool, miniMapImage: UIImage) {
@@ -208,7 +206,6 @@ class GameViewController: GameBackgroundViewController, GameEndDelegate {
     }
 
     deinit {
-        println("deinit Game")
     }
 }
 
@@ -278,16 +275,10 @@ extension GameViewController: GameLevelLoadingDelegate {
     func session(player playername: String, didChangeState state: MCSessionState) {
         switch state {
         case .Connected:
-//            let gameLevelSelection = self.storyboard!.instantiateViewControllerWithIdentifier("gameLevelSelection") as UIViewController
-//            self.presentViewController(gameLevelSelection, animated: true, completion: nil)
-            println("connected")
             break
         case .Connecting:
-            println("connecting")
             break
         case .NotConnected:
-            // Player disconnected from game
-            println("not connected")
             break
         default:
             break
