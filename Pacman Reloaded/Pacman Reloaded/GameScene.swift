@@ -17,17 +17,21 @@ class GameScene: SKScene {
 
     // Initiate game objects, for single player mode, just set the id of pacman as 0, a dummy value
     var pacman = PacMan(id: 0)
-    
+
+    // ghost collection
     var blinkys = [Ghost]()
     var pinkys = [Ghost]()
     var inkys = [Ghost]()
     var clydes = [Ghost]()
 
+    // nubmer of ghosts left
     var totalPacDots:Int = 0
-    var spotLightTimer: NSTimer?
-    
-    var spotLightView: SpotLightUIView!
 
+    private var spotLightTimer: NSTimer?
+    
+    weak var spotLightView: SpotLightUIView!
+
+    // gesture movement control setup
     var pacmanMovement: GestureMovementControl!
 
     var swipeLeft: UISwipeGestureRecognizer!
@@ -38,13 +42,16 @@ class GameScene: SKScene {
 
     var swipeDown: UISwipeGestureRecognizer!
 
+    // ghost movement control setup
     var ghosts: [Ghost]!
     var ghostMovements: [MovementControl]!
 
+    // list of superdot events that can be fired when one is picked up
     var superDotEvents: [(pacman: PacMan) -> Void] = []
     
     var mapContent: [Dictionary<String, String>]?
 
+    // MARK: Setup
     override func didMoveToView(view: SKView) {
         backgroundColor = SKColor.clearColor()
         self.presentingView = view
@@ -96,7 +103,8 @@ class GameScene: SKScene {
         setupObjectsMovementControl()
         setGhostMovementDatasource()
     }
-    
+
+    // Initialise object of AI and humam players
     func initGameObjects() {
         pacman = PacMan(id: 0)
         
@@ -133,7 +141,8 @@ class GameScene: SKScene {
         swipeDown.direction = .Down
         self.presentingView.addGestureRecognizer(swipeDown)
     }
-    
+
+    // Configure player and AI movement control
     func setupObjectsMovementControl() {
         // Use AI to control ghosts
         for blinky in blinkys {
@@ -180,7 +189,8 @@ class GameScene: SKScene {
             }
         ]
     }
-    
+
+    // populate the map with game objects
     func setupGameObjects() {
         // clear map
         clearMap()
@@ -195,18 +205,21 @@ class GameScene: SKScene {
         // for convenience, combine all ghosts in one array
         ghosts = blinkys + pinkys + inkys + clydes
     }
-    
+
+    // MARK: Game state
     private func clearMap() {
         self.enumerateChildNodesWithName("*") {
             node, stop in
             node.removeFromParent()
         }
     }
-    
+
+    // called when the game needs to be ended
     func gameOver(didWin: Bool) {
         self.sceneDelegate.gameDidEnd(self, didWin: didWin, score: pacman.score)
     }
-    
+
+    // Re-initialise game state
     func restart() {
         // stop spotlight effect on game scene
         stopSpotLight()
@@ -218,7 +231,7 @@ class GameScene: SKScene {
         
         println("START")
     }
-    
+
     private func stopSpotLight() {
         sceneDelegate?.stopLightView()
         if spotLightTimer != nil {
@@ -227,7 +240,7 @@ class GameScene: SKScene {
             spotLightView.removeFromSuperview()
         }
     }
-    
+
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
         // Update directions of sprite nodes
@@ -249,10 +262,11 @@ class GameScene: SKScene {
     
     deinit {
         // debug use, check if game scene is released on exiting
-        println("deinit Scene")
+        // println("deinit Scene")
     }
 }
 
+// MARK: - MovementDataSource
 extension GameScene: MovementDataSource {
     func getPacmans() -> [MovableObject] {
         var pacmans = [MovableObject]()
@@ -265,6 +279,7 @@ extension GameScene: MovementDataSource {
     }
 }
 
+// MARK: - SKPhysicsContactDelegate
 extension GameScene: SKPhysicsContactDelegate {
     
     func didBeginContact(contact: SKPhysicsContact) {
@@ -297,6 +312,7 @@ extension GameScene: SKPhysicsContactDelegate {
     private func handleGhostPacmanEvent(bodyA: SKNode?, bodyB: SKNode?) {
         var pacman: PacMan!
         var ghost: Ghost!
+        // figure out which is which
         if let bodyA = bodyA? as? PacMan {
             if let bodyB = bodyB? as? Ghost  {
                 pacman = bodyA
@@ -308,8 +324,7 @@ extension GameScene: SKPhysicsContactDelegate {
                 ghost = bodyA
             }
         } else {
-            println("???")
-            return //
+            return // object detatched from its parent node, ignore
         }
         
         if !ghost.frightened {
@@ -321,8 +336,9 @@ extension GameScene: SKPhysicsContactDelegate {
         }
     }
 
+    // when pacman is caught by a ghost
     func handlePacmanCaught(pacman: PacMan) {
-        gameOver(false)
+        gameOver(false) // in single player mode, the player lose the game
     }
     
     private func handlePacDotEvent(pacdot: PacDot, pacman: PacMan) {
@@ -330,6 +346,7 @@ extension GameScene: SKPhysicsContactDelegate {
         pacman.score += Constants.Score.PacDot
         totalPacDots--
         if pacdot.isSuper {
+            // randomise event based on id for consistent behaviour
             let roll = (pacdot.objectId % self.superDotEvents.count)
             self.superDotEvents[roll](pacman: pacman)
         }
@@ -359,13 +376,15 @@ extension GameScene: SKPhysicsContactDelegate {
             }, completion: {complete in
                 pointView.removeFromSuperview()})
     }
-    
+
+    // grant and displays extra point for the pacman
     func earnExtraPoints(pacman: PacMan) {
         displayExtraPoint(Constants.Score.ExtraPointDot)
         pacman.score += Constants.Score.ExtraPointDot
         sceneDelegate.updateScore(pacman.score, dotsLeft: totalPacDots)
     }
-    
+
+    // limit the vision of the player by overlaying a spotlight view
     func spotLightMode(pacman: PacMan) {
         if spotLightTimer != nil {
             // if there is an existing spotlight effect, stop that first
@@ -388,7 +407,8 @@ extension GameScene: SKPhysicsContactDelegate {
         // release the resources
         stopSpotLight()
     }
-    
+
+    // switch ghosts into a frighten mode, so they can be eaten by pacman
     func frightenGhost() {
         for ghost in ghosts {
             ghost.frightened = true
@@ -422,8 +442,6 @@ extension GameScene: SKPhysicsContactDelegate {
             } else {
                 return // early termination, sensor is aready destroyed
             }
-        } else {
-            println("???")
         }
         if let owner = sensor.parent as? MovableObject {
             if start {
@@ -458,6 +476,7 @@ extension GameScene: SKPhysicsContactDelegate {
     }
 }
 
+// MARK: - XML Parsing
 extension GameScene {
     private func parseMapWithData(content: [Dictionary<String, String>]) {
         self.totalPacDots = 0
@@ -547,6 +566,7 @@ extension GameScene {
     }
 }
 
+// MARK: - Misc information
 extension GameScene {
     // Return an array of movable objects currently in the game scene
     func getMovableObjects() -> [MovableObject] {

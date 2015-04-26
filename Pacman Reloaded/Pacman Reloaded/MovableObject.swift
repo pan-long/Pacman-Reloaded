@@ -14,7 +14,9 @@ protocol MovementNetworkDelegate: class {
 }
 
 class MovableObject: GameObject {
+    // the last available direction, used for AI information
     var previousDir = Direction.None
+    // current direction that the player is heading
     var currentDir: Direction = Direction.Default {
         didSet {
             currentDirRaw = currentDir.rawValue
@@ -22,16 +24,21 @@ class MovableObject: GameObject {
     }
     
     dynamic var currentDirRaw = Direction.Right.rawValue
+
+    // next desired direction that is currently not available
     var requestedDir = Direction.None
-    
+
+    // if the value is 0, the direction is not blocked. Otherwise
+    // it shows the number of objects that is on a certain direction
     var blocked = (up: 0, down: 0, left: 0, right: 0)
     var sensors: (up: SKNode?, down: SKNode?, left: SKNode?, right: SKNode?)
     
     var currentSpeed: CGFloat = 5.0
-    var sensorBuffer: CGFloat = 0
+    // distance from center of sensor to center of object
+    private var sensorBuffer: CGFloat = 0
     
     weak var networkDelegate: MovementNetworkDelegate?
-    
+
     init(id: Int, image: String) {
         super.init(id: id, image: image, sizeScale: Constants.MovableObject.SizeScale)
         
@@ -72,7 +79,7 @@ class MovableObject: GameObject {
         super.reset()
     }
     
-    
+    // Get the direction that can be turned to, but not including reverse direction
     func getAvailableDirections() -> [Direction] {
         var availableDirections = [Direction]()
         switch currentDir {
@@ -132,7 +139,9 @@ class MovableObject: GameObject {
         }
         return availableDirections
     }
-    
+
+    // change the object to a new direction, if the turn is not
+    // possible, the request will be stored and made again on next update cycle
     func changeDirection(newDirection: Direction) {
         var success = true
         var upDown = (newDirection == .Up || newDirection == .Down)
@@ -190,7 +199,8 @@ class MovableObject: GameObject {
             requestedDir = newDirection
         }
     }
-    
+
+    // estimate the next step
     func getNextPosition(direction: Direction, offset: CGFloat) -> CGPoint {        
         var nextPosition : CGPoint
         
@@ -247,7 +257,13 @@ class MovableObject: GameObject {
     private func getSideSensorShortEdge() -> CGFloat {
         return self.sprite.size.height * 0.8
     }
-    
+
+    private func setupSensor(sensor: SKPhysicsBody) {
+        sensor.collisionBitMask = 0
+        sensor.contactTestBitMask = GameObjectType.Boundary
+        sensor.pinned = true
+        sensor.allowsRotation = false
+    }
     private func createUpSensorPhysicsBody(#whileTravellingUpOrDown:Bool) {
         
         var size:CGSize
@@ -256,14 +272,11 @@ class MovableObject: GameObject {
         } else {
             size = CGSize(width: getSideSensorLongEdge(), height: getSideSensorShortEdge())
         }
-        sensors.up!.physicsBody = nil // get rid of any existing physics body
         let bodyUp:SKPhysicsBody = SKPhysicsBody(rectangleOfSize: size)
+        setupSensor(bodyUp)
         sensors.up!.physicsBody = bodyUp
         sensors.up!.physicsBody?.categoryBitMask = GameObjectType.SensorUp
-        sensors.up!.physicsBody?.collisionBitMask = 0
-        sensors.up!.physicsBody?.contactTestBitMask = GameObjectType.Boundary
-        sensors.up!.physicsBody?.pinned = true
-        sensors.up!.physicsBody?.allowsRotation = false
+
     }
     
     private func createDownSensorPhysicsBody(#whileTravellingUpOrDown:Bool){
@@ -273,14 +286,11 @@ class MovableObject: GameObject {
         } else {
             size = CGSize(width: getSideSensorLongEdge(), height: getSideSensorShortEdge())
         }
-        sensors.down?.physicsBody = nil
         let bodyDown:SKPhysicsBody = SKPhysicsBody(rectangleOfSize: size )
+        setupSensor(bodyDown)
         sensors.down!.physicsBody = bodyDown
         sensors.down!.physicsBody?.categoryBitMask = GameObjectType.SensorDown
-        sensors.down!.physicsBody?.collisionBitMask = 0
-        sensors.down!.physicsBody?.contactTestBitMask = GameObjectType.Boundary
-        sensors.down!.physicsBody!.pinned = true
-        sensors.down!.physicsBody!.allowsRotation = false
+
         
         
     }
@@ -293,14 +303,10 @@ class MovableObject: GameObject {
         } else {
             size = CGSize(width: getSideSensorShortEdge(), height: getSideSensorLongEdge())
         }
-        sensors.left?.physicsBody = nil
         let bodyLeft:SKPhysicsBody = SKPhysicsBody(rectangleOfSize: size )
+        setupSensor(bodyLeft)
         sensors.left!.physicsBody = bodyLeft
         sensors.left!.physicsBody?.categoryBitMask = GameObjectType.SensorLeft
-        sensors.left!.physicsBody?.collisionBitMask = 0
-        sensors.left!.physicsBody?.contactTestBitMask = GameObjectType.Boundary
-        sensors.left!.physicsBody!.pinned = true
-        sensors.left!.physicsBody!.allowsRotation = false
     }
     
     private func createRightSensorPhysicsBody( #whileTravellingLeftOrRight:Bool){
@@ -310,16 +316,13 @@ class MovableObject: GameObject {
         } else {
             size = CGSize(width: getSideSensorShortEdge(), height: getSideSensorLongEdge())
         }
-        sensors.right?.physicsBody = nil
         let bodyRight:SKPhysicsBody = SKPhysicsBody(rectangleOfSize: size )
+        setupSensor(bodyRight)
         sensors.right!.physicsBody = bodyRight
         sensors.right!.physicsBody?.categoryBitMask = GameObjectType.SensorRight
-        sensors.right!.physicsBody?.collisionBitMask = 0
-        sensors.right!.physicsBody?.contactTestBitMask = GameObjectType.Boundary
-        sensors.right!.physicsBody!.pinned = true
-        sensors.right!.physicsBody!.allowsRotation = false
     }
-    
+
+    // Indicate that one sensor has made new contact with an obstacle
     func sensorContactStart(direction: Direction) {
         switch direction {
         case .Up:
@@ -333,7 +336,6 @@ class MovableObject: GameObject {
         default:
             break
         }
-        //println("left: \(blocked.left), right: \(blocked.right), up: \(blocked.up), down: \(blocked.down)")
         
         if currentDir == direction {
             //println("blocking")
@@ -342,7 +344,8 @@ class MovableObject: GameObject {
             self.physicsBody?.dynamic = false
         }
     }
-    
+
+    // Indicate that one sensor has moved away from one obstacle
     func sensorContactEnd(direction: Direction) {
         switch direction {
         case .Up:

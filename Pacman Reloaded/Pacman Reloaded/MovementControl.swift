@@ -10,9 +10,12 @@ import Foundation
 import SpriteKit
 
 protocol MovementControl: class {
+    // Data source to get other objects in the game
     weak var dataSource: MovementDataSource! { get set }
+    // The object that is controlled by `self`
     weak var movableObject: MovableObject! { get set }
 
+    // setup the movement controller to control a target
     init(movableObject: MovableObject)
     
     // Change the direction of movable object

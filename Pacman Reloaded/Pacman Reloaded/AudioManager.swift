@@ -18,10 +18,16 @@ class AudioManager {
 
     }
 
+    private init() {
+        // private initializer since it is a utility class
+    }
+
+    // generates a sound effect for use in SKAction queue
     class func pacdotSoundEffectAction() -> SKAction {
         return SKAction.playSoundFileNamed(config.PacdotSoundEffect, waitForCompletion: false)
     }
 
+    // play the menu sound directly
     class func playMenuSound() {
         var sound = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource(config.MenuSoundEffect, ofType: "wav")!)
         println(sound)

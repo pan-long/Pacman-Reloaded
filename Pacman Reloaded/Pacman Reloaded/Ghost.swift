@@ -28,7 +28,8 @@ class Ghost: MovableObject {
             updateTexture()
         }
     }
-    
+
+    // getter and setter for for ghost when frighten mode is in effect
     var frightened: Bool {
         get {
             return _currentMode != .Normal
@@ -44,7 +45,8 @@ class Ghost: MovableObject {
             }
         }
     }
-    
+
+    // getter and setter for ghost when eaten
     var eaten: Bool {
         get {
             return _currentMode == .Eaten
@@ -59,7 +61,7 @@ class Ghost: MovableObject {
             }
         }
     }
-    
+
     init(id: Int, imageName: String) {
         super.init(id: id, image: imageName + Constants.Ghost.DefaultImageSuffix)
         self.imageName = imageName
