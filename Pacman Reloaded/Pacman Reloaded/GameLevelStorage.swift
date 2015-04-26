@@ -11,6 +11,7 @@ import SpriteKit
 class GameLevelStorage {
     
     class func getPredefinedGameLevels() -> [String] {
+        // Four pre-installed game levels
         return ["CS3217", "level 0", "level 1", "level 2"]
     }
     

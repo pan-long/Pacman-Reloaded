@@ -321,7 +321,7 @@ extension GameLevelDesignViewController {
                 break
             }
             unselectAllButtons()
-            button.alpha = 1 // TODO Refactor
+            button.alpha = Constants.LevelDesign.Palette.SelectedAlpha
         }
     }
     
