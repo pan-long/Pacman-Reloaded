@@ -25,9 +25,9 @@ class PacMan: MovableObject {
     }
     
     weak var scoreNetworkDelegate: PacmanScoreNetworkDelegate?
-    
+
+    // Pacman can be set up by ID only, image is fetched from constants file directly
     init(id: Int) {
-         println("\(pacmanDice)")
         super.init(id: id, image: Constants.PacMan.Images[pacmanDice])
         self.physicsBody?.categoryBitMask = GameObjectType.PacMan
         self.physicsBody?.contactTestBitMask = GameObjectType.Ghost | GameObjectType.Boundary | GameObjectType.PacDot
@@ -44,7 +44,9 @@ class PacMan: MovableObject {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
+
+    // reset the score
     override func reset() {
         score = 0
         super.reset()
@@ -60,7 +62,7 @@ class PacMan: MovableObject {
         }
     }
 
-    func setupAnimationSequence() {
+    private func setupAnimationSequence() {
         var atlas = SKTextureAtlas(named: Constants.PacMan.Images[pacmanDice])
         var textures: [SKTexture] = []
         var filenames = Constants.PacMan.Filenames[pacmanDice]

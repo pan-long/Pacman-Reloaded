@@ -172,13 +172,15 @@ class GameViewController: GameBackgroundViewController, GameEndDelegate {
         gameSceneView.scene?.view?.paused = true
     }
 
+    // continue the game
     func resume() {
         self.dismissViewControllerAnimated(true, completion: {
             self.gameSceneView.scene?.view?.paused = false
             return
         })
     }
-    
+
+    // reset the game state and start over
     func restart() {
         if isMultiplayerMode {
             self.dismissViewControllerAnimated(true, completion: {
@@ -211,11 +213,14 @@ class GameViewController: GameBackgroundViewController, GameEndDelegate {
 }
 
 extension GameViewController: GameSceneDelegate {
+    // update the score of the current player
     func updateScore(score: Int, dotsLeft: Int) {
         self.score.updateTo(score)
         self.remainingDots.text = "Remaining: \(dotsLeft)"
     }
 
+    // end the game with either a win/lose condition and / or a score
+    // score is only used if non zero
     func gameDidEnd(scene: GameScene, didWin: Bool, score: Int) {
         var title: String
         if didWin {

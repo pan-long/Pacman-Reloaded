@@ -10,10 +10,14 @@ import Foundation
 import SpriteKit
 
 class GameObject: SKNode {
+    // UID for each object
     let objectId: Int
+    // image name of the main sprite
     let image: String
+    // object sprite
     var sprite: SKSpriteNode
 
+    // init the object with a given UID, image and a scaling factor for the image
     init(id: Int, image: String, sizeScale: CGFloat) {
         self.objectId = id
         self.image = image

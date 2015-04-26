@@ -10,12 +10,10 @@ import Foundation
 import SpriteKit
 
 class PacDot: Item {
-//    required override init(coder aDecoder: NSCoder) {
-//        fatalError("init(coder:) has not been implemented")
-//    }
-
+    // indiate if it is a super dot
     var isSuper = false
 
+    // normal dot initialiser
     init(id: Int, size: CGSize) {
         let location = CGPoint(x: -1 * size.width / 2, y: -1 * size.height / 2 )
         let newRect = CGRect(origin: location, size: size)
@@ -24,6 +22,7 @@ class PacDot: Item {
         setup(newRect)
     }
 
+    // super dot initialiser
     init(id: Int, superSize size: CGSize) {
         let location = CGPoint(x: -1 * size.width / 2, y: -1 * size.height / 2 )
         let newRect = CGRect(origin: location, size: size)
@@ -37,7 +36,7 @@ class PacDot: Item {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func setup(newRect: CGRect) {
+    private func setup(newRect: CGRect) {
 
         self.physicsBody = SKPhysicsBody(circleOfRadius: newRect.size.width / 2  )
 

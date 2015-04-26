@@ -8,6 +8,8 @@
 
 import UIKit
 
+// Extend UILabel to support update of numerical values
+// to achieve an animation like effect, mostly used for scores
 class UICountingLabel: UILabel {
 
     // time taken for the label to finish updating
@@ -20,11 +22,12 @@ class UICountingLabel: UILabel {
     private var targetValue: Int = 0
     private var increment: Int = 0
 
-    // override this function to update the output
+    // override this function to format the output
     func updateText() {
         self.text = "Score: \(currentValue)"
     }
 
+    // called in each update cycle once
     func update() {
         currentValue += increment
         if currentValue >= targetValue && increment > 0
@@ -35,6 +38,7 @@ class UICountingLabel: UILabel {
         self.updateText()
     }
 
+    // Set the desired new value, can be larger or smaller than current value
     func updateTo(value: Int) {
         if timer != nil {
             timer.invalidate()
